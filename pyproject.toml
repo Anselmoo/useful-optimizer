@@ -1,0 +1,147 @@
+[tool.poetry]
+name = "useful-optimizer"
+version = "0.1.0"
+description = "A dedicated set of optimization algorithms for numeric problems."
+authors = ["Anselm Hahn <Anselm.Hahn@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{ include = "opt", from = "." }]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.13"
+numpy = "^1.26.4"
+scipy = "^1.12.0"
+scikit-learn = "^1.4.1.post1"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+# Exclude a variety of commonly ignored directories.
+exclude = [
+    ".bzr",
+    ".direnv",
+    ".eggs",
+    ".git",
+    ".git-rewrite",
+    ".hg",
+    ".ipynb_checkpoints",
+    ".mypy_cache",
+    ".nox",
+    ".pants.d",
+    ".pyenv",
+    ".pytest_cache",
+    ".pytype",
+    ".ruff_cache",
+    ".svn",
+    ".tox",
+    ".venv",
+    ".vscode",
+    "__pypackages__",
+    "_build",
+    "buck-out",
+    "build",
+    "dist",
+    "node_modules",
+    "site-packages",
+    "venv",
+]
+# Same as Black.
+line-length = 88
+indent-width = 4
+# Define Python target versions.
+target-version = "py310"
+# Add more options as needed
+
+fix = true
+preview = false
+
+
+[tool.ruff.lint]
+# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
+# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
+# McCabe complexity (`C901`) by default.
+# Set to all
+select = ["ALL"]
+ignore = ["ANN101", "PLR0913", "N803", "N806", "E741", "E501", "T201", "COM812"]
+
+# Allow fix for all enabled rules (when `--fix`) is provided.
+fixable = ["ALL"]
+unfixable = []
+exclude = [".venv"]
+# Allow unused variables when underscore-prefixed.
+dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+
+
+[tool.ruff.lint.pydocstyle]
+
+# Ignore a few common errors and warnings.
+# Set the default docstring convention to Google.
+convention = "google"
+
+[tool.ruff.format]
+# Like Black, use double quotes for strings.
+quote-style = "double"
+
+# Like Black, indent with spaces, rather than tabs.
+indent-style = "space"
+
+# Like Black, respect magic trailing commas.
+skip-magic-trailing-comma = true
+
+# Like Black, automatically detect the appropriate line ending.
+line-ending = "auto"
+
+# Format all docstring code snippets with a line length of 88.
+docstring-code-line-length = 88
+
+
+# Enable auto-formatting of code examples in docstrings. Markdown,
+# reStructuredText code/literal blocks and doctests are all supported.
+#
+# This is currently disabled by default, but it is planned for this
+# to be opt-out in the future.
+docstring-code-format = true
+[tool.ruff.lint.isort]
+# If True, forces all imports to be on their own line. This is the opposite of the default behavior.
+force-single-line = true
+
+# The number of lines to leave between import sections. Default is '0'.
+lines-between-types = 1
+
+# The number of lines to leave after the last import. Default is '2'.
+lines-after-imports = 2
+
+# A list of names to treat as third party when encountered. Useful for making isort recognize your own project as a third party library.
+known-third-party = ["poetry.core"]
+
+# A list of imports that must be present for a file to be considered valid. This is useful for adding future import statements.
+required-imports = ["from __future__ import annotations"]
+
+# If True, makes sorting case sensitive.
+case-sensitive = true
+
+# If True, combines as imports on the same line.
+combine-as-imports = true
+
+# [tool.ruff.lint.flake8-copyright]
+# author = "Anselm Hahn"
+# min-file-size = 1024
+# notice-rgx = "(?i)Copyright \\(C\\) \\d{4}"
+
+
+[tool.ruff.lint.pyupgrade]
+# Preserve types, even if a file imports `from __future__ import annotations`.
+keep-runtime-typing = true
+
+
+[tool.ruff.lint.flake8-type-checking]
+# Add quotes around type annotations, if doing so would allow
+# an import to be moved into a type-checking block.
+# quote-annotations = true
+strict = true
