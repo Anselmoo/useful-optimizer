@@ -133,9 +133,7 @@ Sure, here's a brief description of each optimizer:
 
 Contributions to Useful Optimizer are welcome! Please read the contributing guidelines before getting started.
 
-## License
-
-Provide information about the license.
+## [License](LICENSE)
 
 ---
 
