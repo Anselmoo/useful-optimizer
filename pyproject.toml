@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "useful-optimizer"
-version = "0.1.1"
+version = "0.1.2"
 description = "A dedicated set of optimization algorithms for numeric problems."
 authors = ["Anselm Hahn <Anselm.Hahn@gmail.com>"]
 license = "MIT"
