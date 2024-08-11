@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "useful-optimizer"
-version = "0.1.0"
+version = "0.1.1"
 description = "A dedicated set of optimization algorithms for numeric problems."
 authors = ["Anselm Hahn <Anselm.Hahn@gmail.com>"]
 license = "MIT"
@@ -11,10 +11,10 @@ packages = [{ include = "opt", from = "." }]
 python = ">=3.10,<3.13"
 numpy = "^1.26.4"
 scipy = "^1.12.0"
-scikit-learn = "^1.4.1.post1"
+scikit-learn = "^1.5.1"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.3.4"
+ruff = "^0.5.7"
 
 [build-system]
 requires = ["poetry-core"]
