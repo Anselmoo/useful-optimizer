@@ -95,6 +95,12 @@ class ConjugateGradient(AbstractOptimizer):
 
         rng = np.random.default_rng(self.seed)
 
+        def bounded_func(x):
+            """Wrapper function that applies bounds by returning a large penalty if out of bounds."""
+            if np.any(x < self.lower_bound) or np.any(x > self.upper_bound):
+                return 1e10  # Large penalty for out-of-bounds
+            return self.func(x)
+        
         # Perform multiple restarts to improve global optimization
         for i in range(self.num_restarts):
             # Random starting point
@@ -103,10 +109,9 @@ class ConjugateGradient(AbstractOptimizer):
             try:
                 # Use scipy's Conjugate Gradient optimizer
                 result = minimize(
-                    fun=self.func,
+                    fun=bounded_func,
                     x0=x0,
                     method="CG",
-                    bounds=[(self.lower_bound, self.upper_bound)] * self.dim,
                     options={"maxiter": self.max_iter // self.num_restarts}
                 )
 
