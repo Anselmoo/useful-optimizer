@@ -44,6 +44,26 @@ print(f"Best solution: {best_solution}")
 print(f"Best fitness: {best_fitness}")
 ```
 
+You can also use the new gradient-based optimizers:
+
+```python
+from opt.stochastic_gradient_descent import SGD
+from opt.adamw import AdamW
+from opt.bfgs import BFGS
+
+# Gradient-based optimization
+sgd = SGD(func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, learning_rate=0.01)
+best_solution, best_fitness = sgd.search()
+
+# Adam variant with weight decay  
+adamw = AdamW(func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, weight_decay=0.01)
+best_solution, best_fitness = adamw.search()
+
+# Quasi-Newton method
+bfgs = BFGS(func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, num_restarts=10)
+best_solution, best_fitness = bfgs.search()
+```
+
 ## Current Implemented Optimizer
 
 The current version of Useful Optimizer includes a wide range of optimization algorithms, each implemented as a separate module. Here's a brief overview of the implemented optimizers:
@@ -51,6 +71,12 @@ The current version of Useful Optimizer includes a wide range of optimization al
 Sure, here's a brief description of each optimizer:
 
 - **Adadelta, Adagrad, and Adaptive Moment Estimation**: These are gradient-based optimization algorithms commonly used in machine learning and deep learning.
+
+- **AdaMax**: This is an Adam variant that uses the infinity norm for the second moment estimation, making it more robust to large gradients.
+
+- **AdamW**: This is an Adam variant with decoupled weight decay that provides better regularization and improved generalization in machine learning.
+
+- **AMSGrad**: This is an Adam variant with non-decreasing second moment estimates that addresses convergence issues in original Adam.
 
 - **Ant Colony Optimization**: This is a nature-inspired algorithm that mimics the behavior of ants to solve optimization problems.
 
@@ -62,11 +88,15 @@ Sure, here's a brief description of each optimizer:
 
 - **Bee Algorithm**: This is a population-based search algorithm inspired by the food foraging behavior of honey bee colonies.
 
+- **BFGS (Broyden-Fletcher-Goldfarb-Shanno)**: This is a quasi-Newton method that approximates the inverse Hessian matrix for efficient second-order optimization.
+
 - **Cat Swarm Optimization**: This algorithm is based on the behavior of cats and distinguishes between two forms of behavior in cats: seeking mode and tracing mode.
 
 - **CMA-ES (Covariance Matrix Adaptation Evolution Strategy)**: This is an evolutionary algorithm for difficult non-linear non-convex optimization problems in continuous domain.
 
 - **Colliding Bodies Optimization**: This is a physics-inspired optimization method, based on the collision and explosion of bodies.
+
+- **Conjugate Gradient**: This is an efficient iterative method for solving systems of linear equations and optimization problems, particularly effective for quadratic functions.
 
 - **Cross Entropy Method**: This is a Monte Carlo method for importance sampling and optimization.
 
@@ -96,13 +126,25 @@ Sure, here's a brief description of each optimizer:
 
 - **Imperialist Competitive Algorithm**: This is a socio-politically motivated global search strategy, which is based on the imperialistic competition.
 
+- **L-BFGS (Limited-memory BFGS)**: This is a limited-memory version of BFGS that is suitable for large-scale optimization problems where storing the full Hessian approximation is impractical.
+
 - **Linear Discriminant Analysis**: This is a method used in statistics, pattern recognition, and machine learning to find a linear combination of features that characterizes or separates two or more classes of objects or events.
+
+- **Nadam**: This is Nesterov-accelerated Adam that combines the benefits of Adam with Nesterov momentum for improved convergence.
+
+- **Nelder-Mead**: This is a derivative-free simplex-based optimization method that is particularly useful for non-differentiable and noisy functions.
+
+- **Nesterov Accelerated Gradient**: This is an accelerated gradient method that uses lookahead momentum to achieve better convergence rates than standard gradient descent.
 
 - **Particle Filter**: This is a statistical filter technique used to estimate the state of a system where the state model and the measurements are both nonlinear.
 
 - **Particle Swarm Optimization**: This is a computational method that optimizes a problem by iteratively trying to improve a candidate solution with regard to a given measure of quality, mimicking the social behavior of bird flocking or fish schooling.
 
 - **Parzen Tree Estimator**: This is a non-parametric method to estimate the density function of random variables.
+
+- **Powell's Method**: This is a derivative-free optimization algorithm that uses conjugate directions to minimize functions without requiring gradient information.
+
+- **RMSprop**: This is an adaptive learning rate optimization algorithm that uses a moving average of squared gradients to normalize the gradient.
 
 - **Shuffled Frog Leaping Algorithm**: This is a metaheuristic optimization algorithm inspired by the memetic evolution of a group of frogs when searching for food.
 
@@ -116,9 +158,15 @@ Sure, here's a brief description of each optimizer:
 
 - **Stochastic Fractal Search**: This is a metaheuristic search algorithm inspired by the natural phenomenon of fractal shapes and Brownian motion.
 
+- **Stochastic Gradient Descent (SGD)**: This is a fundamental gradient-based optimization algorithm that updates parameters in the direction opposite to the gradient of the objective function.
+
+- **SGD with Momentum**: This is SGD enhanced with momentum that accelerates convergence and helps navigate through local minima by accumulating velocity in consistent gradient directions.
+
 - **Successive Linear Programming**: This is an optimization method for nonlinear optimization problems.
 
 - **Tabu Search**: This is a metaheuristic search method employing local search methods used for mathematical optimization.
+
+- **Trust Region**: This is a robust optimization method that iteratively solves optimization problems within a region where a model function is trusted to be an adequate representation.
 
 - **Variable Depth Search**: This is a search algorithm that explores the search space by variable-depth first search and backtracking.
 
