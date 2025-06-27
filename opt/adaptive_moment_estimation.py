@@ -113,8 +113,7 @@ class ADAMOptimization(AbstractOptimizer):
             best_solution = np.clip(best_solution, self.lower_bound, self.upper_bound)
 
             fitness = self.func(best_solution)
-            if fitness < best_fitness:
-                best_fitness = fitness
+            best_fitness = min(best_fitness, fitness)
 
         return best_solution, best_fitness
 
