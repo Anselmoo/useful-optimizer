@@ -102,7 +102,9 @@ class SGD(AbstractOptimizer):
             current_solution = current_solution - self.learning_rate * gradient
 
             # Apply bounds
-            current_solution = np.clip(current_solution, self.lower_bound, self.upper_bound)
+            current_solution = np.clip(
+                current_solution, self.lower_bound, self.upper_bound
+            )
 
             # Evaluate fitness
             current_fitness = self.func(current_solution)
@@ -128,9 +130,7 @@ class SGD(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    optimizer = SGD(
-        func=shifted_ackley, lower_bound=-2.768, upper_bound=+2.768, dim=2
-    )
+    optimizer = SGD(func=shifted_ackley, lower_bound=-2.768, upper_bound=+2.768, dim=2)
     best_solution, best_fitness = optimizer.search()
     print(f"Best solution: {best_solution}")
     print(f"Best fitness: {best_fitness}")

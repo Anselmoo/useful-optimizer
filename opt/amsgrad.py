@@ -136,10 +136,14 @@ class AMSGrad(AbstractOptimizer):
             v_hat_corrected = v_hat / (1 - np.power(self.beta2, t))
 
             # Update solution using AMSGrad rule
-            current_solution = current_solution - self.learning_rate * m_hat / (np.sqrt(v_hat_corrected) + self.epsilon)
+            current_solution = current_solution - self.learning_rate * m_hat / (
+                np.sqrt(v_hat_corrected) + self.epsilon
+            )
 
             # Apply bounds
-            current_solution = np.clip(current_solution, self.lower_bound, self.upper_bound)
+            current_solution = np.clip(
+                current_solution, self.lower_bound, self.upper_bound
+            )
 
             # Evaluate fitness
             current_fitness = self.func(current_solution)

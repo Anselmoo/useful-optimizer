@@ -116,10 +116,15 @@ class RMSprop(AbstractOptimizer):
             v = self.rho * v + (1 - self.rho) * np.square(gradient)
 
             # Update solution using RMSprop rule
-            current_solution = current_solution - (self.learning_rate / (np.sqrt(v) + self.epsilon)) * gradient
+            current_solution = (
+                current_solution
+                - (self.learning_rate / (np.sqrt(v) + self.epsilon)) * gradient
+            )
 
             # Apply bounds
-            current_solution = np.clip(current_solution, self.lower_bound, self.upper_bound)
+            current_solution = np.clip(
+                current_solution, self.lower_bound, self.upper_bound
+            )
 
             # Evaluate fitness
             current_fitness = self.func(current_solution)

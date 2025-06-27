@@ -17,7 +17,7 @@ where:
     - gradient: gradient of the objective function
 
 Example:
-    optimizer = NesterovAcceleratedGradient(func=objective_function, learning_rate=0.01, 
+    optimizer = NesterovAcceleratedGradient(func=objective_function, learning_rate=0.01,
                                           momentum=0.9, lower_bound=-5, upper_bound=5, dim=2)
     best_solution, best_fitness = optimizer.search()
 
@@ -108,7 +108,9 @@ class NesterovAcceleratedGradient(AbstractOptimizer):
             lookahead_position = current_solution + self.momentum * velocity
 
             # Apply bounds to lookahead position
-            lookahead_position = np.clip(lookahead_position, self.lower_bound, self.upper_bound)
+            lookahead_position = np.clip(
+                lookahead_position, self.lower_bound, self.upper_bound
+            )
 
             # Compute gradient at lookahead position (this is the key difference from SGD with momentum)
             gradient = self._compute_gradient(lookahead_position)
@@ -120,7 +122,9 @@ class NesterovAcceleratedGradient(AbstractOptimizer):
             current_solution = current_solution + velocity
 
             # Apply bounds
-            current_solution = np.clip(current_solution, self.lower_bound, self.upper_bound)
+            current_solution = np.clip(
+                current_solution, self.lower_bound, self.upper_bound
+            )
 
             # Evaluate fitness
             current_fitness = self.func(current_solution)

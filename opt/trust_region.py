@@ -89,7 +89,8 @@ class TrustRegion(AbstractOptimizer):
         # Validate method choice
         valid_methods = ["trust-constr", "trust-exact", "trust-krylov", "trust-ncg"]
         if self.method not in valid_methods:
-            raise ValueError(f"Method must be one of {valid_methods}, got {self.method}")
+            msg = f"Method must be one of {valid_methods}, got {self.method}"
+            raise ValueError(msg)
 
     def search(self) -> tuple[np.ndarray, float]:
         """Perform the Trust Region optimization search with multiple random restarts.
@@ -103,7 +104,7 @@ class TrustRegion(AbstractOptimizer):
         rng = np.random.default_rng(self.seed)
 
         # Perform multiple restarts to improve global optimization
-        for i in range(self.num_restarts):
+        for _ in range(self.num_restarts):
             # Random starting point
             x0 = rng.uniform(self.lower_bound, self.upper_bound, self.dim)
 
@@ -116,11 +117,11 @@ class TrustRegion(AbstractOptimizer):
                         x0=x0,
                         method=self.method,
                         bounds=bounds,
-                        options={"maxiter": self.max_iter // self.num_restarts}
+                        options={"maxiter": self.max_iter // self.num_restarts},
                     )
                 else:
                     # For other trust region methods, use penalty for bounds
-                    def bounded_func(x):
+                    def bounded_func(x: np.ndarray) -> float:
                         if np.any(x < self.lower_bound) or np.any(x > self.upper_bound):
                             return 1e10  # Large penalty for out-of-bounds
                         return self.func(x)
@@ -129,7 +130,7 @@ class TrustRegion(AbstractOptimizer):
                         fun=bounded_func,
                         x0=x0,
                         method=self.method,
-                        options={"maxiter": self.max_iter // self.num_restarts}
+                        options={"maxiter": self.max_iter // self.num_restarts},
                     )
 
                 if result.success and result.fun < best_fitness:
@@ -141,7 +142,7 @@ class TrustRegion(AbstractOptimizer):
                         best_solution = solution
                         best_fitness = fitness
 
-            except Exception:
+            except (ValueError, RuntimeError, np.linalg.LinAlgError):
                 # If optimization fails for this restart, continue with next restart
                 continue
 

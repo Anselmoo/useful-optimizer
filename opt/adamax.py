@@ -124,10 +124,14 @@ class AdaMax(AbstractOptimizer):
             bias_correction = 1 - np.power(self.beta1, t)
 
             # Update solution using AdaMax rule
-            current_solution = current_solution - (self.learning_rate / bias_correction) * (m / (u + self.epsilon))
+            current_solution = current_solution - (
+                self.learning_rate / bias_correction
+            ) * (m / (u + self.epsilon))
 
             # Apply bounds
-            current_solution = np.clip(current_solution, self.lower_bound, self.upper_bound)
+            current_solution = np.clip(
+                current_solution, self.lower_bound, self.upper_bound
+            )
 
             # Evaluate fitness
             current_fitness = self.func(current_solution)

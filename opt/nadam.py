@@ -132,13 +132,19 @@ class Nadam(AbstractOptimizer):
             v_hat = v / (1 - np.power(self.beta2, t))
 
             # Compute Nesterov-corrected first moment estimate
-            m_bar = self.beta1 * m_hat + (1 - self.beta1) * gradient / (1 - np.power(self.beta1, t))
+            m_bar = self.beta1 * m_hat + (1 - self.beta1) * gradient / (
+                1 - np.power(self.beta1, t)
+            )
 
             # Update solution using Nadam rule
-            current_solution = current_solution - self.learning_rate * m_bar / (np.sqrt(v_hat) + self.epsilon)
+            current_solution = current_solution - self.learning_rate * m_bar / (
+                np.sqrt(v_hat) + self.epsilon
+            )
 
             # Apply bounds
-            current_solution = np.clip(current_solution, self.lower_bound, self.upper_bound)
+            current_solution = np.clip(
+                current_solution, self.lower_bound, self.upper_bound
+            )
 
             # Evaluate fitness
             current_fitness = self.func(current_solution)

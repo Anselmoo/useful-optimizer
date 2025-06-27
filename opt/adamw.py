@@ -136,11 +136,14 @@ class AdamW(AbstractOptimizer):
 
             # Update solution using AdamW rule (includes weight decay)
             current_solution = current_solution - self.learning_rate * (
-                m_hat / (np.sqrt(v_hat) + self.epsilon) + self.weight_decay * current_solution
+                m_hat / (np.sqrt(v_hat) + self.epsilon)
+                + self.weight_decay * current_solution
             )
 
             # Apply bounds
-            current_solution = np.clip(current_solution, self.lower_bound, self.upper_bound)
+            current_solution = np.clip(
+                current_solution, self.lower_bound, self.upper_bound
+            )
 
             # Evaluate fitness
             current_fitness = self.func(current_solution)

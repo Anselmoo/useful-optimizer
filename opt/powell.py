@@ -94,14 +94,14 @@ class Powell(AbstractOptimizer):
 
         rng = np.random.default_rng(self.seed)
 
-        def bounded_func(x):
+        def bounded_func(x: np.ndarray) -> float:
             """Wrapper function that applies bounds by returning a large penalty if out of bounds."""
             if np.any(x < self.lower_bound) or np.any(x > self.upper_bound):
                 return 1e10  # Large penalty for out-of-bounds
             return self.func(x)
 
         # Perform multiple restarts to improve global optimization
-        for i in range(self.num_restarts):
+        for _ in range(self.num_restarts):
             # Random starting point
             x0 = rng.uniform(self.lower_bound, self.upper_bound, self.dim)
 
@@ -111,7 +111,7 @@ class Powell(AbstractOptimizer):
                     fun=bounded_func,
                     x0=x0,
                     method="Powell",
-                    options={"maxiter": self.max_iter // self.num_restarts}
+                    options={"maxiter": self.max_iter // self.num_restarts},
                 )
 
                 if result.success and result.fun < best_fitness:
@@ -123,7 +123,7 @@ class Powell(AbstractOptimizer):
                         best_solution = solution
                         best_fitness = fitness
 
-            except Exception:
+            except (ValueError, RuntimeError):
                 # If optimization fails for this restart, continue with next restart
                 continue
 

@@ -17,7 +17,7 @@ where:
     - gradient: gradient of the objective function at x
 
 Example:
-    optimizer = SGDMomentum(func=objective_function, learning_rate=0.01, momentum=0.9, 
+    optimizer = SGDMomentum(func=objective_function, learning_rate=0.01, momentum=0.9,
                            lower_bound=-5, upper_bound=5, dim=2)
     best_solution, best_fitness = optimizer.search()
 
@@ -114,7 +114,9 @@ class SGDMomentum(AbstractOptimizer):
             current_solution = current_solution + velocity
 
             # Apply bounds
-            current_solution = np.clip(current_solution, self.lower_bound, self.upper_bound)
+            current_solution = np.clip(
+                current_solution, self.lower_bound, self.upper_bound
+            )
 
             # Evaluate fitness
             current_fitness = self.func(current_solution)

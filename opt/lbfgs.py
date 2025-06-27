@@ -90,7 +90,7 @@ class LBFGS(AbstractOptimizer):
         rng = np.random.default_rng(self.seed)
 
         # Perform multiple restarts to improve global optimization
-        for i in range(self.num_restarts):
+        for _ in range(self.num_restarts):
             # Random starting point
             x0 = rng.uniform(self.lower_bound, self.upper_bound, self.dim)
 
@@ -101,7 +101,7 @@ class LBFGS(AbstractOptimizer):
                     x0=x0,
                     method="L-BFGS-B",
                     bounds=[(self.lower_bound, self.upper_bound)] * self.dim,
-                    options={"maxiter": self.max_iter // self.num_restarts}
+                    options={"maxiter": self.max_iter // self.num_restarts},
                 )
 
                 if result.success and result.fun < best_fitness:
@@ -113,7 +113,7 @@ class LBFGS(AbstractOptimizer):
                         best_solution = solution
                         best_fitness = fitness
 
-            except Exception:
+            except (ValueError, RuntimeError, np.linalg.LinAlgError):
                 # If optimization fails for this restart, continue with next restart
                 continue
 
