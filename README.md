@@ -55,7 +55,7 @@ from opt.bfgs import BFGS
 sgd = SGD(func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, learning_rate=0.01)
 best_solution, best_fitness = sgd.search()
 
-# Adam variant with weight decay  
+# Adam variant with weight decay
 adamw = AdamW(func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, weight_decay=0.01)
 best_solution, best_fitness = adamw.search()
 
