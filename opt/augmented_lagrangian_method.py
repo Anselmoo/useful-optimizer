@@ -122,8 +122,7 @@ class AugmentedLagrangian(AbstractOptimizer):
 
         """
         constraint_val = self.constraint(x)
-        if constraint_val < 0:
-            constraint_val = 0
+        constraint_val = max(constraint_val, 0)
         if np.isnan(constraint_val):
             constraint_val = self.static_cost
 
