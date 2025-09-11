@@ -64,117 +64,119 @@ bfgs = BFGS(func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2,
 best_solution, best_fitness = bfgs.search()
 ```
 
-## Current Implemented Optimizer
+## Implemented Optimizers
 
-The current version of Useful Optimizer includes a wide range of optimization algorithms, each implemented as a separate module. Here's a brief overview of the implemented optimizers:
+The current version of Useful Optimizer includes 54 optimization algorithms, each implemented as a separate module. Each optimizer is linked to its corresponding source code for easy reference and study.
 
-Sure, here's a brief description of each optimizer:
+<details>
+<summary><strong>🧠 Gradient-Based Optimizers</strong></summary>
 
-- **Adadelta, Adagrad, and Adaptive Moment Estimation**: These are gradient-based optimization algorithms commonly used in machine learning and deep learning.
+These optimizers use gradient information to guide the search process and are commonly used in machine learning and deep learning applications.
 
-- **AdaMax**: This is an Adam variant that uses the infinity norm for the second moment estimation, making it more robust to large gradients.
+- **[Adadelta](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/adadelta.py)** - An adaptive learning rate method that uses only first-order information
+- **[Adagrad](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/adagrad.py)** - Adapts the learning rate to the parameters, performing smaller updates for frequently occurring features
+- **[Adaptive Moment Estimation (Adam)](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/adaptive_moment_estimation.py)** - Combines advantages of AdaGrad and RMSProp with bias correction
+- **[AdaMax](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/adamax.py)** - Adam variant using infinity norm for second moment estimation
+- **[AdamW](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/adamw.py)** - Adam with decoupled weight decay for better regularization
+- **[AMSGrad](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/amsgrad.py)** - Adam variant with non-decreasing second moment estimates
+- **[BFGS](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/bfgs.py)** - Quasi-Newton method approximating the inverse Hessian matrix
+- **[Conjugate Gradient](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/conjugate_gradient.py)** - Efficient iterative method for solving systems of linear equations
+- **[L-BFGS](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/lbfgs.py)** - Limited-memory version of BFGS for large-scale optimization
+- **[Nadam](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/nadam.py)** - Nesterov-accelerated Adam combining Adam with Nesterov momentum
+- **[Nesterov Accelerated Gradient](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/nesterov_accelerated_gradient.py)** - Accelerated gradient method with lookahead momentum
+- **[RMSprop](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/rmsprop.py)** - Adaptive learning rate using moving average of squared gradients
+- **[SGD with Momentum](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/sgd_momentum.py)** - SGD enhanced with momentum for faster convergence
+- **[Stochastic Gradient Descent](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/stochastic_gradient_descent.py)** - Fundamental gradient-based optimization algorithm
 
-- **AdamW**: This is an Adam variant with decoupled weight decay that provides better regularization and improved generalization in machine learning.
+</details>
 
-- **AMSGrad**: This is an Adam variant with non-decreasing second moment estimates that addresses convergence issues in original Adam.
+<details>
+<summary><strong>🦋 Nature-Inspired Metaheuristics</strong></summary>
 
-- **Ant Colony Optimization**: This is a nature-inspired algorithm that mimics the behavior of ants to solve optimization problems.
+These algorithms are inspired by natural phenomena and biological behaviors to solve optimization problems.
 
-- **Artificial Fish Swarm Algorithm**: This algorithm simulates the behavior of fish in nature to perform global optimization.
+- **[Ant Colony Optimization](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/ant_colony.py)** - Mimics ant behavior for finding optimal paths
+- **[Artificial Fish Swarm Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/artificial_fish_swarm_algorithm.py)** - Simulates fish behavior for global optimization
+- **[Bat Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/bat_algorithm.py)** - Inspired by echolocation behavior of microbats
+- **[Bee Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/bee_algorithm.py)** - Based on honey bee food foraging behavior
+- **[Cat Swarm Optimization](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/cat_swarm_optimization.py)** - Models cat behavior with seeking and tracing modes
+- **[Cuckoo Search](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/cuckoo_search.py)** - Based on obligate brood parasitism of cuckoo species
+- **[Eagle Strategy](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/eagle_strategy.py)** - Inspired by hunting behavior of eagles
+- **[Firefly Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/firefly_algorithm.py)** - Based on flashing behavior of fireflies
+- **[Glowworm Swarm Optimization](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/glowworm_swarm_optimization.py)** - Inspired by glowworm behavior
+- **[Grey Wolf Optimizer](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/grey_wolf_optimizer.py)** - Mimics leadership hierarchy and hunting of grey wolves
+- **[Particle Swarm Optimization](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/particle_swarm.py)** - Simulates social behavior of bird flocking or fish schooling
+- **[Shuffled Frog Leaping Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/shuffled_frog_leaping_algorithm.py)** - Inspired by memetic evolution of frogs searching for food
+- **[Squirrel Search Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/squirrel_search.py)** - Based on caching behavior of squirrels
+- **[Whale Optimization Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/whale_optimization_algorithm.py)** - Simulates social behavior of humpback whales
 
-- **Augmented Lagrangian Method**: This is a method to solve constrained optimization problems. It combines the objective function and the constraints into a single function using Lagrange multipliers.
+</details>
 
-- **Bat Algorithm**: This is a metaheuristic optimization algorithm inspired by the echolocation behavior of microbats.
+<details>
+<summary><strong>🧬 Evolutionary and Population-Based Algorithms</strong></summary>
 
-- **Bee Algorithm**: This is a population-based search algorithm inspired by the food foraging behavior of honey bee colonies.
+These algorithms use principles of evolution and population dynamics to find optimal solutions.
 
-- **BFGS (Broyden-Fletcher-Goldfarb-Shanno)**: This is a quasi-Newton method that approximates the inverse Hessian matrix for efficient second-order optimization.
+- **[CMA-ES](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/cma_es.py)** - Covariance Matrix Adaptation Evolution Strategy for continuous optimization
+- **[Cultural Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/cultural_algorithm.py)** - Evolutionary algorithm based on cultural evolution
+- **[Differential Evolution](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/differential_evolution.py)** - Population-based algorithm using biological evolution mechanisms
+- **[Estimation of Distribution Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/estimation_of_distribution_algorithm.py)** - Uses probabilistic model of candidate solutions
+- **[Genetic Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/genetic_algorithm.py)** - Inspired by Charles Darwin's theory of natural evolution
+- **[Imperialist Competitive Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/imperialist_competitive_algorithm.py)** - Based on imperialistic competition
 
-- **Cat Swarm Optimization**: This algorithm is based on the behavior of cats and distinguishes between two forms of behavior in cats: seeking mode and tracing mode.
+</details>
 
-- **CMA-ES (Covariance Matrix Adaptation Evolution Strategy)**: This is an evolutionary algorithm for difficult non-linear non-convex optimization problems in continuous domain.
+<details>
+<summary><strong>🎯 Local Search and Classical Methods</strong></summary>
 
-- **Colliding Bodies Optimization**: This is a physics-inspired optimization method, based on the collision and explosion of bodies.
+Traditional optimization methods including local search techniques and classical mathematical approaches.
 
-- **Conjugate Gradient**: This is an efficient iterative method for solving systems of linear equations and optimization problems, particularly effective for quadratic functions.
+- **[Hill Climbing](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/hill_climbing.py)** - Local search algorithm that continuously moves toward increasing value
+- **[Nelder-Mead](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/nelder_mead.py)** - Derivative-free simplex method for optimization
+- **[Powell's Method](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/powell.py)** - Derivative-free optimization using conjugate directions
+- **[Simulated Annealing](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/simulated_annealing.py)** - Probabilistic technique mimicking the annealing process in metallurgy
+- **[Tabu Search](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/tabu_search.py)** - Metaheuristic using memory structures to avoid cycles
+- **[Variable Depth Search](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/variable_depth_search.py)** - Explores search space with variable-depth first search
+- **[Variable Neighbourhood Search](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/variable_neighbourhood_search.py)** - Metaheuristic for discrete optimization problems
+- **[Very Large Scale Neighborhood Search](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/very_large_scale_neighborhood_search.py)** - Explores very large neighborhoods efficiently
 
-- **Cross Entropy Method**: This is a Monte Carlo method for importance sampling and optimization.
+</details>
 
-- **Cuckoo Search**: This is a nature-inspired metaheuristic optimization algorithm, which is based on the obligate brood parasitism of some cuckoo species.
+<details>
+<summary><strong>🔬 Physics and Mathematical-Inspired Algorithms</strong></summary>
 
-- **Cultural Algorithm**: This is a type of evolutionary algorithm that is based on the concept of culture, or shared information and knowledge.
+Algorithms inspired by physical phenomena and mathematical concepts.
 
-- **Differential Evolution**: This is a population-based metaheuristic algorithm, which uses mechanisms inspired by biological evolution, such as reproduction, mutation, recombination, and selection.
+- **[Colliding Bodies Optimization](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/colliding_bodies_optimization.py)** - Physics-inspired method based on collision and explosion
+- **[Harmony Search](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/harmony_search.py)** - Music-inspired metaheuristic optimization
+- **[Sine Cosine Algorithm](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/sine_cosine_algorithm.py)** - Based on mathematical sine and cosine functions
+- **[Stochastic Diffusion Search](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/stochastic_diffusion_search.py)** - Population-based search inspired by diffusion processes
+- **[Stochastic Fractal Search](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/stochastic_fractal_search.py)** - Inspired by fractal shapes and Brownian motion
 
-- **Eagle Strategy**: This is a metaheuristic optimization algorithm inspired by the hunting behavior of eagles.
+</details>
 
-- **Estimation of Distribution Algorithm**: This is a stochastic optimization algorithm that uses a probabilistic model of candidate solutions.
+<details>
+<summary><strong>📊 Statistical and Probabilistic Methods</strong></summary>
 
-- **Firefly Algorithm**: This is a nature-inspired metaheuristic optimization algorithm, based on the flashing behavior of fireflies.
+Methods based on statistical inference and probabilistic approaches.
 
-- **Genetic Algorithm**: This is a search heuristic that is inspired by Charles Darwin’s theory of natural evolution.
+- **[Cross Entropy Method](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/cross_entropy_method.py)** - Monte Carlo method for importance sampling and optimization
+- **[Particle Filter](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/particle_filter.py)** - Statistical filter for nonlinear state estimation
+- **[Parzen Tree Estimator](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/parzen_tree_stimator.py)** - Non-parametric density estimation method
 
-- **Glowworm Swarm Optimization**: This is a nature-inspired optimization algorithm based on the behavior of glowworms.
+</details>
 
-- **Grey Wolf Optimizer**: This is a metaheuristic optimization algorithm inspired by grey wolves.
+<details>
+<summary><strong>🔧 Specialized and Constrained Optimization</strong></summary>
 
-- **Harmony Search**: This is a music-inspired metaheuristic optimization algorithm.
+Specialized algorithms for particular types of optimization problems.
 
-- **Hessian Free Optimization**: This is a second-order optimization algorithm that uses information from the Hessian matrix to guide the search.
+- **[Augmented Lagrangian Method](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/augmented_lagrangian_method.py)** - Method for solving constrained optimization problems
+- **[Linear Discriminant Analysis](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/linear_discriminant_analysis.py)** - Statistical method for dimensionality reduction and classification
+- **[Successive Linear Programming](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/successive_linear_programming.py)** - Method for nonlinear optimization using linear approximations
+- **[Trust Region](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/trust_region.py)** - Robust optimization method using trusted model regions
 
-- **Hill Climbing**: This is a mathematical optimization technique which belongs to the family of local search.
-
-- **Imperialist Competitive Algorithm**: This is a socio-politically motivated global search strategy, which is based on the imperialistic competition.
-
-- **L-BFGS (Limited-memory BFGS)**: This is a limited-memory version of BFGS that is suitable for large-scale optimization problems where storing the full Hessian approximation is impractical.
-
-- **Linear Discriminant Analysis**: This is a method used in statistics, pattern recognition, and machine learning to find a linear combination of features that characterizes or separates two or more classes of objects or events.
-
-- **Nadam**: This is Nesterov-accelerated Adam that combines the benefits of Adam with Nesterov momentum for improved convergence.
-
-- **Nelder-Mead**: This is a derivative-free simplex-based optimization method that is particularly useful for non-differentiable and noisy functions.
-
-- **Nesterov Accelerated Gradient**: This is an accelerated gradient method that uses lookahead momentum to achieve better convergence rates than standard gradient descent.
-
-- **Particle Filter**: This is a statistical filter technique used to estimate the state of a system where the state model and the measurements are both nonlinear.
-
-- **Particle Swarm Optimization**: This is a computational method that optimizes a problem by iteratively trying to improve a candidate solution with regard to a given measure of quality, mimicking the social behavior of bird flocking or fish schooling.
-
-- **Parzen Tree Estimator**: This is a non-parametric method to estimate the density function of random variables.
-
-- **Powell's Method**: This is a derivative-free optimization algorithm that uses conjugate directions to minimize functions without requiring gradient information.
-
-- **RMSprop**: This is an adaptive learning rate optimization algorithm that uses a moving average of squared gradients to normalize the gradient.
-
-- **Shuffled Frog Leaping Algorithm**: This is a metaheuristic optimization algorithm inspired by the memetic evolution of a group of frogs when searching for food.
-
-- **Simulated Annealing**: This is a probabilistic technique for approximating the global optimum of a given function, mimicking the process of heating a material and then slowly lowering the temperature to decrease defects, thus minimizing the system energy.
-
-- **Sine Cosine Algorithm**: This is a new population-based meta-heuristic algorithm, inspired by the mathematical sine and cosine functions.
-
-- **Squirrel Search Algorithm**: This is a new nature-inspired metaheuristic optimization algorithm, inspired by the caching behavior of squirrels.
-
-- **Stochastic Diffusion Search**: This is a population-based search algorithm, based on the behavior of ants when searching for food.
-
-- **Stochastic Fractal Search**: This is a metaheuristic search algorithm inspired by the natural phenomenon of fractal shapes and Brownian motion.
-
-- **Stochastic Gradient Descent (SGD)**: This is a fundamental gradient-based optimization algorithm that updates parameters in the direction opposite to the gradient of the objective function.
-
-- **SGD with Momentum**: This is SGD enhanced with momentum that accelerates convergence and helps navigate through local minima by accumulating velocity in consistent gradient directions.
-
-- **Successive Linear Programming**: This is an optimization method for nonlinear optimization problems.
-
-- **Tabu Search**: This is a metaheuristic search method employing local search methods used for mathematical optimization.
-
-- **Trust Region**: This is a robust optimization method that iteratively solves optimization problems within a region where a model function is trusted to be an adequate representation.
-
-- **Variable Depth Search**: This is a search algorithm that explores the search space by variable-depth first search and backtracking.
-
-- **Variable Neighbourhood Search**: This is a metaheuristic search method for discrete optimization problems.
-
-- **Very Large Scale Neighborhood Search**: This is a search method that explores very large neighborhoods with an efficient algorithm.
-
-- **Whale Optimization Algorithm**: This is a new bio-inspired optimization algorithm, which simulates the social behavior of humpback whales.
+</details>
 
 > [!NOTE]
 > Please note that not all of these algorithms are suitable for all types of optimization problems. Some are better suited for continuous optimization problems, some for discrete optimization problems, and others for specific types of problems like quadratic programming or linear discriminant analysis.
