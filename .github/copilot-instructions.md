@@ -74,7 +74,7 @@ print('Testing multiple optimizers...')
 hs = HarmonySearch(func=rosenbrock, lower_bound=-5, upper_bound=5, dim=2, max_iter=50)
 _, fitness1 = hs.search()
 
-# Test AntColony  
+# Test AntColony
 ac = AntColony(func=shifted_ackley, lower_bound=-2.768, upper_bound=2.768, dim=2, max_iter=50)
 _, fitness2 = ac.search()
 
@@ -132,7 +132,7 @@ print('Advanced imports successful - gradient-based and base classes work')
 
 ### Benchmark Functions Available
 - `shifted_ackley` - Non-centered Ackley function (commonly used in examples)
-- `sphere` - Simple sphere function  
+- `sphere` - Simple sphere function
 - `rosenbrock` - Rosenbrock function
 - `ackley` - Standard Ackley function
 - `rastrigin` - Rastrigin function
@@ -186,7 +186,7 @@ print('Advanced imports successful - gradient-based and base classes work')
 ## Performance Expectations
 - **Poetry install:** 2-3 minutes (NEVER CANCEL)
 - **Ruff linting:** 5-10 seconds
-- **Ruff formatting:** < 1 second  
+- **Ruff formatting:** < 1 second
 - **Package build:** < 1 second
 - **Small optimization runs:** < 1 second (max_iter=50-100)
 - **Import operations:** Nearly instantaneous
