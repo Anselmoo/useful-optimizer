@@ -129,7 +129,7 @@ These algorithms use principles of evolution and population dynamics to find opt
 <details>
 <summary><strong>🎯 Local Search and Classical Methods</strong></summary>
 
-Traditional optimization methods including local search techniques and classical mathematical approaches.
+Traditional optimization methods include local search techniques and classical mathematical approaches.
 
 - **[Hill Climbing](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/hill_climbing.py)** - Local search algorithm that continuously moves toward increasing value
 - **[Nelder-Mead](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/nelder_mead.py)** - Derivative-free simplex method for optimization
