@@ -129,7 +129,7 @@ class BeeAlgorithm(AbstractOptimizer):
             # Onlooker Bee Phase
             for i in range(self.population_size):
                 self.seed += 1
-                if np.random.default(self.seed).random() < self.prob[i]:
+                if np.random.default_rng(self.seed).random() < self.prob[i]:
                     candidate_solution = self.population[i] + np.random.default_rng(
                         self.seed + 1
                     ).uniform(-1, 1, self.dim)
