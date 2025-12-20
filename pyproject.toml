@@ -1,24 +1,33 @@
-[tool.poetry]
+[project]
 name = "useful-optimizer"
 version = "0.1.2"
 description = "A dedicated set of optimization algorithms for numeric problems."
-authors = ["Anselm Hahn <Anselm.Hahn@gmail.com>"]
-license = "MIT"
+authors = [{ name = "Anselm Hahn", email = "Anselm.Hahn@gmail.com" }]
+license = { text = "MIT" }
 readme = "README.md"
-packages = [{ include = "opt", from = "." }]
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "numpy>=1.26.4",
+    "scipy>=1.12.0",
+    "scikit-learn>=1.5.1",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.10,<3.13"
-numpy = "^1.26.4"
-scipy = "^1.12.0"
-scikit-learn = "^1.5.1"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.9.0"
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.9.0",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["opt"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.0",
+]
 
 
 [tool.ruff]
@@ -68,7 +77,7 @@ preview = false
 # McCabe complexity (`C901`) by default.
 # Set to all
 select = ["ALL"]
-ignore = ["ANN101", "PLR0913", "N803", "N806", "E741", "E501", "T201", "COM812"]
+ignore = ["PLR0913", "N803", "N806", "E741", "E501", "T201", "COM812"]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
