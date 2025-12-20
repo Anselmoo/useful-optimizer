@@ -15,6 +15,7 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "ruff>=0.9.0",
+    "pytest>=8.0.0",
 ]
 
 [build-system]
@@ -27,6 +28,7 @@ packages = ["opt"]
 [dependency-groups]
 dev = [
     "ruff>=0.9.0",
+    "pytest>=8.0.0",
 ]
 
 
