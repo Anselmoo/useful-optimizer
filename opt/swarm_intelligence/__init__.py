@@ -19,7 +19,10 @@ from opt.swarm_intelligence.glowworm_swarm_optimization import GlowwormSwarmOpti
 from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
 from opt.swarm_intelligence.particle_swarm import ParticleSwarm
 from opt.swarm_intelligence.squirrel_search import SquirrelSearchAlgorithm
-from opt.swarm_intelligence.whale_optimization_algorithm import WhaleOptimizationAlgorithm
+from opt.swarm_intelligence.whale_optimization_algorithm import (
+    WhaleOptimizationAlgorithm,
+)
+
 
 __all__: list[str] = [
     "AntColony",

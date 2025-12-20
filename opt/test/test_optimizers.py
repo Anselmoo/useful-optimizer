@@ -5,64 +5,61 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from opt import (
-    AbstractOptimizer,
-    AdaDelta,
-    ADAGrad,
-    AdaMax,
-    AdamW,
-    ADAMOptimization,
-    AMSGrad,
-    AntColony,
-    ArtificialFishSwarm,
-    AugmentedLagrangian,
-    BatAlgorithm,
-    BeeAlgorithm,
-    BFGS,
-    CatSwarmOptimization,
-    CMAESAlgorithm,
-    CollidingBodiesOptimization,
-    ConjugateGradient,
-    CrossEntropyMethod,
-    CuckooSearch,
-    CulturalAlgorithm,
-    DifferentialEvolution,
-    EagleStrategy,
-    EstimationOfDistributionAlgorithm,
-    FireflyAlgorithm,
-    GeneticAlgorithm,
-    GlowwormSwarmOptimization,
-    GreyWolfOptimizer,
-    HarmonySearch,
-    HillClimbing,
-    ImperialistCompetitiveAlgorithm,
-    LBFGS,
-    LDAnalysis,
-    Nadam,
-    NelderMead,
-    NesterovAcceleratedGradient,
-    ParticleFilter,
-    ParticleSwarm,
-    ParzenTreeEstimator,
-    Powell,
-    RMSprop,
-    SGD,
-    SGDMomentum,
-    ShuffledFrogLeapingAlgorithm,
-    SimulatedAnnealing,
-    SineCosineAlgorithm,
-    SquirrelSearchAlgorithm,
-    StochasticDiffusionSearch,
-    StochasticFractalSearch,
-    SuccessiveLinearProgramming,
-    TabuSearch,
-    TrustRegion,
-    VariableDepthSearch,
-    VariableNeighborhoodSearch,
-    VeryLargeScaleNeighborhood,
-    WhaleOptimizationAlgorithm,
-)
-from opt.benchmark.functions import shifted_ackley, sphere
+from opt import BFGS
+from opt import LBFGS
+from opt import SGD
+from opt import ADAGrad
+from opt import ADAMOptimization
+from opt import AMSGrad
+from opt import AbstractOptimizer
+from opt import AdaDelta
+from opt import AdaMax
+from opt import AdamW
+from opt import AntColony
+from opt import ArtificialFishSwarm
+from opt import AugmentedLagrangian
+from opt import CMAESAlgorithm
+from opt import CatSwarmOptimization
+from opt import CollidingBodiesOptimization
+from opt import ConjugateGradient
+from opt import CrossEntropyMethod
+from opt import CuckooSearch
+from opt import CulturalAlgorithm
+from opt import DifferentialEvolution
+from opt import EagleStrategy
+from opt import EstimationOfDistributionAlgorithm
+from opt import FireflyAlgorithm
+from opt import GeneticAlgorithm
+from opt import GlowwormSwarmOptimization
+from opt import GreyWolfOptimizer
+from opt import HarmonySearch
+from opt import HillClimbing
+from opt import ImperialistCompetitiveAlgorithm
+from opt import LDAnalysis
+from opt import Nadam
+from opt import NelderMead
+from opt import NesterovAcceleratedGradient
+from opt import ParticleFilter
+from opt import ParticleSwarm
+from opt import ParzenTreeEstimator
+from opt import Powell
+from opt import RMSprop
+from opt import SGDMomentum
+from opt import ShuffledFrogLeapingAlgorithm
+from opt import SimulatedAnnealing
+from opt import SineCosineAlgorithm
+from opt import SquirrelSearchAlgorithm
+from opt import StochasticDiffusionSearch
+from opt import StochasticFractalSearch
+from opt import SuccessiveLinearProgramming
+from opt import TabuSearch
+from opt import TrustRegion
+from opt import VariableDepthSearch
+from opt import VariableNeighborhoodSearch
+from opt import VeryLargeScaleNeighborhood
+from opt import WhaleOptimizationAlgorithm
+from opt.benchmark.functions import shifted_ackley
+from opt.benchmark.functions import sphere
 
 
 # List of all optimizer classes for parametrized testing
@@ -131,15 +128,9 @@ METAHEURISTIC_OPTIMIZERS = [
     VeryLargeScaleNeighborhood,
 ]
 
-CONSTRAINED_OPTIMIZERS = [
-    AugmentedLagrangian,
-    SuccessiveLinearProgramming,
-]
+CONSTRAINED_OPTIMIZERS = [AugmentedLagrangian, SuccessiveLinearProgramming]
 
-PROBABILISTIC_OPTIMIZERS = [
-    LDAnalysis,
-    ParzenTreeEstimator,
-]
+PROBABILISTIC_OPTIMIZERS = [LDAnalysis, ParzenTreeEstimator]
 
 ALL_OPTIMIZERS = (
     SWARM_OPTIMIZERS
@@ -159,10 +150,7 @@ class TestAbstractOptimizer:
         """Test that AbstractOptimizer cannot be instantiated directly."""
         with pytest.raises(TypeError):
             AbstractOptimizer(  # type: ignore[abstract]
-                func=sphere,
-                lower_bound=-5,
-                upper_bound=5,
-                dim=2,
+                func=sphere, lower_bound=-5, upper_bound=5, dim=2
             )
 
     def test_all_optimizers_inherit_from_abstract(self) -> None:
@@ -180,11 +168,7 @@ class TestOptimizerInstantiation:
     ) -> None:
         """Test that all optimizers can be instantiated."""
         optimizer = optimizer_class(
-            func=sphere,
-            lower_bound=-5,
-            upper_bound=5,
-            dim=2,
-            max_iter=10,
+            func=sphere, lower_bound=-5, upper_bound=5, dim=2, max_iter=10
         )
         assert optimizer is not None
         assert optimizer.func == sphere
@@ -337,35 +321,40 @@ class TestCategoricalImports:
 
     def test_gradient_based_import(self) -> None:
         """Test importing from gradient_based submodule."""
-        from opt.gradient_based import AdamW, SGDMomentum
+        from opt.gradient_based import AdamW
+        from opt.gradient_based import SGDMomentum
 
         assert AdamW is not None
         assert SGDMomentum is not None
 
     def test_swarm_intelligence_import(self) -> None:
         """Test importing from swarm_intelligence submodule."""
-        from opt.swarm_intelligence import ParticleSwarm, AntColony
+        from opt.swarm_intelligence import AntColony
+        from opt.swarm_intelligence import ParticleSwarm
 
         assert ParticleSwarm is not None
         assert AntColony is not None
 
     def test_evolutionary_import(self) -> None:
         """Test importing from evolutionary submodule."""
-        from opt.evolutionary import GeneticAlgorithm, DifferentialEvolution
+        from opt.evolutionary import DifferentialEvolution
+        from opt.evolutionary import GeneticAlgorithm
 
         assert GeneticAlgorithm is not None
         assert DifferentialEvolution is not None
 
     def test_classical_import(self) -> None:
         """Test importing from classical submodule."""
-        from opt.classical import BFGS, NelderMead
+        from opt.classical import BFGS
+        from opt.classical import NelderMead
 
         assert BFGS is not None
         assert NelderMead is not None
 
     def test_metaheuristic_import(self) -> None:
         """Test importing from metaheuristic submodule."""
-        from opt.metaheuristic import HarmonySearch, CrossEntropyMethod
+        from opt.metaheuristic import CrossEntropyMethod
+        from opt.metaheuristic import HarmonySearch
 
         assert HarmonySearch is not None
         assert CrossEntropyMethod is not None
@@ -384,7 +373,10 @@ class TestCategoricalImports:
 
     def test_backward_compatible_import(self) -> None:
         """Test backward compatible imports from root opt module."""
-        from opt import ParticleSwarm, AdamW, BFGS, HarmonySearch
+        from opt import BFGS
+        from opt import AdamW
+        from opt import HarmonySearch
+        from opt import ParticleSwarm
 
         assert ParticleSwarm is not None
         assert AdamW is not None

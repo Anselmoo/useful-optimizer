@@ -18,6 +18,7 @@ from opt.evolutionary.imperialist_competitive_algorithm import (
     ImperialistCompetitiveAlgorithm,
 )
 
+
 __all__: list[str] = [
     "CMAESAlgorithm",
     "CulturalAlgorithm",

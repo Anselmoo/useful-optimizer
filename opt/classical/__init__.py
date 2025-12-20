@@ -17,11 +17,12 @@ from opt.classical.simulated_annealing import SimulatedAnnealing
 from opt.classical.tabu_search import TabuSearch
 from opt.classical.trust_region import TrustRegion
 
+
 __all__: list[str] = [
     "BFGS",
+    "LBFGS",
     "ConjugateGradient",
     "HillClimbing",
-    "LBFGS",
     "NelderMead",
     "Powell",
     "SimulatedAnnealing",

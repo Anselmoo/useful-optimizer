@@ -18,16 +18,17 @@ from opt.gradient_based.rmsprop import RMSprop
 from opt.gradient_based.sgd_momentum import SGDMomentum
 from opt.gradient_based.stochastic_gradient_descent import SGD
 
+
 __all__: list[str] = [
-    "AdaDelta",
+    "SGD",
     "ADAGrad",
-    "AdaMax",
-    "AdamW",
     "ADAMOptimization",
     "AMSGrad",
+    "AdaDelta",
+    "AdaMax",
+    "AdamW",
     "Nadam",
     "NesterovAcceleratedGradient",
     "RMSprop",
     "SGDMomentum",
-    "SGD",
 ]

@@ -10,7 +10,5 @@ from __future__ import annotations
 from opt.probabilistic.linear_discriminant_analysis import LDAnalysis
 from opt.probabilistic.parzen_tree_stimator import ParzenTreeEstimator
 
-__all__: list[str] = [
-    "LDAnalysis",
-    "ParzenTreeEstimator",
-]
+
+__all__: list[str] = ["LDAnalysis", "ParzenTreeEstimator"]

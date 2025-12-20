@@ -10,7 +10,5 @@ from __future__ import annotations
 from opt.constrained.augmented_lagrangian_method import AugmentedLagrangian
 from opt.constrained.successive_linear_programming import SuccessiveLinearProgramming
 
-__all__: list[str] = [
-    "AugmentedLagrangian",
-    "SuccessiveLinearProgramming",
-]
+
+__all__: list[str] = ["AugmentedLagrangian", "SuccessiveLinearProgramming"]

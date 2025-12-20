@@ -13,7 +13,9 @@ from opt.metaheuristic.cross_entropy_method import CrossEntropyMethod
 from opt.metaheuristic.eagle_strategy import EagleStrategy
 from opt.metaheuristic.harmony_search import HarmonySearch
 from opt.metaheuristic.particle_filter import ParticleFilter
-from opt.metaheuristic.shuffled_frog_leaping_algorithm import ShuffledFrogLeapingAlgorithm
+from opt.metaheuristic.shuffled_frog_leaping_algorithm import (
+    ShuffledFrogLeapingAlgorithm,
+)
 from opt.metaheuristic.sine_cosine_algorithm import SineCosineAlgorithm
 from opt.metaheuristic.stochastic_diffusion_search import StochasticDiffusionSearch
 from opt.metaheuristic.stochastic_fractal_search import StochasticFractalSearch
@@ -22,6 +24,7 @@ from opt.metaheuristic.variable_neighbourhood_search import VariableNeighborhood
 from opt.metaheuristic.very_large_scale_neighborhood_search import (
     VeryLargeScaleNeighborhood,
 )
+
 
 __all__: list[str] = [
     "CollidingBodiesOptimization",
