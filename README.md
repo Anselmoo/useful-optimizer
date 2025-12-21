@@ -85,6 +85,35 @@ from opt.classical import BFGS
 from opt import ParticleSwarm, AdamW, BFGS
 ```
 
+### Quick Demo
+
+All optimizers include a standardized demo that can be run directly or customized:
+
+```python
+from opt.demo import run_demo
+from opt.swarm_intelligence import ParticleSwarm
+
+# Run with default settings
+run_demo(ParticleSwarm)
+
+# Or customize parameters
+run_demo(
+    ParticleSwarm,
+    max_iter=200,
+    population_size=50,
+    c1=2.0,
+    c2=2.0
+)
+```
+
+You can also run demos directly from the command line:
+
+```bash
+python -m opt.swarm_intelligence.particle_swarm
+python -m opt.gradient_based.adamw
+python -m opt.classical.simulated_annealing
+```
+
 ## Project Structure
 
 Optimizers are organized into categorical subfolders:

@@ -30,7 +30,11 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
+from opt.constants import DEFAULT_MAX_ITERATIONS
+from opt.constants import DEFAULT_POPULATION_SIZE
+from opt.constants import PSO_COGNITIVE_COEFFICIENT
+from opt.constants import PSO_INERTIA_WEIGHT
+from opt.constants import PSO_SOCIAL_COEFFICIENT
 
 
 if TYPE_CHECKING:
@@ -96,11 +100,11 @@ class ParticleSwarm(AbstractOptimizer):
         lower_bound: float,
         upper_bound: float,
         dim: int,
-        population_size: int = 100,
-        max_iter: int = 1000,
-        c1: float = 1.5,
-        c2: float = 1.5,
-        w: float = 0.5,
+        population_size: int = DEFAULT_POPULATION_SIZE,
+        max_iter: int = DEFAULT_MAX_ITERATIONS,
+        c1: float = PSO_COGNITIVE_COEFFICIENT,
+        c2: float = PSO_SOCIAL_COEFFICIENT,
+        w: float = PSO_INERTIA_WEIGHT,
         seed: int | None = None,
         track_history: bool = False,
     ) -> None:
@@ -201,9 +205,6 @@ class ParticleSwarm(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    optimizer = ParticleSwarm(
-        func=shifted_ackley, lower_bound=-32.768, upper_bound=+32.768, dim=2
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution found: {best_solution}")
-    print(f"Best fitness value: {best_fitness}")
+    from opt.demo import run_demo
+
+    run_demo(ParticleSwarm)

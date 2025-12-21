@@ -25,7 +25,6 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 
 
 if TYPE_CHECKING:
@@ -165,13 +164,6 @@ class SimulatedAnnealing(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    # Create a SimulatedAnnealing object
-    optimizer = SimulatedAnnealing(
-        shifted_ackley, dim=2, lower_bound=-2.768, upper_bound=+2.768
-    )
+    from opt.demo import run_demo
 
-    # Perform the optimization
-
-    best_solution, best_cost = optimizer.search()
-    print(f"Best solution: {best_solution}")
-    print(f"Best cost: {best_cost}")
+    run_demo(SimulatedAnnealing)

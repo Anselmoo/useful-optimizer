@@ -93,43 +93,39 @@ HIGH_PERFORMANCE_OPTIMIZERS = [
     CMAESAlgorithm,
     Powell,
     WhaleOptimizationAlgorithm,
+    GreyWolfOptimizer,
 ]
 
-# CMAESAlgorithm has singular matrix issues on ackley benchmark
-CMAES_ACKLEY_XFAIL = pytest.mark.xfail(
-    reason="CMAESAlgorithm encounters singular matrix on ackley",
-    raises=np.linalg.LinAlgError,
-    strict=False,
-)
-
 # Optimizers that struggle with multimodal functions like shifted_ackley
-# They converge to local minima instead of the global optimum
+# BFGS, LBFGS, and NelderMead are gradient-based/local optimizers that inherently
+# converge to local minima on multimodal functions. This is expected behavior.
+# They work well on unimodal functions but require multiple restarts or hybrid
+# approaches for reliable global optimization on multimodal problems.
 LOCAL_MINIMA_PRONE_OPTIMIZERS = [
     pytest.param(
         BFGS,
         marks=pytest.mark.xfail(
-            reason="BFGS converges to local minimum on multimodal shifted_ackley",
+            reason="BFGS is a local optimizer that converges to local minima on multimodal functions. "
+            "This is expected behavior for gradient-based methods. Use global optimizers "
+            "(e.g., PSO, DE) for multimodal problems.",
             strict=False,
         ),
     ),
     pytest.param(
         LBFGS,
         marks=pytest.mark.xfail(
-            reason="LBFGS converges to local minimum on multimodal shifted_ackley",
+            reason="LBFGS is a local optimizer that converges to local minima on multimodal functions. "
+            "This is expected behavior for gradient-based methods. Use global optimizers "
+            "(e.g., PSO, DE) for multimodal problems.",
             strict=False,
         ),
     ),
     pytest.param(
         NelderMead,
         marks=pytest.mark.xfail(
-            reason="NelderMead converges to local minimum on multimodal shifted_ackley",
-            strict=False,
-        ),
-    ),
-    pytest.param(
-        GreyWolfOptimizer,
-        marks=pytest.mark.xfail(
-            reason="GreyWolfOptimizer has convergence issues on shifted_ackley",
+            reason="NelderMead is a local optimizer that converges to local minima on multimodal functions. "
+            "This is expected behavior for derivative-free local search. Use global optimizers "
+            "(e.g., PSO, DE) for multimodal problems.",
             strict=False,
         ),
     ),
@@ -367,13 +363,6 @@ class TestOptimizerQuality:
         medium_benchmark: BenchmarkFunction,
     ) -> None:
         """Test high-performance optimizers on medium difficulty functions."""
-        # CMAESAlgorithm has singular matrix issues on ackley
-        if (
-            optimizer_class.__name__ == "CMAESAlgorithm"
-            and medium_benchmark.name == "Ackley"
-        ):
-            pytest.xfail("CMAESAlgorithm encounters singular matrix on ackley")
-
         optimizer = optimizer_class(
             func=medium_benchmark.func,
             lower_bound=medium_benchmark.lower_bound,

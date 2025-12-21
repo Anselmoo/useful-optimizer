@@ -47,7 +47,12 @@ import numpy as np
 from scipy.optimize import approx_fprime
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
+from opt.constants import ADAMW_LEARNING_RATE
+from opt.constants import ADAMW_WEIGHT_DECAY
+from opt.constants import ADAM_BETA1
+from opt.constants import ADAM_BETA2
+from opt.constants import ADAM_EPSILON
+from opt.constants import DEFAULT_MAX_ITERATIONS
 
 
 if TYPE_CHECKING:
@@ -102,12 +107,12 @@ class AdamW(AbstractOptimizer):
         lower_bound: float,
         upper_bound: float,
         dim: int,
-        max_iter: int = 1000,
-        learning_rate: float = 0.001,
-        beta1: float = 0.9,
-        beta2: float = 0.999,
-        epsilon: float = 1e-8,
-        weight_decay: float = 0.01,
+        max_iter: int = DEFAULT_MAX_ITERATIONS,
+        learning_rate: float = ADAMW_LEARNING_RATE,
+        beta1: float = ADAM_BETA1,
+        beta2: float = ADAM_BETA2,
+        epsilon: float = ADAM_EPSILON,
+        weight_decay: float = ADAMW_WEIGHT_DECAY,
         seed: int | None = None,
     ) -> None:
         """Initialize the AdamW optimizer."""
@@ -192,9 +197,6 @@ class AdamW(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    optimizer = AdamW(
-        func=shifted_ackley, lower_bound=-2.768, upper_bound=+2.768, dim=2
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution: {best_solution}")
-    print(f"Best fitness: {best_fitness}")
+    from opt.demo import run_demo
+
+    run_demo(AdamW)

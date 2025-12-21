@@ -37,7 +37,6 @@ from __future__ import annotations
 import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 
 
 class GreyWolfOptimizer(AbstractOptimizer):
@@ -90,35 +89,48 @@ class GreyWolfOptimizer(AbstractOptimizer):
 
         """
         # Initialize population and fitness
-        population = np.random.default_rng(self.seed).uniform(
+        rng = np.random.default_rng(self.seed)
+        population = rng.uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.apply_along_axis(self.func, 1, population)
 
-        # Initialize alpha, beta, and delta wolves
-        alpha = beta = delta = population[np.argmin(fitness)]
+        # Initialize alpha, beta, and delta wolves (top 3 solutions)
+        sorted_indices = np.argsort(fitness)
+        alpha = population[sorted_indices[0]].copy()
+        beta = population[sorted_indices[1]].copy()
+        delta = population[sorted_indices[2]].copy()
 
         # Main loop
         for iter_count in range(self.max_iter):
-            self.seed += 1
-            a = 2 - iter_count * ((2) / self.max_iter)  # Linearly decreasing a
+            a = 2 - iter_count * (2 / self.max_iter)  # Linearly decreasing a
 
             for i in range(self.population_size):
-                self.seed += 1
-                # Compute distances to alpha, beta, and delta
-                dist_alpha = abs(alpha - population[i])
-                dist_beta = abs(beta - population[i])
-                dist_delta = abs(delta - population[i])
+                # Random coefficients for alpha
+                r1 = rng.random(self.dim)
 
-                # Compute hunting (searching) behavior
-                x1 = alpha - a * dist_alpha
-                x2 = beta - a * dist_beta
-                x3 = delta - a * dist_delta
+                # Coefficient vectors A and C for alpha
+                A1 = 2 * a * r1 - a
+                C1 = 2 * rng.random(self.dim)
+                D_alpha = np.abs(C1 * alpha - population[i])
+                X1 = alpha - A1 * D_alpha
 
-                # Update position
-                population[i] = (x1 + x2 + x3) / 3 + np.random.default_rng(
-                    self.seed
-                ).random() * (x1 + x2 + x3) / 3
+                # Coefficient vectors A and C for beta
+                r1 = rng.random(self.dim)
+                A2 = 2 * a * r1 - a
+                C2 = 2 * rng.random(self.dim)
+                D_beta = np.abs(C2 * beta - population[i])
+                X2 = beta - A2 * D_beta
+
+                # Coefficient vectors A and C for delta
+                r1 = rng.random(self.dim)
+                A3 = 2 * a * r1 - a
+                C3 = 2 * rng.random(self.dim)
+                D_delta = np.abs(C3 * delta - population[i])
+                X3 = delta - A3 * D_delta
+
+                # Update position (average of three positions)
+                population[i] = (X1 + X2 + X3) / 3
 
                 # Ensure the position stays within the bounds
                 population[i] = np.clip(
@@ -130,9 +142,9 @@ class GreyWolfOptimizer(AbstractOptimizer):
 
             # Update alpha, beta, and delta wolves
             sorted_indices = np.argsort(fitness)
-            alpha = population[sorted_indices[0]]
-            beta = population[sorted_indices[1]]
-            delta = population[sorted_indices[2]]
+            alpha = population[sorted_indices[0]].copy()
+            beta = population[sorted_indices[1]].copy()
+            delta = population[sorted_indices[2]].copy()
 
         # Get best solution
         best_solution = alpha
@@ -142,9 +154,6 @@ class GreyWolfOptimizer(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    optimizer = GreyWolfOptimizer(
-        shifted_ackley, dim=2, lower_bound=-2.768, upper_bound=+2.768
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution found: {best_solution}")
-    print(f"Best fitness found: {best_fitness}")
+    from opt.demo import run_demo
+
+    run_demo(GreyWolfOptimizer)

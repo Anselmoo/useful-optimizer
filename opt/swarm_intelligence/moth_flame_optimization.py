@@ -45,7 +45,6 @@ from opt.abstract_optimizer import AbstractOptimizer
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-from opt.benchmark.functions import shifted_ackley
 
 
 class MothFlameOptimizer(AbstractOptimizer):
@@ -199,15 +198,6 @@ class MothFlameOptimizer(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    # Test with shifted Ackley function
-    optimizer = MothFlameOptimizer(
-        func=shifted_ackley,
-        lower_bound=-2.768,
-        upper_bound=2.768,
-        dim=2,
-        population_size=30,
-        max_iter=500,
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution found: {best_solution}")
-    print(f"Best fitness found: {best_fitness}")
+    from opt.demo import run_demo
+
+    run_demo(MothFlameOptimizer)
