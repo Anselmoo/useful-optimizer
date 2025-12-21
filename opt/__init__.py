@@ -56,6 +56,7 @@ from opt.gradient_based import RMSprop
 from opt.gradient_based import SGDMomentum
 
 # Metaheuristic algorithms
+from opt.metaheuristic import ArithmeticOptimizationAlgorithm
 from opt.metaheuristic import CollidingBodiesOptimization
 from opt.metaheuristic import CrossEntropyMethod
 from opt.metaheuristic import EagleStrategy
@@ -72,6 +73,7 @@ from opt.metaheuristic import VeryLargeScaleNeighborhood
 # Multi-objective algorithms (additional)
 from opt.multi_objective import MOEAD
 from opt.multi_objective import NSGAII
+from opt.multi_objective import SPEA2
 
 # Multi-objective algorithms
 from opt.multi_objective import AbstractMultiObjectiveOptimizer
@@ -103,14 +105,17 @@ from opt.swarm_intelligence import CatSwarmOptimization
 from opt.swarm_intelligence import CuckooSearch
 from opt.swarm_intelligence import DragonflyOptimizer
 from opt.swarm_intelligence import FireflyAlgorithm
+from opt.swarm_intelligence import FlowerPollinationAlgorithm
 from opt.swarm_intelligence import GlowwormSwarmOptimization
 from opt.swarm_intelligence import GrasshopperOptimizer
 from opt.swarm_intelligence import GreyWolfOptimizer
 from opt.swarm_intelligence import HarrisHawksOptimizer
+from opt.swarm_intelligence import MantaRayForagingOptimization
 from opt.swarm_intelligence import MarinePredatorsOptimizer
 from opt.swarm_intelligence import MothFlameOptimizer
 from opt.swarm_intelligence import ParticleSwarm
 from opt.swarm_intelligence import SalpSwarmOptimizer
+from opt.swarm_intelligence import SpottedHyenaOptimizer
 from opt.swarm_intelligence import SquirrelSearchAlgorithm
 from opt.swarm_intelligence import WhaleOptimizationAlgorithm
 
@@ -124,13 +129,14 @@ __all__: list[str] = [
     # Multi-objective
     "MOEAD",
     "NSGAII",
-    # Gradient-based
     "SGD",
+    "SPEA2",
+    # Gradient-based
     "ADAGrad",
     "ADAMOptimization",
     "AMSGrad",
-    "AbstractMultiObjectiveOptimizer",
     # Base class
+    "AbstractMultiObjectiveOptimizer",
     "AbstractOptimizer",
     "AdaDelta",
     "AdaMax",
@@ -140,6 +146,8 @@ __all__: list[str] = [
     "AntColony",
     "AntLionOptimizer",
     "AquilaOptimizer",
+    # Metaheuristic
+    "ArithmeticOptimizationAlgorithm",
     "ArtificialFishSwarm",
     "ArtificialGorillaTroopsOptimizer",
     # Physics-inspired
@@ -151,7 +159,6 @@ __all__: list[str] = [
     # Evolutionary
     "CMAESAlgorithm",
     "CatSwarmOptimization",
-    # Metaheuristic
     "CollidingBodiesOptimization",
     "ConjugateGradient",
     "CrossEntropyMethod",
@@ -163,6 +170,7 @@ __all__: list[str] = [
     "EquilibriumOptimizer",
     "EstimationOfDistributionAlgorithm",
     "FireflyAlgorithm",
+    "FlowerPollinationAlgorithm",
     "GeneticAlgorithm",
     "GlowwormSwarmOptimization",
     "GrasshopperOptimizer",
@@ -174,6 +182,7 @@ __all__: list[str] = [
     "ImperialistCompetitiveAlgorithm",
     # Probabilistic
     "LDAnalysis",
+    "MantaRayForagingOptimization",
     "MarinePredatorsOptimizer",
     "MothFlameOptimizer",
     "Nadam",
@@ -189,6 +198,7 @@ __all__: list[str] = [
     "ShuffledFrogLeapingAlgorithm",
     "SimulatedAnnealing",
     "SineCosineAlgorithm",
+    "SpottedHyenaOptimizer",
     "SquirrelSearchAlgorithm",
     "StochasticDiffusionSearch",
     "StochasticFractalSearch",

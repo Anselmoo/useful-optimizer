@@ -22,14 +22,17 @@ from opt.swarm_intelligence.cat_swarm_optimization import CatSwarmOptimization
 from opt.swarm_intelligence.cuckoo_search import CuckooSearch
 from opt.swarm_intelligence.dragonfly_algorithm import DragonflyOptimizer
 from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
+from opt.swarm_intelligence.flower_pollination import FlowerPollinationAlgorithm
 from opt.swarm_intelligence.glowworm_swarm_optimization import GlowwormSwarmOptimization
 from opt.swarm_intelligence.grasshopper_optimization import GrasshopperOptimizer
 from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
 from opt.swarm_intelligence.harris_hawks_optimization import HarrisHawksOptimizer
+from opt.swarm_intelligence.manta_ray import MantaRayForagingOptimization
 from opt.swarm_intelligence.marine_predators_algorithm import MarinePredatorsOptimizer
 from opt.swarm_intelligence.moth_flame_optimization import MothFlameOptimizer
 from opt.swarm_intelligence.particle_swarm import ParticleSwarm
 from opt.swarm_intelligence.salp_swarm_algorithm import SalpSwarmOptimizer
+from opt.swarm_intelligence.spotted_hyena import SpottedHyenaOptimizer
 from opt.swarm_intelligence.squirrel_search import SquirrelSearchAlgorithm
 from opt.swarm_intelligence.whale_optimization_algorithm import (
     WhaleOptimizationAlgorithm,
@@ -49,14 +52,17 @@ __all__: list[str] = [
     "CuckooSearch",
     "DragonflyOptimizer",
     "FireflyAlgorithm",
+    "FlowerPollinationAlgorithm",
     "GlowwormSwarmOptimization",
     "GrasshopperOptimizer",
     "GreyWolfOptimizer",
     "HarrisHawksOptimizer",
+    "MantaRayForagingOptimization",
     "MarinePredatorsOptimizer",
     "MothFlameOptimizer",
     "ParticleSwarm",
     "SalpSwarmOptimizer",
+    "SpottedHyenaOptimizer",
     "SquirrelSearchAlgorithm",
     "WhaleOptimizationAlgorithm",
 ]
