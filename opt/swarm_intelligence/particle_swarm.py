@@ -80,6 +80,7 @@ class ParticleSwarm(AbstractOptimizer):
         c2: float = 1.5,
         w: float = 0.5,
         seed: int | None = None,
+        track_history: bool = False,
     ) -> None:
         """Initialize the ParticleSwarm class.
 
@@ -94,6 +95,7 @@ class ParticleSwarm(AbstractOptimizer):
             c2 (float, optional): The social parameter (default: 1.5).
             w (float, optional): The inertia weight (default: 0.5).
             seed (int | None, optional): The seed for the random number generator (default: None).
+            track_history (bool, optional): Whether to track optimization history for visualization (default: False).
         """
         super().__init__(
             func=func,
@@ -103,6 +105,7 @@ class ParticleSwarm(AbstractOptimizer):
             max_iter=max_iter,
             seed=seed,
             population_size=population_size,
+            track_history=track_history,
         )
         self.c1 = c1
         self.c2 = c2
@@ -129,6 +132,13 @@ class ParticleSwarm(AbstractOptimizer):
 
         # Main loop
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self.history["best_fitness"].append(float(best_fitness))
+                self.history["best_solution"].append(best_position.copy())
+                self.history["population_fitness"].append(fitness.copy())
+                self.history["population"].append(population.copy())
+
             self.seed += 1
             # Update velocity
             r1 = np.random.default_rng(self.seed + 1).random(
@@ -157,6 +167,13 @@ class ParticleSwarm(AbstractOptimizer):
             if fitness[best_index] < best_fitness:
                 best_position = population[best_index]
                 best_fitness = fitness[best_index]
+
+        # Track final state
+        if self.track_history:
+            self.history["best_fitness"].append(float(best_fitness))
+            self.history["best_solution"].append(best_position.copy())
+            self.history["population_fitness"].append(fitness.copy())
+            self.history["population"].append(population.copy())
 
         return best_position, best_fitness
 
