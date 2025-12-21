@@ -97,7 +97,11 @@ class StabilityResults:
         print(f"Median fitness: {stats['median']:.6f}")
         print(f"Q25 fitness:    {stats['q25']:.6f}")
         print(f"Q75 fitness:    {stats['q75']:.6f}")
-        print(f"CV (std/mean):  {stats['std'] / stats['mean']:.4f}" if stats["mean"] != 0 else "CV: N/A")
+        if stats["mean"] != 0:
+            cv = stats["std"] / stats["mean"]
+            print(f"CV (std/mean):  {cv:.4f}")
+        else:
+            print("CV: N/A")
         print("=" * 60)
 
     def plot_boxplot(
@@ -414,7 +418,9 @@ def compare_optimizers_stability(
 
     # Customize colors
     colors = plt.cm.Set3(np.linspace(0, 1, len(optimizer_classes)))
-    for patch, color in zip(bp["boxes"], colors, strict=True):
+    # Python 3.10+ supports strict parameter, but we ensure equal lengths
+    assert len(bp["boxes"]) == len(colors)
+    for patch, color in zip(bp["boxes"], colors):
         patch.set_facecolor(color)
         patch.set_alpha(0.7)
 
