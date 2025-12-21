@@ -17,6 +17,10 @@ dev = [
 visualization = [
     "matplotlib>=3.7.0",
 ]
+benchmark = [
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+]
 
 [build-system]
 requires = ["hatchling"]
@@ -121,7 +125,9 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 "opt/visualization/*" = ["FBT001", "FBT002", "FBT003", "PLC0415", "PLR2004", "ANN003", "S101", "B905"]
 "opt/abstract_optimizer.py" = ["FBT001", "FBT002"]
 "opt/swarm_intelligence/particle_swarm.py" = ["FBT001", "FBT002"]
+"benchmarks/*" = ["PERF203", "S101", "ANN001", "ANN201", "ANN003"]
 "opt/demo.py" = ["TC002", "ANN401"]
+
 
 
 [tool.ruff.lint.pydocstyle]
