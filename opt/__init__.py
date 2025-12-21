@@ -102,12 +102,14 @@ from opt.swarm_intelligence import ArtificialGorillaTroopsOptimizer
 from opt.swarm_intelligence import BatAlgorithm
 from opt.swarm_intelligence import BeeAlgorithm
 from opt.swarm_intelligence import CatSwarmOptimization
+from opt.swarm_intelligence import ChimpOptimizationAlgorithm
 from opt.swarm_intelligence import CuckooSearch
 from opt.swarm_intelligence import DragonflyOptimizer
 from opt.swarm_intelligence import EmperorPenguinOptimizer
 from opt.swarm_intelligence import FireflyAlgorithm
 from opt.swarm_intelligence import FlowerPollinationAlgorithm
 from opt.swarm_intelligence import GlowwormSwarmOptimization
+from opt.swarm_intelligence import GoldenEagleOptimizer
 from opt.swarm_intelligence import GrasshopperOptimizer
 from opt.swarm_intelligence import GreyWolfOptimizer
 from opt.swarm_intelligence import HarrisHawksOptimizer
@@ -119,6 +121,7 @@ from opt.swarm_intelligence import PathfinderAlgorithm
 from opt.swarm_intelligence import ReptileSearchAlgorithm
 from opt.swarm_intelligence import SalpSwarmOptimizer
 from opt.swarm_intelligence import SeagullOptimizationAlgorithm
+from opt.swarm_intelligence import SlimeMouldAlgorithm
 from opt.swarm_intelligence import SpottedHyenaOptimizer
 from opt.swarm_intelligence import SquirrelSearchAlgorithm
 from opt.swarm_intelligence import TunicateSwarmAlgorithm
@@ -164,6 +167,7 @@ __all__: list[str] = [
     # Evolutionary
     "CMAESAlgorithm",
     "CatSwarmOptimization",
+    "ChimpOptimizationAlgorithm",
     "CollidingBodiesOptimization",
     "ConjugateGradient",
     "CrossEntropyMethod",
@@ -179,6 +183,7 @@ __all__: list[str] = [
     "FlowerPollinationAlgorithm",
     "GeneticAlgorithm",
     "GlowwormSwarmOptimization",
+    "GoldenEagleOptimizer",
     "GrasshopperOptimizer",
     "GravitationalSearchOptimizer",
     "GreyWolfOptimizer",
@@ -207,6 +212,7 @@ __all__: list[str] = [
     "ShuffledFrogLeapingAlgorithm",
     "SimulatedAnnealing",
     "SineCosineAlgorithm",
+    "SlimeMouldAlgorithm",
     "SpottedHyenaOptimizer",
     "SquirrelSearchAlgorithm",
     "StochasticDiffusionSearch",
