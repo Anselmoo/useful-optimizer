@@ -160,6 +160,13 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
+# Visualization examples output
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+
 # General
 .DS_Store
 .AppleDouble
