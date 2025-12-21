@@ -101,7 +101,7 @@ class BatAlgorithm(AbstractOptimizer):
         >>> from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = BatAlgorithm(
-        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, n_bats=10, max_iter=10
         ... )
         >>> solution, fitness = optimizer.search()
         >>> float(fitness) < 100.0  # Should find a reasonable solution
@@ -114,6 +114,7 @@ class BatAlgorithm(AbstractOptimizer):
         ...     dim=2,
         ...     lower_bound=-2.768,
         ...     upper_bound=2.768,
+        ...     n_bats=10,
         ...     max_iter=10
         ... )
         >>> _, fitness = optimizer.search()
