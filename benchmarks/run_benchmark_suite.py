@@ -30,27 +30,26 @@ if TYPE_CHECKING:
 
 # Import optimizers from different categories
 # Swarm Intelligence
-from opt.swarm_intelligence.particle_swarm import ParticleSwarm
-from opt.swarm_intelligence.ant_colony import AntColony
-from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
-from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
-from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
-
-# Evolutionary
-from opt.evolutionary.genetic_algorithm import GeneticAlgorithm
-from opt.evolutionary.differential_evolution import DifferentialEvolution
-
-# Metaheuristic
-from opt.metaheuristic.harmony_search import HarmonySearch
-
 # Classical
 from opt.classical.hill_climbing import HillClimbing
 from opt.classical.nelder_mead import NelderMead
 from opt.classical.simulated_annealing import SimulatedAnnealing
+from opt.evolutionary.differential_evolution import DifferentialEvolution
+
+# Evolutionary
+from opt.evolutionary.genetic_algorithm import GeneticAlgorithm
 
 # Gradient-based (for comparison)
 from opt.gradient_based.adamw import AdamW
 from opt.gradient_based.sgd_momentum import SGDMomentum
+
+# Metaheuristic
+from opt.metaheuristic.harmony_search import HarmonySearch
+from opt.swarm_intelligence.ant_colony import AntColony
+from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
+from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
+from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
+from opt.swarm_intelligence.particle_swarm import ParticleSwarm
 
 
 # Configuration
