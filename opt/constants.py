@@ -12,6 +12,7 @@ Constants are organized into categories:
 
 from __future__ import annotations
 
+import numpy as np
 
 # =============================================================================
 # Population and Iteration Defaults
