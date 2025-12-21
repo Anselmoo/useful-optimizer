@@ -8,6 +8,11 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
+from opt.constants import DEFAULT_MAX_ITERATIONS
+from opt.constants import DEFAULT_POPULATION_SIZE
+from opt.constants import DEFAULT_SEED
+from opt.constants import POWER_THIRTY_TWO
+
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -52,9 +57,9 @@ class AbstractOptimizer(ABC):
         lower_bound: float,
         upper_bound: float,
         dim: int,
-        max_iter: int = 1000,
+        max_iter: int = DEFAULT_MAX_ITERATIONS,
         seed: int | None = None,
-        population_size: int = 100,
+        population_size: int = DEFAULT_POPULATION_SIZE,
         track_history: bool = False,
     ) -> None:
         """Initialize the optimizer."""
@@ -64,7 +69,9 @@ class AbstractOptimizer(ABC):
         self.dim = dim
         self.max_iter = max_iter
         if seed is None:
-            self.seed = np.random.default_rng(42).integers(0, 2**32)
+            self.seed = np.random.default_rng(DEFAULT_SEED).integers(
+                0, POWER_THIRTY_TWO**2
+            )
         else:
             self.seed = seed
         self.population_size = population_size

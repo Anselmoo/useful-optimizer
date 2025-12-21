@@ -48,6 +48,11 @@ from scipy.optimize import approx_fprime
 
 from opt.abstract_optimizer import AbstractOptimizer
 from opt.benchmark.functions import shifted_ackley
+from opt.constants import ADAM_BETA1
+from opt.constants import ADAM_BETA2
+from opt.constants import ADAM_EPSILON
+from opt.constants import DEFAULT_MAX_ITERATIONS
+from opt.constants import NADAM_LEARNING_RATE
 
 
 if TYPE_CHECKING:
@@ -78,11 +83,11 @@ class Nadam(AbstractOptimizer):
         lower_bound: float,
         upper_bound: float,
         dim: int,
-        max_iter: int = 1000,
-        learning_rate: float = 0.002,
-        beta1: float = 0.9,
-        beta2: float = 0.999,
-        epsilon: float = 1e-8,
+        max_iter: int = DEFAULT_MAX_ITERATIONS,
+        learning_rate: float = NADAM_LEARNING_RATE,
+        beta1: float = ADAM_BETA1,
+        beta2: float = ADAM_BETA2,
+        epsilon: float = ADAM_EPSILON,
         seed: int | None = None,
     ) -> None:
         """Initialize the Nadam optimizer."""
