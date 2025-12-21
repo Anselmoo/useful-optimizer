@@ -67,7 +67,7 @@ class NelderMead(AbstractOptimizer):
         upper_bound: float,
         dim: int,
         max_iter: int = 1000,
-        num_restarts: int = 10,
+        num_restarts: int = 25,
         seed: int | None = None,
     ) -> None:
         """Initialize the Nelder-Mead optimizer."""

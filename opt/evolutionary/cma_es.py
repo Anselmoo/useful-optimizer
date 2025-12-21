@@ -94,9 +94,8 @@ class CMAESAlgorithm(AbstractOptimizer):
             Tuple[np.ndarray, float]: A tuple containing the best solution found and its corresponding fitness value.
         """
         # Initialize mean and covariance matrix
-        mean = np.random.default_rng(self.seed).uniform(
-            self.lower_bound, self.upper_bound, self.dim
-        )
+        rng = np.random.default_rng(self.seed)
+        mean = rng.uniform(self.lower_bound, self.upper_bound, self.dim)
         cov = np.eye(self.dim)
 
         # Initialize evolution paths
@@ -117,11 +116,22 @@ class CMAESAlgorithm(AbstractOptimizer):
         damps = 1 + 2 * max(0, np.sqrt((mu_eff - 1) / (self.dim + 1)) - 1) + cs
 
         h_sigma_threshold = 1.4
-        for _ in range(self.max_iter):
+        regularization = 1e-8  # Small regularization for numerical stability
+        
+        for iteration in range(self.max_iter):
             # Sample new solutions
-            solutions = np.random.default_rng(self.seed + 1).multivariate_normal(
-                mean, self.sigma**2 * cov, self.population_size
-            )
+            try:
+                # Add regularization to ensure positive definite covariance
+                cov_regularized = cov + regularization * np.eye(self.dim)
+                solutions = rng.multivariate_normal(
+                    mean, self.sigma**2 * cov_regularized, self.population_size
+                )
+            except np.linalg.LinAlgError:
+                # If sampling fails, reinitialize covariance matrix
+                cov = np.eye(self.dim)
+                solutions = rng.multivariate_normal(
+                    mean, self.sigma**2 * cov, self.population_size
+                )
 
             # Evaluate solutions
             fitness = np.apply_along_axis(self.func, 1, solutions)
@@ -132,12 +142,18 @@ class CMAESAlgorithm(AbstractOptimizer):
             mean = np.dot(weights, solutions[indices[:mu]])
 
             # Update evolution paths
+            try:
+                cov_sqrt_inv = np.linalg.inv(sqrtm(cov_regularized))
+            except np.linalg.LinAlgError:
+                # Fallback: use regularized inverse
+                cov_sqrt_inv = np.linalg.inv(sqrtm(cov + regularization * 10 * np.eye(self.dim)))
+                
             p_sigma = (1 - cs) * p_sigma + np.sqrt(cs * (2 - cs) * mu_eff) * np.dot(
-                np.linalg.inv(sqrtm(cov)), (mean - mean_old) / self.sigma
+                cov_sqrt_inv, (mean - mean_old) / self.sigma
             )
             h_sigma = (
                 np.linalg.norm(p_sigma)
-                / np.sqrt(1 - (1 - cs) ** (2 * (_ + 1)))
+                / np.sqrt(1 - (1 - cs) ** (2 * (iteration + 1)))
                 / np.sqrt(self.dim)
                 < h_sigma_threshold
             )
@@ -152,6 +168,9 @@ class CMAESAlgorithm(AbstractOptimizer):
                 + c1 * (np.outer(p_c, p_c) + (1 - h_sigma) * cc * (2 - cc) * cov)
                 + cmu * np.dot(artmp.T, np.dot(np.diag(weights), artmp))
             )
+            
+            # Ensure covariance matrix remains symmetric
+            cov = (cov + cov.T) / 2
 
             # Adapt step size
             self.sigma *= np.exp(
@@ -160,11 +179,6 @@ class CMAESAlgorithm(AbstractOptimizer):
 
             # Prevent sigma from becoming too small
             self.sigma = max(self.sigma, self.epsilon)
-
-            # Adapt step size
-            self.sigma *= np.exp(
-                (cs / damps) * (np.linalg.norm(p_sigma) / np.sqrt(self.dim) - 1)
-            )
 
         best_solution = mean
         best_fitness = self.func(best_solution)
