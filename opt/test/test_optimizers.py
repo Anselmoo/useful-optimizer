@@ -18,6 +18,8 @@ from opt import AdamW
 from opt import AntColony
 from opt import ArtificialFishSwarm
 from opt import AugmentedLagrangian
+from opt import BatAlgorithm
+from opt import BeeAlgorithm
 from opt import CMAESAlgorithm
 from opt import CatSwarmOptimization
 from opt import CollidingBodiesOptimization
@@ -66,8 +68,8 @@ from opt.benchmark.functions import sphere
 SWARM_OPTIMIZERS = [
     AntColony,
     ArtificialFishSwarm,
-    # BatAlgorithm,  # Requires n_bats parameter
-    # BeeAlgorithm,  # Has issues with search
+    # BatAlgorithm excluded - requires n_bats parameter (tested separately)
+    BeeAlgorithm,
     CatSwarmOptimization,
     CuckooSearch,
     FireflyAlgorithm,
@@ -299,6 +301,37 @@ class TestOptimizerSearch:
         assert isinstance(solution, np.ndarray)
         assert isinstance(fitness, float)
         assert solution.shape == (2,)
+
+
+class TestSpecialOptimizers:
+    """Tests for optimizers with special parameter requirements."""
+
+    def test_bat_algorithm_with_n_bats(self) -> None:
+        """Test BatAlgorithm with required n_bats parameter."""
+        optimizer = BatAlgorithm(
+            func=shifted_ackley,
+            lower_bound=-2.768,
+            upper_bound=2.768,
+            dim=2,
+            n_bats=10,
+            max_iter=20,
+        )
+        solution, fitness = optimizer.search()
+        assert isinstance(solution, np.ndarray)
+        assert isinstance(fitness, float)
+        assert solution.shape == (2,)
+
+    def test_bat_algorithm_instantiation(self) -> None:
+        """Test that BatAlgorithm can be instantiated with n_bats parameter."""
+        optimizer = BatAlgorithm(
+            func=sphere, lower_bound=-5, upper_bound=5, dim=2, n_bats=5, max_iter=10
+        )
+        assert optimizer is not None
+        assert optimizer.func == sphere
+        assert optimizer.lower_bound == -5
+        assert optimizer.upper_bound == 5
+        assert optimizer.dim == 2
+        assert optimizer.max_iter == 10
 
 
 class TestBenchmarkFunctions:
