@@ -47,7 +47,6 @@ import numpy as np
 from scipy.optimize import approx_fprime
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 from opt.constants import ADAM_BETA1
 from opt.constants import ADAM_BETA2
 from opt.constants import ADAM_EPSILON

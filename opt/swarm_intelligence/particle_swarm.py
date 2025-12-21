@@ -30,7 +30,6 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 from opt.constants import DEFAULT_MAX_ITERATIONS
 from opt.constants import DEFAULT_POPULATION_SIZE
 from opt.constants import PSO_COGNITIVE_COEFFICIENT

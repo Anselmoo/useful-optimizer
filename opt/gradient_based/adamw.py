@@ -47,14 +47,12 @@ import numpy as np
 from scipy.optimize import approx_fprime
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 from opt.constants import ADAMW_LEARNING_RATE
 from opt.constants import ADAMW_WEIGHT_DECAY
 from opt.constants import ADAM_BETA1
 from opt.constants import ADAM_BETA2
 from opt.constants import ADAM_EPSILON
 from opt.constants import DEFAULT_MAX_ITERATIONS
-
 
 
 if TYPE_CHECKING:
