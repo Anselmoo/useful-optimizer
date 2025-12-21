@@ -52,40 +52,40 @@ class TestVisualizer:
         pso.search()
         return pso
 
-    def test_visualizer_initialization(self, optimizer_with_history):
+    def test_visualizer_initialization(self, optimizer_with_history) -> None:
         """Test that Visualizer initializes correctly with history."""
         viz = Visualizer(optimizer_with_history)
         assert viz.optimizer == optimizer_with_history
         assert viz.history == optimizer_with_history.history
         assert len(viz.history["best_fitness"]) > 0
 
-    def test_visualizer_without_history_raises_error(self, optimizer_without_history):
+    def test_visualizer_without_history_raises_error(self, optimizer_without_history) -> None:
         """Test that Visualizer raises error when history is not tracked."""
         with pytest.raises(ValueError, match="track_history=True"):
             Visualizer(optimizer_without_history)
 
-    def test_plot_convergence(self, optimizer_with_history):
+    def test_plot_convergence(self, optimizer_with_history) -> None:
         """Test convergence plot generation."""
         viz = Visualizer(optimizer_with_history)
         fig = viz.plot_convergence(show=False)
         assert fig is not None
         plt.close(fig)
 
-    def test_plot_convergence_log_scale(self, optimizer_with_history):
+    def test_plot_convergence_log_scale(self, optimizer_with_history) -> None:
         """Test convergence plot with log scale."""
         viz = Visualizer(optimizer_with_history)
         fig = viz.plot_convergence(log_scale=True, show=False)
         assert fig is not None
         plt.close(fig)
 
-    def test_plot_trajectory(self, optimizer_with_history):
+    def test_plot_trajectory(self, optimizer_with_history) -> None:
         """Test trajectory plot generation for 2D problems."""
         viz = Visualizer(optimizer_with_history)
         fig = viz.plot_trajectory(show=False)
         assert fig is not None
         plt.close(fig)
 
-    def test_plot_trajectory_non_2d_raises_error(self):
+    def test_plot_trajectory_non_2d_raises_error(self) -> None:
         """Test that trajectory plot raises error for non-2D problems."""
         from opt.benchmark.functions import sphere
 
@@ -104,27 +104,27 @@ class TestVisualizer:
         with pytest.raises(ValueError, match="2D problems"):
             viz.plot_trajectory(show=False)
 
-    def test_plot_average_fitness(self, optimizer_with_history):
+    def test_plot_average_fitness(self, optimizer_with_history) -> None:
         """Test average fitness plot generation."""
         viz = Visualizer(optimizer_with_history)
         fig = viz.plot_average_fitness(show=False)
         assert fig is not None
         plt.close(fig)
 
-    def test_plot_average_fitness_without_std(self, optimizer_with_history):
+    def test_plot_average_fitness_without_std(self, optimizer_with_history) -> None:
         """Test average fitness plot without std deviation bands."""
         viz = Visualizer(optimizer_with_history)
         fig = viz.plot_average_fitness(show_std=False, show=False)
         assert fig is not None
         plt.close(fig)
 
-    def test_plot_all_2d(self, optimizer_with_history):
+    def test_plot_all_2d(self, optimizer_with_history) -> None:
         """Test plot_all for 2D problems."""
         viz = Visualizer(optimizer_with_history)
         viz.plot_all(save_path="/tmp/test_plot_all_2d.png")
         plt.close("all")
 
-    def test_plot_all_3d(self):
+    def test_plot_all_3d(self) -> None:
         """Test plot_all for non-2D problems."""
         from opt.benchmark.functions import sphere
 
@@ -164,7 +164,7 @@ class TestStabilityResults:
             seeds=seeds,
         )
 
-    def test_stability_results_initialization(self, sample_results):
+    def test_stability_results_initialization(self, sample_results) -> None:
         """Test StabilityResults initialization."""
         assert sample_results.optimizer_name == "ParticleSwarm"
         assert sample_results.function_name == "shifted_ackley"
@@ -172,7 +172,7 @@ class TestStabilityResults:
         assert len(sample_results.fitness_values) == 3
         assert len(sample_results.seeds) == 3
 
-    def test_summary(self, sample_results):
+    def test_summary(self, sample_results) -> None:
         """Test summary statistics generation."""
         summary = sample_results.summary()
         assert "mean" in summary
@@ -185,7 +185,7 @@ class TestStabilityResults:
         assert summary["min"] == 0.01
         assert summary["max"] == 0.02
 
-    def test_print_summary(self, sample_results, capsys):
+    def test_print_summary(self, sample_results, capsys) -> None:
         """Test print_summary output."""
         sample_results.print_summary()
         captured = capsys.readouterr()
@@ -193,13 +193,13 @@ class TestStabilityResults:
         assert "ParticleSwarm" in captured.out
         assert "shifted_ackley" in captured.out
 
-    def test_plot_boxplot(self, sample_results):
+    def test_plot_boxplot(self, sample_results) -> None:
         """Test box plot generation."""
         fig = sample_results.plot_boxplot(show=False)
         assert fig is not None
         plt.close(fig)
 
-    def test_plot_histogram(self, sample_results):
+    def test_plot_histogram(self, sample_results) -> None:
         """Test histogram generation."""
         fig = sample_results.plot_histogram(show=False)
         assert fig is not None
@@ -209,7 +209,7 @@ class TestStabilityResults:
 class TestStabilityTesting:
     """Tests for stability testing functions."""
 
-    def test_run_stability_test_with_seeds(self):
+    def test_run_stability_test_with_seeds(self) -> None:
         """Test stability test with specific seeds."""
         results = run_stability_test(
             optimizer_class=ParticleSwarm,
@@ -228,7 +228,7 @@ class TestStabilityTesting:
         assert len(results.solutions) == 2
         assert results.seeds == [42, 123]
 
-    def test_run_stability_test_with_n_runs(self):
+    def test_run_stability_test_with_n_runs(self) -> None:
         """Test stability test with n_runs parameter."""
         results = run_stability_test(
             optimizer_class=ParticleSwarm,
@@ -246,7 +246,7 @@ class TestStabilityTesting:
         assert len(results.fitness_values) == 3
         assert len(results.solutions) == 3
 
-    def test_run_stability_test_reproducibility(self):
+    def test_run_stability_test_reproducibility(self) -> None:
         """Test that same seeds produce same results."""
         results1 = run_stability_test(
             optimizer_class=ParticleSwarm,
@@ -279,7 +279,7 @@ class TestStabilityTesting:
 class TestHistoryTracking:
     """Tests for history tracking in optimizers."""
 
-    def test_particle_swarm_tracks_history(self):
+    def test_particle_swarm_tracks_history(self) -> None:
         """Test that ParticleSwarm correctly tracks history."""
         pso = ParticleSwarm(
             func=shifted_ackley,
@@ -299,7 +299,7 @@ class TestHistoryTracking:
         assert len(pso.history["population_fitness"]) == 11
         assert len(pso.history["population"]) == 11
 
-    def test_particle_swarm_no_history_by_default(self):
+    def test_particle_swarm_no_history_by_default(self) -> None:
         """Test that ParticleSwarm doesn't track history by default."""
         pso = ParticleSwarm(
             func=shifted_ackley,
