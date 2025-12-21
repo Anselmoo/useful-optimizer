@@ -21,6 +21,11 @@ benchmark = [
     "matplotlib>=3.7.0",
     "seaborn>=0.12.0",
 ]
+docs = [
+    "zensical>=0.0.11",
+    "mkdocstrings[python]>=0.27",
+    "mkdocs-material>=9.6",
+]
 
 [build-system]
 requires = ["hatchling"]

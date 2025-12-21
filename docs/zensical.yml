@@ -1,0 +1,197 @@
+# Zensical configuration file (compatible with mkdocs.yml)
+# https://zensical.org/docs/
+
+site_name: Useful Optimizer
+site_url: https://anselmoo.github.io/useful-optimizer/
+site_description: A dedicated set of optimization algorithms for numeric problems
+site_author: Anselm Hahn
+repo_name: Anselmoo/useful-optimizer
+repo_url: https://github.com/Anselmoo/useful-optimizer
+edit_uri: edit/main/docs/
+
+# Copyright
+copyright: Copyright &copy; 2024-2025 Anselm Hahn
+
+# Theme configuration with Material Design 3 colors
+theme:
+  name: material
+  language: en
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: deep purple
+      accent: teal
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: deep purple
+      accent: teal
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.indexes
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+    - toc.follow
+  icon:
+    repo: fontawesome/brands/github
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
+
+# Plugins
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            members_order: source
+            separate_signature: true
+            signature_crossrefs: true
+            merge_init_into_class: true
+            show_if_no_docstring: false
+            annotations_path: brief
+            line_length: 88
+
+# Markdown extensions
+markdown_extensions:
+  # Python Markdown
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+  # Python Markdown Extensions
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: Anselmoo
+      repo: useful-optimizer
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+# Extra configuration
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Anselmoo/useful-optimizer
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/useful-optimizer/
+  version:
+    provider: mike
+
+# Extra CSS and JavaScript
+extra_css:
+  - assets/stylesheets/extra.css
+
+extra_javascript:
+  - assets/javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+
+# Navigation
+nav:
+  - Home: index.md
+  - Getting Started:
+      - guide/index.md
+      - Installation: guide/installation.md
+      - Quick Start: guide/quickstart.md
+      - Advanced Usage: guide/advanced.md
+  - Algorithms:
+      - algorithms/index.md
+      - Swarm Intelligence: algorithms/swarm-intelligence.md
+      - Evolutionary: algorithms/evolutionary.md
+      - Gradient-Based: algorithms/gradient-based.md
+      - Classical: algorithms/classical.md
+      - Metaheuristic: algorithms/metaheuristic.md
+      - Physics-Inspired: algorithms/physics-inspired.md
+      - Social-Inspired: algorithms/social-inspired.md
+      - Probabilistic: algorithms/probabilistic.md
+      - Constrained: algorithms/constrained.md
+      - Multi-Objective: algorithms/multi-objective.md
+  - API Reference:
+      - api/index.md
+      - Base Classes: api/base.md
+      - Swarm Intelligence: api/swarm-intelligence.md
+      - Evolutionary: api/evolutionary.md
+      - Gradient-Based: api/gradient-based.md
+      - Classical: api/classical.md
+      - Metaheuristic: api/metaheuristic.md
+      - Physics-Inspired: api/physics-inspired.md
+      - Social-Inspired: api/social-inspired.md
+      - Probabilistic: api/probabilistic.md
+      - Constrained: api/constrained.md
+      - Multi-Objective: api/multi-objective.md
+      - Benchmark Functions: api/benchmark-functions.md
+  - Benchmarks:
+      - benchmarks/index.md
+      - Methodology: benchmarks/methodology.md
+      - Results: benchmarks/results.md
+      - Functions: benchmarks/functions.md

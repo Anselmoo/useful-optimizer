@@ -91,7 +91,9 @@ class GeneticAlgorithm(AbstractOptimizer):
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
-    def _crossover(self, parent1: np.ndarray, parent2: np.ndarray, rng: np.random.Generator) -> np.ndarray:
+    def _crossover(
+        self, parent1: np.ndarray, parent2: np.ndarray, rng: np.random.Generator
+    ) -> np.ndarray:
         """Performs crossover between two parents to produce a child.
 
         Args:
@@ -105,7 +107,9 @@ class GeneticAlgorithm(AbstractOptimizer):
         r = rng.random(self.dim)
         return np.where(r < self.crossover_rate, parent1, parent2)
 
-    def _mutation(self, individual: np.ndarray, mutation_rate: float, rng: np.random.Generator) -> np.ndarray:
+    def _mutation(
+        self, individual: np.ndarray, mutation_rate: float, rng: np.random.Generator
+    ) -> np.ndarray:
         """Mutates an individual with a certain probability.
 
         Args:
@@ -118,11 +122,7 @@ class GeneticAlgorithm(AbstractOptimizer):
         """
         r = rng.random(self.dim)
         mutation_strength = rng.uniform(0.8, 1.2, self.dim)  # More moderate mutation
-        return np.where(
-            r < mutation_rate,
-            individual * mutation_strength,
-            individual,
-        )
+        return np.where(r < mutation_rate, individual * mutation_strength, individual)
 
     def _compute_mutation_rate(self, iteration: int) -> float:
         """Computes the mutation rate based on the current iteration.
@@ -135,7 +135,9 @@ class GeneticAlgorithm(AbstractOptimizer):
         """
         return 0.5 * (1 + np.sin(iteration / self.max_iter * np.pi - np.pi / 2))
 
-    def _selection(self, population: np.ndarray, fitness: np.ndarray, rng: np.random.Generator) -> np.ndarray:
+    def _selection(
+        self, population: np.ndarray, fitness: np.ndarray, rng: np.random.Generator
+    ) -> np.ndarray:
         """Selects an individual from the population based on fitness.
 
         The selection process is performed by converting the fitness values to probabilities,

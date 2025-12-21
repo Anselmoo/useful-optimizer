@@ -1,0 +1,61 @@
+/* Extra CSS for Useful Optimizer Documentation */
+/* Minimal customization - uses Material Design 3 built-in colors */
+
+/* Logo styling */
+.md-header__button.md-logo img {
+  max-height: 1.5rem;
+}
+
+/* Algorithm grid cards enhancement */
+.md-typeset .grid.cards > ul > li {
+  border-radius: 0.5rem;
+}
+
+/* Code block styling */
+.md-typeset pre > code {
+  border-radius: 0.25rem;
+}
+
+/* Table styling enhancements */
+.md-typeset table:not([class]) {
+  display: table;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+/* Admonition icons for algorithm categories */
+.md-typeset .admonition.algorithm,
+.md-typeset details.algorithm {
+  border-color: var(--md-accent-fg-color);
+}
+
+.md-typeset .algorithm > .admonition-title,
+.md-typeset .algorithm > summary {
+  background-color: var(--md-accent-fg-color--transparent);
+}
+
+/* Benchmark visualization placeholders */
+.benchmark-chart {
+  min-height: 400px;
+  border: 1px dashed var(--md-default-fg-color--light);
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0;
+}
+
+/* Print-friendly styles */
+@media print {
+  .md-header,
+  .md-sidebar,
+  .md-footer {
+    display: none;
+  }
+  
+  .md-content {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+}
