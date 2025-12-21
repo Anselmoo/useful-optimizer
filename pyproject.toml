@@ -121,6 +121,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 "opt/visualization/*" = ["FBT001", "FBT002", "FBT003", "PLC0415", "PLR2004", "ANN003", "S101", "B905"]
 "opt/abstract_optimizer.py" = ["FBT001", "FBT002"]
 "opt/swarm_intelligence/particle_swarm.py" = ["FBT001", "FBT002"]
+"opt/demo.py" = ["TC002", "ANN401"]
 
 
 [tool.ruff.lint.pydocstyle]

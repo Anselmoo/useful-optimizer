@@ -31,7 +31,6 @@ import numpy as np
 from scipy.linalg import sqrtm
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 
 
 if TYPE_CHECKING:
@@ -172,9 +171,6 @@ class CMAESAlgorithm(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    optimizer = CMAESAlgorithm(
-        func=shifted_ackley, dim=2, lower_bound=-12.768, upper_bound=12.768
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution: {best_solution}")
-    print(f"Best fitness: {best_fitness}")
+    from opt.demo import run_demo
+
+    run_demo(CMAESAlgorithm)
