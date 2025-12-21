@@ -146,7 +146,8 @@ class StabilityResults:
 
         # Add individual points
         y_points = self.fitness_values
-        x_points = np.random.normal(1, 0.04, size=len(y_points))
+        rng = np.random.default_rng(42)
+        x_points = rng.normal(1, 0.04, size=len(y_points))
         ax.scatter(x_points, y_points, alpha=0.5, color="darkblue", s=30, zorder=3)
 
         ax.set_ylabel("Best Fitness Value", fontsize=12)
