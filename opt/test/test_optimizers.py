@@ -673,3 +673,168 @@ class TestCategoricalImports:
         assert AdamW is not None
         assert BFGS is not None
         assert HarmonySearch is not None
+
+
+class TestSocialGroupOptimizerEnhancements:
+    """Tests for SocialGroupOptimizer enhanced features."""
+
+    def test_convergence_tracking_enabled(self) -> None:
+        """Test that convergence tracking records fitness history."""
+        optimizer = SocialGroupOptimizer(
+            func=sphere,
+            lower_bound=-5,
+            upper_bound=5,
+            dim=2,
+            max_iter=20,
+            track_convergence=True,
+        )
+        _solution, _fitness = optimizer.search()
+
+        # Check convergence history exists and has correct length
+        assert hasattr(optimizer, "convergence_history")
+        assert isinstance(optimizer.convergence_history, list)
+        # Should have initial + 20 iterations = 21 entries
+        assert len(optimizer.convergence_history) == 21
+        # All entries should be floats
+        assert all(isinstance(f, float) for f in optimizer.convergence_history)
+        # Fitness should be non-increasing (monotonic decrease or equal)
+        for i in range(1, len(optimizer.convergence_history)):
+            assert optimizer.convergence_history[i] <= optimizer.convergence_history[i - 1]
+
+    def test_convergence_tracking_disabled(self) -> None:
+        """Test that convergence tracking is disabled by default."""
+        optimizer = SocialGroupOptimizer(
+            func=sphere,
+            lower_bound=-5,
+            upper_bound=5,
+            dim=2,
+            max_iter=20,
+            track_convergence=False,
+        )
+        _solution, _fitness = optimizer.search()
+
+        # Convergence history should be empty when tracking is disabled
+        assert hasattr(optimizer, "convergence_history")
+        assert len(optimizer.convergence_history) == 0
+
+    def test_early_stopping_triggers(self) -> None:
+        """Test that early stopping triggers when improvement stalls."""
+        # Use a function that converges quickly (sphere at origin)
+        optimizer = SocialGroupOptimizer(
+            func=sphere,
+            lower_bound=-1,
+            upper_bound=1,
+            dim=2,
+            max_iter=100,
+            early_stopping=True,
+            tolerance=1e-6,
+            patience=5,
+            track_convergence=True,
+        )
+        _solution, _fitness = optimizer.search()
+
+        # Should stop early (not run all 100 iterations)
+        # Convergence history length should be less than max_iter + 1
+        assert len(optimizer.convergence_history) < 101
+
+    def test_early_stopping_disabled(self) -> None:
+        """Test that early stopping is disabled by default."""
+        optimizer = SocialGroupOptimizer(
+            func=sphere,
+            lower_bound=-5,
+            upper_bound=5,
+            dim=2,
+            max_iter=20,
+            early_stopping=False,
+            track_convergence=True,
+        )
+        _solution, _fitness = optimizer.search()
+
+        # Should run all iterations when early stopping is disabled
+        assert len(optimizer.convergence_history) == 21  # initial + 20 iterations
+
+    def test_verbose_mode_enabled(self) -> None:
+        """Test that verbose mode can be enabled without errors."""
+        optimizer = SocialGroupOptimizer(
+            func=sphere,
+            lower_bound=-5,
+            upper_bound=5,
+            dim=2,
+            max_iter=25,
+            verbose=True,
+        )
+        # Should complete without errors
+        solution, fitness = optimizer.search()
+        assert isinstance(solution, np.ndarray)
+        assert isinstance(fitness, float)
+
+    def test_verbose_mode_disabled(self) -> None:
+        """Test that verbose mode is disabled by default."""
+        optimizer = SocialGroupOptimizer(
+            func=sphere,
+            lower_bound=-5,
+            upper_bound=5,
+            dim=2,
+            max_iter=20,
+            verbose=False,
+        )
+        solution, fitness = optimizer.search()
+        assert isinstance(solution, np.ndarray)
+        assert isinstance(fitness, float)
+
+    def test_backward_compatibility(self) -> None:
+        """Test that optimizer works with original parameters only."""
+        # Old usage without any new parameters should still work
+        optimizer = SocialGroupOptimizer(
+            func=shifted_ackley,
+            lower_bound=-2.768,
+            upper_bound=2.768,
+            dim=2,
+            population_size=30,
+            max_iter=20,
+            c=0.2,
+        )
+        solution, fitness = optimizer.search()
+        assert isinstance(solution, np.ndarray)
+        assert isinstance(fitness, float)
+        assert solution.shape == (2,)
+
+    def test_all_features_combined(self) -> None:
+        """Test that all features work together."""
+        optimizer = SocialGroupOptimizer(
+            func=sphere,
+            lower_bound=-5,
+            upper_bound=5,
+            dim=2,
+            max_iter=50,
+            track_convergence=True,
+            early_stopping=True,
+            tolerance=1e-6,
+            patience=10,
+            verbose=False,  # Set to False to avoid console output in tests
+        )
+        solution, fitness = optimizer.search()
+
+        assert isinstance(solution, np.ndarray)
+        assert isinstance(fitness, float)
+        assert hasattr(optimizer, "convergence_history")
+        assert len(optimizer.convergence_history) > 0
+
+    def test_custom_tolerance_and_patience(self) -> None:
+        """Test that custom tolerance and patience values are respected."""
+        optimizer = SocialGroupOptimizer(
+            func=sphere,
+            lower_bound=-5,
+            upper_bound=5,
+            dim=2,
+            max_iter=100,
+            early_stopping=True,
+            tolerance=0.01,  # Custom tolerance
+            patience=3,  # Custom patience
+        )
+        assert optimizer.tolerance == 0.01
+        assert optimizer.patience == 3
+
+        solution, fitness = optimizer.search()
+        assert isinstance(solution, np.ndarray)
+        assert isinstance(fitness, float)
