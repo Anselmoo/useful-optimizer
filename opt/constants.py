@@ -87,6 +87,9 @@ ADAM_EPSILON = 1e-8
 ADAMW_LEARNING_RATE = 0.001
 """Default learning rate for AdamW optimizer."""
 
+ADAMW_WEIGHT_DECAY = 0.01
+"""Default weight decay coefficient for AdamW optimizer."""
+
 NADAM_LEARNING_RATE = 0.002
 """Default learning rate for Nadam optimizer."""
 

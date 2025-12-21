@@ -8,6 +8,7 @@ from __future__ import annotations
 
 from opt.constants import ACKLEY_BOUND
 from opt.constants import ADAMW_LEARNING_RATE
+from opt.constants import ADAMW_WEIGHT_DECAY
 from opt.constants import ADAM_BETA1
 from opt.constants import ADAM_BETA2
 from opt.constants import ADAM_EPSILON
@@ -114,6 +115,10 @@ class TestAdamConstants:
         """Test learning rates are in reasonable ranges."""
         assert ADAMW_LEARNING_RATE < 1
         assert NADAM_LEARNING_RATE < 1
+
+    def test_weight_decay_reasonable(self) -> None:
+        """Test weight decay is in reasonable range."""
+        assert 0 < ADAMW_WEIGHT_DECAY < 1
 
 
 class TestAlgorithmSpecificConstants:

@@ -49,6 +49,7 @@ from scipy.optimize import approx_fprime
 from opt.abstract_optimizer import AbstractOptimizer
 from opt.benchmark.functions import shifted_ackley
 from opt.constants import ADAMW_LEARNING_RATE
+from opt.constants import ADAMW_WEIGHT_DECAY
 from opt.constants import ADAM_BETA1
 from opt.constants import ADAM_BETA2
 from opt.constants import ADAM_EPSILON
@@ -89,7 +90,7 @@ class AdamW(AbstractOptimizer):
         beta1: float = ADAM_BETA1,
         beta2: float = ADAM_BETA2,
         epsilon: float = ADAM_EPSILON,
-        weight_decay: float = 0.01,
+        weight_decay: float = ADAMW_WEIGHT_DECAY,
         seed: int | None = None,
     ) -> None:
         """Initialize the AdamW optimizer."""
