@@ -155,11 +155,6 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    from opt.benchmark.functions import shifted_ackley
+    from opt.demo import run_demo
 
-    optimizer = AdaptiveMetropolisOptimizer(
-        func=shifted_ackley, lower_bound=-2.768, upper_bound=2.768, dim=2, max_iter=1000
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution found: {best_solution}")
-    print(f"Best fitness found: {best_fitness}")
+    run_demo(AdaptiveMetropolisOptimizer)
