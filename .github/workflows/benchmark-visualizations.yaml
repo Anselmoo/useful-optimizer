@@ -1,0 +1,66 @@
+name: Benchmark Visualizations
+
+on:
+  workflow_dispatch:  # Manual trigger
+  schedule:
+    # Run weekly on Sunday at 00:00 UTC
+    - cron: '0 0 * * 0'
+  push:
+    branches:
+      - main
+    paths:
+      - 'benchmarks/**'
+      - 'opt/**'
+
+jobs:
+  benchmark-visualizations:
+    name: Run Benchmarks and Generate Visualizations
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: "latest"
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync --all-extras
+
+      - name: Run benchmark suite
+        run: uv run python benchmarks/run_benchmark_suite.py --output-dir benchmarks/output
+
+      - name: Generate visualizations
+        run: uv run python benchmarks/generate_plots.py --results benchmarks/output/results.json --output-dir benchmarks/output
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: |
+            benchmarks/output/results.json
+            benchmarks/output/*.png
+          retention-days: 90
+
+      - name: Create summary
+        run: |
+          echo "## Benchmark Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Benchmark suite completed successfully" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Generated Artifacts" >> $GITHUB_STEP_SUMMARY
+          echo "- Results JSON file" >> $GITHUB_STEP_SUMMARY
+          echo "- Convergence curves" >> $GITHUB_STEP_SUMMARY
+          echo "- Performance heatmaps" >> $GITHUB_STEP_SUMMARY
+          echo "- Box plots" >> $GITHUB_STEP_SUMMARY
+          echo "- Timing comparisons" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "📦 Download artifacts from the workflow run to view the visualizations." >> $GITHUB_STEP_SUMMARY
