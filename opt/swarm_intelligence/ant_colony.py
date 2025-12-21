@@ -40,7 +40,6 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 
 
 if TYPE_CHECKING:
@@ -186,9 +185,6 @@ class AntColony(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    optimizer = AntColony(
-        func=shifted_ackley, lower_bound=-2.768, upper_bound=+2.768, dim=2
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution found: {best_solution}")
-    print(f"Best fitness value: {best_fitness}")
+    from opt.demo import run_demo
+
+    run_demo(AntColony)

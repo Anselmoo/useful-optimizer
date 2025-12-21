@@ -41,7 +41,6 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 
 
 if TYPE_CHECKING:
@@ -227,15 +226,6 @@ class EquilibriumOptimizer(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    # Test with shifted Ackley function
-    optimizer = EquilibriumOptimizer(
-        func=shifted_ackley,
-        lower_bound=-2.768,
-        upper_bound=2.768,
-        dim=2,
-        population_size=30,
-        max_iter=500,
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution found: {best_solution}")
-    print(f"Best fitness found: {best_fitness}")
+    from opt.demo import run_demo
+
+    run_demo(EquilibriumOptimizer)

@@ -34,7 +34,6 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 
 
 if TYPE_CHECKING:
@@ -143,9 +142,6 @@ class ParticleFilter(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    optimizer = ParticleFilter(
-        func=shifted_ackley, dim=2, lower_bound=-32.768, upper_bound=+32.768
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution found: {best_solution}")
-    print(f"Best fitness value: {best_fitness}")
+    from opt.demo import run_demo
+
+    run_demo(ParticleFilter)
