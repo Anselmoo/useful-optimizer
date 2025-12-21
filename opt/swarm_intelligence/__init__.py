@@ -9,6 +9,7 @@ Squirrel Search, and Whale Optimization algorithms.
 from __future__ import annotations
 
 from opt.swarm_intelligence.ant_colony import AntColony
+from opt.swarm_intelligence.ant_lion_optimizer import AntLionOptimizer
 from opt.swarm_intelligence.artificial_fish_swarm_algorithm import ArtificialFishSwarm
 from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
 from opt.swarm_intelligence.bee_algorithm import BeeAlgorithm
@@ -18,6 +19,7 @@ from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
 from opt.swarm_intelligence.glowworm_swarm_optimization import GlowwormSwarmOptimization
 from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
 from opt.swarm_intelligence.harris_hawks_optimization import HarrisHawksOptimizer
+from opt.swarm_intelligence.moth_flame_optimization import MothFlameOptimizer
 from opt.swarm_intelligence.particle_swarm import ParticleSwarm
 from opt.swarm_intelligence.squirrel_search import SquirrelSearchAlgorithm
 from opt.swarm_intelligence.whale_optimization_algorithm import (
@@ -27,6 +29,7 @@ from opt.swarm_intelligence.whale_optimization_algorithm import (
 
 __all__: list[str] = [
     "AntColony",
+    "AntLionOptimizer",
     "ArtificialFishSwarm",
     "BatAlgorithm",
     "BeeAlgorithm",
@@ -36,6 +39,7 @@ __all__: list[str] = [
     "GlowwormSwarmOptimization",
     "GreyWolfOptimizer",
     "HarrisHawksOptimizer",
+    "MothFlameOptimizer",
     "ParticleSwarm",
     "SquirrelSearchAlgorithm",
     "WhaleOptimizationAlgorithm",
