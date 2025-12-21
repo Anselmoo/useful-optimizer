@@ -9,12 +9,25 @@ import numpy as np
 def shifted_ackley(x: np.ndarray, shift: tuple = (1, 0.5)) -> float:
     """Shifted Ackley function.
 
+    The global minimum is at x = [1.0, 0.5] (with default shift) where f(x) ≈ 0.
+
     Args:
         x (np.ndarray): Input vector.
         shift (np.ndarray): Shift vector.
 
     Returns:
         float: Output value.
+
+    Example:
+        >>> import numpy as np
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> # Near optimum at (1.0, 0.5)
+        >>> result = shifted_ackley(np.array([1.0, 0.5]))
+        >>> float(result) < 1e-10
+        True
+        >>> # Away from optimum
+        >>> float(shifted_ackley(np.array([0.0, 0.0]))) > 0
+        True
     """
     return ackley(np.array([x[i] - shift[i] for i in range(len(x))]))
 
@@ -22,11 +35,23 @@ def shifted_ackley(x: np.ndarray, shift: tuple = (1, 0.5)) -> float:
 def sphere(x: np.ndarray) -> float:
     """Sphere function.
 
+    The global minimum is at x = [0, 0, ...] where f(x) = 0.
+
     Args:
         x (np.ndarray): Input vector.
 
     Returns:
         float: Output value.
+
+    Example:
+        >>> import numpy as np
+        >>> from opt.benchmark.functions import sphere
+        >>> # At optimum
+        >>> float(sphere(np.array([0.0, 0.0])))
+        0.0
+        >>> # Away from optimum
+        >>> float(sphere(np.array([1.0, 1.0])))
+        2.0
     """
     return np.sum(x**2)
 
@@ -34,12 +59,24 @@ def sphere(x: np.ndarray) -> float:
 def rosenbrock(x: np.ndarray) -> float:
     """Rosenbrock function.
 
+    The global minimum is at x = [1, 1, ...] where f(x) = 0.
+
     Args:
         x (np.ndarray): Input array of shape with larger than 2,
             representing the coordinates.
 
     Returns:
         float: Output value.
+
+    Example:
+        >>> import numpy as np
+        >>> from opt.benchmark.functions import rosenbrock
+        >>> # At optimum
+        >>> float(rosenbrock(np.array([1.0, 1.0])))
+        0.0
+        >>> # Away from optimum
+        >>> float(rosenbrock(np.array([0.0, 0.0]))) > 0
+        True
     """
     return np.sum(100.0 * (x[1:] - x[:-1] ** 2.0) ** 2.0 + (1 - x[:-1]) ** 2.0, axis=0)
 
@@ -48,11 +85,24 @@ def rosenbrock(x: np.ndarray) -> float:
 def ackley(x: np.ndarray) -> float:
     """Ackley function.
 
+    The global minimum is at x = [0, 0] where f(x) ≈ 0.
+
     Args:
         x (np.ndarray): Input array of shape (2,) representing the coordinates.
 
     Returns:
         float: Output value.
+
+    Example:
+        >>> import numpy as np
+        >>> from opt.benchmark.functions import ackley
+        >>> # Near optimum
+        >>> result = ackley(np.array([0.0, 0.0]))
+        >>> float(result) < 1e-10
+        True
+        >>> # Away from optimum
+        >>> float(ackley(np.array([1.0, 1.0]))) > 0
+        True
     """
     return (
         -20.0 * np.exp(-0.2 * np.sqrt(0.5 * (x[0] ** 2 + x[1] ** 2)))
@@ -83,11 +133,23 @@ def griewank(x: np.ndarray) -> float:
 def rastrigin(x: np.ndarray) -> float:
     """Rastrigin Function.
 
+    The global minimum is at x = [0, 0, ...] where f(x) = 0.
+
     Args:
         x (np.ndarray): Input vector.
 
     Returns:
         float: The value of the Rastrigin function at the given input.
+
+    Example:
+        >>> import numpy as np
+        >>> from opt.benchmark.functions import rastrigin
+        >>> # At optimum
+        >>> float(rastrigin(np.array([0.0, 0.0])))
+        0.0
+        >>> # Away from optimum
+        >>> float(rastrigin(np.array([1.0, 1.0]))) > 0
+        True
     """
     return 10 * len(x) + np.sum(x**2 - 10 * np.cos(2 * np.pi * x))
 
