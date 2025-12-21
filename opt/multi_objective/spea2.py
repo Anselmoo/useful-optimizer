@@ -53,8 +53,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         >>> from opt.benchmark.functions import sphere
         >>> import numpy as np
         >>> optimizer = SPEA2(
-        ...     objectives=[sphere], dim=2, lower_bound=-5, upper_bound=5,
-        ...     max_iter=10
+        ...     objectives=[sphere], dim=2, lower_bound=-5, upper_bound=5, max_iter=10
         ... )
         >>> result = optimizer.search()
         >>> isinstance(result, tuple)

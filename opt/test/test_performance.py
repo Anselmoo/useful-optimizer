@@ -271,11 +271,7 @@ class TestStatisticalPerformance:
 
     @pytest.mark.parametrize(
         "optimizer_class",
-        [
-            ParticleSwarm,
-            GreyWolfOptimizer,
-            WhaleOptimizationAlgorithm,
-        ],
+        [ParticleSwarm, GreyWolfOptimizer, WhaleOptimizationAlgorithm],
     )
     def test_success_rate(self, optimizer_class: type[AbstractOptimizer]) -> None:
         """Test optimizer success rate (finding solution within tolerance)."""

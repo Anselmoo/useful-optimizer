@@ -65,8 +65,7 @@ class HarmonySearch(AbstractOptimizer):
         >>> from opt.metaheuristic.harmony_search import HarmonySearch
         >>> from opt.benchmark.functions import rosenbrock
         >>> optimizer = HarmonySearch(
-        ...     func=rosenbrock, dim=2, lower_bound=-5, upper_bound=5,
-        ...     max_iter=10, seed=42
+        ...     func=rosenbrock, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> float(fitness) < 100.0  # Should find a reasonable solution
@@ -75,8 +74,7 @@ class HarmonySearch(AbstractOptimizer):
     Example with sphere:
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = HarmonySearch(
-        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
-        ...     max_iter=10, seed=42
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)

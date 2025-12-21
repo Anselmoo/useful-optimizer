@@ -67,8 +67,7 @@ class DifferentialEvolution(AbstractOptimizer):
         >>> from opt.evolutionary.differential_evolution import DifferentialEvolution
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = DifferentialEvolution(
-        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
-        ...     max_iter=10, seed=42
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> float(fitness) < 1.0  # Should find a good solution
@@ -77,9 +76,12 @@ class DifferentialEvolution(AbstractOptimizer):
     Example with shifted_ackley:
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = DifferentialEvolution(
-        ...     func=shifted_ackley, dim=2,
-        ...     lower_bound=-2.768, upper_bound=2.768,
-        ...     max_iter=10, seed=42
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)

@@ -62,11 +62,12 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
 
 
     Example:
-        >>> from opt.constrained.sequential_quadratic_programming import SequentialQuadraticProgramming
+        >>> from opt.constrained.sequential_quadratic_programming import (
+        ...     SequentialQuadraticProgramming,
+        ... )
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SequentialQuadraticProgramming(
-        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
-        ...     max_iter=10, seed=42
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> float(fitness) < 100.0  # Should find a reasonable solution
@@ -75,9 +76,12 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
     Example with shifted_ackley:
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = SequentialQuadraticProgramming(
-        ...     func=shifted_ackley, dim=2,
-        ...     lower_bound=-2.768, upper_bound=2.768,
-        ...     max_iter=10, seed=42
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)

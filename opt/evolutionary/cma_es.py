@@ -65,8 +65,7 @@ class CMAESAlgorithm(AbstractOptimizer):
         >>> from opt.evolutionary.cma_es import CMAESAlgorithm
         >>> from opt.benchmark.functions import rosenbrock
         >>> optimizer = CMAESAlgorithm(
-        ...     func=rosenbrock, dim=2, lower_bound=-5, upper_bound=5,
-        ...     max_iter=10, seed=42
+        ...     func=rosenbrock, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> float(fitness) < 100.0  # Should find a reasonable solution
@@ -75,9 +74,12 @@ class CMAESAlgorithm(AbstractOptimizer):
     Example with shifted_ackley:
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = CMAESAlgorithm(
-        ...     func=shifted_ackley, dim=2,
-        ...     lower_bound=-2.768, upper_bound=2.768,
-        ...     max_iter=10, seed=42
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)
@@ -168,7 +170,9 @@ class CMAESAlgorithm(AbstractOptimizer):
                 cov_sqrt_inv = np.linalg.inv(sqrtm(cov_regularized))
             except np.linalg.LinAlgError:
                 # Fallback: use regularized inverse
-                cov_sqrt_inv = np.linalg.inv(sqrtm(cov + regularization * 10 * np.eye(self.dim)))
+                cov_sqrt_inv = np.linalg.inv(
+                    sqrtm(cov + regularization * 10 * np.eye(self.dim))
+                )
 
             p_sigma = (1 - cs) * p_sigma + np.sqrt(cs * (2 - cs) * mu_eff) * np.dot(
                 cov_sqrt_inv, (mean - mean_old) / self.sigma

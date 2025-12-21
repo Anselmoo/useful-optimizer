@@ -50,8 +50,7 @@ class DingoOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.dingo_optimizer import DingoOptimizer
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = DingoOptimizer(
-        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
-        ...     max_iter=10, seed=42
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> float(fitness) < 100.0  # Should find a reasonable solution
@@ -60,9 +59,12 @@ class DingoOptimizer(AbstractOptimizer):
     Example with shifted_ackley:
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = DingoOptimizer(
-        ...     func=shifted_ackley, dim=2,
-        ...     lower_bound=-2.768, upper_bound=2.768,
-        ...     max_iter=10, seed=42
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)

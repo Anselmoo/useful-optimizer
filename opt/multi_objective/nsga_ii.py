@@ -84,8 +84,12 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         >>> from opt.multi_objective.nsga_ii import NSGAII
         >>> from opt.benchmark.functions import sphere, rosenbrock
         >>> optimizer = NSGAII(
-        ...     objectives=[sphere, rosenbrock], dim=2, lower_bound=-5, upper_bound=5,
-        ...     max_iter=10, seed=42
+        ...     objectives=[sphere, rosenbrock],
+        ...     dim=2,
+        ...     lower_bound=-5,
+        ...     upper_bound=5,
+        ...     max_iter=10,
+        ...     seed=42,
         ... )
         >>> pareto_front, pareto_solutions = optimizer.search()
         >>> len(pareto_solutions) > 0  # Should find solutions
@@ -95,9 +99,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         >>> from opt.benchmark.functions import sphere
         >>> import numpy as np
         >>> optimizer = NSGAII(
-        ...     objectives=[sphere], dim=2,
-        ...     lower_bound=-5, upper_bound=5,
-        ...     max_iter=10, seed=42
+        ...     objectives=[sphere], dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
         ... )
         >>> pareto_front, _ = optimizer.search()
         >>> isinstance(pareto_front, np.ndarray)
