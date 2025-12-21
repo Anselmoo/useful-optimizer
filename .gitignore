@@ -167,6 +167,9 @@ cython_debug/
 *.gif
 *.svg
 
+# Benchmark outputs
+benchmarks/output/
+
 # General
 .DS_Store
 .AppleDouble
