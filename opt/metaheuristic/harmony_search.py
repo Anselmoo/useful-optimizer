@@ -62,6 +62,27 @@ class HarmonySearch(AbstractOptimizer):
         bandwidth (float, optional): The bandwidth for adjusting the pitch. Defaults to 0.01.
         seed (int | None, optional): The seed for the random number generator. Defaults to None.
 
+    Example:
+        >>> from opt.metaheuristic.harmony_search import HarmonySearch
+        >>> from opt.benchmark.functions import rosenbrock
+        >>> optimizer = HarmonySearch(
+        ...     func=rosenbrock, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with sphere:
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = HarmonySearch(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
+
     """
 
     def __init__(
