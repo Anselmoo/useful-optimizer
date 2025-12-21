@@ -130,7 +130,7 @@ ACKLEY_A = 20.0
 ACKLEY_B = 0.2
 """Ackley function constant 'b'."""
 
-ACKLEY_C = 2.0
+ACKLEY_C = 2.0 * np.pi
 """Ackley function constant 'c' (typically 2*pi)."""
 
 MATYAS_COEFFICIENT_A = 0.26
