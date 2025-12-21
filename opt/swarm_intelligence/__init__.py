@@ -21,6 +21,7 @@ from opt.swarm_intelligence.bee_algorithm import BeeAlgorithm
 from opt.swarm_intelligence.cat_swarm_optimization import CatSwarmOptimization
 from opt.swarm_intelligence.cuckoo_search import CuckooSearch
 from opt.swarm_intelligence.dragonfly_algorithm import DragonflyOptimizer
+from opt.swarm_intelligence.emperor_penguin import EmperorPenguinOptimizer
 from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
 from opt.swarm_intelligence.flower_pollination import FlowerPollinationAlgorithm
 from opt.swarm_intelligence.glowworm_swarm_optimization import GlowwormSwarmOptimization
@@ -31,9 +32,13 @@ from opt.swarm_intelligence.manta_ray import MantaRayForagingOptimization
 from opt.swarm_intelligence.marine_predators_algorithm import MarinePredatorsOptimizer
 from opt.swarm_intelligence.moth_flame_optimization import MothFlameOptimizer
 from opt.swarm_intelligence.particle_swarm import ParticleSwarm
+from opt.swarm_intelligence.pathfinder import PathfinderAlgorithm
+from opt.swarm_intelligence.reptile_search import ReptileSearchAlgorithm
 from opt.swarm_intelligence.salp_swarm_algorithm import SalpSwarmOptimizer
+from opt.swarm_intelligence.seagull_optimization import SeagullOptimizationAlgorithm
 from opt.swarm_intelligence.spotted_hyena import SpottedHyenaOptimizer
 from opt.swarm_intelligence.squirrel_search import SquirrelSearchAlgorithm
+from opt.swarm_intelligence.tunicate_swarm import TunicateSwarmAlgorithm
 from opt.swarm_intelligence.whale_optimization_algorithm import (
     WhaleOptimizationAlgorithm,
 )
@@ -51,6 +56,7 @@ __all__: list[str] = [
     "CatSwarmOptimization",
     "CuckooSearch",
     "DragonflyOptimizer",
+    "EmperorPenguinOptimizer",
     "FireflyAlgorithm",
     "FlowerPollinationAlgorithm",
     "GlowwormSwarmOptimization",
@@ -61,8 +67,12 @@ __all__: list[str] = [
     "MarinePredatorsOptimizer",
     "MothFlameOptimizer",
     "ParticleSwarm",
+    "PathfinderAlgorithm",
+    "ReptileSearchAlgorithm",
     "SalpSwarmOptimizer",
+    "SeagullOptimizationAlgorithm",
     "SpottedHyenaOptimizer",
     "SquirrelSearchAlgorithm",
+    "TunicateSwarmAlgorithm",
     "WhaleOptimizationAlgorithm",
 ]

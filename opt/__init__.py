@@ -104,6 +104,7 @@ from opt.swarm_intelligence import BeeAlgorithm
 from opt.swarm_intelligence import CatSwarmOptimization
 from opt.swarm_intelligence import CuckooSearch
 from opt.swarm_intelligence import DragonflyOptimizer
+from opt.swarm_intelligence import EmperorPenguinOptimizer
 from opt.swarm_intelligence import FireflyAlgorithm
 from opt.swarm_intelligence import FlowerPollinationAlgorithm
 from opt.swarm_intelligence import GlowwormSwarmOptimization
@@ -114,9 +115,13 @@ from opt.swarm_intelligence import MantaRayForagingOptimization
 from opt.swarm_intelligence import MarinePredatorsOptimizer
 from opt.swarm_intelligence import MothFlameOptimizer
 from opt.swarm_intelligence import ParticleSwarm
+from opt.swarm_intelligence import PathfinderAlgorithm
+from opt.swarm_intelligence import ReptileSearchAlgorithm
 from opt.swarm_intelligence import SalpSwarmOptimizer
+from opt.swarm_intelligence import SeagullOptimizationAlgorithm
 from opt.swarm_intelligence import SpottedHyenaOptimizer
 from opt.swarm_intelligence import SquirrelSearchAlgorithm
+from opt.swarm_intelligence import TunicateSwarmAlgorithm
 from opt.swarm_intelligence import WhaleOptimizationAlgorithm
 
 
@@ -167,6 +172,7 @@ __all__: list[str] = [
     "DifferentialEvolution",
     "DragonflyOptimizer",
     "EagleStrategy",
+    "EmperorPenguinOptimizer",
     "EquilibriumOptimizer",
     "EstimationOfDistributionAlgorithm",
     "FireflyAlgorithm",
@@ -191,10 +197,13 @@ __all__: list[str] = [
     "ParticleFilter",
     "ParticleSwarm",
     "ParzenTreeEstimator",
+    "PathfinderAlgorithm",
     "Powell",
     "RMSprop",
+    "ReptileSearchAlgorithm",
     "SGDMomentum",
     "SalpSwarmOptimizer",
+    "SeagullOptimizationAlgorithm",
     "ShuffledFrogLeapingAlgorithm",
     "SimulatedAnnealing",
     "SineCosineAlgorithm",
@@ -207,6 +216,7 @@ __all__: list[str] = [
     # Social-inspired
     "TeachingLearningOptimizer",
     "TrustRegion",
+    "TunicateSwarmAlgorithm",
     "VariableDepthSearch",
     "VariableNeighborhoodSearch",
     "VeryLargeScaleNeighborhood",
