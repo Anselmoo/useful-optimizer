@@ -55,6 +55,12 @@ class SocialGroupOptimizer(AbstractOptimizer):
         population_size: Number of individuals in the social group.
         max_iter: Maximum number of iterations.
         c: Self-introspection coefficient.
+        track_convergence: Whether to track fitness history.
+        convergence_history: List of best fitness values per iteration (if tracking).
+        early_stopping: Whether to enable early stopping.
+        tolerance: Minimum improvement threshold for early stopping.
+        patience: Number of iterations without improvement before stopping.
+        verbose: Whether to print progress during optimization.
     """
 
     def __init__(
@@ -66,6 +72,11 @@ class SocialGroupOptimizer(AbstractOptimizer):
         population_size: int = 30,
         max_iter: int = 100,
         c: float = 0.2,
+        track_convergence: bool = False,
+        early_stopping: bool = False,
+        tolerance: float = 1e-6,
+        patience: int = 10,
+        verbose: bool = False,
     ) -> None:
         """Initialize Social Group Optimizer.
 
@@ -77,10 +88,21 @@ class SocialGroupOptimizer(AbstractOptimizer):
             population_size: Number of individuals. Defaults to 30.
             max_iter: Maximum iterations. Defaults to 100.
             c: Self-introspection coefficient. Defaults to 0.2.
+            track_convergence: Enable convergence history tracking. Defaults to False.
+            early_stopping: Enable early stopping. Defaults to False.
+            tolerance: Minimum improvement threshold. Defaults to 1e-6.
+            patience: Iterations without improvement before stopping. Defaults to 10.
+            verbose: Print progress during optimization. Defaults to False.
         """
         super().__init__(func, lower_bound, upper_bound, dim, max_iter)
         self.population_size = population_size
         self.c = c
+        self.track_convergence = track_convergence
+        self.convergence_history: list[float] = []
+        self.early_stopping = early_stopping
+        self.tolerance = tolerance
+        self.patience = patience
+        self.verbose = verbose
 
     def search(self) -> tuple[np.ndarray, float]:
         """Execute the Social Group Optimization algorithm.
@@ -97,6 +119,17 @@ class SocialGroupOptimizer(AbstractOptimizer):
         best_idx = np.argmin(fitness)
         best_solution = population[best_idx].copy()
         best_fitness = fitness[best_idx]
+
+        # Track convergence history if enabled
+        if self.track_convergence:
+            self.convergence_history.append(best_fitness)
+
+        # Early stopping variables
+        no_improvement_count = 0
+        previous_best_fitness = best_fitness
+
+        if self.verbose:
+            print(f"Initial best fitness: {best_fitness:.6f}")
 
         for iteration in range(self.max_iter):
             # Update self-introspection coefficient
@@ -146,6 +179,38 @@ class SocialGroupOptimizer(AbstractOptimizer):
                     if new_fitness < best_fitness:
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
+
+            # Track convergence history if enabled
+            if self.track_convergence:
+                self.convergence_history.append(best_fitness)
+
+            # Verbose progress reporting
+            if self.verbose and (iteration + 1) % 10 == 0:
+                print(
+                    f"Iteration {iteration + 1}/{self.max_iter}: "
+                    f"Best fitness = {best_fitness:.6f}"
+                )
+
+            # Early stopping check
+            if self.early_stopping:
+                improvement = previous_best_fitness - best_fitness
+                # Only count iterations with minimal or no improvement
+                if improvement >= 0 and improvement < self.tolerance:
+                    no_improvement_count += 1
+                    if no_improvement_count >= self.patience:
+                        if self.verbose:
+                            print(
+                                f"Early stopping at iteration {iteration + 1}: "
+                                f"No improvement for {self.patience} iterations"
+                            )
+                        break
+                elif improvement >= self.tolerance:
+                    # Significant improvement detected, reset counter
+                    no_improvement_count = 0
+                previous_best_fitness = best_fitness
+
+        if self.verbose:
+            print(f"Final best fitness: {best_fitness:.6f}")
 
         return best_solution, best_fitness
 
