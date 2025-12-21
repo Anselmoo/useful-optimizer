@@ -168,21 +168,21 @@ class GeneticAlgorithm(AbstractOptimizer):
         population = self._initialize()
         best_solution: np.ndarray = np.zeros(self.dim)
         best_fitness = np.inf
-        
+
         for i in range(self.max_iter):
             fitness = np.apply_along_axis(self.func, 1, population)
-            
+
             # Track best solution (elitism)
             min_fitness_idx = np.argmin(fitness)
             if fitness[min_fitness_idx] < best_fitness:
                 best_fitness = fitness[min_fitness_idx]
                 best_solution = population[min_fitness_idx].copy()
-            
+
             new_population = []
-            
+
             # Elitism: keep the best solution
             new_population.append(best_solution.copy())
-            
+
             for _ in range(self.population_size - 1):
                 parent1 = self._selection(population, fitness, rng)
                 parent2 = self._selection(population, fitness, rng)
@@ -192,9 +192,9 @@ class GeneticAlgorithm(AbstractOptimizer):
                 # Clip to bounds
                 child = np.clip(child, self.lower_bound, self.upper_bound)
                 new_population.append(child)
-                
+
             population = np.array(new_population)
-            
+
         return best_solution, best_fitness
 
 

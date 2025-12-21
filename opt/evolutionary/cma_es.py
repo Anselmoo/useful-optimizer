@@ -117,7 +117,7 @@ class CMAESAlgorithm(AbstractOptimizer):
 
         h_sigma_threshold = 1.4
         regularization = 1e-8  # Small regularization for numerical stability
-        
+
         for iteration in range(self.max_iter):
             # Sample new solutions
             try:
@@ -147,7 +147,7 @@ class CMAESAlgorithm(AbstractOptimizer):
             except np.linalg.LinAlgError:
                 # Fallback: use regularized inverse
                 cov_sqrt_inv = np.linalg.inv(sqrtm(cov + regularization * 10 * np.eye(self.dim)))
-                
+
             p_sigma = (1 - cs) * p_sigma + np.sqrt(cs * (2 - cs) * mu_eff) * np.dot(
                 cov_sqrt_inv, (mean - mean_old) / self.sigma
             )
@@ -168,7 +168,7 @@ class CMAESAlgorithm(AbstractOptimizer):
                 + c1 * (np.outer(p_c, p_c) + (1 - h_sigma) * cc * (2 - cc) * cov)
                 + cmu * np.dot(artmp.T, np.dot(np.diag(weights), artmp))
             )
-            
+
             # Ensure covariance matrix remains symmetric
             cov = (cov + cov.T) / 2
 

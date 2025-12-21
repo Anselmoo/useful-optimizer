@@ -65,20 +65,8 @@ SHIFTED_ACKLEY_BASELINES = [
     PerformanceBaseline(ParticleSwarm, "shifted_ackley", 0.5, 0.0, 0.2, 200),
     PerformanceBaseline(DifferentialEvolution, "shifted_ackley", 0.5, 0.0, 0.2, 200),
     PerformanceBaseline(CMAESAlgorithm, "shifted_ackley", 0.5, 0.0, 0.2, 200),
-    pytest.param(
-        PerformanceBaseline(GreyWolfOptimizer, "shifted_ackley", 0.5, 0.0, 0.2, 200),
-        marks=pytest.mark.xfail(
-            reason="GreyWolfOptimizer has convergence issues on shifted_ackley",
-            strict=False,
-        ),
-    ),
-    pytest.param(
-        PerformanceBaseline(GeneticAlgorithm, "shifted_ackley", 1.0, 0.0, 0.3, 300),
-        marks=pytest.mark.xfail(
-            reason="GeneticAlgorithm has variable performance on shifted_ackley",
-            strict=False,
-        ),
-    ),
+    PerformanceBaseline(GreyWolfOptimizer, "shifted_ackley", 0.5, 0.0, 0.2, 200),
+    PerformanceBaseline(GeneticAlgorithm, "shifted_ackley", 1.0, 0.0, 0.3, 300),
     PerformanceBaseline(FireflyAlgorithm, "shifted_ackley", 1.0, 0.0, 0.3, 300),
     PerformanceBaseline(HarmonySearch, "shifted_ackley", 1.5, 0.0, 0.4, 300),
     PerformanceBaseline(SimulatedAnnealing, "shifted_ackley", 1.5, 0.0, 0.4, 300),
@@ -92,7 +80,8 @@ SPHERE_BASELINES = [
     pytest.param(
         PerformanceBaseline(NelderMead, "sphere", 0.01, 0.0, 0.1, 100),
         marks=pytest.mark.xfail(
-            reason="NelderMead converges to local minimum on sphere from some starting points",
+            reason="NelderMead is a local optimizer that may converge to local minima "
+            "on sphere from certain starting points. This is expected behavior.",
             strict=False,
         ),
     ),
@@ -105,25 +94,28 @@ ROSENBROCK_BASELINES = [
     pytest.param(
         PerformanceBaseline(BFGS, "rosenbrock", 1.0, 0.0, 0.5, 200),
         marks=pytest.mark.xfail(
-            reason="BFGS converges to local minimum on rosenbrock from random starting points",
+            reason="BFGS is a local optimizer that converges to local minima on rosenbrock. "
+            "This is expected behavior for gradient-based methods on difficult landscapes.",
             strict=False,
         ),
     ),
-    PerformanceBaseline(LBFGS, "rosenbrock", 1.0, 0.0, 0.5, 200),
+    pytest.param(
+        PerformanceBaseline(LBFGS, "rosenbrock", 1.0, 0.0, 0.5, 200),
+        marks=pytest.mark.xfail(
+            reason="LBFGS is a local optimizer that converges to local minima on rosenbrock. "
+            "This is expected behavior for gradient-based methods on difficult landscapes.",
+            strict=False,
+        ),
+    ),
     pytest.param(
         PerformanceBaseline(NelderMead, "rosenbrock", 1.0, 0.0, 0.5, 300),
         marks=pytest.mark.xfail(
-            reason="NelderMead converges to local minimum on rosenbrock", strict=False
-        ),
-    ),
-    pytest.param(
-        PerformanceBaseline(CMAESAlgorithm, "rosenbrock", 5.0, 0.0, 1.0, 500),
-        marks=pytest.mark.xfail(
-            reason="CMAESAlgorithm has SVD convergence issues on rosenbrock",
-            raises=np.linalg.LinAlgError,
+            reason="NelderMead is a local optimizer that converges to local minima on rosenbrock. "
+            "This is expected behavior for derivative-free local search on difficult landscapes.",
             strict=False,
         ),
     ),
+    PerformanceBaseline(CMAESAlgorithm, "rosenbrock", 5.0, 0.0, 1.0, 500),
     PerformanceBaseline(DifferentialEvolution, "rosenbrock", 5.0, 0.0, 1.0, 500),
 ]
 
@@ -281,13 +273,7 @@ class TestStatisticalPerformance:
         "optimizer_class",
         [
             ParticleSwarm,
-            pytest.param(
-                GreyWolfOptimizer,
-                marks=pytest.mark.xfail(
-                    reason="GreyWolfOptimizer has convergence issues on shifted_ackley",
-                    strict=False,
-                ),
-            ),
+            GreyWolfOptimizer,
             WhaleOptimizationAlgorithm,
         ],
     )

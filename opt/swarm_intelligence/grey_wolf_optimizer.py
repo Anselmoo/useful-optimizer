@@ -87,13 +87,13 @@ class GreyWolfOptimizer(AbstractOptimizer):
                 # Random coefficients
                 r1 = rng.random(self.dim)
                 r2 = rng.random(self.dim)
-                
+
                 # Coefficient vectors A and C for alpha
                 A1 = 2 * a * r1 - a
                 C1 = 2 * rng.random(self.dim)
                 D_alpha = np.abs(C1 * alpha - population[i])
                 X1 = alpha - A1 * D_alpha
-                
+
                 # Coefficient vectors A and C for beta
                 r1 = rng.random(self.dim)
                 r2 = rng.random(self.dim)
@@ -101,7 +101,7 @@ class GreyWolfOptimizer(AbstractOptimizer):
                 C2 = 2 * rng.random(self.dim)
                 D_beta = np.abs(C2 * beta - population[i])
                 X2 = beta - A2 * D_beta
-                
+
                 # Coefficient vectors A and C for delta
                 r1 = rng.random(self.dim)
                 r2 = rng.random(self.dim)
