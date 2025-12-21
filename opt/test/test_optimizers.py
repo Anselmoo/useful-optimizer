@@ -22,6 +22,7 @@ from opt import AdaMax
 from opt import AdamW
 
 # New swarm intelligence algorithms
+from opt import AdaptiveMetropolisOptimizer
 from opt import AfricanBuffaloOptimizer
 from opt import AfricanVulturesOptimizer
 from opt import AntColony
@@ -33,12 +34,15 @@ from opt import ArithmeticOptimizationAlgorithm
 from opt import ArtificialFishSwarm
 from opt import ArtificialGorillaTroopsOptimizer
 from opt import ArtificialHummingbirdAlgorithm
+from opt import ArtificialRabbitsOptimizer
 
 # New physics-inspired algorithms
 from opt import AtomSearchOptimizer
 from opt import AugmentedLagrangian
 from opt import BarnaclesMatingOptimizer
+from opt import BarrierMethodOptimizer
 from opt import BatAlgorithm
+from opt import BayesianOptimizer
 from opt import BeeAlgorithm
 from opt import BlackWidowOptimizer
 from opt import BrownBearOptimizer
@@ -51,6 +55,7 @@ from opt import ConjugateGradient
 from opt import CrossEntropyMethod
 from opt import CuckooSearch
 from opt import CulturalAlgorithm
+from opt import DandelionOptimizer
 from opt import DifferentialEvolution
 from opt import DingoOptimizer
 from opt import DragonflyOptimizer
@@ -58,10 +63,12 @@ from opt import EagleStrategy
 from opt import EmperorPenguinOptimizer
 from opt import EquilibriumOptimizer
 from opt import EstimationOfDistributionAlgorithm
+from opt import FennecFoxOptimizer
 from opt import FireflyAlgorithm
 from opt import FlowerPollinationAlgorithm
 from opt import ForensicBasedInvestigationOptimizer
 from opt import GeneticAlgorithm
+from opt import GiantTrevallyOptimizer
 from opt import GlowwormSwarmOptimization
 from opt import GoldenEagleOptimizer
 from opt import GrasshopperOptimizer
@@ -83,23 +90,34 @@ from opt import Nadam
 from opt import NelderMead
 from opt import NesterovAcceleratedGradient
 from opt import OrcaPredatorAlgorithm
+from opt import OspreyOptimizer
 from opt import ParticleFilter
 from opt import ParticleSwarm
 from opt import ParzenTreeEstimator
 from opt import PathfinderAlgorithm
+from opt import PelicanOptimizer
+from opt import PenaltyMethodOptimizer
+from opt import PoliticalOptimizer
 from opt import Powell
+from opt import RIMEOptimizer
 from opt import RMSprop
 from opt import ReptileSearchAlgorithm
 from opt import SGDMomentum
 from opt import SalpSwarmOptimizer
 from opt import SandCatSwarmOptimizer
 from opt import SeagullOptimizationAlgorithm
+from opt import SequentialMonteCarloOptimizer
+from opt import SequentialQuadraticProgramming
 from opt import ShuffledFrogLeapingAlgorithm
 from opt import SimulatedAnnealing
 from opt import SineCosineAlgorithm
 from opt import SlimeMouldAlgorithm
+from opt import SnowGeeseOptimizer
+from opt import SoccerLeagueOptimizer
+from opt import SocialGroupOptimizer
 from opt import SpottedHyenaOptimizer
 from opt import SquirrelSearchAlgorithm
+from opt import StarlingMurmurationOptimizer
 from opt import StochasticDiffusionSearch
 from opt import StochasticFractalSearch
 from opt import SuccessiveLinearProgramming
@@ -114,6 +132,7 @@ from opt import VariableNeighborhoodSearch
 from opt import VeryLargeScaleNeighborhood
 from opt import WhaleOptimizationAlgorithm
 from opt import WildHorseOptimizer
+from opt import ZebraOptimizer
 from opt.benchmark.functions import shifted_ackley
 from opt.benchmark.functions import sphere
 
@@ -128,6 +147,7 @@ SWARM_OPTIMIZERS = [
     ArtificialFishSwarm,
     ArtificialGorillaTroopsOptimizer,
     ArtificialHummingbirdAlgorithm,
+    ArtificialRabbitsOptimizer,
     BarnaclesMatingOptimizer,
     # BatAlgorithm excluded - requires n_bats parameter (tested separately)
     BeeAlgorithm,
@@ -137,11 +157,14 @@ SWARM_OPTIMIZERS = [
     ChimpOptimizationAlgorithm,
     CoatiOptimizer,
     CuckooSearch,
+    DandelionOptimizer,
     DingoOptimizer,
     DragonflyOptimizer,
     EmperorPenguinOptimizer,
+    FennecFoxOptimizer,
     FireflyAlgorithm,
     FlowerPollinationAlgorithm,
+    GiantTrevallyOptimizer,
     GlowwormSwarmOptimization,
     GoldenEagleOptimizer,
     GrasshopperOptimizer,
@@ -155,18 +178,23 @@ SWARM_OPTIMIZERS = [
     MothSearchAlgorithm,
     MountainGazelleOptimizer,
     OrcaPredatorAlgorithm,
+    OspreyOptimizer,
     ParticleSwarm,
     PathfinderAlgorithm,
+    PelicanOptimizer,
     ReptileSearchAlgorithm,
     SalpSwarmOptimizer,
     SandCatSwarmOptimizer,
     SeagullOptimizationAlgorithm,
     SlimeMouldAlgorithm,
+    SnowGeeseOptimizer,
     SpottedHyenaOptimizer,
     SquirrelSearchAlgorithm,
+    StarlingMurmurationOptimizer,
     TunicateSwarmAlgorithm,
     WhaleOptimizationAlgorithm,
     WildHorseOptimizer,
+    ZebraOptimizer,
 ]
 
 EVOLUTIONARY_OPTIMIZERS = [
@@ -225,13 +253,31 @@ PHYSICS_INSPIRED_OPTIMIZERS = [
     AtomSearchOptimizer,
     EquilibriumOptimizer,
     GravitationalSearchOptimizer,
+    RIMEOptimizer,
 ]
 
-SOCIAL_INSPIRED_OPTIMIZERS = [TeachingLearningOptimizer]
+SOCIAL_INSPIRED_OPTIMIZERS = [
+    PoliticalOptimizer,
+    SoccerLeagueOptimizer,
+    SocialGroupOptimizer,
+    TeachingLearningOptimizer,
+]
 
-CONSTRAINED_OPTIMIZERS = [AugmentedLagrangian, SuccessiveLinearProgramming]
+CONSTRAINED_OPTIMIZERS = [
+    AugmentedLagrangian,
+    BarrierMethodOptimizer,
+    PenaltyMethodOptimizer,
+    SequentialQuadraticProgramming,
+    SuccessiveLinearProgramming,
+]
 
-PROBABILISTIC_OPTIMIZERS = [LDAnalysis, ParzenTreeEstimator]
+PROBABILISTIC_OPTIMIZERS = [
+    AdaptiveMetropolisOptimizer,
+    BayesianOptimizer,
+    LDAnalysis,
+    ParzenTreeEstimator,
+    SequentialMonteCarloOptimizer,
+]
 
 ALL_OPTIMIZERS = (
     SWARM_OPTIMIZERS

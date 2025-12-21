@@ -35,6 +35,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -86,9 +87,7 @@ class DandelionOptimizer(AbstractOptimizer):
         """
         # Initialize population
         population = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
@@ -131,7 +130,8 @@ class DandelionOptimizer(AbstractOptimizer):
                     new_position = (
                         population[i]
                         + r1 * (mean_pos - population[i])
-                        + r2 * np.random.standard_normal(self.dim)
+                        + r2
+                        * np.random.standard_normal(self.dim)
                         * (1 - t)
                         * (self.upper_bound - self.lower_bound)
                         * 0.05
@@ -143,15 +143,12 @@ class DandelionOptimizer(AbstractOptimizer):
                     levy_step = self._levy_flight()
                     delta = (1 - t) ** 2
 
-                    new_position = (
-                        best_solution
-                        + levy_step * delta * (population[i] - best_solution)
+                    new_position = best_solution + levy_step * delta * (
+                        population[i] - best_solution
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
                 new_fitness = self.func(new_position)
 
                 # Greedy selection
@@ -171,11 +168,13 @@ class DandelionOptimizer(AbstractOptimizer):
         Returns:
             Levy flight step vector.
         """
+        from scipy.special import gamma
+
         beta = 1.5
         sigma = (
-            np.math.gamma(1 + beta)
+            gamma(1 + beta)
             * np.sin(np.pi * beta / 2)
-            / (np.math.gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))
+            / (gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))
         ) ** (1 / beta)
 
         u = np.random.standard_normal(self.dim) * sigma
