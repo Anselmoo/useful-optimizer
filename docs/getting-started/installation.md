@@ -99,9 +99,6 @@ pip install useful-optimizer[dev]
 After installation, verify everything is working:
 
 ```python
-import opt
-print(f"Useful Optimizer version: {opt.__version__ if hasattr(opt, '__version__') else '0.1.2'}")
-
 # Quick test
 from opt.swarm_intelligence import ParticleSwarm
 from opt.benchmark.functions import sphere

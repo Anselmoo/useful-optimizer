@@ -53,8 +53,6 @@ theme:
     repo: fontawesome/brands/github
     logo: material/sine-wave
 
-  favicon: assets/favicon.ico
-
 extra_css:
   - stylesheets/dracula-scientific.css
 

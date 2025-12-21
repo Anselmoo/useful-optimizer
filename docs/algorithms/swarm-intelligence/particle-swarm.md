@@ -1,7 +1,6 @@
 ---
 title: Particle Swarm Optimization
 description: Social-inspired metaheuristic based on bird flocking behavior
-icon: material/bird
 status: new
 tags:
   - swarm-intelligence

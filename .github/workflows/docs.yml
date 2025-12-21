@@ -34,7 +34,8 @@ jobs:
           version: "latest"
 
       - name: Install dependencies
-        run: uv pip install --system mkdocs mkdocs-material mkdocs-charts-plugin mkdocs-minify-plugin pymdown-extensions
+        run: |
+          uv pip install --system -e .[docs]
 
       - name: Build docs
         run: mkdocs build
