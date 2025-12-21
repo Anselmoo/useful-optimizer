@@ -12,6 +12,7 @@ from opt.metaheuristic.arithmetic_optimization import ArithmeticOptimizationAlgo
 from opt.metaheuristic.colliding_bodies_optimization import CollidingBodiesOptimization
 from opt.metaheuristic.cross_entropy_method import CrossEntropyMethod
 from opt.metaheuristic.eagle_strategy import EagleStrategy
+from opt.metaheuristic.forensic_based import ForensicBasedInvestigationOptimizer
 from opt.metaheuristic.harmony_search import HarmonySearch
 from opt.metaheuristic.particle_filter import ParticleFilter
 from opt.metaheuristic.shuffled_frog_leaping_algorithm import (
@@ -32,6 +33,7 @@ __all__: list[str] = [
     "CollidingBodiesOptimization",
     "CrossEntropyMethod",
     "EagleStrategy",
+    "ForensicBasedInvestigationOptimizer",
     "HarmonySearch",
     "ParticleFilter",
     "ShuffledFrogLeapingAlgorithm",

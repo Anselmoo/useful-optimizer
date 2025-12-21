@@ -60,6 +60,7 @@ from opt.metaheuristic import ArithmeticOptimizationAlgorithm
 from opt.metaheuristic import CollidingBodiesOptimization
 from opt.metaheuristic import CrossEntropyMethod
 from opt.metaheuristic import EagleStrategy
+from opt.metaheuristic import ForensicBasedInvestigationOptimizer
 from opt.metaheuristic import HarmonySearch
 from opt.metaheuristic import ParticleFilter
 from opt.metaheuristic import ShuffledFrogLeapingAlgorithm
@@ -100,13 +101,17 @@ from opt.swarm_intelligence import AntLionOptimizer
 from opt.swarm_intelligence import AquilaOptimizer
 from opt.swarm_intelligence import ArtificialFishSwarm
 from opt.swarm_intelligence import ArtificialGorillaTroopsOptimizer
+from opt.swarm_intelligence import ArtificialHummingbirdAlgorithm
 from opt.swarm_intelligence import BarnaclesMatingOptimizer
 from opt.swarm_intelligence import BatAlgorithm
 from opt.swarm_intelligence import BeeAlgorithm
 from opt.swarm_intelligence import BlackWidowOptimizer
+from opt.swarm_intelligence import BrownBearOptimizer
 from opt.swarm_intelligence import CatSwarmOptimization
 from opt.swarm_intelligence import ChimpOptimizationAlgorithm
+from opt.swarm_intelligence import CoatiOptimizer
 from opt.swarm_intelligence import CuckooSearch
+from opt.swarm_intelligence import DingoOptimizer
 from opt.swarm_intelligence import DragonflyOptimizer
 from opt.swarm_intelligence import EmperorPenguinOptimizer
 from opt.swarm_intelligence import FireflyAlgorithm
@@ -121,16 +126,21 @@ from opt.swarm_intelligence import MantaRayForagingOptimization
 from opt.swarm_intelligence import MarinePredatorsOptimizer
 from opt.swarm_intelligence import MayflyOptimizer
 from opt.swarm_intelligence import MothFlameOptimizer
+from opt.swarm_intelligence import MothSearchAlgorithm
+from opt.swarm_intelligence import MountainGazelleOptimizer
+from opt.swarm_intelligence import OrcaPredatorAlgorithm
 from opt.swarm_intelligence import ParticleSwarm
 from opt.swarm_intelligence import PathfinderAlgorithm
 from opt.swarm_intelligence import ReptileSearchAlgorithm
 from opt.swarm_intelligence import SalpSwarmOptimizer
+from opt.swarm_intelligence import SandCatSwarmOptimizer
 from opt.swarm_intelligence import SeagullOptimizationAlgorithm
 from opt.swarm_intelligence import SlimeMouldAlgorithm
 from opt.swarm_intelligence import SpottedHyenaOptimizer
 from opt.swarm_intelligence import SquirrelSearchAlgorithm
 from opt.swarm_intelligence import TunicateSwarmAlgorithm
 from opt.swarm_intelligence import WhaleOptimizationAlgorithm
+from opt.swarm_intelligence import WildHorseOptimizer
 
 
 __version__ = "0.1.2"
@@ -164,6 +174,7 @@ __all__: list[str] = [
     "ArithmeticOptimizationAlgorithm",
     "ArtificialFishSwarm",
     "ArtificialGorillaTroopsOptimizer",
+    "ArtificialHummingbirdAlgorithm",
     # Physics-inspired
     "AtomSearchOptimizer",
     # Constrained
@@ -172,16 +183,19 @@ __all__: list[str] = [
     "BatAlgorithm",
     "BeeAlgorithm",
     "BlackWidowOptimizer",
+    "BrownBearOptimizer",
     # Evolutionary
     "CMAESAlgorithm",
     "CatSwarmOptimization",
     "ChimpOptimizationAlgorithm",
+    "CoatiOptimizer",
     "CollidingBodiesOptimization",
     "ConjugateGradient",
     "CrossEntropyMethod",
     "CuckooSearch",
     "CulturalAlgorithm",
     "DifferentialEvolution",
+    "DingoOptimizer",
     "DragonflyOptimizer",
     "EagleStrategy",
     "EmperorPenguinOptimizer",
@@ -189,6 +203,7 @@ __all__: list[str] = [
     "EstimationOfDistributionAlgorithm",
     "FireflyAlgorithm",
     "FlowerPollinationAlgorithm",
+    "ForensicBasedInvestigationOptimizer",
     "GeneticAlgorithm",
     "GlowwormSwarmOptimization",
     "GoldenEagleOptimizer",
@@ -206,9 +221,12 @@ __all__: list[str] = [
     "MarinePredatorsOptimizer",
     "MayflyOptimizer",
     "MothFlameOptimizer",
+    "MothSearchAlgorithm",
+    "MountainGazelleOptimizer",
     "Nadam",
     "NelderMead",
     "NesterovAcceleratedGradient",
+    "OrcaPredatorAlgorithm",
     "ParticleFilter",
     "ParticleSwarm",
     "ParzenTreeEstimator",
@@ -218,6 +236,7 @@ __all__: list[str] = [
     "ReptileSearchAlgorithm",
     "SGDMomentum",
     "SalpSwarmOptimizer",
+    "SandCatSwarmOptimizer",
     "SeagullOptimizationAlgorithm",
     "ShuffledFrogLeapingAlgorithm",
     "SimulatedAnnealing",
@@ -237,4 +256,5 @@ __all__: list[str] = [
     "VariableNeighborhoodSearch",
     "VeryLargeScaleNeighborhood",
     "WhaleOptimizationAlgorithm",
+    "WildHorseOptimizer",
 ]
