@@ -1,0 +1,13 @@
+[
+  {"iteration": 0, "fitness": 15.2},
+  {"iteration": 10, "fitness": 8.4},
+  {"iteration": 20, "fitness": 4.1},
+  {"iteration": 30, "fitness": 2.3},
+  {"iteration": 40, "fitness": 1.2},
+  {"iteration": 50, "fitness": 0.6},
+  {"iteration": 60, "fitness": 0.3},
+  {"iteration": 70, "fitness": 0.15},
+  {"iteration": 80, "fitness": 0.08},
+  {"iteration": 90, "fitness": 0.04},
+  {"iteration": 100, "fitness": 0.02}
+]
