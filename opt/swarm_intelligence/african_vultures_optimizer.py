@@ -114,7 +114,7 @@ class AfricanVulturesOptimizer(AbstractOptimizer):
         )
         return (2 * np.random.rand() + 1) * z * (1 - iteration / self.max_iter) + t
 
-    def search(self) -> tuple[np.ndarray, float]:  # noqa: C901, PLR0912, PLR0915
+    def search(self) -> tuple[np.ndarray, float]:
         """Execute the optimization algorithm.
 
         Returns:

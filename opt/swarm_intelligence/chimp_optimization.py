@@ -17,6 +17,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -129,9 +130,7 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
                     new_position += f * np.random.randn(self.dim)
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate and update
                 new_fitness = self.func(new_position)

@@ -17,6 +17,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -89,9 +90,7 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
             moa = 0.2 + (1 - iteration / self.max_iter) ** (_ALPHA)
 
             # Calculate Math Optimizer Probability (MOP) function
-            mop = 1 - ((iteration) ** (1 / _ALPHA)) / (
-                (self.max_iter) ** (1 / _ALPHA)
-            )
+            mop = 1 - ((iteration) ** (1 / _ALPHA)) / ((self.max_iter) ** (1 / _ALPHA))
 
             for i in range(self.population_size):
                 new_position = np.zeros(self.dim)
@@ -105,40 +104,39 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
                         # Exploration phase (Multiplication or Division)
                         if r2 > 0.5:
                             # Division
-                            divisor = (
-                                mop * ((self.upper_bound - self.lower_bound) * _MU
-                                       + self.lower_bound)
+                            divisor = mop * (
+                                (self.upper_bound - self.lower_bound) * _MU
+                                + self.lower_bound
                             )
                             if abs(divisor) < _MIN_VALUE:
                                 divisor = _MIN_VALUE
-                            new_position[j] = (
-                                best_solution[j] / divisor
-                            )
+                            new_position[j] = best_solution[j] / divisor
                         else:
                             # Multiplication
-                            new_position[j] = best_solution[j] * mop * (
-                                (self.upper_bound - self.lower_bound) * _MU
-                                + self.lower_bound
+                            new_position[j] = (
+                                best_solution[j]
+                                * mop
+                                * (
+                                    (self.upper_bound - self.lower_bound) * _MU
+                                    + self.lower_bound
+                                )
                             )
+                    # Exploitation phase (Subtraction or Addition)
+                    elif r3 > 0.5:
+                        # Subtraction
+                        new_position[j] = best_solution[j] - mop * (
+                            (self.upper_bound - self.lower_bound) * _MU
+                            + self.lower_bound
+                        )
                     else:
-                        # Exploitation phase (Subtraction or Addition)
-                        if r3 > 0.5:
-                            # Subtraction
-                            new_position[j] = best_solution[j] - mop * (
-                                (self.upper_bound - self.lower_bound) * _MU
-                                + self.lower_bound
-                            )
-                        else:
-                            # Addition
-                            new_position[j] = best_solution[j] + mop * (
-                                (self.upper_bound - self.lower_bound) * _MU
-                                + self.lower_bound
-                            )
+                        # Addition
+                        new_position[j] = best_solution[j] + mop * (
+                            (self.upper_bound - self.lower_bound) * _MU
+                            + self.lower_bound
+                        )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new solution
                 new_fitness = self.func(new_position)

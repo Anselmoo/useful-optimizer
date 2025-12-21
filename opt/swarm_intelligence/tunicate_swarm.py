@@ -19,6 +19,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -104,14 +105,12 @@ class TunicateSwarmAlgorithm(AbstractOptimizer):
                 c3 = np.random.rand()
 
                 if r2 >= 0.5:
-                    new_position = (
-                        food_source
-                        + a * np.abs(food_source - c2 * population[i])
+                    new_position = food_source + a * np.abs(
+                        food_source - c2 * population[i]
                     )
                 else:
-                    new_position = (
-                        food_source
-                        - a * np.abs(food_source - c2 * population[i])
+                    new_position = food_source - a * np.abs(
+                        food_source - c2 * population[i]
                     )
 
                 # Apply swarm update (average with previous tunicate)
@@ -119,9 +118,7 @@ class TunicateSwarmAlgorithm(AbstractOptimizer):
                     new_position = (new_position + population[i - 1]) / 2
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate and update
                 new_fitness = self.func(new_position)

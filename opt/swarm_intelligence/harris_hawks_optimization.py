@@ -93,7 +93,7 @@ class HarrisHawksOptimizer(AbstractOptimizer):
         v = rng.normal(0, 1, dim)
         return u / (np.abs(v) ** (1 / beta))
 
-    def search(self) -> tuple[np.ndarray, float]:  # noqa: C901, PLR0912, PLR0915
+    def search(self) -> tuple[np.ndarray, float]:
         """Execute the Harris Hawks Optimization algorithm.
 
         Returns:

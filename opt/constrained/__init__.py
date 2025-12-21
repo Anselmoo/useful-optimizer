@@ -19,8 +19,8 @@ from opt.constrained.successive_linear_programming import SuccessiveLinearProgra
 
 __all__: list[str] = [
     "AugmentedLagrangian",
-    "SuccessiveLinearProgramming",
-    "PenaltyMethodOptimizer",
     "BarrierMethodOptimizer",
+    "PenaltyMethodOptimizer",
     "SequentialQuadraticProgramming",
+    "SuccessiveLinearProgramming",
 ]

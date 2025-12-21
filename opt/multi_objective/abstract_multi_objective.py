@@ -119,9 +119,7 @@ class AbstractMultiObjectiveOptimizer(ABC):
         """
         return bool(np.all(fitness_a <= fitness_b) and np.any(fitness_a < fitness_b))
 
-    def fast_non_dominated_sort(  # noqa: C901
-        self, fitness: ndarray
-    ) -> list[list[int]]:
+    def fast_non_dominated_sort(self, fitness: ndarray) -> list[list[int]]:
         """Perform fast non-dominated sorting.
 
         Args:

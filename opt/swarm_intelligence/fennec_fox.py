@@ -33,6 +33,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -83,9 +84,7 @@ class FennecFoxOptimizer(AbstractOptimizer):
         """
         # Initialize population
         population = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
@@ -125,9 +124,7 @@ class FennecFoxOptimizer(AbstractOptimizer):
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
                 new_fitness = self.func(new_position)
 
                 # Greedy selection

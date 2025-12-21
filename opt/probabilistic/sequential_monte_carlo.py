@@ -84,9 +84,7 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         self.initial_temp = initial_temp
         self.final_temp = final_temp
 
-    def _systematic_resample(
-        self, weights: np.ndarray, n_samples: int
-    ) -> np.ndarray:
+    def _systematic_resample(self, weights: np.ndarray, n_samples: int) -> np.ndarray:
         """Perform systematic resampling.
 
         Args:
@@ -110,9 +108,7 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         """
         # Initialize particles uniformly
         particles = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(p) for p in particles])
 
@@ -126,9 +122,7 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         for iteration in range(self.max_iter):
             # Compute current temperature
             t = iteration / self.max_iter
-            temperature = self.initial_temp * (
-                self.final_temp / self.initial_temp
-            ) ** t
+            temperature = self.initial_temp * (self.final_temp / self.initial_temp) ** t
 
             # Compute importance weights based on fitness
             log_weights = -fitness / temperature
@@ -141,9 +135,7 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
 
             # Resample if ESS is low
             if ess < self.population_size / 2:
-                indices = self._systematic_resample(
-                    weights, self.population_size
-                )
+                indices = self._systematic_resample(weights, self.population_size)
                 particles = particles[indices]
                 fitness = fitness[indices]
                 weights = np.ones(self.population_size) / self.population_size

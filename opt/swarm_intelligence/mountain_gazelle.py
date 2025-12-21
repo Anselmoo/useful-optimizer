@@ -60,9 +60,7 @@ class MountainGazelleOptimizer(AbstractOptimizer):
         """
         # Initialize gazelle positions
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -112,10 +110,7 @@ class MountainGazelleOptimizer(AbstractOptimizer):
                     r3 = np.random.rand()
 
                     # Male fights around the female (elite)
-                    new_position = (
-                        elite
-                        + (2 * r3 - 1) * a * (elite - positions[i])
-                    )
+                    new_position = elite + (2 * r3 - 1) * a * (elite - positions[i])
 
                 else:
                     # Fear from predators - escape behavior
@@ -131,16 +126,12 @@ class MountainGazelleOptimizer(AbstractOptimizer):
                         np.linalg.norm(escape_direction) + 1e-10
                     )
 
-                    new_position = (
-                        positions[i]
-                        + r4 * a * escape_direction
-                        * (self.upper_bound - self.lower_bound)
+                    new_position = positions[i] + r4 * a * escape_direction * (
+                        self.upper_bound - self.lower_bound
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(new_position)

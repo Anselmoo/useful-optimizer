@@ -65,9 +65,7 @@ class BarnaclesMatingOptimizer(AbstractOptimizer):
         """
         # Initialize barnacle positions
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate initial fitness
@@ -111,9 +109,7 @@ class BarnaclesMatingOptimizer(AbstractOptimizer):
                         new_position[d] = positions[rand_idx, d]
 
                 # Apply boundary constraints
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(new_position)

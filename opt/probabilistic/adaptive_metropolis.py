@@ -15,11 +15,7 @@ Reference:
 Example:
     >>> from opt.benchmark.functions import shifted_ackley
     >>> optimizer = AdaptiveMetropolisOptimizer(
-    ...     func=shifted_ackley,
-    ...     lower_bound=-2.768,
-    ...     upper_bound=2.768,
-    ...     dim=2,
-    ...     max_iter=1000,
+    ...     func=shifted_ackley, lower_bound=-2.768, upper_bound=2.768, dim=2, max_iter=1000
     ... )
     >>> best_solution, best_fitness = optimizer.search()
 """
@@ -91,9 +87,7 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
             Tuple of (best_solution, best_fitness).
         """
         # Initialize
-        current = np.random.uniform(
-            self.lower_bound, self.upper_bound, self.dim
-        )
+        current = np.random.uniform(self.lower_bound, self.upper_bound, self.dim)
         current_fitness = self.func(current)
 
         best_solution = current.copy()
@@ -114,9 +108,7 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
         for iteration in range(self.max_iter):
             # Compute temperature
             t = iteration / self.max_iter
-            temperature = self.initial_temp * (
-                self.final_temp / self.initial_temp
-            ) ** t
+            temperature = self.initial_temp * (self.final_temp / self.initial_temp) ** t
 
             # Generate proposal
             if iteration < self.adaptation_start:
@@ -166,11 +158,7 @@ if __name__ == "__main__":
     from opt.benchmark.functions import shifted_ackley
 
     optimizer = AdaptiveMetropolisOptimizer(
-        func=shifted_ackley,
-        lower_bound=-2.768,
-        upper_bound=2.768,
-        dim=2,
-        max_iter=1000,
+        func=shifted_ackley, lower_bound=-2.768, upper_bound=2.768, dim=2, max_iter=1000
     )
     best_solution, best_fitness = optimizer.search()
     print(f"Best solution found: {best_solution}")

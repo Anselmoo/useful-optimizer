@@ -14,7 +14,8 @@ Reference:
 Example:
     >>> from opt.benchmark.functions import sphere
     >>> # Minimize sphere with constraint x[0] <= 2
-    >>> def constraint(x): return x[0] - 2  # g(x) <= 0 form
+    >>> def constraint(x):
+    ...     return x[0] - 2  # g(x) <= 0 form
     >>> optimizer = BarrierMethodOptimizer(
     ...     func=sphere,
     ...     lower_bound=-5,
@@ -88,9 +89,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         self.initial_mu = initial_mu
         self.mu_reduction = mu_reduction
 
-    def _barrier_objective(
-        self, x: np.ndarray, mu: float
-    ) -> float:
+    def _barrier_objective(self, x: np.ndarray, mu: float) -> float:
         """Compute barrier objective function.
 
         Args:
@@ -120,9 +119,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         """
         # Try random points
         for _ in range(1000):
-            x = np.random.uniform(
-                self.lower_bound, self.upper_bound, self.dim
-            )
+            x = np.random.uniform(self.lower_bound, self.upper_bound, self.dim)
             if self._is_strictly_feasible(x):
                 return x
 
@@ -162,9 +159,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
                     self.lower_bound, self.upper_bound, self.dim
                 )
         else:
-            current = np.random.uniform(
-                self.lower_bound, self.upper_bound, self.dim
-            )
+            current = np.random.uniform(self.lower_bound, self.upper_bound, self.dim)
 
         bounds = [(self.lower_bound, self.upper_bound)] * self.dim
         mu = self.initial_mu

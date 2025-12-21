@@ -35,6 +35,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -86,9 +87,7 @@ class RIMEOptimizer(AbstractOptimizer):
         """
         # Initialize population
         population = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
@@ -124,27 +123,21 @@ class RIMEOptimizer(AbstractOptimizer):
                 if r2 < e:
                     # Select random dimensions to update
                     num_dims = np.random.randint(1, self.dim + 1)
-                    dims_to_update = np.random.choice(
-                        self.dim, num_dims, replace=False
-                    )
+                    dims_to_update = np.random.choice(self.dim, num_dims, replace=False)
 
                     for j in dims_to_update:
                         # Puncture toward normalized best position
                         normalized_best = (best_solution[j] - self.lower_bound) / (
                             self.upper_bound - self.lower_bound
                         )
-                        new_position[j] = (
-                            best_solution[j]
-                            - normalized_best
-                            * (self.upper_bound - self.lower_bound)
-                            * (2 * np.random.random() - 1)
-                            * (1 - iteration / self.max_iter)
+                        new_position[j] = best_solution[j] - normalized_best * (
+                            self.upper_bound - self.lower_bound
+                        ) * (2 * np.random.random() - 1) * (
+                            1 - iteration / self.max_iter
                         )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
                 new_fitness = self.func(new_position)
 
                 # Positive greedy selection

@@ -34,6 +34,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -85,9 +86,7 @@ class PelicanOptimizer(AbstractOptimizer):
         """
         # Initialize flock
         population = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
@@ -103,9 +102,7 @@ class PelicanOptimizer(AbstractOptimizer):
                 # Phase 1: Moving toward prey (exploration)
                 # Select a prey location (random better solution)
                 better_indices = sorted_indices[: i + 1] if i > 0 else [0]
-                prey_idx = better_indices[
-                    np.random.randint(len(better_indices))
-                ]
+                prey_idx = better_indices[np.random.randint(len(better_indices))]
                 prey = population[prey_idx]
 
                 r1 = np.random.random(self.dim)
@@ -117,14 +114,10 @@ class PelicanOptimizer(AbstractOptimizer):
                         prey - population[i] * (1 + r2)
                     )
                 else:
-                    new_position = population[i] + r1 * (
-                        population[i] - prey
-                    )
+                    new_position = population[i] + r1 * (population[i] - prey)
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
                 new_fitness = self.func(new_position)
 
                 if new_fitness < fitness[i]:

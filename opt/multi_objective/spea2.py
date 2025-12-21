@@ -14,9 +14,8 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.multi_objective.abstract_multi_objective import (
-    AbstractMultiObjectiveOptimizer,
-)
+from opt.multi_objective.abstract_multi_objective import AbstractMultiObjectiveOptimizer
+
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -86,9 +85,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         """
         return np.all(obj1 <= obj2) and np.any(obj1 < obj2)
 
-    def _calculate_strength(
-        self, objectives_values: np.ndarray
-    ) -> np.ndarray:
+    def _calculate_strength(self, objectives_values: np.ndarray) -> np.ndarray:
         """Calculate strength values for all individuals.
 
         Strength of an individual = number of solutions it dominates.
@@ -154,9 +151,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             distances = []
             for j in range(n):
                 if i != j:
-                    dist = np.linalg.norm(
-                        objectives_values[i] - objectives_values[j]
-                    )
+                    dist = np.linalg.norm(objectives_values[i] - objectives_values[j])
                     distances.append(dist)
 
             distances.sort()
@@ -254,10 +249,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         return y
 
     def _environmental_selection(
-        self,
-        combined_pop: np.ndarray,
-        combined_obj: np.ndarray,
-        fitness: np.ndarray,
+        self, combined_pop: np.ndarray, combined_obj: np.ndarray, fitness: np.ndarray
     ) -> tuple[np.ndarray, np.ndarray]:
         """Environmental selection to form the next archive.
 
@@ -281,10 +273,9 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
                 sorted_dominated = dominated_indices[np.argsort(dominated_fitness)]
 
                 needed = self.archive_size - len(non_dominated_indices)
-                selected_indices = np.concatenate([
-                    non_dominated_indices,
-                    sorted_dominated[:needed]
-                ])
+                selected_indices = np.concatenate(
+                    [non_dominated_indices, sorted_dominated[:needed]]
+                )
             else:
                 selected_indices = non_dominated_indices
         else:
@@ -296,9 +287,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         return combined_pop[selected_indices], combined_obj[selected_indices]
 
     def _truncate_archive(
-        self,
-        indices: np.ndarray,
-        objectives_values: np.ndarray,
+        self, indices: np.ndarray, objectives_values: np.ndarray
     ) -> np.ndarray:
         """Truncate archive using nearest neighbor clustering.
 
@@ -331,9 +320,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
 
         return np.array(selected)
 
-    def _binary_tournament(
-        self, fitness: np.ndarray
-    ) -> int:
+    def _binary_tournament(self, fitness: np.ndarray) -> int:
         """Binary tournament selection.
 
         Args:
@@ -349,7 +336,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             return idx1
         return idx2
 
-    def search(self) -> tuple[np.ndarray, np.ndarray]:  # noqa: C901, PLR0912, PLR0915
+    def search(self) -> tuple[np.ndarray, np.ndarray]:
         """Execute SPEA2.
 
         Returns:
@@ -361,10 +348,9 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         )
 
         # Evaluate objectives
-        objectives_values = np.array([
-            [obj(ind) for obj in self.objectives]
-            for ind in population
-        ])
+        objectives_values = np.array(
+            [[obj(ind) for obj in self.objectives] for ind in population]
+        )
 
         # Initialize archive
         archive = np.empty((0, self.dim))
@@ -373,8 +359,14 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         # Main loop
         for _ in range(self.max_iter):
             # Combine population and archive
-            combined_pop = np.vstack([population, archive]) if len(archive) > 0 else population
-            combined_obj = np.vstack([objectives_values, archive_obj]) if len(archive_obj) > 0 else objectives_values
+            combined_pop = (
+                np.vstack([population, archive]) if len(archive) > 0 else population
+            )
+            combined_obj = (
+                np.vstack([objectives_values, archive_obj])
+                if len(archive_obj) > 0
+                else objectives_values
+            )
 
             # Calculate fitness
             strength = self._calculate_strength(combined_obj)
@@ -388,7 +380,9 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             )
 
             # Mating selection and variation
-            archive_fitness = np.zeros(len(archive))  # Archived solutions have fitness < 1
+            archive_fitness = np.zeros(
+                len(archive)
+            )  # Archived solutions have fitness < 1
             offspring = []
 
             while len(offspring) < self.population_size:
@@ -411,11 +405,10 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
 
                 offspring.extend([child1, child2])
 
-            population = np.array(offspring[:self.population_size])
-            objectives_values = np.array([
-                [obj(ind) for obj in self.objectives]
-                for ind in population
-            ])
+            population = np.array(offspring[: self.population_size])
+            objectives_values = np.array(
+                [[obj(ind) for obj in self.objectives] for ind in population]
+            )
 
         return archive, archive_obj
 
@@ -439,7 +432,9 @@ if __name__ == "__main__":
     )
     pareto_solutions, pareto_objectives = optimizer.search()
     print(f"Found {len(pareto_solutions)} Pareto-optimal solutions")
-    print(f"Objective ranges: f1=[{pareto_objectives[:, 0].min():.4f}, "
-          f"{pareto_objectives[:, 0].max():.4f}], "
-          f"f2=[{pareto_objectives[:, 1].min():.4f}, "
-          f"{pareto_objectives[:, 1].max():.4f}]")
+    print(
+        f"Objective ranges: f1=[{pareto_objectives[:, 0].min():.4f}, "
+        f"{pareto_objectives[:, 0].max():.4f}], "
+        f"f2=[{pareto_objectives[:, 1].min():.4f}, "
+        f"{pareto_objectives[:, 1].max():.4f}]"
+    )

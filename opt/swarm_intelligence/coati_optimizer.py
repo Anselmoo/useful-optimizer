@@ -59,9 +59,7 @@ class CoatiOptimizer(AbstractOptimizer):
         """
         # Initialize coati positions
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -89,23 +87,17 @@ class CoatiOptimizer(AbstractOptimizer):
                         * (1 - iteration / self.max_iter)
                         * best_solution
                     )
-                    iguana_pos = np.clip(
-                        iguana_pos, self.lower_bound, self.upper_bound
-                    )
+                    iguana_pos = np.clip(iguana_pos, self.lower_bound, self.upper_bound)
 
                     if r < 0.5:
                         # Move toward iguana on tree
-                        new_position = (
-                            positions[i]
-                            + np.random.rand()
-                            * (iguana_pos - 2 * np.random.rand() * positions[i])
+                        new_position = positions[i] + np.random.rand() * (
+                            iguana_pos - 2 * np.random.rand() * positions[i]
                         )
                     else:
                         # Move toward iguana on ground
-                        new_position = (
-                            positions[i]
-                            + np.random.rand()
-                            * (iguana_pos - positions[i])
+                        new_position = positions[i] + np.random.rand() * (
+                            iguana_pos - positions[i]
                         )
                 else:
                     # Strategy 2: Escaping from predator (exploration)
@@ -120,21 +112,17 @@ class CoatiOptimizer(AbstractOptimizer):
 
                     if fitness[rand_idx] < fitness[i]:
                         # Move toward better coati
-                        new_position = (
-                            positions[i]
-                            + r1 * (rand_coati - r2 * positions[i])
+                        new_position = positions[i] + r1 * (
+                            rand_coati - r2 * positions[i]
                         )
                     else:
                         # Move away from worse coati
-                        new_position = (
-                            positions[i]
-                            + r1 * (positions[i] - r2 * rand_coati)
+                        new_position = positions[i] + r1 * (
+                            positions[i] - r2 * rand_coati
                         )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(new_position)

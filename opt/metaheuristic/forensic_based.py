@@ -58,9 +58,7 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
         """
         # Initialize investigator positions
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -99,7 +97,8 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
                     new_position = (
                         positions[i]
                         + beta * (positions[r1] - positions[r2])
-                        + (1 - beta) * np.random.randn(self.dim)
+                        + (1 - beta)
+                        * np.random.randn(self.dim)
                         * (mean_position - positions[i])
                     )
                 else:
@@ -112,9 +111,8 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
                     if r_pursuit < 0.5:
                         # Direct pursuit toward best solution
                         alpha = 2 * np.random.rand() - 1
-                        new_position = (
-                            best_solution
-                            + alpha * (best_solution - positions[i])
+                        new_position = best_solution + alpha * (
+                            best_solution - positions[i]
                         )
                     else:
                         # Coordinated team pursuit
@@ -129,9 +127,7 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
                         )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(new_position)

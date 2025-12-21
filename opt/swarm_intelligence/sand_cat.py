@@ -63,9 +63,7 @@ class SandCatSwarmOptimizer(AbstractOptimizer):
         """
         # Initialize sand cat positions
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -95,23 +93,17 @@ class SandCatSwarmOptimizer(AbstractOptimizer):
                     rand_cat = positions[rand_idx]
 
                     # Update position using spiral movement
-                    new_position = (
-                        r * (rand_cat - np.random.rand() * positions[i])
-                        + np.abs(np.random.randn(self.dim)) * np.cos(theta)
-                    )
+                    new_position = r * (
+                        rand_cat - np.random.rand() * positions[i]
+                    ) + np.abs(np.random.randn(self.dim)) * np.cos(theta)
                 else:
                     # Attack mode (exploitation)
                     # Move toward best solution
                     distance = np.abs(best_solution - positions[i])
-                    new_position = (
-                        best_solution
-                        - r * distance * np.cos(theta)
-                    )
+                    new_position = best_solution - r * distance * np.cos(theta)
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(new_position)

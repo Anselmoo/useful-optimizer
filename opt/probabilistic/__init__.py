@@ -16,9 +16,9 @@ from opt.probabilistic.sequential_monte_carlo import SequentialMonteCarloOptimiz
 
 
 __all__: list[str] = [
+    "AdaptiveMetropolisOptimizer",
+    "BayesianOptimizer",
     "LDAnalysis",
     "ParzenTreeEstimator",
-    "BayesianOptimizer",
     "SequentialMonteCarloOptimizer",
-    "AdaptiveMetropolisOptimizer",
 ]

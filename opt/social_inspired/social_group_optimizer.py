@@ -90,9 +90,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
         """
         # Initialize population (social group)
         population = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
@@ -124,8 +122,8 @@ class SocialGroupOptimizer(AbstractOptimizer):
 
                 # Phase 3: Self-introspection (individual exploration)
                 r3 = np.random.uniform(-1, 1, self.dim)
-                introspection_component = c_current * r3 * (
-                    self.upper_bound - self.lower_bound
+                introspection_component = (
+                    c_current * r3 * (self.upper_bound - self.lower_bound)
                 )
 
                 # Combine all phases
@@ -137,9 +135,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
                 )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
                 new_fitness = self.func(new_position)
 
                 # Greedy selection

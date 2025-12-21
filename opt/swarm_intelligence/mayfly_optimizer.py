@@ -135,7 +135,9 @@ class MayflyOptimizer(AbstractOptimizer):
                     dance_component = 0
 
                 # Update velocity
-                male_vel[i] = self.g * male_vel[i] + cognitive + social + dance_component
+                male_vel[i] = (
+                    self.g * male_vel[i] + cognitive + social + dance_component
+                )
                 male_vel[i] *= damp
 
                 # Update position

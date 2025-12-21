@@ -65,9 +65,7 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
         """
         # Initialize population
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -121,9 +119,7 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
                     )
 
                 # Boundary handling
-                positions[i] = np.clip(
-                    positions[i], self.lower_bound, self.upper_bound
-                )
+                positions[i] = np.clip(positions[i], self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(positions[i])
@@ -148,9 +144,7 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
         c = 2.0  # Constant
         return c * np.exp(-iteration / self.max_iter)
 
-    def _compute_intensity(
-        self, position: np.ndarray, prey: np.ndarray
-    ) -> float:
+    def _compute_intensity(self, position: np.ndarray, prey: np.ndarray) -> float:
         """Compute smell intensity based on distance from prey.
 
         Args:

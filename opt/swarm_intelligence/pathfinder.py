@@ -17,6 +17,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -90,15 +91,13 @@ class PathfinderAlgorithm(AbstractOptimizer):
             r2 = np.random.rand()
 
             # Update pathfinder position (exploration)
-            update_vec = _ALPHA * np.random.randn(self.dim) * (
-                1 - iteration / self.max_iter
+            update_vec = (
+                _ALPHA * np.random.randn(self.dim) * (1 - iteration / self.max_iter)
             )
             new_pathfinder = pathfinder + update_vec
 
             # Boundary handling for pathfinder
-            new_pathfinder = np.clip(
-                new_pathfinder, self.lower_bound, self.upper_bound
-            )
+            new_pathfinder = np.clip(new_pathfinder, self.lower_bound, self.upper_bound)
 
             # Evaluate new pathfinder
             new_fitness = self.func(new_pathfinder)
@@ -128,9 +127,7 @@ class PathfinderAlgorithm(AbstractOptimizer):
                 )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate and update if better
                 new_fitness = self.func(new_position)

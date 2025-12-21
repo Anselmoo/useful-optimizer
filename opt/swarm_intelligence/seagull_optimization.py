@@ -17,6 +17,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -91,7 +92,7 @@ class SeagullOptimizationAlgorithm(AbstractOptimizer):
 
             for i in range(self.population_size):
                 # Random parameters
-                b_coef = 2 * a_coef ** 2 * np.random.rand()
+                b_coef = 2 * a_coef**2 * np.random.rand()
 
                 # Migration behavior
                 # Collision avoidance
@@ -113,15 +114,10 @@ class SeagullOptimizationAlgorithm(AbstractOptimizer):
                 z_spiral = r * theta
 
                 # Final position (combine spiral with direction)
-                new_position = (
-                    ds * x_spiral * y_spiral * z_spiral
-                    + best_solution
-                )
+                new_position = ds * x_spiral * y_spiral * z_spiral + best_solution
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate and update
                 new_fitness = self.func(new_position)

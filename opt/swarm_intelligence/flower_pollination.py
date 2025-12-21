@@ -15,9 +15,11 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import numpy as np
+
 from scipy.special import gamma
 
 from opt.abstract_optimizer import AbstractOptimizer
+
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -85,7 +87,8 @@ class FlowerPollinationAlgorithm(AbstractOptimizer):
 
         # Calculate sigma using Mantegna's algorithm
         sigma_u = (
-            gamma(1 + beta) * np.sin(np.pi * beta / 2)
+            gamma(1 + beta)
+            * np.sin(np.pi * beta / 2)
             / (gamma((1 + beta) / 2) * beta * 2 ** ((beta - 1) / 2))
         ) ** (1 / beta)
         sigma_v = 1.0
@@ -139,9 +142,7 @@ class FlowerPollinationAlgorithm(AbstractOptimizer):
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new solution
                 new_fitness = self.func(new_position)

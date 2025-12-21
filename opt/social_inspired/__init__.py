@@ -24,8 +24,8 @@ from opt.social_inspired.teaching_learning import TeachingLearningOptimizer
 
 
 __all__: list[str] = [
-    "TeachingLearningOptimizer",
     "PoliticalOptimizer",
-    "SocialGroupOptimizer",
     "SoccerLeagueOptimizer",
+    "SocialGroupOptimizer",
+    "TeachingLearningOptimizer",
 ]

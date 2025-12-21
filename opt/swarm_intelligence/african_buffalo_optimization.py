@@ -70,9 +70,7 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
         """
         # Initialize buffalo positions
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Initialize fitness and best positions
@@ -102,9 +100,7 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
                 positions[i] = (positions[i] + exploration_memory[i]) / 2.0
 
                 # Boundary handling
-                positions[i] = np.clip(
-                    positions[i], self.lower_bound, self.upper_bound
-                )
+                positions[i] = np.clip(positions[i], self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(positions[i])

@@ -68,9 +68,7 @@ class DingoOptimizer(AbstractOptimizer):
         """
         # Initialize dingo pack
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -104,25 +102,23 @@ class DingoOptimizer(AbstractOptimizer):
                     # Group attack strategy
                     n_hunters = 3
                     hunters_idx = np.random.choice(
-                        self.population_size, size=min(n_hunters, self.population_size),
-                        replace=False
+                        self.population_size,
+                        size=min(n_hunters, self.population_size),
+                        replace=False,
                     )
                     hunters = positions[hunters_idx]
 
                     # Move toward center of hunters
                     center = np.mean(hunters, axis=0)
                     r3 = np.random.rand()
-                    new_position = (
-                        center
-                        + r3 * (self.upper_bound - self.lower_bound)
-                        * (2 * np.random.rand(self.dim) - 1)
-                        * (1 - iteration / self.max_iter)
+                    new_position = center + r3 * (
+                        self.upper_bound - self.lower_bound
+                    ) * (2 * np.random.rand(self.dim) - 1) * (
+                        1 - iteration / self.max_iter
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(new_position)
@@ -150,12 +146,9 @@ class DingoOptimizer(AbstractOptimizer):
                     )
                 else:
                     # Initialize near best
-                    positions[idx] = (
-                        best_solution
-                        + 0.1
-                        * (self.upper_bound - self.lower_bound)
-                        * np.random.randn(self.dim)
-                    )
+                    positions[idx] = best_solution + 0.1 * (
+                        self.upper_bound - self.lower_bound
+                    ) * np.random.randn(self.dim)
                     positions[idx] = np.clip(
                         positions[idx], self.lower_bound, self.upper_bound
                     )

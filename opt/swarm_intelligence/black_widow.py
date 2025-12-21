@@ -75,9 +75,7 @@ class BlackWidowOptimizer(AbstractOptimizer):
         """
         # Initialize population
         population = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate initial fitness
@@ -110,7 +108,9 @@ class BlackWidowOptimizer(AbstractOptimizer):
 
                 offspring.extend([child1, child2])
 
-            offspring = np.array(offspring) if offspring else np.array([]).reshape(0, self.dim)
+            offspring = (
+                np.array(offspring) if offspring else np.array([]).reshape(0, self.dim)
+            )
 
             # Apply boundary constraints to offspring
             if len(offspring) > 0:

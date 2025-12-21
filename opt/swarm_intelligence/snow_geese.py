@@ -34,6 +34,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -85,9 +86,7 @@ class SnowGeeseOptimizer(AbstractOptimizer):
         """
         # Initialize flock
         population = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
@@ -129,9 +128,7 @@ class SnowGeeseOptimizer(AbstractOptimizer):
 
                     # Random search with Levy-like movement
                     step_size = (
-                        (self.upper_bound - self.lower_bound)
-                        * (1 - t) ** 2
-                        * 0.1
+                        (self.upper_bound - self.lower_bound) * (1 - t) ** 2 * 0.1
                     )
 
                     # Choose random neighbor to follow
@@ -156,9 +153,7 @@ class SnowGeeseOptimizer(AbstractOptimizer):
                     new_position = new_position + perturbation
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
                 new_fitness = self.func(new_position)
 
                 # Greedy selection

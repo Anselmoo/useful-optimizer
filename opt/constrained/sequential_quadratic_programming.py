@@ -14,7 +14,8 @@ Reference:
 Example:
     >>> from opt.benchmark.functions import sphere
     >>> # Minimize sphere with constraint sum(x) = 1
-    >>> def eq_constraint(x): return np.sum(x) - 1
+    >>> def eq_constraint(x):
+    ...     return np.sum(x) - 1
     >>> optimizer = SequentialQuadraticProgramming(
     ...     func=sphere,
     ...     lower_bound=-5,
@@ -120,16 +121,15 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
         scipy_constraints = []
 
         for g in self.constraints:
-            scipy_constraints.append({
-                "type": "ineq",
-                "fun": lambda x, g=g: -g(x),  # scipy uses g(x) >= 0
-            })
+            scipy_constraints.append(
+                {
+                    "type": "ineq",
+                    "fun": lambda x, g=g: -g(x),  # scipy uses g(x) >= 0
+                }
+            )
 
         for h in self.eq_constraints:
-            scipy_constraints.append({
-                "type": "eq",
-                "fun": h,
-            })
+            scipy_constraints.append({"type": "eq", "fun": h})
 
         bounds = [(self.lower_bound, self.upper_bound)] * self.dim
 
@@ -141,9 +141,7 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
 
         for _ in range(n_starts):
             # Random starting point
-            x0 = np.random.uniform(
-                self.lower_bound, self.upper_bound, self.dim
-            )
+            x0 = np.random.uniform(self.lower_bound, self.upper_bound, self.dim)
 
             try:
                 result = minimize(
@@ -152,10 +150,7 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
                     method="SLSQP",
                     bounds=bounds,
                     constraints=scipy_constraints,
-                    options={
-                        "maxiter": self.max_iter // n_starts,
-                        "ftol": self.tol,
-                    },
+                    options={"maxiter": self.max_iter // n_starts, "ftol": self.tol},
                 )
 
                 if result.fun < best_fitness:

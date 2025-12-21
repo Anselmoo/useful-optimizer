@@ -120,7 +120,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
 
         return depth * (ratio_12 - ratio_6)
 
-    def search(self) -> tuple[np.ndarray, float]:  # noqa: C901
+    def search(self) -> tuple[np.ndarray, float]:
         """Execute the optimization algorithm.
 
         Returns:

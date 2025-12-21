@@ -90,9 +90,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         """
         # Initialize teams (positions)
         teams = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(team) for team in teams])
 
@@ -110,30 +108,24 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
                 # Select opponent (weighted toward better teams)
                 weights = 1.0 / (np.arange(self.population_size) + 1)
                 weights /= weights.sum()
-                opponent_idx = np.random.choice(
-                    self.population_size, p=weights
-                )
+                opponent_idx = np.random.choice(self.population_size, p=weights)
 
                 # Match process
                 if fitness[i] < fitness[opponent_idx]:
                     # Winner (team i) - improve slightly
                     r1 = np.random.random(self.dim)
-                    new_position = teams[i] + r1 * (
-                        best_solution - teams[i]
-                    ) * (1 - t)
+                    new_position = teams[i] + r1 * (best_solution - teams[i]) * (1 - t)
                 else:
                     # Loser (team i) - learn from opponent
                     r2 = np.random.random(self.dim)
-                    new_position = teams[i] + r2 * (
-                        teams[opponent_idx] - teams[i]
-                    )
+                    new_position = teams[i] + r2 * (teams[opponent_idx] - teams[i])
 
                 # Training phase (random improvement)
                 if np.random.random() < 0.2:  # 20% training probability
                     r3 = np.random.uniform(-1, 1, self.dim)
-                    training = r3 * (1 - t) * (
-                        self.upper_bound - self.lower_bound
-                    ) * 0.1
+                    training = (
+                        r3 * (1 - t) * (self.upper_bound - self.lower_bound) * 0.1
+                    )
                     new_position = new_position + training
 
                 # Transfer window (swap dimensions with random team)
@@ -143,9 +135,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
                     new_position[dim_to_swap] = teams[j][dim_to_swap]
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
                 new_fitness = self.func(new_position)
 
                 # Update if improved

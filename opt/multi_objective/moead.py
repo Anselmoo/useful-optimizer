@@ -223,7 +223,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
 
         return np.clip(y, self.lower_bound, self.upper_bound)
 
-    def search(self) -> tuple[np.ndarray, np.ndarray]:  # noqa: C901, PLR0912
+    def search(self) -> tuple[np.ndarray, np.ndarray]:
         """Execute the optimization algorithm.
 
         Returns:

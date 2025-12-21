@@ -14,7 +14,8 @@ Reference:
 Example:
     >>> from opt.benchmark.functions import sphere
     >>> # Minimize sphere with constraint sum(x) >= 0
-    >>> def constraint(x): return -np.sum(x)  # g(x) <= 0 form
+    >>> def constraint(x):
+    ...     return -np.sum(x)  # g(x) <= 0 form
     >>> optimizer = PenaltyMethodOptimizer(
     ...     func=sphere,
     ...     lower_bound=-5,
@@ -92,9 +93,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
         self.initial_penalty = initial_penalty
         self.penalty_growth = penalty_growth
 
-    def _penalized_objective(
-        self, x: np.ndarray, penalty: float
-    ) -> float:
+    def _penalized_objective(self, x: np.ndarray, penalty: float) -> float:
         """Compute penalized objective function.
 
         Args:
@@ -125,9 +124,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
             Tuple of (best_solution, best_fitness).
         """
         # Initialize from random point
-        current = np.random.uniform(
-            self.lower_bound, self.upper_bound, self.dim
-        )
+        current = np.random.uniform(self.lower_bound, self.upper_bound, self.dim)
 
         bounds = [(self.lower_bound, self.upper_bound)] * self.dim
         penalty = self.initial_penalty

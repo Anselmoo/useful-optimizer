@@ -165,53 +165,40 @@ from opt.swarm_intelligence import ZebraOptimizer
 __version__ = "0.1.2"
 
 __all__: list[str] = [
-    # Classical
     "BFGS",
     "LBFGS",
-    # Multi-objective
     "MOEAD",
     "NSGAII",
     "SGD",
     "SPEA2",
-    # Gradient-based
     "ADAGrad",
     "ADAMOptimization",
     "AMSGrad",
-    # Base class
     "AbstractMultiObjectiveOptimizer",
     "AbstractOptimizer",
     "AdaDelta",
     "AdaMax",
     "AdamW",
-    # Probabilistic (new)
     "AdaptiveMetropolisOptimizer",
-    # Swarm intelligence
     "AfricanBuffaloOptimizer",
     "AfricanVulturesOptimizer",
     "AntColony",
     "AntLionOptimizer",
     "AquilaOptimizer",
-    # Metaheuristic
     "ArithmeticOptimizationAlgorithm",
     "ArtificialFishSwarm",
     "ArtificialGorillaTroopsOptimizer",
     "ArtificialHummingbirdAlgorithm",
-    # Swarm (new)
     "ArtificialRabbitsOptimizer",
-    # Physics-inspired
     "AtomSearchOptimizer",
-    # Constrained
     "AugmentedLagrangian",
     "BarnaclesMatingOptimizer",
-    # Constrained (new)
     "BarrierMethodOptimizer",
     "BatAlgorithm",
-    # Probabilistic (new)
     "BayesianOptimizer",
     "BeeAlgorithm",
     "BlackWidowOptimizer",
     "BrownBearOptimizer",
-    # Evolutionary
     "CMAESAlgorithm",
     "CatSwarmOptimization",
     "ChimpOptimizationAlgorithm",
@@ -221,7 +208,6 @@ __all__: list[str] = [
     "CrossEntropyMethod",
     "CuckooSearch",
     "CulturalAlgorithm",
-    # Swarm (new)
     "DandelionOptimizer",
     "DifferentialEvolution",
     "DingoOptimizer",
@@ -230,13 +216,11 @@ __all__: list[str] = [
     "EmperorPenguinOptimizer",
     "EquilibriumOptimizer",
     "EstimationOfDistributionAlgorithm",
-    # Swarm (new)
     "FennecFoxOptimizer",
     "FireflyAlgorithm",
     "FlowerPollinationAlgorithm",
     "ForensicBasedInvestigationOptimizer",
     "GeneticAlgorithm",
-    # Swarm (new)
     "GiantTrevallyOptimizer",
     "GlowwormSwarmOptimization",
     "GoldenEagleOptimizer",
@@ -248,7 +232,6 @@ __all__: list[str] = [
     "HillClimbing",
     "HoneyBadgerAlgorithm",
     "ImperialistCompetitiveAlgorithm",
-    # Probabilistic
     "LDAnalysis",
     "MantaRayForagingOptimization",
     "MarinePredatorsOptimizer",
@@ -260,20 +243,15 @@ __all__: list[str] = [
     "NelderMead",
     "NesterovAcceleratedGradient",
     "OrcaPredatorAlgorithm",
-    # Swarm (new)
     "OspreyOptimizer",
     "ParticleFilter",
     "ParticleSwarm",
     "ParzenTreeEstimator",
     "PathfinderAlgorithm",
-    # Swarm (new)
     "PelicanOptimizer",
-    # Constrained (new)
     "PenaltyMethodOptimizer",
-    # Social-inspired (new)
     "PoliticalOptimizer",
     "Powell",
-    # Physics (new)
     "RIMEOptimizer",
     "RMSprop",
     "ReptileSearchAlgorithm",
@@ -281,28 +259,22 @@ __all__: list[str] = [
     "SalpSwarmOptimizer",
     "SandCatSwarmOptimizer",
     "SeagullOptimizationAlgorithm",
-    # Constrained (new)
-    "SequentialQuadraticProgramming",
-    # Probabilistic (new)
     "SequentialMonteCarloOptimizer",
+    "SequentialQuadraticProgramming",
     "ShuffledFrogLeapingAlgorithm",
     "SimulatedAnnealing",
     "SineCosineAlgorithm",
     "SlimeMouldAlgorithm",
-    # Swarm (new)
     "SnowGeeseOptimizer",
-    # Social-inspired (new)
     "SoccerLeagueOptimizer",
     "SocialGroupOptimizer",
     "SpottedHyenaOptimizer",
     "SquirrelSearchAlgorithm",
-    # Swarm (new)
     "StarlingMurmurationOptimizer",
     "StochasticDiffusionSearch",
     "StochasticFractalSearch",
     "SuccessiveLinearProgramming",
     "TabuSearch",
-    # Social-inspired
     "TeachingLearningOptimizer",
     "TrustRegion",
     "TunicateSwarmAlgorithm",
@@ -311,6 +283,5 @@ __all__: list[str] = [
     "VeryLargeScaleNeighborhood",
     "WhaleOptimizationAlgorithm",
     "WildHorseOptimizer",
-    # Swarm (new)
     "ZebraOptimizer",
 ]

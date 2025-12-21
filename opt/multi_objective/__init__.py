@@ -28,4 +28,4 @@ from opt.multi_objective.nsga_ii import NSGAII
 from opt.multi_objective.spea2 import SPEA2
 
 
-__all__ = ["AbstractMultiObjectiveOptimizer", "MOEAD", "NSGAII", "SPEA2"]
+__all__ = ["MOEAD", "NSGAII", "SPEA2", "AbstractMultiObjectiveOptimizer"]

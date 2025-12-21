@@ -98,9 +98,11 @@ class BayesianOptimizer(AbstractOptimizer):
         """
         X1 = np.atleast_2d(X1)
         X2 = np.atleast_2d(X2)
-        dists = np.sum(X1**2, axis=1).reshape(-1, 1) + np.sum(
-            X2**2, axis=1
-        ) - 2 * np.dot(X1, X2.T)
+        dists = (
+            np.sum(X1**2, axis=1).reshape(-1, 1)
+            + np.sum(X2**2, axis=1)
+            - 2 * np.dot(X1, X2.T)
+        )
         return np.exp(-0.5 * dists / length_scale**2)
 
     def _gp_predict(
@@ -168,9 +170,7 @@ class BayesianOptimizer(AbstractOptimizer):
         """
         # Initial random samples
         X_samples = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.n_initial, self.dim),
+            self.lower_bound, self.upper_bound, (self.n_initial, self.dim)
         )
         y_samples = np.array([self.func(x) for x in X_samples])
 
@@ -187,9 +187,7 @@ class BayesianOptimizer(AbstractOptimizer):
 
             # Multi-start optimization of acquisition function
             for _ in range(10):
-                x0 = np.random.uniform(
-                    self.lower_bound, self.upper_bound, self.dim
-                )
+                x0 = np.random.uniform(self.lower_bound, self.upper_bound, self.dim)
                 result = minimize(
                     lambda x: self._expected_improvement(x, X_samples, y_samples),
                     x0,
@@ -201,9 +199,7 @@ class BayesianOptimizer(AbstractOptimizer):
                     best_x = result.x
 
             if best_x is None:
-                best_x = np.random.uniform(
-                    self.lower_bound, self.upper_bound, self.dim
-                )
+                best_x = np.random.uniform(self.lower_bound, self.upper_bound, self.dim)
 
             # Evaluate new point
             new_y = self.func(best_x)

@@ -66,9 +66,7 @@ class MothSearchAlgorithm(AbstractOptimizer):
         """
         # Initialize moth population
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -88,14 +86,10 @@ class MothSearchAlgorithm(AbstractOptimizer):
             for i in range(self.n_pathfinders):
                 # Lévy flight
                 levy_step = self._levy_flight()
-                new_position = positions[i] + levy_step * (
-                    positions[i] - best_solution
-                )
+                new_position = positions[i] + levy_step * (positions[i] - best_solution)
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate and update
                 new_fitness = self.func(new_position)
@@ -117,14 +111,10 @@ class MothSearchAlgorithm(AbstractOptimizer):
                 distance = np.abs(light - positions[i])
                 b = 1.0  # Spiral constant
                 t = np.random.uniform(-1, 1)
-                new_position = (
-                    distance * np.exp(b * t) * np.cos(2 * np.pi * t) + light
-                )
+                new_position = distance * np.exp(b * t) * np.cos(2 * np.pi * t) + light
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate and update
                 new_fitness = self.func(new_position)

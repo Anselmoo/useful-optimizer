@@ -18,6 +18,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -125,9 +126,7 @@ class SpottedHyenaOptimizer(AbstractOptimizer):
                     new_position -= _B_VALUE * e_vec * np.random.rand(self.dim)
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new solution
                 new_fitness = self.func(new_position)

@@ -90,16 +90,12 @@ class PoliticalOptimizer(AbstractOptimizer):
         """
         # Initialize population (politicians)
         population = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
         # Assign politicians to parties
-        party_assignment = np.random.randint(
-            0, self.num_parties, self.population_size
-        )
+        party_assignment = np.random.randint(0, self.num_parties, self.population_size)
 
         best_idx = np.argmin(fitness)
         best_solution = population[best_idx].copy()
@@ -131,18 +127,14 @@ class PoliticalOptimizer(AbstractOptimizer):
                     r1 = np.random.random(self.dim)
                     r2 = np.random.random()
 
-                    new_position = population[i] + r1 * (
-                        leader - r2 * population[i]
-                    )
+                    new_position = population[i] + r1 * (leader - r2 * population[i])
 
                 else:
                     # Election campaign (exploitation)
                     # Move toward party leader or switch parties
                     if np.random.random() < 0.3 * (1 - t):  # Party switching
                         # Switch to a better party
-                        better_parties = np.where(
-                            party_leader_fitness < fitness[i]
-                        )[0]
+                        better_parties = np.where(party_leader_fitness < fitness[i])[0]
                         if len(better_parties) > 0:
                             new_party = np.random.choice(better_parties)
                             party_assignment[i] = new_party
@@ -159,9 +151,7 @@ class PoliticalOptimizer(AbstractOptimizer):
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
                 new_fitness = self.func(new_position)
 
                 # Greedy selection

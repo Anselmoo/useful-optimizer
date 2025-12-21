@@ -34,6 +34,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -84,9 +85,7 @@ class ZebraOptimizer(AbstractOptimizer):
         """
         # Initialize herd
         population = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
@@ -127,9 +126,7 @@ class ZebraOptimizer(AbstractOptimizer):
                 else:
                     # Phase 2: Defense from predators (exploitation)
                     # Zebras escape toward the herd leader (best solution)
-                    attack_power = 0.01 * (
-                        1 - (iteration / self.max_iter) ** 2
-                    )
+                    attack_power = 0.01 * (1 - (iteration / self.max_iter) ** 2)
                     r3 = np.random.random(self.dim)
                     r4 = np.random.random()
 
@@ -139,9 +136,7 @@ class ZebraOptimizer(AbstractOptimizer):
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
                 new_fitness = self.func(new_position)
 
                 # Greedy selection

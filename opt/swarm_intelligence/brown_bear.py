@@ -60,9 +60,7 @@ class BrownBearOptimizer(AbstractOptimizer):
         """
         # Initialize bear positions
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -92,10 +90,7 @@ class BrownBearOptimizer(AbstractOptimizer):
 
                     # Random exploration with marking behavior
                     rand_factor = np.random.randn(self.dim)
-                    new_position = (
-                        positions[i]
-                        + w * rand_factor * (bear1 - bear2)
-                    )
+                    new_position = positions[i] + w * rand_factor * (bear1 - bear2)
                 else:
                     # Chasing behavior (exploitation)
                     # Bears chase toward best food source
@@ -108,24 +103,19 @@ class BrownBearOptimizer(AbstractOptimizer):
 
                     if r3 < 0.5:
                         # Direct chase
-                        new_position = (
-                            best_solution
-                            - intensity * r4 * (best_solution - positions[i])
+                        new_position = best_solution - intensity * r4 * (
+                            best_solution - positions[i]
                         )
                     else:
                         # Circular chase (spiral)
                         angle = 2 * np.pi * r4
                         distance = np.abs(best_solution - positions[i])
-                        new_position = (
-                            best_solution
-                            + distance * np.cos(angle)
-                            * (1 - iteration / self.max_iter)
+                        new_position = best_solution + distance * np.cos(angle) * (
+                            1 - iteration / self.max_iter
                         )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(new_position)

@@ -60,9 +60,7 @@ class ArtificialHummingbirdAlgorithm(AbstractOptimizer):
         """
         # Initialize hummingbird positions (food sources)
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -88,9 +86,7 @@ class ArtificialHummingbirdAlgorithm(AbstractOptimizer):
                     # Guided foraging - move toward random food source
                     # Select food source based on visit table
                     visit_probs = visit_table[i] / np.sum(visit_table[i])
-                    target_idx = np.random.choice(
-                        self.population_size, p=visit_probs
-                    )
+                    target_idx = np.random.choice(self.population_size, p=visit_probs)
                     target = positions[target_idx]
 
                     # Flight vector with direction
@@ -119,17 +115,14 @@ class ArtificialHummingbirdAlgorithm(AbstractOptimizer):
                     # Axial flight toward best
                     axis = np.random.randint(self.dim)
                     new_position = positions[i].copy()
-                    new_position[axis] = (
-                        positions[i, axis]
-                        + dir_switch
-                        * np.random.randn()
-                        * (best_solution[axis] - positions[i, axis])
+                    new_position[axis] = positions[
+                        i, axis
+                    ] + dir_switch * np.random.randn() * (
+                        best_solution[axis] - positions[i, axis]
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new position
                 new_fitness = self.func(new_position)

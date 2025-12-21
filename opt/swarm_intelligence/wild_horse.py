@@ -68,9 +68,7 @@ class WildHorseOptimizer(AbstractOptimizer):
         """
         # Initialize horse population
         positions = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate fitness
@@ -118,7 +116,8 @@ class WildHorseOptimizer(AbstractOptimizer):
 
                         other_start = other_group * self.group_size
                         other_idx = np.random.randint(
-                            other_start, min(other_start + self.group_size, self.population_size)
+                            other_start,
+                            min(other_start + self.group_size, self.population_size),
                         )
                         other = positions[other_idx]
 

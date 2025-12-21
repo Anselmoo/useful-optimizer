@@ -17,6 +17,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -110,15 +111,10 @@ class EmperorPenguinOptimizer(AbstractOptimizer):
                 d = np.abs(lam * best_solution - population[i])
 
                 # Update position
-                new_position = (
-                    best_solution
-                    - a * (c * p_grid - s * d)
-                )
+                new_position = best_solution - a * (c * p_grid - s * d)
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate and update
                 new_fitness = self.func(new_position)

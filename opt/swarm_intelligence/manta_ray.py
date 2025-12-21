@@ -17,6 +17,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -63,7 +64,7 @@ class MantaRayForagingOptimization(AbstractOptimizer):
         super().__init__(func, lower_bound, upper_bound, dim, max_iter)
         self.population_size = population_size
 
-    def search(self) -> tuple[np.ndarray, float]:  # noqa: C901, PLR0912, PLR0915
+    def search(self) -> tuple[np.ndarray, float]:
         """Execute the Manta Ray Foraging Optimization.
 
         Returns:
@@ -104,8 +105,11 @@ class MantaRayForagingOptimization(AbstractOptimizer):
 
                 elif r < 2.0 / 3.0:
                     # Cyclone foraging
-                    beta = 2 * np.exp(r1 * (self.max_iter - iteration + 1) /
-                                      self.max_iter) * np.sin(2 * np.pi * r1)
+                    beta = (
+                        2
+                        * np.exp(r1 * (self.max_iter - iteration + 1) / self.max_iter)
+                        * np.sin(2 * np.pi * r1)
+                    )
 
                     if coef < np.random.rand():
                         # Random position reference
@@ -113,27 +117,32 @@ class MantaRayForagingOptimization(AbstractOptimizer):
                         rand_pos = population[rand_idx]
 
                         if i == 0:
-                            new_position = rand_pos + np.random.rand(self.dim) * (
-                                rand_pos - population[i]
-                            ) + beta * (rand_pos - population[i])
+                            new_position = (
+                                rand_pos
+                                + np.random.rand(self.dim) * (rand_pos - population[i])
+                                + beta * (rand_pos - population[i])
+                            )
                         else:
-                            new_position = rand_pos + np.random.rand(self.dim) * (
-                                population[i - 1] - population[i]
-                            ) + beta * (rand_pos - population[i])
+                            new_position = (
+                                rand_pos
+                                + np.random.rand(self.dim)
+                                * (population[i - 1] - population[i])
+                                + beta * (rand_pos - population[i])
+                            )
+                    # Best position reference
+                    elif i == 0:
+                        new_position = (
+                            best_solution
+                            + np.random.rand(self.dim) * (best_solution - population[i])
+                            + beta * (best_solution - population[i])
+                        )
                     else:
-                        # Best position reference
-                        if i == 0:
-                            new_position = best_solution + np.random.rand(
-                                self.dim
-                            ) * (best_solution - population[i]) + beta * (
-                                best_solution - population[i]
-                            )
-                        else:
-                            new_position = best_solution + np.random.rand(
-                                self.dim
-                            ) * (population[i - 1] - population[i]) + beta * (
-                                best_solution - population[i]
-                            )
+                        new_position = (
+                            best_solution
+                            + np.random.rand(self.dim)
+                            * (population[i - 1] - population[i])
+                            + beta * (best_solution - population[i])
+                        )
 
                 else:
                     # Somersault foraging
@@ -144,9 +153,7 @@ class MantaRayForagingOptimization(AbstractOptimizer):
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate new solution
                 new_fitness = self.func(new_position)

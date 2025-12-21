@@ -17,6 +17,7 @@ import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
+
 if TYPE_CHECKING:
     from collections.abc import Callable
 
@@ -108,16 +109,14 @@ class ReptileSearchAlgorithm(AbstractOptimizer):
                 elif t <= 0.5:
                     # Walking toward prey
                     new_position = best_solution * rand_sol * _ALPHA * r1 + (
-                        (self.upper_bound - self.lower_bound) * r2
-                        + self.lower_bound
+                        (self.upper_bound - self.lower_bound) * r2 + self.lower_bound
                     ) * (1 - _ALPHA)
 
                 elif t <= 0.75:
                     # Hunting coordination
                     reduce_factor = 2 * es * r1 - es
                     new_position = (
-                        best_solution * reduce_factor
-                        + rand_sol * reduce_factor * r2
+                        best_solution * reduce_factor + rand_sol * reduce_factor * r2
                     )
 
                 else:
@@ -128,9 +127,7 @@ class ReptileSearchAlgorithm(AbstractOptimizer):
                     )
 
                 # Boundary handling
-                new_position = np.clip(
-                    new_position, self.lower_bound, self.upper_bound
-                )
+                new_position = np.clip(new_position, self.lower_bound, self.upper_bound)
 
                 # Evaluate and update
                 new_fitness = self.func(new_position)
