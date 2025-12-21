@@ -32,6 +32,9 @@ from opt.classical import TrustRegion
 
 # Constrained optimization
 from opt.constrained import AugmentedLagrangian
+from opt.constrained import BarrierMethodOptimizer
+from opt.constrained import PenaltyMethodOptimizer
+from opt.constrained import SequentialQuadraticProgramming
 from opt.constrained import SuccessiveLinearProgramming
 
 # Evolutionary algorithms
@@ -85,12 +88,19 @@ from opt.physics_inspired import AtomSearchOptimizer
 # Physics-inspired algorithms
 from opt.physics_inspired import EquilibriumOptimizer
 from opt.physics_inspired import GravitationalSearchOptimizer
+from opt.physics_inspired import RIMEOptimizer
 
 # Probabilistic algorithms
+from opt.probabilistic import AdaptiveMetropolisOptimizer
+from opt.probabilistic import BayesianOptimizer
 from opt.probabilistic import LDAnalysis
 from opt.probabilistic import ParzenTreeEstimator
+from opt.probabilistic import SequentialMonteCarloOptimizer
 
 # Social-inspired algorithms
+from opt.social_inspired import PoliticalOptimizer
+from opt.social_inspired import SoccerLeagueOptimizer
+from opt.social_inspired import SocialGroupOptimizer
 from opt.social_inspired import TeachingLearningOptimizer
 from opt.swarm_intelligence import AfricanBuffaloOptimizer
 from opt.swarm_intelligence import AfricanVulturesOptimizer
@@ -102,6 +112,7 @@ from opt.swarm_intelligence import AquilaOptimizer
 from opt.swarm_intelligence import ArtificialFishSwarm
 from opt.swarm_intelligence import ArtificialGorillaTroopsOptimizer
 from opt.swarm_intelligence import ArtificialHummingbirdAlgorithm
+from opt.swarm_intelligence import ArtificialRabbitsOptimizer
 from opt.swarm_intelligence import BarnaclesMatingOptimizer
 from opt.swarm_intelligence import BatAlgorithm
 from opt.swarm_intelligence import BeeAlgorithm
@@ -111,11 +122,14 @@ from opt.swarm_intelligence import CatSwarmOptimization
 from opt.swarm_intelligence import ChimpOptimizationAlgorithm
 from opt.swarm_intelligence import CoatiOptimizer
 from opt.swarm_intelligence import CuckooSearch
+from opt.swarm_intelligence import DandelionOptimizer
 from opt.swarm_intelligence import DingoOptimizer
 from opt.swarm_intelligence import DragonflyOptimizer
 from opt.swarm_intelligence import EmperorPenguinOptimizer
+from opt.swarm_intelligence import FennecFoxOptimizer
 from opt.swarm_intelligence import FireflyAlgorithm
 from opt.swarm_intelligence import FlowerPollinationAlgorithm
+from opt.swarm_intelligence import GiantTrevallyOptimizer
 from opt.swarm_intelligence import GlowwormSwarmOptimization
 from opt.swarm_intelligence import GoldenEagleOptimizer
 from opt.swarm_intelligence import GrasshopperOptimizer
@@ -129,18 +143,23 @@ from opt.swarm_intelligence import MothFlameOptimizer
 from opt.swarm_intelligence import MothSearchAlgorithm
 from opt.swarm_intelligence import MountainGazelleOptimizer
 from opt.swarm_intelligence import OrcaPredatorAlgorithm
+from opt.swarm_intelligence import OspreyOptimizer
 from opt.swarm_intelligence import ParticleSwarm
 from opt.swarm_intelligence import PathfinderAlgorithm
+from opt.swarm_intelligence import PelicanOptimizer
 from opt.swarm_intelligence import ReptileSearchAlgorithm
 from opt.swarm_intelligence import SalpSwarmOptimizer
 from opt.swarm_intelligence import SandCatSwarmOptimizer
 from opt.swarm_intelligence import SeagullOptimizationAlgorithm
 from opt.swarm_intelligence import SlimeMouldAlgorithm
+from opt.swarm_intelligence import SnowGeeseOptimizer
 from opt.swarm_intelligence import SpottedHyenaOptimizer
 from opt.swarm_intelligence import SquirrelSearchAlgorithm
+from opt.swarm_intelligence import StarlingMurmurationOptimizer
 from opt.swarm_intelligence import TunicateSwarmAlgorithm
 from opt.swarm_intelligence import WhaleOptimizationAlgorithm
 from opt.swarm_intelligence import WildHorseOptimizer
+from opt.swarm_intelligence import ZebraOptimizer
 
 
 __version__ = "0.1.2"
@@ -164,6 +183,8 @@ __all__: list[str] = [
     "AdaDelta",
     "AdaMax",
     "AdamW",
+    # Probabilistic (new)
+    "AdaptiveMetropolisOptimizer",
     # Swarm intelligence
     "AfricanBuffaloOptimizer",
     "AfricanVulturesOptimizer",
@@ -175,12 +196,18 @@ __all__: list[str] = [
     "ArtificialFishSwarm",
     "ArtificialGorillaTroopsOptimizer",
     "ArtificialHummingbirdAlgorithm",
+    # Swarm (new)
+    "ArtificialRabbitsOptimizer",
     # Physics-inspired
     "AtomSearchOptimizer",
     # Constrained
     "AugmentedLagrangian",
     "BarnaclesMatingOptimizer",
+    # Constrained (new)
+    "BarrierMethodOptimizer",
     "BatAlgorithm",
+    # Probabilistic (new)
+    "BayesianOptimizer",
     "BeeAlgorithm",
     "BlackWidowOptimizer",
     "BrownBearOptimizer",
@@ -194,6 +221,8 @@ __all__: list[str] = [
     "CrossEntropyMethod",
     "CuckooSearch",
     "CulturalAlgorithm",
+    # Swarm (new)
+    "DandelionOptimizer",
     "DifferentialEvolution",
     "DingoOptimizer",
     "DragonflyOptimizer",
@@ -201,10 +230,14 @@ __all__: list[str] = [
     "EmperorPenguinOptimizer",
     "EquilibriumOptimizer",
     "EstimationOfDistributionAlgorithm",
+    # Swarm (new)
+    "FennecFoxOptimizer",
     "FireflyAlgorithm",
     "FlowerPollinationAlgorithm",
     "ForensicBasedInvestigationOptimizer",
     "GeneticAlgorithm",
+    # Swarm (new)
+    "GiantTrevallyOptimizer",
     "GlowwormSwarmOptimization",
     "GoldenEagleOptimizer",
     "GrasshopperOptimizer",
@@ -227,23 +260,44 @@ __all__: list[str] = [
     "NelderMead",
     "NesterovAcceleratedGradient",
     "OrcaPredatorAlgorithm",
+    # Swarm (new)
+    "OspreyOptimizer",
     "ParticleFilter",
     "ParticleSwarm",
     "ParzenTreeEstimator",
     "PathfinderAlgorithm",
+    # Swarm (new)
+    "PelicanOptimizer",
+    # Constrained (new)
+    "PenaltyMethodOptimizer",
+    # Social-inspired (new)
+    "PoliticalOptimizer",
     "Powell",
+    # Physics (new)
+    "RIMEOptimizer",
     "RMSprop",
     "ReptileSearchAlgorithm",
     "SGDMomentum",
     "SalpSwarmOptimizer",
     "SandCatSwarmOptimizer",
     "SeagullOptimizationAlgorithm",
+    # Constrained (new)
+    "SequentialQuadraticProgramming",
+    # Probabilistic (new)
+    "SequentialMonteCarloOptimizer",
     "ShuffledFrogLeapingAlgorithm",
     "SimulatedAnnealing",
     "SineCosineAlgorithm",
     "SlimeMouldAlgorithm",
+    # Swarm (new)
+    "SnowGeeseOptimizer",
+    # Social-inspired (new)
+    "SoccerLeagueOptimizer",
+    "SocialGroupOptimizer",
     "SpottedHyenaOptimizer",
     "SquirrelSearchAlgorithm",
+    # Swarm (new)
+    "StarlingMurmurationOptimizer",
     "StochasticDiffusionSearch",
     "StochasticFractalSearch",
     "SuccessiveLinearProgramming",
@@ -257,4 +311,6 @@ __all__: list[str] = [
     "VeryLargeScaleNeighborhood",
     "WhaleOptimizationAlgorithm",
     "WildHorseOptimizer",
+    # Swarm (new)
+    "ZebraOptimizer",
 ]

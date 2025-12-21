@@ -7,6 +7,7 @@ Available Algorithms:
     - AtomSearchOptimizer: Atom Search Optimization (ASO)
     - EquilibriumOptimizer: Equilibrium Optimizer (EO)
     - GravitationalSearchOptimizer: Gravitational Search Algorithm (GSA)
+    - RIMEOptimizer: RIME ice formation optimization
 
 References:
     Rashedi, E., Nezamabadi-pour, H., & Saryazdi, S. (2009). GSA: A Gravitational
@@ -21,10 +22,12 @@ from __future__ import annotations
 from opt.physics_inspired.atom_search import AtomSearchOptimizer
 from opt.physics_inspired.equilibrium_optimizer import EquilibriumOptimizer
 from opt.physics_inspired.gravitational_search import GravitationalSearchOptimizer
+from opt.physics_inspired.rime_optimizer import RIMEOptimizer
 
 
 __all__: list[str] = [
     "AtomSearchOptimizer",
     "EquilibriumOptimizer",
     "GravitationalSearchOptimizer",
+    "RIMEOptimizer",
 ]
