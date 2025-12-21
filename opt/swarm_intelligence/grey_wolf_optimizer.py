@@ -84,9 +84,8 @@ class GreyWolfOptimizer(AbstractOptimizer):
             a = 2 - iter_count * (2 / self.max_iter)  # Linearly decreasing a
 
             for i in range(self.population_size):
-                # Random coefficients
+                # Random coefficients for alpha
                 r1 = rng.random(self.dim)
-                r2 = rng.random(self.dim)
 
                 # Coefficient vectors A and C for alpha
                 A1 = 2 * a * r1 - a
@@ -96,7 +95,6 @@ class GreyWolfOptimizer(AbstractOptimizer):
 
                 # Coefficient vectors A and C for beta
                 r1 = rng.random(self.dim)
-                r2 = rng.random(self.dim)
                 A2 = 2 * a * r1 - a
                 C2 = 2 * rng.random(self.dim)
                 D_beta = np.abs(C2 * beta - population[i])
@@ -104,7 +102,6 @@ class GreyWolfOptimizer(AbstractOptimizer):
 
                 # Coefficient vectors A and C for delta
                 r1 = rng.random(self.dim)
-                r2 = rng.random(self.dim)
                 A3 = 2 * a * r1 - a
                 C3 = 2 * rng.random(self.dim)
                 D_delta = np.abs(C3 * delta - population[i])
