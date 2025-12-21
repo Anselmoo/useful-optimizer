@@ -8,6 +8,7 @@ Squirrel Search, and Whale Optimization algorithms.
 
 from __future__ import annotations
 
+from opt.swarm_intelligence.african_buffalo_optimization import AfricanBuffaloOptimizer
 from opt.swarm_intelligence.african_vultures_optimizer import AfricanVulturesOptimizer
 from opt.swarm_intelligence.ant_colony import AntColony
 from opt.swarm_intelligence.ant_lion_optimizer import AntLionOptimizer
@@ -16,8 +17,10 @@ from opt.swarm_intelligence.artificial_fish_swarm_algorithm import ArtificialFis
 from opt.swarm_intelligence.artificial_gorilla_troops import (
     ArtificialGorillaTroopsOptimizer,
 )
+from opt.swarm_intelligence.barnacles_mating import BarnaclesMatingOptimizer
 from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
 from opt.swarm_intelligence.bee_algorithm import BeeAlgorithm
+from opt.swarm_intelligence.black_widow import BlackWidowOptimizer
 from opt.swarm_intelligence.cat_swarm_optimization import CatSwarmOptimization
 from opt.swarm_intelligence.chimp_optimization import ChimpOptimizationAlgorithm
 from opt.swarm_intelligence.cuckoo_search import CuckooSearch
@@ -30,8 +33,10 @@ from opt.swarm_intelligence.golden_eagle import GoldenEagleOptimizer
 from opt.swarm_intelligence.grasshopper_optimization import GrasshopperOptimizer
 from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
 from opt.swarm_intelligence.harris_hawks_optimization import HarrisHawksOptimizer
+from opt.swarm_intelligence.honey_badger import HoneyBadgerAlgorithm
 from opt.swarm_intelligence.manta_ray import MantaRayForagingOptimization
 from opt.swarm_intelligence.marine_predators_algorithm import MarinePredatorsOptimizer
+from opt.swarm_intelligence.mayfly_optimizer import MayflyOptimizer
 from opt.swarm_intelligence.moth_flame_optimization import MothFlameOptimizer
 from opt.swarm_intelligence.particle_swarm import ParticleSwarm
 from opt.swarm_intelligence.pathfinder import PathfinderAlgorithm
@@ -48,14 +53,17 @@ from opt.swarm_intelligence.whale_optimization_algorithm import (
 
 
 __all__: list[str] = [
+    "AfricanBuffaloOptimizer",
     "AfricanVulturesOptimizer",
     "AntColony",
     "AntLionOptimizer",
     "AquilaOptimizer",
     "ArtificialFishSwarm",
     "ArtificialGorillaTroopsOptimizer",
+    "BarnaclesMatingOptimizer",
     "BatAlgorithm",
     "BeeAlgorithm",
+    "BlackWidowOptimizer",
     "CatSwarmOptimization",
     "ChimpOptimizationAlgorithm",
     "CuckooSearch",
@@ -68,8 +76,10 @@ __all__: list[str] = [
     "GrasshopperOptimizer",
     "GreyWolfOptimizer",
     "HarrisHawksOptimizer",
+    "HoneyBadgerAlgorithm",
     "MantaRayForagingOptimization",
     "MarinePredatorsOptimizer",
+    "MayflyOptimizer",
     "MothFlameOptimizer",
     "ParticleSwarm",
     "PathfinderAlgorithm",

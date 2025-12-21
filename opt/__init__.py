@@ -91,6 +91,7 @@ from opt.probabilistic import ParzenTreeEstimator
 
 # Social-inspired algorithms
 from opt.social_inspired import TeachingLearningOptimizer
+from opt.swarm_intelligence import AfricanBuffaloOptimizer
 from opt.swarm_intelligence import AfricanVulturesOptimizer
 
 # Swarm intelligence algorithms
@@ -99,8 +100,10 @@ from opt.swarm_intelligence import AntLionOptimizer
 from opt.swarm_intelligence import AquilaOptimizer
 from opt.swarm_intelligence import ArtificialFishSwarm
 from opt.swarm_intelligence import ArtificialGorillaTroopsOptimizer
+from opt.swarm_intelligence import BarnaclesMatingOptimizer
 from opt.swarm_intelligence import BatAlgorithm
 from opt.swarm_intelligence import BeeAlgorithm
+from opt.swarm_intelligence import BlackWidowOptimizer
 from opt.swarm_intelligence import CatSwarmOptimization
 from opt.swarm_intelligence import ChimpOptimizationAlgorithm
 from opt.swarm_intelligence import CuckooSearch
@@ -113,8 +116,10 @@ from opt.swarm_intelligence import GoldenEagleOptimizer
 from opt.swarm_intelligence import GrasshopperOptimizer
 from opt.swarm_intelligence import GreyWolfOptimizer
 from opt.swarm_intelligence import HarrisHawksOptimizer
+from opt.swarm_intelligence import HoneyBadgerAlgorithm
 from opt.swarm_intelligence import MantaRayForagingOptimization
 from opt.swarm_intelligence import MarinePredatorsOptimizer
+from opt.swarm_intelligence import MayflyOptimizer
 from opt.swarm_intelligence import MothFlameOptimizer
 from opt.swarm_intelligence import ParticleSwarm
 from opt.swarm_intelligence import PathfinderAlgorithm
@@ -150,6 +155,7 @@ __all__: list[str] = [
     "AdaMax",
     "AdamW",
     # Swarm intelligence
+    "AfricanBuffaloOptimizer",
     "AfricanVulturesOptimizer",
     "AntColony",
     "AntLionOptimizer",
@@ -162,8 +168,10 @@ __all__: list[str] = [
     "AtomSearchOptimizer",
     # Constrained
     "AugmentedLagrangian",
+    "BarnaclesMatingOptimizer",
     "BatAlgorithm",
     "BeeAlgorithm",
+    "BlackWidowOptimizer",
     # Evolutionary
     "CMAESAlgorithm",
     "CatSwarmOptimization",
@@ -190,11 +198,13 @@ __all__: list[str] = [
     "HarmonySearch",
     "HarrisHawksOptimizer",
     "HillClimbing",
+    "HoneyBadgerAlgorithm",
     "ImperialistCompetitiveAlgorithm",
     # Probabilistic
     "LDAnalysis",
     "MantaRayForagingOptimization",
     "MarinePredatorsOptimizer",
+    "MayflyOptimizer",
     "MothFlameOptimizer",
     "Nadam",
     "NelderMead",
