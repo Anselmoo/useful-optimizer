@@ -80,27 +80,27 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         eta_c (float): Distribution index for SBX crossover.
         eta_m (float): Distribution index for polynomial mutation.
 
-
     Example:
-        >>> from opt.multi_objective.nsgaii import NSGAII
-        >>> from opt.benchmark.functions import sphere
+        >>> from opt.multi_objective.nsga_ii import NSGAII
+        >>> from opt.benchmark.functions import sphere, rosenbrock
         >>> optimizer = NSGAII(
-        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     objectives=[sphere, rosenbrock], dim=2, lower_bound=-5, upper_bound=5,
         ...     max_iter=10, seed=42
         ... )
-        >>> solution, fitness = optimizer.search()
-        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        >>> pareto_front, pareto_solutions = optimizer.search()
+        >>> len(pareto_solutions) > 0  # Should find solutions
         True
 
-    Example with shifted_ackley:
-        >>> from opt.benchmark.functions import shifted_ackley
+    Example with single objective:
+        >>> from opt.benchmark.functions import sphere
+        >>> import numpy as np
         >>> optimizer = NSGAII(
-        ...     func=shifted_ackley, dim=2,
-        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     objectives=[sphere], dim=2,
+        ...     lower_bound=-5, upper_bound=5,
         ...     max_iter=10, seed=42
         ... )
-        >>> _, fitness = optimizer.search()
-        >>> isinstance(float(fitness), float)
+        >>> pareto_front, _ = optimizer.search()
+        >>> isinstance(pareto_front, np.ndarray)
         True
     """
 
