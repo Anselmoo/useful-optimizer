@@ -35,6 +35,10 @@ const props = withDefaults(defineProps<Props>(), {
   height: 500
 })
 
+const emit = defineEmits<{
+  'update:functionName': [value: string]
+}>()
+
 const chartRef = ref<HTMLElement | null>(null)
 const chart = shallowRef<echarts.ECharts | null>(null)
 
@@ -302,7 +306,7 @@ onUnmounted(() => {
         <label>Function:</label>
         <select 
           :value="functionName"
-          @change="$emit('update:functionName', ($event.target as HTMLSelectElement).value)"
+          @change="emit('update:functionName', ($event.target as HTMLSelectElement).value)"
           class="select"
         >
           <option value="sphere">Sphere</option>

@@ -85,7 +85,7 @@ const chartOption = computed(() => {
       series.push({
         name: `${algo.algorithm} (±σ)`,
         type: 'line',
-        data: [...upperBand, ...lowerBand.reverse()],
+        data: [...upperBand, ...[...lowerBand].reverse()],
         smooth: false,
         symbol: 'none',
         lineStyle: { opacity: 0 },

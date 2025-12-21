@@ -33,6 +33,12 @@ const props = withDefaults(defineProps<Props>(), {
   height: 400
 })
 
+const emit = defineEmits<{
+  'update:logScale': [value: boolean]
+  'update:showBoxplot': [value: boolean]
+  'update:showPoints': [value: boolean]
+}>()
+
 const chartRef = ref<HTMLElement | null>(null)
 const chart = shallowRef<echarts.ECharts | null>(null)
 
@@ -229,15 +235,15 @@ onUnmounted(() => {
   <div class="chart-container">
     <div class="chart-controls">
       <label class="control-item">
-        <input type="checkbox" :checked="logScale" @change="$emit('update:logScale', ($event.target as HTMLInputElement).checked)">
+        <input type="checkbox" :checked="logScale" @change="emit('update:logScale', ($event.target as HTMLInputElement).checked)">
         Log scale
       </label>
       <label class="control-item">
-        <input type="checkbox" :checked="showBoxplot" @change="$emit('update:showBoxplot', ($event.target as HTMLInputElement).checked)">
+        <input type="checkbox" :checked="showBoxplot" @change="emit('update:showBoxplot', ($event.target as HTMLInputElement).checked)">
         Show boxplot
       </label>
       <label class="control-item">
-        <input type="checkbox" :checked="showPoints" @change="$emit('update:showPoints', ($event.target as HTMLInputElement).checked)">
+        <input type="checkbox" :checked="showPoints" @change="emit('update:showPoints', ($event.target as HTMLInputElement).checked)">
         Show points
       </label>
     </div>
