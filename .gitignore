@@ -165,7 +165,15 @@ cython_debug/
 *.jpg
 *.jpeg
 *.gif
-*.svg
+# Note: SVG files in docs/public are allowed
+/opt/**/*.svg
+/*.svg
+
+# VitePress / Node.js
+docs/node_modules/
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+docs/package-lock.json
 
 # Benchmark outputs
 benchmarks/output/
