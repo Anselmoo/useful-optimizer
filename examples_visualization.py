@@ -7,6 +7,7 @@ and stability testing.
 
 from __future__ import annotations
 
+import matplotlib as mpl
 import matplotlib.pyplot as plt
 
 from opt.benchmark.functions import rosenbrock
@@ -19,7 +20,7 @@ from opt.visualization import compare_optimizers_stability
 from opt.visualization import run_stability_test
 
 
-def example_basic_visualization():
+def example_basic_visualization() -> None:
     """Example 1: Basic visualization with ParticleSwarm."""
     print("\n" + "=" * 70)
     print("Example 1: Basic Visualization with Particle Swarm Optimization")
@@ -39,7 +40,7 @@ def example_basic_visualization():
 
     # Run optimization
     best_solution, best_fitness = pso.search()
-    print(f"\nOptimization completed!")
+    print("\nOptimization completed!")
     print(f"Best solution: {best_solution}")
     print(f"Best fitness: {best_fitness:.6f}")
 
@@ -72,7 +73,7 @@ def example_basic_visualization():
     plt.close("all")
 
 
-def example_stability_testing():
+def example_stability_testing() -> None:
     """Example 2: Stability testing with multiple seeds."""
     print("\n" + "=" * 70)
     print("Example 2: Stability Testing with Multiple Seeds")
@@ -111,14 +112,14 @@ def example_stability_testing():
     plt.close("all")
 
 
-def example_optimizer_comparison():
+def example_optimizer_comparison() -> None:
     """Example 3: Compare stability of multiple optimizers."""
     print("\n" + "=" * 70)
     print("Example 3: Compare Stability of Multiple Optimizers")
     print("=" * 70)
 
     # Compare ParticleSwarm and GeneticAlgorithm
-    results_dict, fig = compare_optimizers_stability(
+    results_dict, _fig = compare_optimizers_stability(
         optimizer_classes=[ParticleSwarm, GeneticAlgorithm],
         func=sphere,
         lower_bound=-10,
@@ -143,7 +144,7 @@ def example_optimizer_comparison():
     plt.close("all")
 
 
-def example_convergence_log_scale():
+def example_convergence_log_scale() -> None:
     """Example 4: Convergence plot with log scale."""
     print("\n" + "=" * 70)
     print("Example 4: Convergence Plot with Log Scale")
@@ -160,13 +161,13 @@ def example_convergence_log_scale():
         seed=42,
     )
 
-    best_solution, best_fitness = pso.search()
+    _best_solution, best_fitness = pso.search()
     print(f"\nBest fitness: {best_fitness:.6f}")
 
     viz = Visualizer(pso)
 
     # Create side-by-side comparison
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    _fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
     # Regular scale
     viz.plot_convergence(show=False, ax=axes[0])
@@ -183,7 +184,7 @@ def example_convergence_log_scale():
     plt.close("all")
 
 
-def example_custom_visualization():
+def example_custom_visualization() -> None:
     """Example 5: Custom visualization with matplotlib integration."""
     print("\n" + "=" * 70)
     print("Example 5: Custom Visualization with Matplotlib Integration")
@@ -234,7 +235,7 @@ def example_custom_visualization():
     plt.close("all")
 
 
-def main():
+def main() -> None:
     """Run all examples."""
     print("\n" + "=" * 70)
     print("OPTIMIZATION VISUALIZATION EXAMPLES")
@@ -243,8 +244,7 @@ def main():
     print("of the useful-optimizer package.")
 
     # Set matplotlib to non-interactive backend
-    import matplotlib
-    matplotlib.use("Agg")
+    mpl.use("Agg")
 
     # Run all examples
     example_basic_visualization()
