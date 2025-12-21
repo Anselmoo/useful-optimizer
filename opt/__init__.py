@@ -1,13 +1,15 @@
 """Useful optimizers, a set of optimization algorithms.
 
-This package provides 54 optimization algorithms organized into categories:
+This package provides 64+ optimization algorithms organized into categories:
 - gradient_based: Gradient-based optimizers (AdaDelta, AdaGrad, Adam, etc.)
-- swarm_intelligence: Nature-inspired swarm algorithms (PSO, ACO, etc.)
+- swarm_intelligence: Nature-inspired swarm algorithms (PSO, ACO, HHO, MPA, etc.)
 - evolutionary: Evolutionary algorithms (GA, DE, CMA-ES, etc.)
 - classical: Classical optimization methods (BFGS, Nelder-Mead, etc.)
 - metaheuristic: Metaheuristic algorithms (Harmony Search, etc.)
 - constrained: Constrained optimization methods
 - probabilistic: Probabilistic optimization methods
+- multi_objective: Multi-objective optimization (NSGA-II, etc.)
+- physics_inspired: Physics-inspired algorithms (GSA, EO, etc.)
 
 All optimizers are re-exported at the package level for backward compatibility.
 """
@@ -66,6 +68,14 @@ from opt.metaheuristic import StochasticFractalSearch
 from opt.metaheuristic import VariableDepthSearch
 from opt.metaheuristic import VariableNeighborhoodSearch
 from opt.metaheuristic import VeryLargeScaleNeighborhood
+from opt.multi_objective import NSGAII
+
+# Multi-objective algorithms
+from opt.multi_objective import AbstractMultiObjectiveOptimizer
+
+# Physics-inspired algorithms
+from opt.physics_inspired import EquilibriumOptimizer
+from opt.physics_inspired import GravitationalSearchOptimizer
 
 # Probabilistic algorithms
 from opt.probabilistic import LDAnalysis
@@ -73,15 +83,22 @@ from opt.probabilistic import ParzenTreeEstimator
 
 # Swarm intelligence algorithms
 from opt.swarm_intelligence import AntColony
+from opt.swarm_intelligence import AntLionOptimizer
 from opt.swarm_intelligence import ArtificialFishSwarm
 from opt.swarm_intelligence import BatAlgorithm
 from opt.swarm_intelligence import BeeAlgorithm
 from opt.swarm_intelligence import CatSwarmOptimization
 from opt.swarm_intelligence import CuckooSearch
+from opt.swarm_intelligence import DragonflyOptimizer
 from opt.swarm_intelligence import FireflyAlgorithm
 from opt.swarm_intelligence import GlowwormSwarmOptimization
+from opt.swarm_intelligence import GrasshopperOptimizer
 from opt.swarm_intelligence import GreyWolfOptimizer
+from opt.swarm_intelligence import HarrisHawksOptimizer
+from opt.swarm_intelligence import MarinePredatorsOptimizer
+from opt.swarm_intelligence import MothFlameOptimizer
 from opt.swarm_intelligence import ParticleSwarm
+from opt.swarm_intelligence import SalpSwarmOptimizer
 from opt.swarm_intelligence import SquirrelSearchAlgorithm
 from opt.swarm_intelligence import WhaleOptimizationAlgorithm
 
@@ -92,18 +109,22 @@ __all__: list[str] = [
     # Classical
     "BFGS",
     "LBFGS",
+    # Multi-objective
+    "NSGAII",
+    # Gradient-based
     "SGD",
     "ADAGrad",
     "ADAMOptimization",
     "AMSGrad",
+    "AbstractMultiObjectiveOptimizer",
     # Base class
     "AbstractOptimizer",
-    # Gradient-based
     "AdaDelta",
     "AdaMax",
     "AdamW",
     # Swarm intelligence
     "AntColony",
+    "AntLionOptimizer",
     "ArtificialFishSwarm",
     # Constrained
     "AugmentedLagrangian",
@@ -119,17 +140,25 @@ __all__: list[str] = [
     "CuckooSearch",
     "CulturalAlgorithm",
     "DifferentialEvolution",
+    "DragonflyOptimizer",
     "EagleStrategy",
+    # Physics-inspired
+    "EquilibriumOptimizer",
     "EstimationOfDistributionAlgorithm",
     "FireflyAlgorithm",
     "GeneticAlgorithm",
     "GlowwormSwarmOptimization",
+    "GrasshopperOptimizer",
+    "GravitationalSearchOptimizer",
     "GreyWolfOptimizer",
     "HarmonySearch",
+    "HarrisHawksOptimizer",
     "HillClimbing",
     "ImperialistCompetitiveAlgorithm",
     # Probabilistic
     "LDAnalysis",
+    "MarinePredatorsOptimizer",
+    "MothFlameOptimizer",
     "Nadam",
     "NelderMead",
     "NesterovAcceleratedGradient",
@@ -139,6 +168,7 @@ __all__: list[str] = [
     "Powell",
     "RMSprop",
     "SGDMomentum",
+    "SalpSwarmOptimizer",
     "ShuffledFrogLeapingAlgorithm",
     "SimulatedAnnealing",
     "SineCosineAlgorithm",
