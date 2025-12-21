@@ -19,5 +19,8 @@ References:
 
 from __future__ import annotations
 
+from opt.physics_inspired.equilibrium_optimizer import EquilibriumOptimizer
+from opt.physics_inspired.gravitational_search import GravitationalSearchOptimizer
 
-__all__: list[str] = []
+
+__all__: list[str] = ["EquilibriumOptimizer", "GravitationalSearchOptimizer"]
