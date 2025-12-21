@@ -194,7 +194,8 @@ class SocialGroupOptimizer(AbstractOptimizer):
             # Early stopping check
             if self.early_stopping:
                 improvement = previous_best_fitness - best_fitness
-                if improvement < self.tolerance:
+                # Only count iterations with minimal or no improvement
+                if improvement >= 0 and improvement < self.tolerance:
                     no_improvement_count += 1
                     if no_improvement_count >= self.patience:
                         if self.verbose:
@@ -203,7 +204,8 @@ class SocialGroupOptimizer(AbstractOptimizer):
                                 f"No improvement for {self.patience} iterations"
                             )
                         break
-                else:
+                elif improvement >= self.tolerance:
+                    # Significant improvement detected, reset counter
                     no_improvement_count = 0
                 previous_best_fitness = best_fitness
 
