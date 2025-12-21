@@ -8,9 +8,14 @@ Squirrel Search, and Whale Optimization algorithms.
 
 from __future__ import annotations
 
+from opt.swarm_intelligence.african_vultures_optimizer import AfricanVulturesOptimizer
 from opt.swarm_intelligence.ant_colony import AntColony
 from opt.swarm_intelligence.ant_lion_optimizer import AntLionOptimizer
+from opt.swarm_intelligence.aquila_optimizer import AquilaOptimizer
 from opt.swarm_intelligence.artificial_fish_swarm_algorithm import ArtificialFishSwarm
+from opt.swarm_intelligence.artificial_gorilla_troops import (
+    ArtificialGorillaTroopsOptimizer,
+)
 from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
 from opt.swarm_intelligence.bee_algorithm import BeeAlgorithm
 from opt.swarm_intelligence.cat_swarm_optimization import CatSwarmOptimization
@@ -32,9 +37,12 @@ from opt.swarm_intelligence.whale_optimization_algorithm import (
 
 
 __all__: list[str] = [
+    "AfricanVulturesOptimizer",
     "AntColony",
     "AntLionOptimizer",
+    "AquilaOptimizer",
     "ArtificialFishSwarm",
+    "ArtificialGorillaTroopsOptimizer",
     "BatAlgorithm",
     "BeeAlgorithm",
     "CatSwarmOptimization",

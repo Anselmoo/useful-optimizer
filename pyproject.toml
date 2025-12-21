@@ -6,11 +6,7 @@ authors = [{ name = "Anselm Hahn", email = "Anselm.Hahn@gmail.com" }]
 license = { text = "MIT" }
 readme = "README.md"
 requires-python = ">=3.10,<3.13"
-dependencies = [
-    "numpy>=1.26.4",
-    "scipy>=1.12.0",
-    "scikit-learn>=1.5.1",
-]
+dependencies = ["numpy>=1.26.4", "scipy>=1.12.0", "scikit-learn>=1.5.1"]
 
 [project.optional-dependencies]
 dev = [
@@ -30,11 +26,7 @@ build-backend = "hatchling.build"
 packages = ["opt"]
 
 [dependency-groups]
-dev = [
-    "ruff>=0.9.0",
-    "pytest>=8.0.0",
-    "pre-commit>=4.0.0",
-]
+dev = ["ruff>=0.9.0", "pytest>=8.0.0", "pre-commit>=4.0.0"]
 
 
 [tool.ruff]
@@ -84,7 +76,16 @@ preview = false
 # McCabe complexity (`C901`) by default.
 # Set to all
 select = ["ALL"]
-ignore = ["PLR0913", "PLR1704", "N803", "N806", "E741", "E501", "T201", "COM812"]
+ignore = [
+    "PLR0913",
+    "PLR1704",
+    "N803",
+    "N806",
+    "E741",
+    "E501",
+    "T201",
+    "COM812",
+]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
 fixable = ["ALL"]
@@ -139,8 +140,8 @@ lines-between-types = 1
 # The number of lines to leave after the last import. Default is '2'.
 lines-after-imports = 2
 
-# A list of names to treat as third party when encountered. Useful for making isort recognize your own project as a third party library.
-known-third-party = ["poetry.core"]
+# A list of names to treat as third party when encountered.
+known-third-party = ["numpy", "scipy", "scikit-learn"]
 
 # A list of imports that must be present for a file to be considered valid. This is useful for adding future import statements.
 required-imports = ["from __future__ import annotations"]

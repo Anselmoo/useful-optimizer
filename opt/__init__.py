@@ -68,10 +68,16 @@ from opt.metaheuristic import StochasticFractalSearch
 from opt.metaheuristic import VariableDepthSearch
 from opt.metaheuristic import VariableNeighborhoodSearch
 from opt.metaheuristic import VeryLargeScaleNeighborhood
+
+# Multi-objective algorithms (additional)
+from opt.multi_objective import MOEAD
 from opt.multi_objective import NSGAII
 
 # Multi-objective algorithms
 from opt.multi_objective import AbstractMultiObjectiveOptimizer
+
+# Physics-inspired algorithms (additional)
+from opt.physics_inspired import AtomSearchOptimizer
 
 # Physics-inspired algorithms
 from opt.physics_inspired import EquilibriumOptimizer
@@ -81,10 +87,16 @@ from opt.physics_inspired import GravitationalSearchOptimizer
 from opt.probabilistic import LDAnalysis
 from opt.probabilistic import ParzenTreeEstimator
 
+# Social-inspired algorithms
+from opt.social_inspired import TeachingLearningOptimizer
+from opt.swarm_intelligence import AfricanVulturesOptimizer
+
 # Swarm intelligence algorithms
 from opt.swarm_intelligence import AntColony
 from opt.swarm_intelligence import AntLionOptimizer
+from opt.swarm_intelligence import AquilaOptimizer
 from opt.swarm_intelligence import ArtificialFishSwarm
+from opt.swarm_intelligence import ArtificialGorillaTroopsOptimizer
 from opt.swarm_intelligence import BatAlgorithm
 from opt.swarm_intelligence import BeeAlgorithm
 from opt.swarm_intelligence import CatSwarmOptimization
@@ -110,6 +122,7 @@ __all__: list[str] = [
     "BFGS",
     "LBFGS",
     # Multi-objective
+    "MOEAD",
     "NSGAII",
     # Gradient-based
     "SGD",
@@ -123,9 +136,14 @@ __all__: list[str] = [
     "AdaMax",
     "AdamW",
     # Swarm intelligence
+    "AfricanVulturesOptimizer",
     "AntColony",
     "AntLionOptimizer",
+    "AquilaOptimizer",
     "ArtificialFishSwarm",
+    "ArtificialGorillaTroopsOptimizer",
+    # Physics-inspired
+    "AtomSearchOptimizer",
     # Constrained
     "AugmentedLagrangian",
     "BatAlgorithm",
@@ -142,7 +160,6 @@ __all__: list[str] = [
     "DifferentialEvolution",
     "DragonflyOptimizer",
     "EagleStrategy",
-    # Physics-inspired
     "EquilibriumOptimizer",
     "EstimationOfDistributionAlgorithm",
     "FireflyAlgorithm",
@@ -177,6 +194,8 @@ __all__: list[str] = [
     "StochasticFractalSearch",
     "SuccessiveLinearProgramming",
     "TabuSearch",
+    # Social-inspired
+    "TeachingLearningOptimizer",
     "TrustRegion",
     "VariableDepthSearch",
     "VariableNeighborhoodSearch",
