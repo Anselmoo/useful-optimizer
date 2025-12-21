@@ -21,7 +21,7 @@ Example:
     ...     upper_bound=2.768,
     ...     dim=2,
     ...     population_size=30,
-    ...     max_iter=100,
+    ...     max_iter=100
     ... )
     >>> best_solution, best_fitness = optimizer.search()
 """
@@ -60,7 +60,7 @@ class GiantTrevallyOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.giant_trevally import GiantTrevallyOptimizer
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = GiantTrevallyOptimizer(
-        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10
         ... )
         >>> solution, fitness = optimizer.search()
         >>> float(fitness) < 100.0  # Should find a reasonable solution
@@ -73,8 +73,7 @@ class GiantTrevallyOptimizer(AbstractOptimizer):
         ...     dim=2,
         ...     lower_bound=-2.768,
         ...     upper_bound=2.768,
-        ...     max_iter=10,
-        ...     seed=42,
+        ...     max_iter=10
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)

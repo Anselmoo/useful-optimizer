@@ -19,7 +19,7 @@ Example:
     ...     upper_bound=2.768,
     ...     dim=2,
     ...     n_initial=10,
-    ...     max_iter=50,
+    ...     max_iter=50
     ... )
     >>> best_solution, best_fitness = optimizer.search()
 """
@@ -62,7 +62,7 @@ class BayesianOptimizer(AbstractOptimizer):
         >>> from opt.probabilistic.bayesian_optimizer import BayesianOptimizer
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = BayesianOptimizer(
-        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10
         ... )
         >>> solution, fitness = optimizer.search()
         >>> float(fitness) < 100.0  # Should find a reasonable solution
@@ -75,8 +75,7 @@ class BayesianOptimizer(AbstractOptimizer):
         ...     dim=2,
         ...     lower_bound=-2.768,
         ...     upper_bound=2.768,
-        ...     max_iter=10,
-        ...     seed=42,
+        ...     max_iter=10
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)
