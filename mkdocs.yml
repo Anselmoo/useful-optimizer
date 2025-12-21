@@ -9,7 +9,6 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
-  custom_dir: docs/overrides
 
   palette:
     # Dark mode (primary)
@@ -73,10 +72,7 @@ plugins:
       lang: en
       separator: '[\s\-\_\.]+'
   - charts
-  - tags:
-      tags_file: tags.md
-  - minify:
-      minify_html: true
+  - tags
 
 markdown_extensions:
   # Python Markdown
