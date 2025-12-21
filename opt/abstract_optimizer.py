@@ -70,7 +70,7 @@ class AbstractOptimizer(ABC):
         self.max_iter = max_iter
         if seed is None:
             self.seed = np.random.default_rng(DEFAULT_SEED).integers(
-                0, POWER_THIRTY_TWO**2
+                0, 2**POWER_THIRTY_TWO
             )
         else:
             self.seed = seed
