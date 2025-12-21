@@ -81,32 +81,36 @@ preview = false
 # Set to all
 select = ["ALL"]
 ignore = [
-    "PLR0913",
-    "PLR1704",
-    "N803",
-    "N806",
-    "E741",
-    "E501",
-    "T201",
-    "COM812",
-    "NPY002",  # Legacy numpy random calls - used extensively in optimization algorithms
-    "D107",   # Missing docstring in __init__
-    "D103",   # Missing docstring in public function
-    "PLR2004",  # Magic value comparisons - common in optimization algorithms
-    "PLR0912",  # Too many branches - complex algorithms need them
-    "PLR0915",  # Too many statements - complex algorithms need them
-    "C901",     # Too complex - optimization algorithms are inherently complex
-    "SIM109",   # Use in tuple comparison - minor style
-    "SIM110",   # Use all() generator - minor style
-    "PLR1714",  # Consider merging comparisons - minor style
-    "PERF401",  # Use list comprehension - minor style
-    "RET504",   # Unnecessary assignment before return - minor style
-    "S112",     # try-except-continue - acceptable pattern
-    "BLE001",   # Blind exception - sometimes necessary
-    "B007",     # Loop control variable not used - sometimes necessary
-    "B023",     # Function doesn't bind loop variable - sometimes necessary
-    "PLC0415",  # Import not at top level - sometimes necessary for optional deps
-    "F841",     # Unused variable - sometimes necessary for clarity
+    "PLR0913",   # Too many arguments - should use config objects
+    "PLR1704",   # Redefining argument - needs refactor
+    "N803",      # Argument name not lowercase
+    "N806",      # Variable name not lowercase
+    "E741",      # Ambiguous variable name
+    "E501",      # Line too long
+    "T201",      # Print statements - used in example scripts
+    "COM812",    # Missing trailing comma
+    "NPY002",    # Legacy numpy random calls - used extensively in optimization algorithms
+    "D107",      # Missing docstring in __init__
+    "D103",      # Missing docstring in public function
+    # NOTE: PLR2004 (Magic value comparisons) is being gradually addressed.
+    # Constants module created (opt/constants.py) to centralize magic numbers.
+    # Core files (abstract_optimizer, particle_swarm, nadam, adamw) have been migrated.
+    # Remaining files will be migrated incrementally. See issue for progress.
+    "PLR2004",   # Magic value comparisons - common in optimization algorithms
+    "PLR0912",   # Too many branches - complex algorithms need them
+    "PLR0915",   # Too many statements - complex algorithms need them
+    "C901",      # Too complex - optimization algorithms are inherently complex
+    "SIM109",    # Use in tuple comparison - minor style
+    "SIM110",    # Use all() generator - minor style
+    "PLR1714",   # Consider merging comparisons - minor style
+    "PERF401",   # Use list comprehension - minor style
+    "RET504",    # Unnecessary assignment before return - minor style
+    "S112",      # try-except-continue - acceptable pattern
+    "BLE001",    # Blind exception - sometimes necessary
+    "B007",      # Loop control variable not used - sometimes necessary
+    "B023",      # Function doesn't bind loop variable - sometimes necessary
+    "PLC0415",   # Import not at top level - sometimes necessary for optional deps
+    "F841",      # Unused variable - sometimes necessary for clarity
 ]
 
 # Allow fix for all enabled rules (when `--fix`) is provided.
@@ -122,6 +126,8 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 "opt/abstract_optimizer.py" = ["FBT001", "FBT002"]
 "opt/swarm_intelligence/particle_swarm.py" = ["FBT001", "FBT002"]
 "benchmarks/*" = ["PERF203", "S101", "ANN001", "ANN201", "ANN003"]
+"opt/demo.py" = ["TC002", "ANN401"]
+
 
 
 [tool.ruff.lint.pydocstyle]

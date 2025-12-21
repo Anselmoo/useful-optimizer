@@ -38,7 +38,6 @@ from typing import TYPE_CHECKING
 import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
-from opt.benchmark.functions import shifted_ackley
 
 
 if TYPE_CHECKING:
@@ -142,9 +141,6 @@ class DifferentialEvolution(AbstractOptimizer):
 
 
 if __name__ == "__main__":
-    optimizer = DifferentialEvolution(
-        func=shifted_ackley, lower_bound=-32.768, upper_bound=+32.768, dim=2
-    )
-    best_solution, best_fitness = optimizer.search()
-    print(f"Best solution found: {best_solution}")
-    print(f"Best fitness found: {best_fitness}")
+    from opt.demo import run_demo
+
+    run_demo(DifferentialEvolution)
