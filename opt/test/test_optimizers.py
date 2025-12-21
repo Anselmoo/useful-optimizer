@@ -699,7 +699,9 @@ class TestSocialGroupOptimizerEnhancements:
         assert all(isinstance(f, float) for f in optimizer.convergence_history)
         # Fitness should be non-increasing (monotonic decrease or equal)
         for i in range(1, len(optimizer.convergence_history)):
-            assert optimizer.convergence_history[i] <= optimizer.convergence_history[i - 1]
+            assert (
+                optimizer.convergence_history[i] <= optimizer.convergence_history[i - 1]
+            )
 
     def test_convergence_tracking_disabled(self) -> None:
         """Test that convergence tracking is disabled by default."""
@@ -756,12 +758,7 @@ class TestSocialGroupOptimizerEnhancements:
     def test_verbose_mode_enabled(self) -> None:
         """Test that verbose mode can be enabled without errors."""
         optimizer = SocialGroupOptimizer(
-            func=sphere,
-            lower_bound=-5,
-            upper_bound=5,
-            dim=2,
-            max_iter=25,
-            verbose=True,
+            func=sphere, lower_bound=-5, upper_bound=5, dim=2, max_iter=25, verbose=True
         )
         # Should complete without errors
         solution, fitness = optimizer.search()
