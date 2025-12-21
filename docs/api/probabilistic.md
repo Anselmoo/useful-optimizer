@@ -10,17 +10,17 @@ API documentation for probabilistic optimization algorithms.
       heading_level: 2
       show_source: true
 
-## SequentialMonteCarlo
+## SequentialMonteCarloOptimizer
 
-::: opt.probabilistic.sequential_monte_carlo.SequentialMonteCarlo
+::: opt.probabilistic.sequential_monte_carlo.SequentialMonteCarloOptimizer
     options:
       show_root_heading: true
       heading_level: 2
       show_source: true
 
-## AdaptiveMetropolis
+## AdaptiveMetropolisOptimizer
 
-::: opt.probabilistic.adaptive_metropolis.AdaptiveMetropolis
+::: opt.probabilistic.adaptive_metropolis.AdaptiveMetropolisOptimizer
     options:
       show_root_heading: true
       heading_level: 2
@@ -34,9 +34,9 @@ API documentation for probabilistic optimization algorithms.
       heading_level: 2
       show_source: true
 
-## LinearDiscriminantAnalysis
+## LDAnalysis
 
-::: opt.probabilistic.linear_discriminant_analysis.LinearDiscriminantAnalysis
+::: opt.probabilistic.linear_discriminant_analysis.LDAnalysis
     options:
       show_root_heading: true
       heading_level: 2

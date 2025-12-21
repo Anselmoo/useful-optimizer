@@ -18,9 +18,9 @@ API documentation for evolutionary optimization algorithms.
       heading_level: 2
       show_source: true
 
-## CMAES
+## CMAESAlgorithm
 
-::: opt.evolutionary.cma_es.CMAES
+::: opt.evolutionary.cma_es.CMAESAlgorithm
     options:
       show_root_heading: true
       heading_level: 2

@@ -10,9 +10,9 @@ API documentation for social-inspired optimization algorithms.
       heading_level: 2
       show_source: true
 
-## TeachingLearning
+## TeachingLearningOptimizer
 
-::: opt.social_inspired.teaching_learning.TeachingLearning
+::: opt.social_inspired.teaching_learning.TeachingLearningOptimizer
     options:
       show_root_heading: true
       heading_level: 2

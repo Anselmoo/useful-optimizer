@@ -2,25 +2,25 @@
 
 API documentation for constrained optimization algorithms.
 
-## AugmentedLagrangianMethod
+## AugmentedLagrangian
 
-::: opt.constrained.augmented_lagrangian_method.AugmentedLagrangianMethod
+::: opt.constrained.augmented_lagrangian_method.AugmentedLagrangian
     options:
       show_root_heading: true
       heading_level: 2
       show_source: true
 
-## BarrierMethod
+## BarrierMethodOptimizer
 
-::: opt.constrained.barrier_method.BarrierMethod
+::: opt.constrained.barrier_method.BarrierMethodOptimizer
     options:
       show_root_heading: true
       heading_level: 2
       show_source: true
 
-## PenaltyMethod
+## PenaltyMethodOptimizer
 
-::: opt.constrained.penalty_method.PenaltyMethod
+::: opt.constrained.penalty_method.PenaltyMethodOptimizer
     options:
       show_root_heading: true
       heading_level: 2

@@ -2,9 +2,9 @@
 
 API documentation for physics-inspired optimization algorithms.
 
-## GravitationalSearch
+## GravitationalSearchOptimizer
 
-::: opt.physics_inspired.gravitational_search.GravitationalSearch
+::: opt.physics_inspired.gravitational_search.GravitationalSearchOptimizer
     options:
       show_root_heading: true
       heading_level: 2
@@ -18,9 +18,9 @@ API documentation for physics-inspired optimization algorithms.
       heading_level: 2
       show_source: true
 
-## AtomSearch
+## AtomSearchOptimizer
 
-::: opt.physics_inspired.atom_search.AtomSearch
+::: opt.physics_inspired.atom_search.AtomSearchOptimizer
     options:
       show_root_heading: true
       heading_level: 2

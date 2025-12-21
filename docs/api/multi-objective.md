@@ -26,9 +26,9 @@ API documentation for multi-objective optimization algorithms.
       heading_level: 2
       show_source: true
 
-## AbstractMultiObjective
+## AbstractMultiObjectiveOptimizer
 
-::: opt.multi_objective.abstract_multi_objective.AbstractMultiObjective
+::: opt.multi_objective.abstract_multi_objective.AbstractMultiObjectiveOptimizer
     options:
       show_root_heading: true
       heading_level: 2

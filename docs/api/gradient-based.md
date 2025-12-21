@@ -10,9 +10,9 @@ API documentation for gradient-based optimization algorithms.
       heading_level: 2
       show_source: true
 
-## AdaptiveMomentEstimation (Adam)
+## ADAMOptimization (Adam)
 
-::: opt.gradient_based.adaptive_moment_estimation.AdaptiveMomentEstimation
+::: opt.gradient_based.adaptive_moment_estimation.ADAMOptimization
     options:
       show_root_heading: true
       heading_level: 2
@@ -34,17 +34,17 @@ API documentation for gradient-based optimization algorithms.
       heading_level: 2
       show_source: true
 
-## Adagrad
+## ADAGrad
 
-::: opt.gradient_based.adagrad.Adagrad
+::: opt.gradient_based.adagrad.ADAGrad
     options:
       show_root_heading: true
       heading_level: 2
       show_source: true
 
-## Adadelta
+## AdaDelta
 
-::: opt.gradient_based.adadelta.Adadelta
+::: opt.gradient_based.adadelta.AdaDelta
     options:
       show_root_heading: true
       heading_level: 2

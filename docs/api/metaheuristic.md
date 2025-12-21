@@ -26,9 +26,9 @@ API documentation for metaheuristic optimization algorithms.
       heading_level: 2
       show_source: true
 
-## VariableNeighbourhoodSearch
+## VariableNeighborhoodSearch
 
-::: opt.metaheuristic.variable_neighbourhood_search.VariableNeighbourhoodSearch
+::: opt.metaheuristic.variable_neighbourhood_search.VariableNeighborhoodSearch
     options:
       show_root_heading: true
       heading_level: 2
