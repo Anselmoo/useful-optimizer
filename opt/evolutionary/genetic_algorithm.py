@@ -62,10 +62,10 @@ class GeneticAlgorithm(AbstractOptimizer):
         lower_bound: float,
         upper_bound: float,
         dim: int,
-        population_size: int = 100,
+        population_size: int = 150,
         max_iter: int = 1000,
         tournament_size: int = 3,
-        crossover_rate: float = 0.8,
+        crossover_rate: float = 0.7,
         seed: int | None = None,
     ) -> None:
         """Initialize the GeneticAlgorithm class."""
@@ -91,33 +91,36 @@ class GeneticAlgorithm(AbstractOptimizer):
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
-    def _crossover(self, parent1: np.ndarray, parent2: np.ndarray) -> np.ndarray:
+    def _crossover(self, parent1: np.ndarray, parent2: np.ndarray, rng: np.random.Generator) -> np.ndarray:
         """Performs crossover between two parents to produce a child.
 
         Args:
             parent1 (np.ndarray): The first parent.
             parent2 (np.ndarray): The second parent.
+            rng (np.random.Generator): Random number generator.
 
         Returns:
             np.ndarray: The child produced by crossover.
         """
-        r = np.random.default_rng(self.seed).random(self.dim)
+        r = rng.random(self.dim)
         return np.where(r < self.crossover_rate, parent1, parent2)
 
-    def _mutation(self, individual: np.ndarray, mutation_rate: float) -> np.ndarray:
+    def _mutation(self, individual: np.ndarray, mutation_rate: float, rng: np.random.Generator) -> np.ndarray:
         """Mutates an individual with a certain probability.
 
         Args:
             individual (np.ndarray): The individual to be mutated.
             mutation_rate (float): The probability of mutation.
+            rng (np.random.Generator): Random number generator.
 
         Returns:
             np.ndarray: The mutated individual.
         """
-        r = np.random.default_rng(self.seed).random(self.dim)
+        r = rng.random(self.dim)
+        mutation_strength = rng.uniform(0.8, 1.2, self.dim)  # More moderate mutation
         return np.where(
             r < mutation_rate,
-            individual * np.random.default_rng(self.seed).uniform(0.5, 1.5),
+            individual * mutation_strength,
             individual,
         )
 
@@ -132,7 +135,7 @@ class GeneticAlgorithm(AbstractOptimizer):
         """
         return 0.5 * (1 + np.sin(iteration / self.max_iter * np.pi - np.pi / 2))
 
-    def _selection(self, population: np.ndarray, fitness: np.ndarray) -> np.ndarray:
+    def _selection(self, population: np.ndarray, fitness: np.ndarray, rng: np.random.Generator) -> np.ndarray:
         """Selects an individual from the population based on fitness.
 
         The selection process is performed by converting the fitness values to probabilities,
@@ -142,6 +145,7 @@ class GeneticAlgorithm(AbstractOptimizer):
         Args:
             population (np.ndarray): The population.
             fitness (np.ndarray): The fitness values of the population.
+            rng (np.random.Generator): Random number generator.
 
         Returns:
             np.ndarray: The selected individual.
@@ -150,10 +154,8 @@ class GeneticAlgorithm(AbstractOptimizer):
         shifted_fitness = fitness - np.min(fitness) + 1e-10
         selection_probs = 1 / shifted_fitness
         selection_probs /= np.sum(selection_probs)  # Normalize probabilities
-        idx = np.random.default_rng(self.seed).choice(
-            np.arange(self.population_size), p=selection_probs
-        )
-        return population[idx]
+        idx = rng.choice(np.arange(self.population_size), p=selection_probs)
+        return population[idx].copy()
 
     def search(self) -> tuple[np.ndarray, float]:
         """Run the genetic algorithm search.
@@ -161,26 +163,37 @@ class GeneticAlgorithm(AbstractOptimizer):
         Returns:
         - Tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
+        rng = np.random.default_rng(self.seed)
         population = self._initialize()
         best_solution: np.ndarray = np.zeros(self.dim)
         best_fitness = np.inf
+
         for i in range(self.max_iter):
-            self.seed += 1
             fitness = np.apply_along_axis(self.func, 1, population)
-            new_population = []
-            for _ in range(self.population_size):
-                self.seed += 1
-                parent1 = self._selection(population, fitness)
-                parent2 = self._selection(population, fitness)
-                child = self._crossover(parent1, parent2)
-                mutation_rate = self._compute_mutation_rate(i)
-                child = self._mutation(child, mutation_rate)
-                new_population.append(child)
-            population = np.array(new_population)
-            min_fitness_idx = np.argmin(np.apply_along_axis(self.func, 1, population))
+
+            # Track best solution (elitism)
+            min_fitness_idx = np.argmin(fitness)
             if fitness[min_fitness_idx] < best_fitness:
                 best_fitness = fitness[min_fitness_idx]
-                best_solution = population[min_fitness_idx]
+                best_solution = population[min_fitness_idx].copy()
+
+            new_population = []
+
+            # Elitism: keep the best solution
+            new_population.append(best_solution.copy())
+
+            for _ in range(self.population_size - 1):
+                parent1 = self._selection(population, fitness, rng)
+                parent2 = self._selection(population, fitness, rng)
+                child = self._crossover(parent1, parent2, rng)
+                mutation_rate = self._compute_mutation_rate(i)
+                child = self._mutation(child, mutation_rate, rng)
+                # Clip to bounds
+                child = np.clip(child, self.lower_bound, self.upper_bound)
+                new_population.append(child)
+
+            population = np.array(new_population)
+
         return best_solution, best_fitness
 
 
