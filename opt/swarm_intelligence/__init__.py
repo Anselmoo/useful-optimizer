@@ -18,6 +18,7 @@ from opt.swarm_intelligence.cuckoo_search import CuckooSearch
 from opt.swarm_intelligence.dragonfly_algorithm import DragonflyOptimizer
 from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
 from opt.swarm_intelligence.glowworm_swarm_optimization import GlowwormSwarmOptimization
+from opt.swarm_intelligence.grasshopper_optimization import GrasshopperOptimizer
 from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
 from opt.swarm_intelligence.harris_hawks_optimization import HarrisHawksOptimizer
 from opt.swarm_intelligence.moth_flame_optimization import MothFlameOptimizer
@@ -40,6 +41,7 @@ __all__: list[str] = [
     "DragonflyOptimizer",
     "FireflyAlgorithm",
     "GlowwormSwarmOptimization",
+    "GrasshopperOptimizer",
     "GreyWolfOptimizer",
     "HarrisHawksOptimizer",
     "MothFlameOptimizer",
