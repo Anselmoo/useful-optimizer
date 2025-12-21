@@ -87,7 +87,9 @@ class StabilityResults:
             ...
         """
         stats = self.summary()
-        print(f"\nStability Test Results for {self.optimizer_name} on {self.function_name}")
+        print(
+            f"\nStability Test Results for {self.optimizer_name} on {self.function_name}"
+        )
         print("=" * 60)
         print(f"Number of runs: {len(self.fitness_values)}")
         print(f"Mean fitness:   {stats['mean']:.6f}")
@@ -104,11 +106,7 @@ class StabilityResults:
             print("CV: N/A")
         print("=" * 60)
 
-    def plot_boxplot(
-        self,
-        show: bool = True,
-        save_path: str | None = None,
-    ) -> Figure:
+    def plot_boxplot(self, show: bool = True, save_path: str | None = None) -> Figure:
         """Generate box plot of fitness values across runs.
 
         Args:
@@ -188,10 +186,7 @@ class StabilityResults:
         return fig
 
     def plot_histogram(
-        self,
-        bins: int = 20,
-        show: bool = True,
-        save_path: str | None = None,
+        self, bins: int = 20, show: bool = True, save_path: str | None = None
     ) -> Figure:
         """Generate histogram of fitness values across runs.
 

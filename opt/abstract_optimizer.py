@@ -69,12 +69,16 @@ class AbstractOptimizer(ABC):
             self.seed = seed
         self.population_size = population_size
         self.track_history = track_history
-        self.history: dict[str, list] = {
-            "best_fitness": [],
-            "best_solution": [],
-            "population_fitness": [],
-            "population": [],
-        } if track_history else {}
+        self.history: dict[str, list] = (
+            {
+                "best_fitness": [],
+                "best_solution": [],
+                "population_fitness": [],
+                "population": [],
+            }
+            if track_history
+            else {}
+        )
 
     @abstractmethod
     def search(self) -> tuple[np.ndarray, float]:

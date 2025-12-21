@@ -23,7 +23,7 @@ Example:
     ...     upper_bound=5,
     ...     dim=2,
     ...     max_iter=100,
-    ...     track_history=True
+    ...     track_history=True,
     ... )
     >>> best_solution, best_fitness = pso.search()
     >>>

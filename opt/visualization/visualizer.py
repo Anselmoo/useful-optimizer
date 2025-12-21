@@ -41,7 +41,7 @@ class Visualizer:
         ...     upper_bound=5,
         ...     dim=2,
         ...     max_iter=100,
-        ...     track_history=True
+        ...     track_history=True,
         ... )
         >>> best_solution, best_fitness = pso.search()
         >>> viz = Visualizer(pso)
@@ -69,10 +69,7 @@ class Visualizer:
         self.history = optimizer.history
 
     def plot_convergence(
-        self,
-        log_scale: bool = False,
-        show: bool = True,
-        ax: Axes | None = None,
+        self, log_scale: bool = False, show: bool = True, ax: Axes | None = None
     ) -> Figure:
         """Plot convergence curve showing best fitness over iterations.
 
@@ -97,7 +94,9 @@ class Visualizer:
         iterations = range(len(self.history["best_fitness"]))
         best_fitness = self.history["best_fitness"]
 
-        ax.plot(iterations, best_fitness, linewidth=2, color="blue", label="Best Fitness")
+        ax.plot(
+            iterations, best_fitness, linewidth=2, color="blue", label="Best Fitness"
+        )
         ax.set_xlabel("Iteration", fontsize=12)
         ax.set_ylabel("Best Fitness Value", fontsize=12)
         ax.set_title(
@@ -116,10 +115,7 @@ class Visualizer:
         return fig
 
     def plot_trajectory(
-        self,
-        show: bool = True,
-        ax: Axes | None = None,
-        max_points: int = 1000,
+        self, show: bool = True, ax: Axes | None = None, max_points: int = 1000
     ) -> Figure:
         """Plot 2D trajectory of the best solution through the search space.
 
@@ -213,10 +209,7 @@ class Visualizer:
         return fig
 
     def plot_average_fitness(
-        self,
-        show_std: bool = True,
-        show: bool = True,
-        ax: Axes | None = None,
+        self, show_std: bool = True, show: bool = True, ax: Axes | None = None
     ) -> Figure:
         """Plot average fitness of population over iterations with standard deviation.
 
@@ -249,11 +242,20 @@ class Visualizer:
         std_fitness = [np.std(f) for f in population_fitness]
 
         # Plot mean fitness
-        ax.plot(iterations, mean_fitness, linewidth=2, color="green", label="Mean Fitness")
+        ax.plot(
+            iterations, mean_fitness, linewidth=2, color="green", label="Mean Fitness"
+        )
 
         # Plot best fitness for comparison
         best_fitness = self.history["best_fitness"]
-        ax.plot(iterations, best_fitness, linewidth=2, color="blue", label="Best Fitness", linestyle="--")
+        ax.plot(
+            iterations,
+            best_fitness,
+            linewidth=2,
+            color="blue",
+            label="Best Fitness",
+            linestyle="--",
+        )
 
         # Add standard deviation bands
         if show_std:

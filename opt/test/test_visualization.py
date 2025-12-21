@@ -59,7 +59,9 @@ class TestVisualizer:
         assert viz.history == optimizer_with_history.history
         assert len(viz.history["best_fitness"]) > 0
 
-    def test_visualizer_without_history_raises_error(self, optimizer_without_history) -> None:
+    def test_visualizer_without_history_raises_error(
+        self, optimizer_without_history
+    ) -> None:
         """Test that Visualizer raises error when history is not tracked."""
         with pytest.raises(ValueError, match="track_history=True"):
             Visualizer(optimizer_without_history)
@@ -149,11 +151,7 @@ class TestStabilityResults:
     @pytest.fixture
     def sample_results(self):
         """Create sample stability results."""
-        solutions = [
-            np.array([1.0, 0.5]),
-            np.array([1.1, 0.6]),
-            np.array([0.9, 0.4]),
-        ]
+        solutions = [np.array([1.0, 0.5]), np.array([1.1, 0.6]), np.array([0.9, 0.4])]
         fitness_values = [0.01, 0.02, 0.015]
         seeds = [42, 123, 456]
         return StabilityResults(
