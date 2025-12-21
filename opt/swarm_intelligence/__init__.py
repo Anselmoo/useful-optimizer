@@ -21,6 +21,7 @@ from opt.swarm_intelligence.glowworm_swarm_optimization import GlowwormSwarmOpti
 from opt.swarm_intelligence.grasshopper_optimization import GrasshopperOptimizer
 from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
 from opt.swarm_intelligence.harris_hawks_optimization import HarrisHawksOptimizer
+from opt.swarm_intelligence.marine_predators_algorithm import MarinePredatorsOptimizer
 from opt.swarm_intelligence.moth_flame_optimization import MothFlameOptimizer
 from opt.swarm_intelligence.particle_swarm import ParticleSwarm
 from opt.swarm_intelligence.salp_swarm_algorithm import SalpSwarmOptimizer
@@ -44,6 +45,7 @@ __all__: list[str] = [
     "GrasshopperOptimizer",
     "GreyWolfOptimizer",
     "HarrisHawksOptimizer",
+    "MarinePredatorsOptimizer",
     "MothFlameOptimizer",
     "ParticleSwarm",
     "SalpSwarmOptimizer",
