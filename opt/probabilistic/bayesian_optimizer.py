@@ -56,6 +56,29 @@ class BayesianOptimizer(AbstractOptimizer):
         n_initial: Number of initial random samples.
         max_iter: Maximum number of iterations.
         xi: Exploration-exploitation trade-off parameter.
+
+
+    Example:
+        >>> from opt.probabilistic.bayesian_optimizer import BayesianOptimizer
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = BayesianOptimizer(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = BayesianOptimizer(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

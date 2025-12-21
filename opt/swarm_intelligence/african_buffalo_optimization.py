@@ -44,6 +44,29 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
         population_size: Number of buffalos in the herd.
         lp1: Learning parameter 1 for exploitation (waaa). Default 0.6.
         lp2: Learning parameter 2 for exploration (maaa). Default 0.4.
+
+
+    Example:
+        >>> from opt.swarm_intelligence.african_buffalo_optimization import AfricanBuffaloOptimizer
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = AfricanBuffaloOptimizer(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = AfricanBuffaloOptimizer(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

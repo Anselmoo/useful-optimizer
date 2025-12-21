@@ -47,6 +47,29 @@ class BlackWidowOptimizer(AbstractOptimizer):
         pp: Procreation probability. Default 0.6.
         cr: Cannibalism rate. Default 0.44.
         pm: Mutation probability. Default 0.4.
+
+
+    Example:
+        >>> from opt.swarm_intelligence.black_widow import BlackWidowOptimizer
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = BlackWidowOptimizer(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = BlackWidowOptimizer(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

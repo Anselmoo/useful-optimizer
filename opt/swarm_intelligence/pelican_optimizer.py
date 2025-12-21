@@ -54,6 +54,29 @@ class PelicanOptimizer(AbstractOptimizer):
         dim: Dimensionality of the problem.
         population_size: Number of pelicans in the flock.
         max_iter: Maximum number of iterations.
+
+
+    Example:
+        >>> from opt.swarm_intelligence.pelican_optimizer import PelicanOptimizer
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = PelicanOptimizer(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = PelicanOptimizer(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

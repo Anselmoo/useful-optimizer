@@ -42,6 +42,29 @@ class SeagullOptimizationAlgorithm(AbstractOptimizer):
         dim: Dimensionality of the problem.
         max_iter: Maximum number of iterations.
         population_size: Number of seagulls (solutions).
+
+
+    Example:
+        >>> from opt.swarm_intelligence.seagull_optimization import SeagullOptimizationAlgorithm
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = SeagullOptimizationAlgorithm(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = SeagullOptimizationAlgorithm(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

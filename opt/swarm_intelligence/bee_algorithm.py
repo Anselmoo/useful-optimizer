@@ -65,6 +65,29 @@ class BeeAlgorithm(AbstractOptimizer):
         prob (np.ndarray): The probability values for the onlooker bee phase.
         scout_bee (float): The probability of a bee becoming a scout bee.
 
+
+
+    Example:
+        >>> from opt.swarm_intelligence.bee_algorithm import BeeAlgorithm
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = BeeAlgorithm(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = BeeAlgorithm(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

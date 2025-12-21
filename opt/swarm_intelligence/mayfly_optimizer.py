@@ -53,6 +53,29 @@ class MayflyOptimizer(AbstractOptimizer):
         dance: Nuptial dance coefficient. Default 5.0.
         fl: Random flight coefficient. Default 0.1.
         g: Gravity coefficient. Default 0.8.
+
+
+    Example:
+        >>> from opt.swarm_intelligence.mayfly_optimizer import MayflyOptimizer
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = MayflyOptimizer(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = MayflyOptimizer(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

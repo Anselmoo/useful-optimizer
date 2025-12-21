@@ -68,6 +68,29 @@ class SalpSwarmOptimizer(AbstractOptimizer):
         dim (int): Problem dimensionality.
         max_iter (int): Maximum iterations.
         func (Callable): Objective function to minimize.
+
+
+    Example:
+        >>> from opt.swarm_intelligence.salp_swarm_algorithm import SalpSwarmOptimizer
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = SalpSwarmOptimizer(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = SalpSwarmOptimizer(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

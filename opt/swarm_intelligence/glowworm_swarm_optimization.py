@@ -77,6 +77,29 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
         _move_glowworms(population, luciferin): Move the glowworms based on their luciferin levels.
         search(): Run the glowworm swarm optimization algorithm and return the best solution and fitness.
 
+
+
+    Example:
+        >>> from opt.swarm_intelligence.glowworm_swarm_optimization import GlowwormSwarmOptimization
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = GlowwormSwarmOptimization(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = GlowwormSwarmOptimization(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

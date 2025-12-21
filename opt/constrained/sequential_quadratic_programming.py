@@ -59,6 +59,29 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
         eq_constraints: List of equality constraint functions (h(x) = 0).
         max_iter: Maximum number of iterations.
         tol: Tolerance for convergence.
+
+
+    Example:
+        >>> from opt.constrained.sequential_quadratic_programming import SequentialQuadraticProgramming
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = SequentialQuadraticProgramming(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = SequentialQuadraticProgramming(
+        ...     func=shifted_ackley, dim=2,
+        ...     lower_bound=-2.768, upper_bound=2.768,
+        ...     max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(
