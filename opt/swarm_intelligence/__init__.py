@@ -8,33 +8,123 @@ Squirrel Search, and Whale Optimization algorithms.
 
 from __future__ import annotations
 
+from opt.swarm_intelligence.african_buffalo_optimization import AfricanBuffaloOptimizer
+from opt.swarm_intelligence.african_vultures_optimizer import AfricanVulturesOptimizer
 from opt.swarm_intelligence.ant_colony import AntColony
+from opt.swarm_intelligence.ant_lion_optimizer import AntLionOptimizer
+from opt.swarm_intelligence.aquila_optimizer import AquilaOptimizer
 from opt.swarm_intelligence.artificial_fish_swarm_algorithm import ArtificialFishSwarm
+from opt.swarm_intelligence.artificial_gorilla_troops import (
+    ArtificialGorillaTroopsOptimizer,
+)
+from opt.swarm_intelligence.artificial_hummingbird import ArtificialHummingbirdAlgorithm
+from opt.swarm_intelligence.artificial_rabbits import ArtificialRabbitsOptimizer
+from opt.swarm_intelligence.barnacles_mating import BarnaclesMatingOptimizer
 from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
 from opt.swarm_intelligence.bee_algorithm import BeeAlgorithm
+from opt.swarm_intelligence.black_widow import BlackWidowOptimizer
+from opt.swarm_intelligence.brown_bear import BrownBearOptimizer
 from opt.swarm_intelligence.cat_swarm_optimization import CatSwarmOptimization
+from opt.swarm_intelligence.chimp_optimization import ChimpOptimizationAlgorithm
+from opt.swarm_intelligence.coati_optimizer import CoatiOptimizer
 from opt.swarm_intelligence.cuckoo_search import CuckooSearch
+from opt.swarm_intelligence.dandelion_optimizer import DandelionOptimizer
+from opt.swarm_intelligence.dingo_optimizer import DingoOptimizer
+from opt.swarm_intelligence.dragonfly_algorithm import DragonflyOptimizer
+from opt.swarm_intelligence.emperor_penguin import EmperorPenguinOptimizer
+from opt.swarm_intelligence.fennec_fox import FennecFoxOptimizer
 from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
+from opt.swarm_intelligence.flower_pollination import FlowerPollinationAlgorithm
+from opt.swarm_intelligence.giant_trevally import GiantTrevallyOptimizer
 from opt.swarm_intelligence.glowworm_swarm_optimization import GlowwormSwarmOptimization
+from opt.swarm_intelligence.golden_eagle import GoldenEagleOptimizer
+from opt.swarm_intelligence.grasshopper_optimization import GrasshopperOptimizer
 from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
+from opt.swarm_intelligence.harris_hawks_optimization import HarrisHawksOptimizer
+from opt.swarm_intelligence.honey_badger import HoneyBadgerAlgorithm
+from opt.swarm_intelligence.manta_ray import MantaRayForagingOptimization
+from opt.swarm_intelligence.marine_predators_algorithm import MarinePredatorsOptimizer
+from opt.swarm_intelligence.mayfly_optimizer import MayflyOptimizer
+from opt.swarm_intelligence.moth_flame_optimization import MothFlameOptimizer
+from opt.swarm_intelligence.moth_search import MothSearchAlgorithm
+from opt.swarm_intelligence.mountain_gazelle import MountainGazelleOptimizer
+from opt.swarm_intelligence.orca_predator import OrcaPredatorAlgorithm
+from opt.swarm_intelligence.osprey_optimizer import OspreyOptimizer
 from opt.swarm_intelligence.particle_swarm import ParticleSwarm
+from opt.swarm_intelligence.pathfinder import PathfinderAlgorithm
+from opt.swarm_intelligence.pelican_optimizer import PelicanOptimizer
+from opt.swarm_intelligence.reptile_search import ReptileSearchAlgorithm
+from opt.swarm_intelligence.salp_swarm_algorithm import SalpSwarmOptimizer
+from opt.swarm_intelligence.sand_cat import SandCatSwarmOptimizer
+from opt.swarm_intelligence.seagull_optimization import SeagullOptimizationAlgorithm
+from opt.swarm_intelligence.slime_mould import SlimeMouldAlgorithm
+from opt.swarm_intelligence.snow_geese import SnowGeeseOptimizer
+from opt.swarm_intelligence.spotted_hyena import SpottedHyenaOptimizer
 from opt.swarm_intelligence.squirrel_search import SquirrelSearchAlgorithm
+from opt.swarm_intelligence.starling_murmuration import StarlingMurmurationOptimizer
+from opt.swarm_intelligence.tunicate_swarm import TunicateSwarmAlgorithm
 from opt.swarm_intelligence.whale_optimization_algorithm import (
     WhaleOptimizationAlgorithm,
 )
+from opt.swarm_intelligence.wild_horse import WildHorseOptimizer
+from opt.swarm_intelligence.zebra_optimizer import ZebraOptimizer
 
 
 __all__: list[str] = [
+    "AfricanBuffaloOptimizer",
+    "AfricanVulturesOptimizer",
     "AntColony",
+    "AntLionOptimizer",
+    "AquilaOptimizer",
     "ArtificialFishSwarm",
+    "ArtificialGorillaTroopsOptimizer",
+    "ArtificialHummingbirdAlgorithm",
+    "ArtificialRabbitsOptimizer",
+    "BarnaclesMatingOptimizer",
     "BatAlgorithm",
     "BeeAlgorithm",
+    "BlackWidowOptimizer",
+    "BrownBearOptimizer",
     "CatSwarmOptimization",
+    "ChimpOptimizationAlgorithm",
+    "CoatiOptimizer",
     "CuckooSearch",
+    "DandelionOptimizer",
+    "DingoOptimizer",
+    "DragonflyOptimizer",
+    "EmperorPenguinOptimizer",
+    "FennecFoxOptimizer",
     "FireflyAlgorithm",
+    "FlowerPollinationAlgorithm",
+    "GiantTrevallyOptimizer",
     "GlowwormSwarmOptimization",
+    "GoldenEagleOptimizer",
+    "GrasshopperOptimizer",
     "GreyWolfOptimizer",
+    "HarrisHawksOptimizer",
+    "HoneyBadgerAlgorithm",
+    "MantaRayForagingOptimization",
+    "MarinePredatorsOptimizer",
+    "MayflyOptimizer",
+    "MothFlameOptimizer",
+    "MothSearchAlgorithm",
+    "MountainGazelleOptimizer",
+    "OrcaPredatorAlgorithm",
+    "OspreyOptimizer",
     "ParticleSwarm",
+    "PathfinderAlgorithm",
+    "PelicanOptimizer",
+    "ReptileSearchAlgorithm",
+    "SalpSwarmOptimizer",
+    "SandCatSwarmOptimizer",
+    "SeagullOptimizationAlgorithm",
+    "SlimeMouldAlgorithm",
+    "SnowGeeseOptimizer",
+    "SpottedHyenaOptimizer",
     "SquirrelSearchAlgorithm",
+    "StarlingMurmurationOptimizer",
+    "TunicateSwarmAlgorithm",
     "WhaleOptimizationAlgorithm",
+    "WildHorseOptimizer",
+    "ZebraOptimizer",
 ]

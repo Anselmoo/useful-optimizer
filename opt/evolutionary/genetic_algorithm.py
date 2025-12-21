@@ -147,10 +147,12 @@ class GeneticAlgorithm(AbstractOptimizer):
         Returns:
             np.ndarray: The selected individual.
         """
-        fitness = 1 / (1 + fitness)  # Convert fitness to a probability
-        fitness /= np.sum(fitness)  # Normalize probabilities
+        # Shift fitness to ensure all values are positive, then invert for minimization
+        shifted_fitness = fitness - np.min(fitness) + 1e-10
+        selection_probs = 1 / shifted_fitness
+        selection_probs /= np.sum(selection_probs)  # Normalize probabilities
         idx = np.random.default_rng(self.seed).choice(
-            np.arange(self.population_size), p=fitness
+            np.arange(self.population_size), p=selection_probs
         )
         return population[idx]
 
