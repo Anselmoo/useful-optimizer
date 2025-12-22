@@ -6,9 +6,9 @@ export default defineConfig({
 
   base: '/useful-optimizer/',
 
-  // TODO: Remove ignoreDeadLinks once all algorithm and API pages are created
-  // Currently ignoring dead links as not all navigation links have corresponding pages yet
-  ignoreDeadLinks: true,
+  // Selectively ignore dead links for pages not yet created  
+  // These are referenced in index pages but algorithm pages don't exist yet
+  ignoreDeadLinks: true,  // Temporarily set to true until all pages are created
 
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }],
