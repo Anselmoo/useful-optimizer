@@ -43,11 +43,11 @@ class SwarmAlgorithm(AbstractOptimizer):
             population_size: Number of agents (algorithm-specific default if None)
         """
         pass
-    
+
     def search(self) -> tuple[np.ndarray, float]:
         """
         Execute optimization.
-        
+
         Returns:
             Tuple of (best_solution, best_fitness)
         """

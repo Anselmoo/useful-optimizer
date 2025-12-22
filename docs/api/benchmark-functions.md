@@ -14,7 +14,7 @@ def benchmark_function(x: np.ndarray) -> float:
     """
     Args:
         x: Input vector of shape (n,)
-    
+
     Returns:
         Scalar fitness value (lower is better)
     """

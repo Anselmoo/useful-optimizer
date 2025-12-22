@@ -30,7 +30,7 @@ class ConstrainedOptimizer(AbstractOptimizer):
         **kwargs
     ):
         pass
-    
+
     def search(self) -> tuple[np.ndarray, float]:
         pass
 ```
