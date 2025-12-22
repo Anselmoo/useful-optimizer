@@ -43,61 +43,46 @@ class AbstractMultiObjectiveOptimizer(ABC):
     provides built-in support for COCO/BBOB multi-objective benchmark requirements.
 
     Args:
-        objectives (Sequence[Callable[[ndarray], float]]):
-            List of objective functions to minimize. Each function must accept
-            numpy array and return scalar. BBOB multi-objective test suites available.
-        lower_bound (float):
-            Lower bound of the search space.
+        objectives (Sequence[Callable[[ndarray], float]]): Objective functions to minimize.
+            Each function must accept a NumPy array and return a scalar.
+            BBOB multi-objective test suites available.
+        lower_bound (float): The lower bound of the search space.
             BBOB typical: -5 (most functions), -100 (Rastrigin, Weierstrass).
-        upper_bound (float):
-            Upper bound of the search space.
+        upper_bound (float): The upper bound of the search space.
             BBOB typical: 5 (most functions), 100 (Rastrigin, Weierstrass).
-        dim (int):
-            Dimensionality of the search space.
+        dim (int): The dimensionality of the search space.
             BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional):
-            Maximum number of iterations.
+        max_iter (int, optional): The maximum number of iterations.
             BBOB recommendation: 10000 for complete evaluation.
             Defaults to 1000.
-        seed (int | None, optional):
-            **REQUIRED for BBOB compliance.** Random seed for reproducibility.
+        seed (int | None, optional): **REQUIRED for BBOB compliance.** Random seed.
             BBOB requires seeds 0-14 for 15 independent runs.
             Ensures deterministic Pareto front generation.
-            If None, generates random seed. Defaults to None.
-        population_size (int, optional):
-            Number of individuals in the population.
+            If None, generates a random seed. Defaults to None.
+        population_size (int, optional): The number of individuals in the population.
             BBOB recommendation: 10*dim for population-based algorithms.
             Defaults to 100.
 
     Attributes:
-        objectives (list[Callable[[ndarray], float]]):
-            List of objective functions to minimize.
-        num_objectives (int):
-            Number of objectives.
-        lower_bound (float):
-            Lower bound of the search space.
-        upper_bound (float):
-            Upper bound of the search space.
-        dim (int):
-            Dimensionality of the search space.
-        max_iter (int):
-            Maximum number of iterations.
-        seed (int):
-            **REQUIRED for BBOB compliance.** Random seed for reproducibility.
+        objectives (list[Callable[[ndarray], float]]): Objective functions to minimize.
+        num_objectives (int): The number of objectives.
+        lower_bound (float): The lower bound of the search space.
+        upper_bound (float): The upper bound of the search space.
+        dim (int): The dimensionality of the search space.
+        max_iter (int): The maximum number of iterations.
+        seed (int): **REQUIRED for BBOB compliance.** Random seed for reproducibility.
             Used for all random operations to ensure deterministic Pareto fronts.
-        population_size (int):
-            Number of individuals in the population.
+        population_size (int): The number of individuals in the population.
 
     Methods:
-        search() -> tuple[ndarray, ndarray]:
-            Perform the multi-objective optimization search.
+        search() -> tuple[ndarray, ndarray]: Perform the multi-objective optimization search.
 
     Returns:
-        tuple[ndarray, ndarray]:
-            - pareto_solutions: 2D array of Pareto-optimal solutions
-              with shape (num_pareto_solutions, dim).
-            - pareto_fitness: 2D array of objective values for each
-              Pareto solution with shape (num_pareto_solutions, num_objectives).
+                tuple[ndarray, ndarray]: Tuple containing the Pareto-optimal solutions and fitness values.
+                        - pareto_solutions: 2D array of Pareto-optimal solutions with shape
+                            (num_pareto_solutions, dim).
+                        - pareto_fitness: 2D array of objective values for each Pareto solution with shape
+                            (num_pareto_solutions, num_objectives).
 
     Notes:
         **BBOB Multi-Objective Standard Settings:**

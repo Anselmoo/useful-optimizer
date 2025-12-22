@@ -40,55 +40,39 @@ class AbstractOptimizer(ABC):
     history tracking, and standardized interfaces.
 
     Args:
-        func (Callable[[ndarray], float]):
-            The objective function to be optimized. Must accept numpy array and return scalar.
+        func (Callable[[ndarray], float]): The objective function to be optimized.
+            Must accept a NumPy array and return a scalar.
             BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            The lower bound of the search space.
+        lower_bound (float): The lower bound of the search space.
             BBOB typical: -5 (most functions), -100 (Rastrigin, Weierstrass).
-        upper_bound (float):
-            The upper bound of the search space.
+        upper_bound (float): The upper bound of the search space.
             BBOB typical: 5 (most functions), 100 (Rastrigin, Weierstrass).
-        dim (int):
-            The dimensionality of the search space.
+        dim (int): The dimensionality of the search space.
             BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional):
-            The maximum number of iterations for the optimization process.
+        max_iter (int, optional): The maximum number of iterations.
             BBOB recommendation: 10000 for complete evaluation.
             Defaults to 1000.
-        seed (int | None, optional):
-            **REQUIRED for BBOB compliance.** Random seed for reproducibility.
+        seed (int | None, optional): **REQUIRED for BBOB compliance.** Random seed.
             BBOB requires seeds 0-14 for 15 independent runs.
-            If None, generates random seed. Defaults to None.
-        population_size (int, optional):
-            The number of individuals in the population (for population-based methods).
+            If None, generates a random seed. Defaults to None.
+        population_size (int, optional): The number of individuals in the population.
             BBOB recommendation: 10*dim for population-based algorithms.
             Defaults to 100.
-        track_history (bool, optional):
-            Whether to track optimization history for visualization and COCO postprocessing.
-            When enabled, stores convergence data for performance analysis.
+        track_history (bool, optional): Whether to track optimization history.
+            When enabled, stores convergence data for visualization and COCO postprocessing.
             Defaults to False.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function to be optimized.
-        lower_bound (float):
-            The lower bound of the search space.
-        upper_bound (float):
-            The upper bound of the search space.
-        dim (int):
-            The dimensionality of the search space.
-        max_iter (int):
-            The maximum number of iterations for the optimization process.
-        seed (int):
-            **REQUIRED for BBOB compliance.** The seed for the random number generator.
+        func (Callable[[ndarray], float]): The objective function to be optimized.
+        lower_bound (float): The lower bound of the search space.
+        upper_bound (float): The upper bound of the search space.
+        dim (int): The dimensionality of the search space.
+        max_iter (int): The maximum number of iterations for the optimization process.
+        seed (int): **REQUIRED for BBOB compliance.** The random seed.
             Used for all random operations to ensure reproducibility.
-        population_size (int):
-            The number of individuals in the population.
-        track_history (bool):
-            Whether to track optimization history.
-        history (dict[str, list]):
-            Dictionary containing optimization history if track_history is True.
+        population_size (int): The number of individuals in the population.
+        track_history (bool): Whether to track optimization history.
+        history (dict[str, list]): Dictionary containing optimization history if track_history is True.
             Contains keys: 'best_fitness', 'best_solution', 'population_fitness', 'population'.
 
     Methods:
