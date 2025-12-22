@@ -12,6 +12,7 @@
   "devDependencies": {
     "vitepress": "^1.5.0",
     "vue": "^3.4.0",
+    "@catppuccin/vitepress": "^1.0.0",
     "echarts": "^5.5.0",
     "echarts-gl": "^2.0.9",
     "vue-echarts": "^8.0.0",

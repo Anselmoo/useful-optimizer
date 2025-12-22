@@ -1,8 +1,8 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  title: 'Useful Optimizer',
-  description: 'A comprehensive collection of 54+ optimization algorithms for numeric problems',
+  title: 'useful-optimizer',
+  description: 'A dedicated set of optimization algorithms for numeric problems',
 
   base: '/useful-optimizer/',
 
@@ -11,7 +11,7 @@ export default defineConfig({
   ignoreDeadLinks: true,
 
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+    ['link', { rel: 'icon', href: '/favicon.ico' }],
     ['meta', { name: 'theme-color', content: '#cba6f7' }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:title', content: 'Useful Optimizer' }],
@@ -149,7 +149,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2024 Anselm Hahn'
+      copyright: 'Copyright © 2024-present Anselmoo'
     },
 
     search: {
