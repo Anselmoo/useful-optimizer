@@ -1,17 +1,20 @@
 import { defineConfig } from 'vitepress'
 
+const base = '/useful-optimizer/'
+
 export default defineConfig({
-  title: 'Useful Optimizer',
-  description: 'A comprehensive collection of 54+ optimization algorithms for numeric problems',
+  title: 'useful-optimizer',
+  description: 'A dedicated set of optimization algorithms for numeric problems',
 
-  base: '/useful-optimizer/',
+  base,
 
-  // TODO: Remove ignoreDeadLinks once all algorithm and API pages are created
-  // Currently ignoring dead links as not all navigation links have corresponding pages yet
-  ignoreDeadLinks: true,
+  // Selectively ignore dead links for pages not yet created
+  // These are referenced in index pages but algorithm pages don't exist yet
+  ignoreDeadLinks: true,  // Temporarily set to true until all pages are created
 
   head: [
-    ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
+    // Must include base prefix; otherwise GitHub Pages serves this at /useful-optimizer/favicon.svg
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
     ['meta', { name: 'theme-color', content: '#cba6f7' }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:title', content: 'Useful Optimizer' }],
@@ -149,7 +152,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2024 Anselm Hahn'
+      copyright: 'Copyright © 2024-present Anselmoo'
     },
 
     search: {

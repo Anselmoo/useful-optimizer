@@ -2,39 +2,30 @@
 layout: home
 
 hero:
-  name: "Useful Optimizer"
-  text: "54+ Optimization Algorithms"
-  tagline: A comprehensive Python library for numeric optimization problems
-  image:
-    src: /logo.svg
-    alt: Useful Optimizer
+  name: useful-optimizer
+  text: Optimization Algorithms Library
+  tagline: 120+ optimization algorithms for numeric problems
   actions:
     - theme: brand
       text: Get Started
-      link: /guide/
+      link: /guide/installation
     - theme: alt
       text: View on GitHub
       link: https://github.com/Anselmoo/useful-optimizer
 
 features:
-  - icon: 🦋
+  - icon: 🐝
     title: Swarm Intelligence
-    details: 57+ nature-inspired algorithms including Particle Swarm, Ant Colony, Firefly, Grey Wolf, and Whale Optimization.
+    details: 56 nature-inspired algorithms including PSO, ACO, and more
   - icon: 🧬
-    title: Evolutionary Algorithms
-    details: Genetic Algorithm, Differential Evolution, CMA-ES, and Cultural Algorithm for robust global optimization.
-  - icon: 🧠
-    title: Gradient-Based
-    details: 11 optimizers including Adam, AdamW, RMSprop, and Nesterov Accelerated Gradient for smooth landscapes.
-  - icon: 🎯
-    title: Classical Methods
-    details: BFGS, Nelder-Mead, Simulated Annealing, and Trust Region methods with proven convergence.
-  - icon: 🔬
-    title: Metaheuristic
-    details: Harmony Search, Cross Entropy, Sine Cosine, and Variable Neighbourhood Search algorithms.
+    title: Evolutionary
+    details: Genetic algorithms, differential evolution, CMA-ES
   - icon: 📊
     title: Scientific Benchmarks
-    details: Research-grade visualization with ECDF curves, convergence plots, and statistical comparison.
+    details: COCO/BBOB compliant benchmark suite with 30-run statistics
+  - icon: 📈
+    title: Interactive Visualizations
+    details: ECharts-powered ECDF curves, convergence plots, 3D landscapes
 ---
 
 <script setup>

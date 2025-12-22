@@ -318,12 +318,12 @@
 .stats-table td {
   padding: 8px 12px;
   text-align: left;
-  border: 1px solid var(--ctp-mocha-surface1);
+  border: 1px solid var(--vp-c-border);
 }
 
 .stats-table th {
-  background-color: var(--ctp-mocha-surface0);
-  color: var(--ctp-mocha-text);
+  background-color: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-1);
   font-weight: 600;
 }
 
@@ -341,7 +341,7 @@
 
 /* Math Equations */
 .math-block {
-  background-color: var(--ctp-mocha-surface0);
+  background-color: var(--vp-c-bg-soft);
   padding: 16px;
   border-radius: 8px;
   overflow-x: auto;
@@ -357,19 +357,19 @@
 }
 
 .feature-item {
-  background-color: var(--ctp-mocha-surface0);
-  border: 1px solid var(--ctp-mocha-surface1);
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
   border-radius: 8px;
   padding: 20px;
 }
 
 .feature-item h4 {
-  color: var(--ctp-mocha-mauve);
+  color: var(--vp-c-brand-1);
   margin: 0 0 8px 0;
 }
 
 .feature-item p {
-  color: var(--ctp-mocha-subtext1);
+  color: var(--vp-c-text-2);
   margin: 0;
   font-size: 0.9rem;
 }
