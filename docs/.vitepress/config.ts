@@ -1,17 +1,20 @@
 import { defineConfig } from 'vitepress'
 
+const base = '/useful-optimizer/'
+
 export default defineConfig({
   title: 'useful-optimizer',
   description: 'A dedicated set of optimization algorithms for numeric problems',
 
-  base: '/useful-optimizer/',
+  base,
 
-  // Selectively ignore dead links for pages not yet created  
+  // Selectively ignore dead links for pages not yet created
   // These are referenced in index pages but algorithm pages don't exist yet
   ignoreDeadLinks: true,  // Temporarily set to true until all pages are created
 
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }],
+    // Must include base prefix; otherwise GitHub Pages serves this at /useful-optimizer/favicon.ico
+    ['link', { rel: 'icon', href: `${base}favicon.ico` }],
     ['meta', { name: 'theme-color', content: '#cba6f7' }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:title', content: 'Useful Optimizer' }],

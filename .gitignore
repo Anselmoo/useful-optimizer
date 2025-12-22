@@ -211,4 +211,5 @@ Temporary Items
 
 # VitePress build output
 docs/.vitepress/dist/
+/.vitepress/
 node_modules/
