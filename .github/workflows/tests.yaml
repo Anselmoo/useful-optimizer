@@ -34,6 +34,9 @@ jobs:
       - name: Run tests
         run: uv run pytest opt/test/ -v --tb=short
 
+      - name: Run doctests
+        run: uv run pytest --doctest-modules --doctest-glob="*.md" -v
+
   lint:
     name: Lint
     runs-on: ubuntu-latest

@@ -39,6 +39,31 @@ class CollidingBodiesOptimization(AbstractOptimizer):
         best_fitness (float): The best fitness value found during the optimization process.
         best_solution (np.ndarray): The best solution found during the optimization process.
 
+
+
+    Example:
+        >>> from opt.metaheuristic.colliding_bodies_optimization import CollidingBodiesOptimization
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = CollidingBodiesOptimization(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = CollidingBodiesOptimization(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def initialize_parameters(self) -> None:

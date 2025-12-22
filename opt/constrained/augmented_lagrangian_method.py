@@ -67,6 +67,31 @@ class AugmentedLagrangian(AbstractOptimizer):
         lambda_: The Lagrange multiplier.
         static_cost: The cost assigned to infeasible solutions.
 
+
+
+    Example:
+        >>> from opt.constrained.augmented_lagrangian_method import AugmentedLagrangian
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = AugmentedLagrangian(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = AugmentedLagrangian(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

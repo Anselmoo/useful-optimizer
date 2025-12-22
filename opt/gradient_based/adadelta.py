@@ -71,6 +71,31 @@ class AdaDelta(AbstractOptimizer):
         seed (Optional[int], optional): The seed value for random number generation. Defaults to None.
         rho (float, optional): The decay rate for the moving average of squared gradients. Defaults to 0.97.
         eps (float, optional): A small constant to avoid division by zero. Defaults to 1e-8.
+
+
+    Example:
+        >>> from opt.gradient_based.adadelta import AdaDelta
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = AdaDelta(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = AdaDelta(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

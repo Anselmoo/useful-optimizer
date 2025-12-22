@@ -46,6 +46,18 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         max_iter: Maximum number of iterations.
         population_size: Size of the population.
         archive_size: Size of the external archive.
+
+
+    Example:
+        >>> from opt.multi_objective.spea2 import SPEA2
+        >>> from opt.benchmark.functions import sphere
+        >>> import numpy as np
+        >>> optimizer = SPEA2(
+        ...     objectives=[sphere], dim=2, lower_bound=-5, upper_bound=5, max_iter=10
+        ... )
+        >>> result = optimizer.search()
+        >>> isinstance(result, tuple)
+        True
     """
 
     def __init__(

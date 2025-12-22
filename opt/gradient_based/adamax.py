@@ -64,6 +64,31 @@ class AdaMax(AbstractOptimizer):
         beta2 (float, optional): Exponential decay rate for second moment estimates. Defaults to 0.999.
         epsilon (float, optional): Small constant for numerical stability. Defaults to 1e-8.
         seed (int | None, optional): The seed value for random number generation. Defaults to None.
+
+
+    Example:
+        >>> from opt.gradient_based.adamax import AdaMax
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = AdaMax(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = AdaMax(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

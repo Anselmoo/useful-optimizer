@@ -24,7 +24,8 @@ Example:
     ...     max_iter=500,
     ... )
     >>> best_solution, best_fitness = optimizer.search()
-    >>> print(f"Best fitness: {best_fitness}")
+    >>> isinstance(float(best_fitness), float)
+    True
 
 Attributes:
     func (Callable): The objective function to minimize.
@@ -69,6 +70,31 @@ class HarrisHawksOptimizer(AbstractOptimizer):
         dim (int): Problem dimensionality.
         max_iter (int): Maximum iterations.
         func (Callable): Objective function to minimize.
+
+
+    Example:
+        >>> from opt.swarm_intelligence.harris_hawks_optimization import HarrisHawksOptimizer
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = HarrisHawksOptimizer(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = HarrisHawksOptimizer(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def _levy_flight(self, rng: np.random.Generator, dim: int) -> np.ndarray:

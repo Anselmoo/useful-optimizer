@@ -63,6 +63,31 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
         population_size (int): The size of the population.
         dim (int): The dimensionality of the search space.
         max_iter (int): The maximum number of iterations.
+
+
+    Example:
+        >>> from opt.constrained.successive_linear_programming import SuccessiveLinearProgramming
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = SuccessiveLinearProgramming(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = SuccessiveLinearProgramming(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def search(self) -> tuple[np.ndarray, float]:

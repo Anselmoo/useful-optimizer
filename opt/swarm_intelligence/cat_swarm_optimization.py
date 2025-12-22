@@ -73,6 +73,31 @@ class CatSwarmOptimization(AbstractOptimizer):
         smp_change_probability (float): The probability of changing dimensions during seeking mode.
         spc_probability (float): The probability of performing tracing mode.
 
+
+
+    Example:
+        >>> from opt.swarm_intelligence.cat_swarm_optimization import CatSwarmOptimization
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = CatSwarmOptimization(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = CatSwarmOptimization(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

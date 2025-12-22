@@ -62,6 +62,30 @@ class DifferentialEvolution(AbstractOptimizer):
         F (float, optional): The differential weight parameter. Default is 0.5.
         CR (float, optional): The crossover probability parameter. Default is 0.7.
         seed (Optional[int], optional): The random seed for reproducibility. Default is None.
+
+    Example:
+        >>> from opt.evolutionary.differential_evolution import DifferentialEvolution
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = DifferentialEvolution(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 1.0  # Should find a good solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = DifferentialEvolution(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

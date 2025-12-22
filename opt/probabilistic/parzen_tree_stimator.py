@@ -71,6 +71,31 @@ class ParzenTreeEstimator(AbstractOptimizer):
         segment_distributions(): Segments the distributions based on the scores.
         choose_next_hps(l_kde, g_kde): Chooses the next set of hyperparameters based on the selection strategy.
         search(): Executes the Parzen Tree Estimator algorithm to find the optimal solution.
+
+
+    Example:
+        >>> from opt.probabilistic.parzen_tree_stimator import ParzenTreeEstimator
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = ParzenTreeEstimator(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = ParzenTreeEstimator(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

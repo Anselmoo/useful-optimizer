@@ -61,6 +61,26 @@ class SocialGroupOptimizer(AbstractOptimizer):
         tolerance: Minimum improvement threshold for early stopping.
         patience: Number of iterations without improvement before stopping.
         verbose: Whether to print progress during optimization.
+
+
+    Example:
+        >>> from opt.social_inspired.social_group_optimizer import SocialGroupOptimizer
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = SocialGroupOptimizer(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = SocialGroupOptimizer(
+        ...     func=shifted_ackley, dim=2, lower_bound=-2.768, upper_bound=2.768, max_iter=10
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

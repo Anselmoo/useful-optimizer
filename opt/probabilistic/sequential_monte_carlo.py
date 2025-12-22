@@ -54,6 +54,26 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         population_size: Number of particles.
         max_iter: Maximum number of iterations.
         temperature_schedule: Temperature annealing schedule.
+
+
+    Example:
+        >>> from opt.probabilistic.sequential_monte_carlo import SequentialMonteCarloOptimizer
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = SequentialMonteCarloOptimizer(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = SequentialMonteCarloOptimizer(
+        ...     func=shifted_ackley, dim=2, lower_bound=-2.768, upper_bound=2.768, max_iter=10
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

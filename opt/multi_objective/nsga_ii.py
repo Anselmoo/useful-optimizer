@@ -14,6 +14,8 @@ Reference:
     DOI: 10.1109/4235.996017
 
 Example:
+    >>> from opt.multi_objective.nsga_ii import NSGAII
+    >>> import numpy as np
     >>> def f1(x):
     ...     return sum(x**2)
     >>> def f2(x):
@@ -24,10 +26,11 @@ Example:
     ...     upper_bound=5,
     ...     dim=10,
     ...     population_size=100,
-    ...     max_iter=200,
+    ...     max_iter=10,
     ... )
     >>> pareto_solutions, pareto_fitness = optimizer.search()
-    >>> print(f"Found {len(pareto_solutions)} Pareto-optimal solutions")
+    >>> len(pareto_solutions) > 0
+    True
 
 Attributes:
     objectives (list): List of objective functions to minimize.
@@ -79,6 +82,31 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         tournament_size (int): Number of individuals in tournament selection.
         eta_c (float): Distribution index for SBX crossover.
         eta_m (float): Distribution index for polynomial mutation.
+
+    Example:
+        >>> from opt.multi_objective.nsga_ii import NSGAII
+        >>> from opt.benchmark.functions import sphere, rosenbrock
+        >>> optimizer = NSGAII(
+        ...     objectives=[sphere, rosenbrock],
+        ...     dim=2,
+        ...     lower_bound=-5,
+        ...     upper_bound=5,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> pareto_front, pareto_solutions = optimizer.search()
+        >>> len(pareto_solutions) > 0  # Should find solutions
+        True
+
+    Example with single objective:
+        >>> from opt.benchmark.functions import sphere
+        >>> import numpy as np
+        >>> optimizer = NSGAII(
+        ...     objectives=[sphere], dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> pareto_front, _ = optimizer.search()
+        >>> isinstance(pareto_front, np.ndarray)
+        True
     """
 
     def __init__(

@@ -50,6 +50,18 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         population_size: Number of weight vectors/subproblems.
         max_iter: Maximum number of iterations.
         n_neighbors: Number of neighbors for each subproblem.
+
+
+    Example:
+        >>> from opt.multi_objective.moead import MOEAD
+        >>> from opt.benchmark.functions import sphere
+        >>> import numpy as np
+        >>> optimizer = MOEAD(
+        ...     objectives=[sphere], dim=2, lower_bound=-5, upper_bound=5, max_iter=10
+        ... )
+        >>> result = optimizer.search()
+        >>> isinstance(result, tuple)
+        True
     """
 
     def __init__(

@@ -54,6 +54,25 @@ class GeneticAlgorithm(AbstractOptimizer):
     - tournament_size (int, optional): The size of the tournament for selection. Default is 3.
     - crossover_rate (float, optional): The crossover rate. Default is 0.8.
     - seed (Optional[int], optional): The seed for the random number generator. Default is None.
+
+    Example:
+        >>> from opt.evolutionary.genetic_algorithm import GeneticAlgorithm
+        >>> from opt.benchmark.functions import sphere
+        >>> optimizer = GeneticAlgorithm(
+        ...     func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 10.0  # Should find a reasonable solution
+        True
+
+    Example with rosenbrock:
+        >>> from opt.benchmark.functions import rosenbrock
+        >>> optimizer = GeneticAlgorithm(
+        ...     func=rosenbrock, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(

@@ -239,6 +239,58 @@ Specialized algorithms for constrained problems and probabilistic approaches.
 > [!NOTE]
 > Please note that not all of these algorithms are suitable for all types of optimization problems. Some are better suited for continuous optimization problems, some for discrete optimization problems, and others for specific types of problems like quadratic programming or linear discriminant analysis.
 
+## Testing and Documentation
+
+Useful Optimizer includes comprehensive doctests to ensure all examples in the documentation are correct and up-to-date. All optimizer classes and benchmark functions include working examples that can be verified automatically.
+
+### Running Tests
+
+To run all tests including doctests:
+
+```bash
+# Using pytest with doctests
+uv run pytest --doctest-modules --doctest-glob="*.md" -v
+
+# Run only doctests for a specific module
+uv run pytest opt/benchmark/functions.py --doctest-modules -v
+
+# Run only doctests for optimizers
+uv run pytest opt/swarm_intelligence/particle_swarm.py --doctest-modules -v
+```
+
+### Example Doctest Usage
+
+All benchmark functions include working examples in their docstrings:
+
+```python
+import numpy as np
+from opt.benchmark.functions import sphere
+
+# At optimum
+result = sphere(np.array([0.0, 0.0]))
+print(float(result))  # 0.0
+
+# Away from optimum
+result = sphere(np.array([1.0, 1.0]))
+print(float(result))  # 2.0
+```
+
+All optimizer classes include usage examples in their docstrings:
+
+```python
+from opt.swarm_intelligence.particle_swarm import ParticleSwarm
+from opt.benchmark.functions import sphere
+
+optimizer = ParticleSwarm(
+    func=sphere, dim=2, lower_bound=-5, upper_bound=5,
+    max_iter=10, seed=42
+)
+solution, fitness = optimizer.search()
+print(f"Fitness: {fitness}")  # Should be < 1.0
+```
+
+These examples serve as both documentation and automated tests, ensuring the code examples in docstrings always work correctly.
+
 ## Contributing
 
 Contributions to Useful Optimizer are welcome! Please read the contributing guidelines before getting started.

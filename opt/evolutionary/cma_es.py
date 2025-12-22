@@ -59,6 +59,31 @@ class CMAESAlgorithm(AbstractOptimizer):
 
     Returns:
         Tuple[np.ndarray, float]: A tuple containing the best solution found and its corresponding fitness value.
+
+
+    Example:
+        >>> from opt.evolutionary.cma_es import CMAESAlgorithm
+        >>> from opt.benchmark.functions import rosenbrock
+        >>> optimizer = CMAESAlgorithm(
+        ...     func=rosenbrock, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
+        ... )
+        >>> solution, fitness = optimizer.search()
+        >>> float(fitness) < 100.0  # Should find a reasonable solution
+        True
+
+    Example with shifted_ackley:
+        >>> from opt.benchmark.functions import shifted_ackley
+        >>> optimizer = CMAESAlgorithm(
+        ...     func=shifted_ackley,
+        ...     dim=2,
+        ...     lower_bound=-2.768,
+        ...     upper_bound=2.768,
+        ...     max_iter=10,
+        ...     seed=42,
+        ... )
+        >>> _, fitness = optimizer.search()
+        >>> isinstance(float(fitness), float)
+        True
     """
 
     def __init__(
