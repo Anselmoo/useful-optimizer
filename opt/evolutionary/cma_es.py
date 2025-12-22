@@ -145,7 +145,9 @@ class CMAESAlgorithm(AbstractOptimizer):
                 cov_sqrt_inv = np.linalg.inv(sqrtm(cov_regularized))
             except np.linalg.LinAlgError:
                 # Fallback: use regularized inverse
-                cov_sqrt_inv = np.linalg.inv(sqrtm(cov + regularization * 10 * np.eye(self.dim)))
+                cov_sqrt_inv = np.linalg.inv(
+                    sqrtm(cov + regularization * 10 * np.eye(self.dim))
+                )
 
             p_sigma = (1 - cs) * p_sigma + np.sqrt(cs * (2 - cs) * mu_eff) * np.dot(
                 cov_sqrt_inv, (mean - mean_old) / self.sigma
