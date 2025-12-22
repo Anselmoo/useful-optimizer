@@ -13,8 +13,8 @@ export default defineConfig({
   ignoreDeadLinks: true,  // Temporarily set to true until all pages are created
 
   head: [
-    // Must include base prefix; otherwise GitHub Pages serves this at /useful-optimizer/favicon.ico
-    ['link', { rel: 'icon', href: `${base}favicon.ico` }],
+    // Must include base prefix; otherwise GitHub Pages serves this at /useful-optimizer/favicon.svg
+    ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
     ['meta', { name: 'theme-color', content: '#cba6f7' }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:title', content: 'Useful Optimizer' }],

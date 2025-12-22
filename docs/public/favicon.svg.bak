@@ -1,0 +1,33 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="64" cy="64" r="60" fill="#1e1e2e" stroke="#cba6f7" stroke-width="3"/>
+
+  <!-- Optimization trajectory -->
+  <path d="M 25 95 Q 40 80 50 70 Q 60 60 65 55 Q 75 45 80 42 Q 90 35 95 33"
+        stroke="#89b4fa" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- Contour lines (fitness landscape) -->
+  <ellipse cx="95" cy="33" rx="20" ry="12" stroke="#45475a" stroke-width="1.5" fill="none" transform="rotate(-30 95 33)"/>
+  <ellipse cx="95" cy="33" rx="15" ry="9" stroke="#585b70" stroke-width="1.5" fill="none" transform="rotate(-30 95 33)"/>
+  <ellipse cx="95" cy="33" rx="10" ry="6" stroke="#6c7086" stroke-width="1.5" fill="none" transform="rotate(-30 95 33)"/>
+  <ellipse cx="95" cy="33" rx="5" ry="3" stroke="#7f849c" stroke-width="1.5" fill="none" transform="rotate(-30 95 33)"/>
+
+  <!-- Start point -->
+  <circle cx="25" cy="95" r="6" fill="#f38ba8"/>
+
+  <!-- End point (optimum) -->
+  <circle cx="95" cy="33" r="6" fill="#a6e3a1"/>
+
+  <!-- Particle swarm dots -->
+  <circle cx="35" cy="85" r="3" fill="#fab387" opacity="0.7"/>
+  <circle cx="45" cy="75" r="3" fill="#fab387" opacity="0.7"/>
+  <circle cx="55" cy="65" r="3" fill="#fab387" opacity="0.7"/>
+  <circle cx="70" cy="50" r="3" fill="#fab387" opacity="0.7"/>
+  <circle cx="85" cy="38" r="3" fill="#fab387" opacity="0.7"/>
+
+  <!-- Arrow tip -->
+  <path d="M 92 36 L 98 30 L 94 38 Z" fill="#89b4fa"/>
+
+  <!-- Text: UO -->
+  <text x="64" y="115" text-anchor="middle" font-family="system-ui, sans-serif" font-weight="bold" font-size="16" fill="#cdd6f4">UO</text>
+</svg>

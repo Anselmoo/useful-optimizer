@@ -30,7 +30,7 @@ Swarm intelligence algorithms mimic the collective behavior observed in nature, 
 - [Harris Hawks](./harris-hawks) - Cooperative hunting behavior
 - [Marine Predators](./marine-predators) - Ocean predator hunting strategies
 
-### And 50+ more algorithms!
+### And 47+ more algorithms!
 
 See the sidebar for the complete list of available swarm intelligence algorithms.
 

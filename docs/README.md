@@ -121,6 +121,7 @@ Syntax highlighting with line numbers is enabled for all code blocks.
 ### Dependency Notes
 
 - **echarts pinned to v5.4.0**: `echarts-gl@2.0.9` requires `echarts@^5.x`. Do not upgrade to echarts@6 until echarts-gl supports it.
+  - **TODO**: Monitor [echarts-gl releases](https://github.com/ecomfe/echarts-gl/releases) for echarts@6 compatibility. Once available, upgrade both packages together.
 - **vue-echarts v7**: Compatible with echarts@5. Version 8 requires echarts@6.
 
 ## Dead Links
