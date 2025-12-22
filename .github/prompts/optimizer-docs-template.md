@@ -13,19 +13,18 @@ Place at the top of the class docstring, formatted as a table:
 ```python
 """[Algorithm Full Name] ([ACRONYM]) optimization algorithm.
 
-Algorithm Metadata
-------------------
-| Property          | Value                                    |
-|-------------------|------------------------------------------|
-| Algorithm Name    | [Full algorithm name]                    |
-| Acronym           | [SHORT]                                  |
-| Year Introduced   | [YYYY]                                   |
-| Authors           | [Last1, First1; Last2, First2]          |
-| Algorithm Class   | [Metaheuristic/Evolutionary/Gradient/...]|
-| Complexity        | O([expression])                          |
-| Properties        | [Population-based, Derivative-free, ...] |
-| Implementation    | Python 3.10+                             |
-| COCO Compatible   | Yes                                      |
+Algorithm Metadata:
+    | Property          | Value                                    |
+    |-------------------|------------------------------------------|
+    | Algorithm Name    | [Full algorithm name]                    |
+    | Acronym           | [SHORT]                                  |
+    | Year Introduced   | [YYYY]                                   |
+    | Authors           | [Last1, First1; Last2, First2]          |
+    | Algorithm Class   | [Metaheuristic/Evolutionary/Gradient/...]|
+    | Complexity        | O([expression])                          |
+    | Properties        | [Population-based, Derivative-free, ...] |
+    | Implementation    | Python 3.10+                             |
+    | COCO Compatible   | Yes                                      |
 ```
 
 ### 2. Mathematical Formulation
@@ -33,21 +32,19 @@ Algorithm Metadata
 Provide the core mathematical equations with LaTeX:
 
 ```python
-Mathematical Formulation
-------------------------
-Core update equation:
-
-.. math::
-    x_{t+1} = x_t + v_t
-
-where:
-- :math:`x_t` is the position at iteration t
-- :math:`v_t` is the velocity/step at iteration t
-- Additional variable definitions...
-
-Constraint handling:
-- Boundary conditions: [clamping/reflection/periodic]
-- Feasibility enforcement: [description]
+Mathematical Formulation:
+    Core update equation:
+    
+        x_{t+1} = x_t + v_t
+    
+    where:
+        - x_t is the position at iteration t
+        - v_t is the velocity/step at iteration t
+        - Additional variable definitions...
+    
+    Constraint handling:
+        - Boundary conditions: [clamping/reflection/periodic]
+        - Feasibility enforcement: [description]
 ```
 
 ### 3. Hyperparameters
@@ -55,17 +52,16 @@ Constraint handling:
 Document all hyperparameters with defaults and BBOB-recommended values:
 
 ```python
-Hyperparameters
----------------
-| Parameter              | Default | BBOB Recommended | Description                    |
-|------------------------|---------|------------------|--------------------------------|
-| population_size        | 100     | 10*dim           | Number of individuals          |
-| max_iter               | 1000    | 10000            | Maximum iterations             |
-| [param_name]           | [val]   | [bbob_val]       | [description]                  |
-
-Sensitivity Analysis:
-- [param_name]: [High/Medium/Low] impact on convergence
-- Recommended tuning ranges: [param] ∈ [min, max]
+Hyperparameters:
+    | Parameter              | Default | BBOB Recommended | Description                    |
+    |------------------------|---------|------------------|--------------------------------|
+    | population_size        | 100     | 10*dim           | Number of individuals          |
+    | max_iter               | 1000    | 10000            | Maximum iterations             |
+    | [param_name]           | [val]   | [bbob_val]       | [description]                  |
+    
+    Sensitivity Analysis:
+        - [param_name]: [High/Medium/Low] impact on convergence
+        - Recommended tuning ranges: [param] ∈ [min, max]
 ```
 
 ### 4. COCO/BBOB Benchmark Settings
@@ -73,22 +69,21 @@ Sensitivity Analysis:
 Specify standard benchmark configuration:
 
 ```python
-COCO/BBOB Benchmark Settings
------------------------------
-Search Space:
-- Dimensions tested: 2, 3, 5, 10, 20, 40
-- Bounds: Function-specific (typically [-5, 5] or [-100, 100])
-- Instances: 15 per function (BBOB standard)
-
-Evaluation Budget:
-- Budget: dim × 10000 function evaluations
-- Independent runs: 15 (for statistical significance)
-- Seeds: 0-14 (reproducibility requirement)
-
-Performance Metrics:
-- Target precision: 1e-8 (BBOB default)
-- Success rate at precision thresholds: [1e-8, 1e-6, 1e-4, 1e-2]
-- Expected Running Time (ERT) tracking
+COCO/BBOB Benchmark Settings:
+    Search Space:
+        - Dimensions tested: 2, 3, 5, 10, 20, 40
+        - Bounds: Function-specific (typically [-5, 5] or [-100, 100])
+        - Instances: 15 per function (BBOB standard)
+    
+    Evaluation Budget:
+        - Budget: dim × 10000 function evaluations
+        - Independent runs: 15 (for statistical significance)
+        - Seeds: 0-14 (reproducibility requirement)
+    
+    Performance Metrics:
+        - Target precision: 1e-8 (BBOB default)
+        - Success rate at precision thresholds: [1e-8, 1e-6, 1e-4, 1e-2]
+        - Expected Running Time (ERT) tracking
 ```
 
 ### 5. Example
@@ -96,39 +91,38 @@ Performance Metrics:
 Provide working doctest example with `seed=42`:
 
 ```python
-Example
--------
-Basic usage with BBOB benchmark function:
-
->>> from opt.[category].[module] import [AlgorithmClass]
->>> from opt.benchmark.functions import shifted_ackley
->>> optimizer = [AlgorithmClass](
-...     func=shifted_ackley,
-...     lower_bound=-2.768,
-...     upper_bound=2.768,
-...     dim=2,
-...     max_iter=100,
-...     seed=42  # Required for reproducibility
-... )
->>> solution, fitness = optimizer.search()
->>> isinstance(fitness, float) and fitness >= 0
-True
-
-COCO benchmark example:
-
->>> from opt.benchmark.functions import sphere
->>> optimizer = [AlgorithmClass](
-...     func=sphere,
-...     lower_bound=-5,
-...     upper_bound=5,
-...     dim=10,
-...     max_iter=10000,
-...     population_size=100,
-...     seed=42
-... )
->>> solution, fitness = optimizer.search()
->>> len(solution) == 10
-True
+Example:
+    Basic usage with BBOB benchmark function:
+    
+    >>> from opt.[category].[module] import [AlgorithmClass]
+    >>> from opt.benchmark.functions import shifted_ackley
+    >>> optimizer = [AlgorithmClass](
+    ...     func=shifted_ackley,
+    ...     lower_bound=-2.768,
+    ...     upper_bound=2.768,
+    ...     dim=2,
+    ...     max_iter=100,
+    ...     seed=42  # Required for reproducibility
+    ... )
+    >>> solution, fitness = optimizer.search()
+    >>> isinstance(fitness, float) and fitness >= 0
+    True
+    
+    COCO benchmark example:
+    
+    >>> from opt.benchmark.functions import sphere
+    >>> optimizer = [AlgorithmClass](
+    ...     func=sphere,
+    ...     lower_bound=-5,
+    ...     upper_bound=5,
+    ...     dim=10,
+    ...     max_iter=10000,
+    ...     population_size=100,
+    ...     seed=42
+    ... )
+    >>> solution, fitness = optimizer.search()
+    >>> len(solution) == 10
+    True
 ```
 
 ### 6. Args
@@ -136,32 +130,31 @@ True
 Document all parameters with BBOB guidance:
 
 ```python
-Args
-----
-func (Callable[[ndarray], float]):
-    Objective function to minimize. Must accept numpy array and return scalar.
-    BBOB functions available in `opt.benchmark.functions`.
-lower_bound (float):
-    Lower bound of search space. BBOB typical: -5 (most functions).
-upper_bound (float):
-    Upper bound of search space. BBOB typical: 5 (most functions).
-dim (int):
-    Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-max_iter (int, optional):
-    Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
-    Defaults to 1000.
-seed (int | None, optional):
-    Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
-    If None, generates random seed. Defaults to None.
-population_size (int, optional):
-    Population size. BBOB recommendation: 10*dim for population-based methods.
-    Defaults to 100.
-track_history (bool, optional):
-    Enable convergence history tracking for BBOB post-processing.
-    Defaults to False.
-[algorithm_specific_params] ([type], optional):
-    [Description with BBOB tuning guidance]
-    Defaults to [value].
+Args:
+    func (Callable[[ndarray], float]):
+        Objective function to minimize. Must accept numpy array and return scalar.
+        BBOB functions available in `opt.benchmark.functions`.
+    lower_bound (float):
+        Lower bound of search space. BBOB typical: -5 (most functions).
+    upper_bound (float):
+        Upper bound of search space. BBOB typical: 5 (most functions).
+    dim (int):
+        Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+    max_iter (int, optional):
+        Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
+        Defaults to 1000.
+    seed (int | None, optional):
+        Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
+        If None, generates random seed. Defaults to None.
+    population_size (int, optional):
+        Population size. BBOB recommendation: 10*dim for population-based methods.
+        Defaults to 100.
+    track_history (bool, optional):
+        Enable convergence history tracking for BBOB post-processing.
+        Defaults to False.
+    [algorithm_specific_params] ([type], optional):
+        [Description with BBOB tuning guidance]
+        Defaults to [value].
 ```
 
 ### 7. Attributes
@@ -169,32 +162,31 @@ track_history (bool, optional):
 List all instance variables, `self.seed` is **required**:
 
 ```python
-Attributes
-----------
-func : Callable[[ndarray], float]
-    The objective function being optimized.
-lower_bound : float
-    Lower search space boundary.
-upper_bound : float
-    Upper search space boundary.
-dim : int
-    Problem dimensionality.
-max_iter : int
-    Maximum number of iterations.
-seed : int
-    **REQUIRED** Random seed for reproducibility (BBOB compliance).
-population_size : int
-    Number of individuals in population.
-track_history : bool
-    Whether convergence history is tracked.
-history : dict[str, list]
-    Optimization history if track_history=True. Contains:
-    - 'best_fitness': list[float] - Best fitness per iteration
-    - 'best_solution': list[ndarray] - Best solution per iteration
-    - 'population_fitness': list[ndarray] - All fitness values
-    - 'population': list[ndarray] - All solutions
-[algorithm_specific_attrs] : [type]
-    [Description]
+Attributes:
+    func (Callable[[ndarray], float]):
+        The objective function being optimized.
+    lower_bound (float):
+        Lower search space boundary.
+    upper_bound (float):
+        Upper search space boundary.
+    dim (int):
+        Problem dimensionality.
+    max_iter (int):
+        Maximum number of iterations.
+    seed (int):
+        **REQUIRED** Random seed for reproducibility (BBOB compliance).
+    population_size (int):
+        Number of individuals in population.
+    track_history (bool):
+        Whether convergence history is tracked.
+    history (dict[str, list]):
+        Optimization history if track_history=True. Contains:
+        - 'best_fitness': list[float] - Best fitness per iteration
+        - 'best_solution': list[ndarray] - Best solution per iteration
+        - 'population_fitness': list[ndarray] - All fitness values
+        - 'population': list[ndarray] - All solutions
+    [algorithm_specific_attrs] ([type]):
+        [Description]
 ```
 
 ### 8. Methods
@@ -202,27 +194,23 @@ history : dict[str, list]
 Document the search method signature:
 
 ```python
-Methods
--------
-search() -> tuple[np.ndarray, float]
-    Execute optimization algorithm.
-
-    Returns
-    -------
-    tuple[np.ndarray, float]
-        - best_solution (np.ndarray): Best solution found, shape (dim,)
-        - best_fitness (float): Fitness value at best_solution
-
-    Raises
-    ------
-    ValueError
-        If search space is invalid or function evaluation fails.
-
-    Notes
-    -----
-    - Modifies self.history if track_history=True
-    - Uses self.seed for all random number generation
-    - BBOB: Returns final best solution after max_iter or convergence
+Methods:
+    search() -> tuple[np.ndarray, float]:
+        Execute optimization algorithm.
+        
+        Returns:
+            tuple[np.ndarray, float]:
+                - best_solution (np.ndarray): Best solution found, shape (dim,)
+                - best_fitness (float): Fitness value at best_solution
+        
+        Raises:
+            ValueError:
+                If search space is invalid or function evaluation fails.
+        
+        Notes:
+            - Modifies self.history if track_history=True
+            - Uses self.seed for all random number generation
+            - BBOB: Returns final best solution after max_iter or convergence
 ```
 
 ### 9. References
@@ -230,25 +218,24 @@ search() -> tuple[np.ndarray, float]
 Provide DOI links and COCO data archive:
 
 ```python
-References
-----------
-.. [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-       Journal Name, Volume(Issue), Pages.
-       https://doi.org/10.xxxx/xxxxx
-
-.. [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
-       "COCO: A platform for comparing continuous optimizers in a black-box setting."
-       Optimization Methods and Software, 36(1), 114-144.
-       https://doi.org/10.1080/10556788.2020.1808977
-
-COCO Data Archive:
-    - Benchmark results: https://coco-platform.org/testsuites/bbob/data-archive.html
-    - Algorithm data: [URL to algorithm-specific COCO results if available]
-    - Code repository: https://github.com/Anselmoo/useful-optimizer
-
-Implementation:
-    - Original paper code: [URL if different from this implementation]
-    - This implementation: Based on [1] with modifications for BBOB compliance
+References:
+    [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
+        Journal Name, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
+    
+    [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
+        "COCO: A platform for comparing continuous optimizers in a black-box setting."
+        Optimization Methods and Software, 36(1), 114-144.
+        https://doi.org/10.1080/10556788.2020.1808977
+    
+    COCO Data Archive:
+        - Benchmark results: https://coco-platform.org/testsuites/bbob/data-archive.html
+        - Algorithm data: [URL to algorithm-specific COCO results if available]
+        - Code repository: https://github.com/Anselmoo/useful-optimizer
+    
+    Implementation:
+        - Original paper code: [URL if different from this implementation]
+        - This implementation: Based on [1] with modifications for BBOB compliance
 ```
 
 ### 10. See Also
@@ -256,21 +243,20 @@ Implementation:
 Link related algorithms with BBOB comparisons:
 
 ```python
-See Also
---------
-[RelatedAlgorithm1] : Similar algorithm with [key difference]
-    BBOB Comparison: [Brief performance notes on sphere/rosenbrock/ackley]
-
-[RelatedAlgorithm2] : [Relationship description]
-    BBOB Comparison: Generally [faster/slower/more robust] on [function classes]
-
-AbstractOptimizer : Base class for all optimizers
-opt.benchmark.functions : BBOB-compatible test functions
-
-Related BBOB Algorithm Classes:
-    - Evolutionary: GeneticAlgorithm, DifferentialEvolution
-    - Swarm: ParticleSwarm, AntColony
-    - Gradient: AdamW, SGDMomentum
+See Also:
+    [RelatedAlgorithm1]: Similar algorithm with [key difference]
+        BBOB Comparison: [Brief performance notes on sphere/rosenbrock/ackley]
+    
+    [RelatedAlgorithm2]: [Relationship description]
+        BBOB Comparison: Generally [faster/slower/more robust] on [function classes]
+    
+    AbstractOptimizer: Base class for all optimizers
+    opt.benchmark.functions: BBOB-compatible test functions
+    
+    Related BBOB Algorithm Classes:
+        - Evolutionary: GeneticAlgorithm, DifferentialEvolution
+        - Swarm: ParticleSwarm, AntColony
+        - Gradient: AdamW, SGDMomentum
 ```
 
 ### 11. Notes
@@ -278,42 +264,41 @@ Related BBOB Algorithm Classes:
 Include complexity analysis, BBOB performance, and reproducibility:
 
 ```python
-Notes
------
-Computational Complexity:
-    - Time per iteration: O([expression])
-    - Space complexity: O([expression])
-    - BBOB budget usage: [Typical percentage of dim×10000 budget needed]
-
-BBOB Performance Characteristics:
-    - Best function classes: [Unimodal/Multimodal/Ill-conditioned/...]
-    - Weak function classes: [Function types where algorithm struggles]
-    - Typical success rate at 1e-8 precision: [X]% (dim=5)
-    - Expected Running Time (ERT): [Comparative notes vs other algorithms]
-
-Convergence Properties:
-    - Convergence rate: [Linear/Quadratic/Exponential]
-    - Local vs Global: [Tendency for local/global optima]
-    - Premature convergence risk: [High/Medium/Low]
-
-Reproducibility:
-    - Deterministic: [Yes/No] - Same seed guarantees same results
-    - BBOB compliance: seed parameter required for 15 independent runs
-    - Initialization: Uniform random sampling in [lower_bound, upper_bound]
-    - RNG usage: numpy.random.default_rng(self.seed) throughout
-
-Implementation Details:
-    - Parallelization: [Not supported/Supported via [method]]
-    - Constraint handling: [Clamping to bounds/Penalty/Repair]
-    - Numerical stability: [Considerations for floating-point arithmetic]
-
-Known Limitations:
-    - [Any known issues or limitations specific to this implementation]
-    - BBOB known issues: [Any BBOB-specific challenges]
-
-Version History:
-    - v0.1.0: Initial implementation
-    - [vX.X.X]: [Changes relevant to BBOB compliance]
+Notes:
+    Computational Complexity:
+        - Time per iteration: O([expression])
+        - Space complexity: O([expression])
+        - BBOB budget usage: [Typical percentage of dim×10000 budget needed]
+    
+    BBOB Performance Characteristics:
+        - Best function classes: [Unimodal/Multimodal/Ill-conditioned/...]
+        - Weak function classes: [Function types where algorithm struggles]
+        - Typical success rate at 1e-8 precision: [X]% (dim=5)
+        - Expected Running Time (ERT): [Comparative notes vs other algorithms]
+    
+    Convergence Properties:
+        - Convergence rate: [Linear/Quadratic/Exponential]
+        - Local vs Global: [Tendency for local/global optima]
+        - Premature convergence risk: [High/Medium/Low]
+    
+    Reproducibility:
+        - Deterministic: [Yes/No] - Same seed guarantees same results
+        - BBOB compliance: seed parameter required for 15 independent runs
+        - Initialization: Uniform random sampling in [lower_bound, upper_bound]
+        - RNG usage: numpy.random.default_rng(self.seed) throughout
+    
+    Implementation Details:
+        - Parallelization: [Not supported/Supported via [method]]
+        - Constraint handling: [Clamping to bounds/Penalty/Repair]
+        - Numerical stability: [Considerations for floating-point arithmetic]
+    
+    Known Limitations:
+        - [Any known issues or limitations specific to this implementation]
+        - BBOB known issues: [Any BBOB-specific challenges]
+    
+    Version History:
+        - v0.1.0: Initial implementation
+        - [vX.X.X]: [Changes relevant to BBOB compliance]
 ```
 
 ## Validation Checklist
@@ -351,60 +336,49 @@ For full COCO/BBOB compliance, implementations must:
 class [AlgorithmName](AbstractOptimizer):
     """[Algorithm Full Name] ([ACRONYM]) optimization algorithm.
 
-    Algorithm Metadata
-    ------------------
-    | Property          | Value                                    |
-    |-------------------|------------------------------------------|
-    | Algorithm Name    | [Full algorithm name]                    |
-    | Acronym           | [SHORT]                                  |
-    | Year Introduced   | [YYYY]                                   |
-    | Authors           | [Last, First; ...]                       |
-    | Algorithm Class   | [Category]                               |
-    | Complexity        | O([expression])                          |
-    | Properties        | [Comma-separated properties]             |
-    | Implementation    | Python 3.10+                             |
-    | COCO Compatible   | Yes                                      |
+    Algorithm Metadata:
+        | Property          | Value                                    |
+        |-------------------|------------------------------------------|
+        | Algorithm Name    | [Full algorithm name]                    |
+        | Acronym           | [SHORT]                                  |
+        | Year Introduced   | [YYYY]                                   |
+        | Authors           | [Last, First; ...]                       |
+        | Algorithm Class   | [Category]                               |
+        | Complexity        | O([expression])                          |
+        | Properties        | [Comma-separated properties]             |
+        | Implementation    | Python 3.10+                             |
+        | COCO Compatible   | Yes                                      |
 
-    Mathematical Formulation
-    ------------------------
-    [Complete mathematical description]
+    Mathematical Formulation:
+        [Complete mathematical description]
 
-    Hyperparameters
-    ---------------
-    [Table with defaults and BBOB recommendations]
+    Hyperparameters:
+        [Table with defaults and BBOB recommendations]
 
-    COCO/BBOB Benchmark Settings
-    -----------------------------
-    [Standard benchmark configuration]
+    COCO/BBOB Benchmark Settings:
+        [Standard benchmark configuration]
 
-    Example
-    -------
-    [Working doctest examples with seed=42]
+    Example:
+        [Working doctest examples with seed=42]
 
-    Args
-    ----
-    [All parameters with BBOB guidance]
+    Args:
+        [All parameters with BBOB guidance]
 
-    Attributes
-    ----------
-    [All instance variables including self.seed]
+    Attributes:
+        [All instance variables including self.seed]
 
-    Methods
-    -------
-    search() -> tuple[np.ndarray, float]
-        Execute optimization algorithm.
+    Methods:
+        search() -> tuple[np.ndarray, float]:
+            Execute optimization algorithm.
 
-    References
-    ----------
-    [Citations with DOI and COCO links]
+    References:
+        [Citations with DOI and COCO links]
 
-    See Also
-    --------
-    [Related algorithms with BBOB comparisons]
+    See Also:
+        [Related algorithms with BBOB comparisons]
 
-    Notes
-    -----
-    [Complexity, BBOB performance, reproducibility]
+    Notes:
+        [Complexity, BBOB performance, reproducibility]
     """
 
     def __init__(
