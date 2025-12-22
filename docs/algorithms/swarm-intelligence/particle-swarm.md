@@ -2,55 +2,48 @@
 
 <span class="badge badge-swarm">Swarm Intelligence</span>
 
-Particle Swarm Optimization (PSO) is a population-based stochastic optimization technique inspired by the social behavior of bird flocking or fish schooling.
+Particle Swarm Optimization (PSO) algorithm implementation.
 
 ## Algorithm Overview
 
-PSO was introduced by Kennedy and Eberhart in 1995. Each particle in the swarm represents a potential solution and moves through the search space influenced by:
-- Its own best known position (**cognitive component**)
-- The swarm's best known position (**social component**)
+This module provides an implementation of the Particle Swarm Optimization (PSO) algorithm for solving optimization problems.
+PSO is a population-based stochastic optimization algorithm inspired by the social behavior of bird flocking or fish schooling.
 
-## Mathematical Formulation
+The main class in this module is `ParticleSwarm`, which represents the PSO algorithm. It takes an objective function, lower and upper bounds of the search space, dimensionality of the search space, and other optional parameters as input. The `search` method performs the PSO optimization and returns the best solution found.
 
-### Velocity Update
+Example usage:
+    optimizer = ParticleSwarm(
+        func=shifted_ackley,
+        lower_bound=-32.768,
+        upper_bound=+32.768,
+        dim=2,
+        population_size=100,
+        max_iter=1000,
+    )
+    best_solution, best_fitness = optimizer.search()
+    print(f"Best solution found: {best_solution}")
+    print(f"Best fitness value: {best_fitness}")
 
-$$
-v_i^{t+1} = w \cdot v_i^t + c_1 \cdot r_1 \cdot (p_i - x_i^t) + c_2 \cdot r_2 \cdot (g - x_i^t)
-$$
-
-### Position Update
-
-$$
-x_i^{t+1} = x_i^t + v_i^{t+1}
-$$
-
-Where:
-- $w$ - Inertia weight
-- $c_1$ - Cognitive coefficient
-- $c_2$ - Social coefficient
-- $r_1, r_2$ - Random numbers in [0, 1]
-- $p_i$ - Personal best position
-- $g$ - Global best position
+Classes:
+    - ParticleSwarm: Particle Swarm Optimization (PSO) algorithm for optimization problems.
 
 ## Usage
 
 ```python
-from opt.swarm_intelligence import ParticleSwarm
-from opt.benchmark.functions import shifted_ackley
+from opt.swarm_intelligence.particle_swarm import ParticleSwarm
+from opt.benchmark.functions import sphere
 
 optimizer = ParticleSwarm(
-    func=shifted_ackley,
-    lower_bound=-12.768,
-    upper_bound=12.768,
+    func=sphere,
+    lower_bound=-5.12,
+    upper_bound=5.12,
     dim=10,
-    max_iter=100,
+    max_iter=500,
     population_size=50,
-    w=0.7,      # Inertia weight
-    c1=1.5,     # Cognitive coefficient
-    c2=1.5      # Social coefficient
 )
 
 best_solution, best_fitness = optimizer.search()
+print(f"Best solution: {best_solution}")
 print(f"Best fitness: {best_fitness:.6e}")
 ```
 
@@ -58,82 +51,26 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `max_iter` | `int` | 100 | Maximum iterations |
-| `population_size` | `int` | 30 | Number of particles |
-| `w` | `float` | 0.7 | Inertia weight |
-| `c1` | `float` | 1.5 | Cognitive coefficient |
-| `c2` | `float` | 1.5 | Social coefficient |
-
-## Inertia Weight Strategies
-
-The inertia weight $w$ controls exploration vs. exploitation:
-
-- **High $w$ (0.9-1.0)**: More exploration, particles move freely
-- **Low $w$ (0.4-0.6)**: More exploitation, particles converge faster
-
-### Linear Decreasing Weight
-
-A common strategy is to linearly decrease $w$ over time:
-
-$$
-w^t = w_{max} - \frac{t}{T} \cdot (w_{max} - w_{min})
-$$
-
-## Variants
-
-### Standard PSO (SPSO)
-The basic implementation with inertia weight.
-
-### Constriction PSO
-Uses a constriction factor instead of inertia weight:
-
-$$
-\chi = \frac{2}{\left|2 - \phi - \sqrt{\phi^2 - 4\phi}\right|}
-$$
-
-where $\phi = c_1 + c_2 > 4$.
-
-### Comprehensive Learning PSO (CLPSO)
-Each dimension learns from different particles' best positions.
-
-## When to Use PSO
-
-::: tip Recommended For
-- Continuous optimization problems
-- Multi-modal landscapes
-- Real-time optimization
-- Problems where gradient is unavailable
-:::
-
-::: warning Limitations
-- May converge prematurely on complex landscapes
-- Performance depends heavily on parameter tuning
-- Not suitable for discrete optimization (without modifications)
-:::
-
-## Benchmark Performance
-
-| Function | 10D Mean | 30D Mean | Success Rate |
-|----------|----------|----------|--------------|
-| Sphere | 1.2e-5 | 3.4e-4 | 100% |
-| Rosenbrock | 3.4e-2 | 1.2e+0 | 85% |
-| Rastrigin | 8.5e+0 | 4.2e+1 | 65% |
-| Ackley | 2.1e-4 | 5.6e-3 | 95% |
-
-## References
-
-1. Kennedy, J., & Eberhart, R. (1995). Particle swarm optimization. *Proceedings of ICNN'95*, Vol. 4, pp. 1942-1948.
-
-2. Shi, Y., & Eberhart, R. (1998). A modified particle swarm optimizer. *Proceedings of IEEE ICEC*, pp. 69-73.
-
-3. Clerc, M., & Kennedy, J. (2002). The particle swarm - explosion, stability, and convergence in a multidimensional complex space. *IEEE Transactions on Evolutionary Computation*, 6(1), 58-73.
+| `func` | `Callable` | Required | The objective function to be minimized. |
+| `lower_bound` | `float` | Required | The lower bound of the search space. |
+| `upper_bound` | `float` | Required | The upper bound of the search space. |
+| `dim` | `int` | Required | The dimensionality of the search space. |
+| `population_size` | `int` | `DEFAULT_POPULATION_SIZE` | The number of particles in the swarm (default: 100). |
+| `max_iter` | `int` | `DEFAULT_MAX_ITERATIONS` | The maximum number of iterations (default: 1000). |
+| `c1` | `float` | `PSO_COGNITIVE_COEFFICIENT` | The cognitive parameter (default: 1. |
+| `c2` | `float` | `PSO_SOCIAL_COEFFICIENT` | The social parameter (default: 1. |
+| `w` | `float` | `PSO_INERTIA_WEIGHT` | The inertia weight (default: 0. |
+| `seed` | `int  \|  None` | `None` | The seed for the random number generator (default: None). |
+| `track_history` | `bool` | `False` | Track optimization history for visualization |
 
 ## See Also
 
-- [Grey Wolf Optimizer](./grey-wolf) - Another swarm-based algorithm
-- [Whale Optimization](./whale) - Marine-inspired optimization
-- [Ant Colony](./ant-colony) - Pheromone-based search
+- [Swarm Intelligence Algorithms](/algorithms/swarm-intelligence/)
+- [All Algorithms](/algorithms/)
+- [Benchmark Functions](/api/benchmark-functions)
+
+---
+
+::: tip Source Code
+View the implementation: [`particle_swarm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/swarm_intelligence/particle_swarm.py)
+:::

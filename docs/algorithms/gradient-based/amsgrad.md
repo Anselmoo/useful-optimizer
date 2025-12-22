@@ -1,39 +1,40 @@
-# AdamW
+# AMSGrad
 
 <span class="badge badge-gradient">Gradient-Based</span>
 
-AdamW Optimizer.
+AMSGrad Optimizer.
 
 ## Algorithm Overview
 
-This module implements the AdamW optimization algorithm. AdamW is a variant of Adam
-that decouples weight decay from the gradient-based update. This decoupling provides
-better regularization and often leads to improved generalization in machine learning.
+This module implements the AMSGrad optimization algorithm. AMSGrad is a variant of Adam
+that fixes the exponential moving average issue in Adam. It ensures that the second moment
+estimate never decreases, which helps with convergence to the optimal solution.
 
-AdamW performs the following update rule:
+AMSGrad performs the following update rule:
     m = beta1 * m + (1 - beta1) * gradient
     v = beta2 * v + (1 - beta2) * gradient^2
+    v_hat = max(v_hat, v)
     m_hat = m / (1 - beta1^t)
-    v_hat = v / (1 - beta2^t)
-    x = x - learning_rate * (m_hat / (sqrt(v_hat) + epsilon) + weight_decay * x)
+    v_hat_corrected = v_hat / (1 - beta2^t)
+    x = x - learning_rate * m_hat / (sqrt(v_hat_corrected) + epsilon)
 
 where:
     - x: current solution
     - m: first moment estimate (exponential moving average of gradients)
     - v: second moment estimate (exponential moving average of squared gradients)
+    - v_hat: maximum of all v up to current time step
     - learning_rate: step size for parameter updates
     - beta1, beta2: exponential decay rates for moment estimates
     - epsilon: small constant for numerical stability
-    - weight_decay: weight decay coefficient
     - t: time step
 
 ## Usage
 
 ```python
-from opt.gradient_based.adamw import AdamW
+from opt.gradient_based.amsgrad import AMSGrad
 from opt.benchmark.functions import sphere
 
-optimizer = AdamW(
+optimizer = AMSGrad(
     func=sphere,
     lower_bound=-5.12,
     upper_bound=5.12,
@@ -54,12 +55,11 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `lower_bound` | `float` | Required | The lower bound of the search space. |
 | `upper_bound` | `float` | Required | The upper bound of the search space. |
 | `dim` | `int` | Required | The dimensionality of the search space. |
-| `max_iter` | `int` | `DEFAULT_MAX_ITERATIONS` | The maximum number of iterations. |
-| `learning_rate` | `float` | `ADAMW_LEARNING_RATE` | The learning rate. |
-| `beta1` | `float` | `ADAM_BETA1` | Exponential decay rate for first moment estimates. |
-| `beta2` | `float` | `ADAM_BETA2` | Exponential decay rate for second moment estimates. |
-| `epsilon` | `float` | `ADAM_EPSILON` | Small constant for numerical stability. |
-| `weight_decay` | `float` | `ADAMW_WEIGHT_DECAY` | Weight decay coefficient. |
+| `max_iter` | `int` | `1000` | The maximum number of iterations. |
+| `learning_rate` | `float` | `0.001` | The learning rate. |
+| `beta1` | `float` | `0.9` | Exponential decay rate for first moment estimates. |
+| `beta2` | `float` | `0.999` | Exponential decay rate for second moment estimates. |
+| `epsilon` | `float` | `1e-08` | Small constant for numerical stability. |
 | `seed` | `int  \|  None` | `None` | The seed value for random number generation. |
 
 ## See Also
@@ -71,5 +71,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`adamw.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/gradient_based/adamw.py)
+View the implementation: [`amsgrad.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/gradient_based/amsgrad.py)
 :::
