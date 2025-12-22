@@ -1,6 +1,6 @@
 # Useful Optimizer - GitHub Copilot Instructions
 
-Useful Optimizer is a Python optimization library containing 58 optimization algorithms for numeric problems. The project uses **uv** for dependency management, virtual environments, and packaging while providing a comprehensive collection of metaheuristic, gradient-based, and nature-inspired optimization techniques.
+Useful Optimizer is a Python optimization library containing **120 optimization algorithms** organized into 10 categories for numeric problems. The project uses **uv** for dependency management, virtual environments, and packaging while providing a comprehensive collection of metaheuristic, gradient-based, and nature-inspired optimization techniques.
 
 **Always reference these instructions first and fall back to search or shell commands only when you encounter unexpected information that does not match the info here.** All commands are written as **single-line Fish-shell commands** so they can be copied directly into the terminal.
 
@@ -52,41 +52,64 @@ Useful Optimizer is a Python optimization library containing 58 optimization alg
 
 ### Scenario 1: Basic Import and Functionality Test
 ```fish
-uv run python -c "from opt.benchmark.functions import shifted_ackley, rosenbrock, sphere; from opt.particle_swarm import ParticleSwarm; print('Testing basic import and optimizer creation...'); pso = ParticleSwarm(func=shifted_ackley, lower_bound=-2.768, upper_bound=2.768, dim=2, max_iter=50); best_solution, best_fitness = pso.search(); print(f'PSO completed successfully. Fitness: {best_fitness:.6f}'); print('Basic functionality test PASSED')"
+uv run python -c "from opt.benchmark.functions import shifted_ackley, rosenbrock, sphere; from opt.swarm_intelligence.particle_swarm import ParticleSwarm; print('Testing basic import and optimizer creation...'); pso = ParticleSwarm(func=shifted_ackley, lower_bound=-2.768, upper_bound=2.768, dim=2, max_iter=50); best_solution, best_fitness = pso.search(); print(f'PSO completed successfully. Fitness: {best_fitness:.6f}'); print('Basic functionality test PASSED')"
 ```
 **Expected: Completes in < 1 second, prints fitness value around 0.001-1.0**
 
 ### Scenario 2: Multiple Optimizer Test
 ```fish
-uv run python -c "from opt.benchmark.functions import shifted_ackley, rosenbrock; from opt.harmony_search import HarmonySearch; from opt.ant_colony import AntColony; print('Testing multiple optimizers...'); hs = HarmonySearch(func=rosenbrock, lower_bound=-5, upper_bound=5, dim=2, max_iter=50); _, fitness1 = hs.search(); ac = AntColony(func=shifted_ackley, lower_bound=-2.768, upper_bound=2.768, dim=2, max_iter=50); _, fitness2 = ac.search(); print(f'HS fitness: {fitness1:.6f}, ACO fitness: {fitness2:.6f}'); print('Multiple optimizer test PASSED')"
+uv run python -c "from opt.benchmark.functions import shifted_ackley, rosenbrock; from opt.metaheuristic.harmony_search import HarmonySearch; from opt.swarm_intelligence.ant_colony import AntColony; print('Testing multiple optimizers...'); hs = HarmonySearch(func=rosenbrock, lower_bound=-5, upper_bound=5, dim=2, max_iter=50); _, fitness1 = hs.search(); ac = AntColony(func=shifted_ackley, lower_bound=-2.768, upper_bound=2.768, dim=2, max_iter=50); _, fitness2 = ac.search(); print(f'HS fitness: {fitness1:.6f}, ACO fitness: {fitness2:.6f}'); print('Multiple optimizer test PASSED')"
 ```
 **Expected: Completes in < 1 second, prints two fitness values**
 
 ### Scenario 3: Direct Script Execution Test
 ```fish
-uv run python opt/harmony_search.py
+uv run python opt/metaheuristic/harmony_search.py
 ```
 **Expected: Prints "Best solution found:" and "Best fitness found:" with numerical values**
 
 ### Scenario 4: Advanced Import Test
 ```fish
-uv run python -c "from opt.abstract_optimizer import AbstractOptimizer; from opt.benchmark.functions import shifted_ackley, sphere, rosenbrock, ackley; from opt.sgd_momentum import SGDMomentum; from opt.adamw import AdamW; print('Advanced imports successful - gradient-based and base classes work')"
+uv run python -c "from opt.abstract_optimizer import AbstractOptimizer; from opt.benchmark.functions import shifted_ackley, sphere, rosenbrock, ackley; from opt.gradient_based.sgd_momentum import SGDMomentum; from opt.gradient_based.adamw import AdamW; print('Advanced imports successful - gradient-based and base classes work')"
 ```
 
 ## Project Structure
 
 ### Key Directories and Files
-- `opt/` - Main optimization algorithms (58 Python files)
-- `opt/abstract_optimizer.py` - Base class that all optimizers inherit from
-- `opt/benchmark/functions.py` - Benchmark functions (shifted_ackley, sphere, rosenbrock, etc.)
-- `pyproject.toml` - Project configuration, dependencies, and ruff linting rules
-- `.pre-commit-config.yaml` - Pre-commit hooks configuration
-- `.github/workflows/python-publish.yaml` - CI/CD for PyPI publishing
+- `opt/` - Main optimization algorithms organized in 10 category subdirectories
+  - `classical/` - 9 classical optimization algorithms
+  - `constrained/` - 5 constrained optimization algorithms
+  - `evolutionary/` - 6 evolutionary algorithms
+  - `gradient_based/` - 11 gradient-based optimizers
+  - `metaheuristic/` - 14 metaheuristic algorithms
+  - `multi_objective/` - 3 multi-objective optimizers (+ abstract base)
+  - `physics_inspired/` - 4 physics-inspired algorithms
 
-### Common Optimization Algorithms Available
-**Nature-Inspired:**
-- `ParticleSwarm` - Particle Swarm Optimization
-- `HarmonySearch` - Music-inspired metaheuristic
+**Swarm Intelligence (56 algorithms):**
+- `ParticleSwarm` - Particle Swarm Optimization (opt.swarm_intelligence.particle_swarm)
+- `AntColony` - Ant Colony Optimization (opt.swarm_intelligence.ant_colony)
+- `BatAlgorithm` - Bat-inspired algorithm (opt.swarm_intelligence.bat)
+- `FireflyAlgorithm` - Firefly Algorithm (opt.swarm_intelligence.firefly)
+- `BeeAlgorithm` - Artificial Bee Colony (opt.swarm_intelligence.bee)
+
+**Gradient-Based (11 algorithms):**
+- `SGDMomentum` - Stochastic Gradient Descent with momentum (opt.gradient_based.sgd_momentum)
+- `AdamW` - Adam with weight decay (opt.gradient_based.adamw)
+- `RMSprop` - RMSprop optimizer (opt.gradient_based.rmsprop)
+- `Adam` - Adaptive Moment Estimation (opt.gradient_based.adaptive_moment_estimation)
+
+**Classical (9 algorithms):**
+- `SimulatedAnnealing` - Simulated Annealing (opt.classical.simulated_annealing)
+- `NelderMead` - Nelder-Mead simplex method (opt.classical.nelder_mead)
+- `HillClimbing` - Hill Climbing (opt.classical.hill_climbing)
+- `BFGS` - Quasi-Newton method (opt.classical.bfgs)
+
+**Metaheuristic (14 algorithms):**
+- `HarmonySearch` - Music-inspired metaheuristic (opt.metaheuristic.harmony_search)
+- `SineCosine` - Sine Cosine Algorithm (opt.metaheuristic.sine_cosine_algorithm)
+
+**Note:** All optimizers are organized in category subdirectories. Always use the full import path:
+`from opt.category_name.module_name import ClassName`ed metaheuristic
 - `AntColony` - Ant Colony Optimization
 - `BatAlgorithm` - Bat-inspired algorithm
 - `FireflyAlgorithm` - Firefly Algorithm
@@ -120,11 +143,14 @@ uv run python -c "from opt.abstract_optimizer import AbstractOptimizer; from opt
 - Or run them separately:
   ```fish
   uv run ruff check opt/
-  ```
-  ```fish
-  uv run ruff format opt/
-  ```
-- The project uses extensive ruff rules - expect to find existing linting issues
+  ``` (single-objective)
+- Or inherit from `AbstractMultiObjectiveOptimizer` in `opt/multi_objective/abstract_multi_objective.py` (multi-objective)
+- Implement the required `search()` method returning `tuple[np.ndarray, float]` (or `tuple[ndarray, ndarray]` for multi-objective)
+- Follow existing pattern: see `opt/swarm_intelligence/particle_swarm.py` or `opt/metaheuristic/harmony_search.py` as examples
+- Place in appropriate category subdirectory: classical/, swarm_intelligence/, gradient_based/, etc.
+- Include a `if __name__ == "__main__":` block for direct testing
+- Use benchmark functions from `opt.benchmark.functions` for testing
+- **IMPORTANT:** Follow COCO/BBOB docstring template in `.github/prompts/optimizer-docs-template.md`nting issues
 - Ruff configuration is in `pyproject.toml` with Google docstring convention
 - Pre-commit hooks are configured but run `ruff` manually to be sure
 
