@@ -436,10 +436,8 @@ class [AlgorithmName](AbstractOptimizer):
     def search(self) -> tuple[np.ndarray, float]:
         """Execute [Algorithm] optimization.
 
-        Returns
-        -------
-        tuple[np.ndarray, float]
-            Best solution found and its fitness value.
+        Returns:
+            tuple[np.ndarray, float]: Best solution found and its fitness value.
         """
         # Implementation
 ```
