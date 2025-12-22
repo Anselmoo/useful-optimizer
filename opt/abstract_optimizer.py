@@ -92,12 +92,10 @@ class AbstractOptimizer(ABC):
             Contains keys: 'best_fitness', 'best_solution', 'population_fitness', 'population'.
 
     Methods:
-        search() -> tuple[np.ndarray, float]:
-            Perform the optimization search.
+        search() -> tuple[ndarray, float]: Perform the optimization search.
 
     Returns:
-        tuple[np.ndarray, float]:
-            Tuple containing the best solution found (shape: (dim,))
+        tuple[ndarray, float]: Tuple containing the best solution found (shape: (dim,))
             and its corresponding fitness value (scalar).
 
     Notes:
@@ -149,7 +147,7 @@ class AbstractOptimizer(ABC):
         )
 
     @abstractmethod
-    def search(self) -> tuple[np.ndarray, float]:
+    def search(self) -> tuple[ndarray, float]:
         """Perform the optimization search.
 
         Returns:

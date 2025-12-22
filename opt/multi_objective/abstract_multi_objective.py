@@ -9,7 +9,7 @@ All concrete multi-objective optimizer implementations must provide:
 - Multi-objective BBOB benchmark settings (search space, dimensions, runs, seeds)
 - Hyperparameter documentation with BBOB-recommended values
 - Pareto front reproducibility requirements (seed logging, deterministic sorting)
-- Multi-objective performance indicators (Hypervolume, IGD, Spread)
+- Multi-objective performance indicators (Hypervolume, IGD, Spread, Epsilon)
 - Complexity analysis (time/space, function evaluations)
 
 See `.github/prompts/optimizer-docs-template.md` for complete template.
