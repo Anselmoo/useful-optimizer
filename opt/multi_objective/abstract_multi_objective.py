@@ -50,12 +50,16 @@ class AbstractMultiObjectiveOptimizer(ABC):
         population_size: Number of individuals in the population.
 
     Example:
+        >>> from opt.multi_objective.nsga_ii import NSGAII
+        >>> import numpy as np
         >>> def f1(x):
         ...     return sum(x**2)
         >>> def f2(x):
         ...     return sum((x - 2) ** 2)
-        >>> optimizer = NSGAIIOptimizer(objectives=[f1, f2], lower_bound=-5, upper_bound=5, dim=3)
+        >>> optimizer = NSGAII(objectives=[f1, f2], lower_bound=-5, upper_bound=5, dim=3, max_iter=10)
         >>> pareto_front, pareto_fitness = optimizer.search()
+        >>> isinstance(pareto_front, np.ndarray)
+        True
     """
 
     def __init__(

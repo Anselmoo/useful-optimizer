@@ -14,6 +14,8 @@ Reference:
     DOI: 10.1109/4235.996017
 
 Example:
+    >>> from opt.multi_objective.nsga_ii import NSGAII
+    >>> import numpy as np
     >>> def f1(x):
     ...     return sum(x**2)
     >>> def f2(x):
@@ -24,10 +26,11 @@ Example:
     ...     upper_bound=5,
     ...     dim=10,
     ...     population_size=100,
-    ...     max_iter=200,
+    ...     max_iter=10,
     ... )
     >>> pareto_solutions, pareto_fitness = optimizer.search()
-    >>> print(f"Found {len(pareto_solutions)} Pareto-optimal solutions")
+    >>> len(pareto_solutions) > 0
+    True
 
 Attributes:
     objectives (list): List of objective functions to minimize.

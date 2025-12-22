@@ -30,23 +30,6 @@ class Visualizer:
 
     Raises:
         ValueError: If optimizer doesn't have history tracked.
-
-    Example:
-        >>> from opt.swarm_intelligence.particle_swarm import ParticleSwarm
-        >>> from opt.benchmark.functions import shifted_ackley
-        >>> from opt.visualization import Visualizer
-        >>> pso = ParticleSwarm(
-        ...     func=shifted_ackley,
-        ...     lower_bound=-5,
-        ...     upper_bound=5,
-        ...     dim=2,
-        ...     max_iter=100,
-        ...     track_history=True,
-        ... )
-        >>> best_solution, best_fitness = pso.search()
-        >>> viz = Visualizer(pso)
-        >>> viz.plot_convergence()
-        >>> viz.plot_trajectory()
     """
 
     def __init__(self, optimizer: AbstractOptimizer) -> None:
@@ -80,9 +63,6 @@ class Visualizer:
 
         Returns:
             Figure: The matplotlib figure object.
-
-        Example:
-            >>> viz.plot_convergence(log_scale=True)
         """
         import matplotlib.pyplot as plt
 
@@ -132,9 +112,6 @@ class Visualizer:
 
         Raises:
             ValueError: If optimizer dimensionality is not 2.
-
-        Example:
-            >>> viz.plot_trajectory()
         """
         import matplotlib.pyplot as plt
 
@@ -223,9 +200,6 @@ class Visualizer:
 
         Returns:
             Figure: The matplotlib figure object.
-
-        Example:
-            >>> viz.plot_average_fitness(show_std=True)
         """
         import matplotlib.pyplot as plt
 
@@ -293,9 +267,6 @@ class Visualizer:
 
         Args:
             save_path (str | None, optional): Path to save the figure. If None, displays instead.
-
-        Example:
-            >>> viz.plot_all(save_path="optimization_results.png")
         """
         import matplotlib.pyplot as plt
 

@@ -61,9 +61,6 @@ class StabilityResults:
 
         Returns:
             dict[str, float]: Dictionary containing mean, std, min, max, and median fitness values.
-
-        Example:
-            >>> results.summary()
             {'mean': 0.123, 'std': 0.045, 'min': 0.001, 'max': 0.234, 'median': 0.112}
         """
         return {
@@ -78,9 +75,6 @@ class StabilityResults:
 
     def print_summary(self) -> None:
         """Print a formatted summary of the results.
-
-        Example:
-            >>> results.print_summary()
             Stability Test Results for ParticleSwarm on shifted_ackley
             ============================================================
             Number of runs: 10
@@ -115,9 +109,6 @@ class StabilityResults:
 
         Returns:
             Figure: The matplotlib figure object.
-
-        Example:
-            >>> results.plot_boxplot(save_path="stability_boxplot.png")
         """
         import matplotlib.pyplot as plt
 
@@ -197,9 +188,6 @@ class StabilityResults:
 
         Returns:
             Figure: The matplotlib figure object.
-
-        Example:
-            >>> results.plot_histogram(bins=30)
         """
         import matplotlib.pyplot as plt
 
@@ -279,19 +267,20 @@ def run_stability_test(
 
     Example:
         >>> from opt.swarm_intelligence.particle_swarm import ParticleSwarm
-        >>> from opt.benchmark.functions import shifted_ackley
+        >>> from opt.benchmark.functions import sphere
         >>> from opt.visualization import run_stability_test
         >>> results = run_stability_test(
         ...     optimizer_class=ParticleSwarm,
-        ...     func=shifted_ackley,
+        ...     func=sphere,
         ...     lower_bound=-5,
         ...     upper_bound=5,
         ...     dim=2,
-        ...     max_iter=100,
-        ...     seeds=[42, 123, 456, 789, 1011],
+        ...     max_iter=10,
+        ...     seeds=[42, 123],
+        ...     verbose=False
         ... )
-        >>> results.print_summary()
-        >>> results.plot_boxplot()
+        >>> len(results.fitness_values) == 2
+        True
     """
     # Determine seeds to use
     if seeds is None:
@@ -378,13 +367,17 @@ def compare_optimizers_stability(
     Example:
         >>> from opt.swarm_intelligence.particle_swarm import ParticleSwarm
         >>> from opt.evolutionary.genetic_algorithm import GeneticAlgorithm
+        >>> from opt.benchmark.functions import sphere
         >>> results, fig = compare_optimizers_stability(
         ...     optimizer_classes=[ParticleSwarm, GeneticAlgorithm],
-        ...     func=shifted_ackley,
+        ...     func=sphere,
         ...     lower_bound=-5,
         ...     upper_bound=5,
         ...     dim=2,
-        ... )
+        ...     max_iter=10,
+        ...     n_runs=2,
+        ...     show=False
+        ... )  # doctest: +SKIP
     """
     import matplotlib.pyplot as plt
 
