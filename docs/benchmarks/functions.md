@@ -199,10 +199,10 @@ from opt.swarm_intelligence import ParticleSwarm
 
 def my_function(x: np.ndarray) -> float:
     """Custom objective function.
-    
+
     Args:
         x: Input vector of shape (n,)
-        
+
     Returns:
         Scalar fitness value (lower is better)
     """

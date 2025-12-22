@@ -60,7 +60,7 @@ class AbstractOptimizer(ABC):
 @abstractmethod
 def search(self) -> tuple[np.ndarray, float]:
     """Perform the optimization search.
-    
+
     Returns:
         tuple: A tuple containing:
             - best_solution (np.ndarray): The best solution found
@@ -121,13 +121,13 @@ import numpy as np
 
 class RandomSearch(AbstractOptimizer):
     """Simple random search optimizer."""
-    
+
     def search(self) -> tuple[np.ndarray, float]:
         best_solution = None
         best_fitness = float('inf')
-        
+
         rng = np.random.default_rng(self.seed)
-        
+
         for _ in range(self.max_iter):
             # Generate random solution
             candidate = rng.uniform(
@@ -135,18 +135,18 @@ class RandomSearch(AbstractOptimizer):
                 self.upper_bound,
                 self.dim
             )
-            
+
             fitness = self.func(candidate)
-            
+
             if fitness < best_fitness:
                 best_solution = candidate
                 best_fitness = fitness
-                
+
             # Track history if enabled
             if self.track_history:
                 self.history["best_fitness"].append(best_fitness)
                 self.history["best_solution"].append(best_solution.copy())
-        
+
         return best_solution, best_fitness
 ```
 

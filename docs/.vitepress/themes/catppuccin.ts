@@ -16,13 +16,13 @@ export const catppuccinMochaTheme = {
     '#74c7ec', // sapphire
     '#b4befe', // lavender
   ],
-  
+
   backgroundColor: '#1e1e2e', // base
-  
+
   textStyle: {
     color: '#cdd6f4', // text
   },
-  
+
   title: {
     textStyle: {
       color: '#cdd6f4',
@@ -32,7 +32,7 @@ export const catppuccinMochaTheme = {
       color: '#a6adc8', // subtext0
     },
   },
-  
+
   line: {
     itemStyle: {
       borderWidth: 2,
@@ -44,7 +44,7 @@ export const catppuccinMochaTheme = {
     symbol: 'circle',
     smooth: false,
   },
-  
+
   radar: {
     itemStyle: {
       borderWidth: 2,
@@ -56,27 +56,27 @@ export const catppuccinMochaTheme = {
     symbol: 'circle',
     smooth: false,
   },
-  
+
   bar: {
     itemStyle: {
       barBorderWidth: 0,
       barBorderRadius: 4,
     },
   },
-  
+
   pie: {
     itemStyle: {
       borderWidth: 0,
       borderColor: '#1e1e2e',
     },
   },
-  
+
   scatter: {
     itemStyle: {
       borderWidth: 0,
     },
   },
-  
+
   boxplot: {
     itemStyle: {
       borderWidth: 2,
@@ -84,31 +84,31 @@ export const catppuccinMochaTheme = {
       borderColor: '#cba6f7',
     },
   },
-  
+
   parallel: {
     itemStyle: {
       borderWidth: 0,
     },
   },
-  
+
   sankey: {
     itemStyle: {
       borderWidth: 0,
     },
   },
-  
+
   funnel: {
     itemStyle: {
       borderWidth: 0,
     },
   },
-  
+
   gauge: {
     itemStyle: {
       borderWidth: 0,
     },
   },
-  
+
   candlestick: {
     itemStyle: {
       color: '#a6e3a1',
@@ -118,7 +118,7 @@ export const catppuccinMochaTheme = {
       borderWidth: 1,
     },
   },
-  
+
   graph: {
     itemStyle: {
       borderWidth: 0,
@@ -134,7 +134,7 @@ export const catppuccinMochaTheme = {
       color: '#cdd6f4',
     },
   },
-  
+
   map: {
     itemStyle: {
       areaColor: '#313244', // surface0
@@ -155,7 +155,7 @@ export const catppuccinMochaTheme = {
       },
     },
   },
-  
+
   geo: {
     itemStyle: {
       areaColor: '#313244',
@@ -176,7 +176,7 @@ export const catppuccinMochaTheme = {
       },
     },
   },
-  
+
   categoryAxis: {
     axisLine: {
       show: true,
@@ -207,7 +207,7 @@ export const catppuccinMochaTheme = {
       },
     },
   },
-  
+
   valueAxis: {
     axisLine: {
       show: true,
@@ -238,7 +238,7 @@ export const catppuccinMochaTheme = {
       },
     },
   },
-  
+
   logAxis: {
     axisLine: {
       show: true,
@@ -269,7 +269,7 @@ export const catppuccinMochaTheme = {
       },
     },
   },
-  
+
   timeAxis: {
     axisLine: {
       show: true,
@@ -300,7 +300,7 @@ export const catppuccinMochaTheme = {
       },
     },
   },
-  
+
   toolbox: {
     iconStyle: {
       borderColor: '#a6adc8',
@@ -311,7 +311,7 @@ export const catppuccinMochaTheme = {
       },
     },
   },
-  
+
   legend: {
     textStyle: {
       color: '#cdd6f4',
@@ -322,7 +322,7 @@ export const catppuccinMochaTheme = {
       color: '#cdd6f4',
     },
   },
-  
+
   tooltip: {
     backgroundColor: '#181825', // mantle
     borderColor: '#45475a', // surface1
@@ -341,7 +341,7 @@ export const catppuccinMochaTheme = {
       },
     },
   },
-  
+
   timeline: {
     lineStyle: {
       color: '#585b70',
@@ -377,14 +377,14 @@ export const catppuccinMochaTheme = {
       },
     },
   },
-  
+
   visualMap: {
     color: ['#f38ba8', '#fab387', '#f9e2af', '#a6e3a1'],
     textStyle: {
       color: '#cdd6f4',
     },
   },
-  
+
   dataZoom: {
     backgroundColor: '#1e1e2e',
     dataBackgroundColor: '#313244',
@@ -396,7 +396,7 @@ export const catppuccinMochaTheme = {
     },
     borderColor: '#45475a',
   },
-  
+
   markPoint: {
     label: {
       color: '#cdd6f4',
@@ -424,22 +424,22 @@ export const catppuccinColors = {
   pink: '#f5c2e7',
   sapphire: '#74c7ec',
   lavender: '#b4befe',
-  
+
   // Background colors
   base: '#1e1e2e',
   mantle: '#181825',
   crust: '#11111b',
-  
+
   // Surface colors
   surface0: '#313244',
   surface1: '#45475a',
   surface2: '#585b70',
-  
+
   // Text colors
   text: '#cdd6f4',
   subtext1: '#bac2de',
   subtext0: '#a6adc8',
-  
+
   // Overlay colors
   overlay2: '#9399b2',
   overlay1: '#7f849c',

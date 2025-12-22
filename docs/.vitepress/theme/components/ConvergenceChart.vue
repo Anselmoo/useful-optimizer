@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * ConvergenceChart.vue
- * 
+ *
  * Displays convergence curves for optimization algorithms with confidence bands.
  * Follows COCO/IOHprofiler visualization standards.
  */
@@ -57,10 +57,10 @@ const algorithmColors = [
 
 const chartOption = computed(() => {
   const series: echarts.SeriesOption[] = []
-  
+
   props.data.forEach((algo, index) => {
     const color = algorithmColors[index % algorithmColors.length]
-    
+
     // Main line (mean)
     series.push({
       name: algo.algorithm,
@@ -76,12 +76,12 @@ const chartOption = computed(() => {
         color: color
       }
     })
-    
+
     // Confidence band (mean ± std)
     if (props.showConfidenceBand && algo.std) {
       const upperBand = algo.iterations.map((iter, i) => [iter, algo.mean[i] + algo.std![i]])
       const lowerBand = algo.iterations.map((iter, i) => [iter, algo.mean[i] - algo.std![i]])
-      
+
       series.push({
         name: `${algo.algorithm} (±σ)`,
         type: 'line',
@@ -97,7 +97,7 @@ const chartOption = computed(() => {
       })
     }
   })
-  
+
   return {
     backgroundColor: 'transparent',
     title: {
@@ -185,7 +185,7 @@ const chartOption = computed(() => {
 
 const initChart = () => {
   if (!chartRef.value) return
-  
+
   echarts.registerTheme('catppuccin-mocha', catppuccinMochaTheme)
   chart.value = echarts.init(chartRef.value, 'catppuccin-mocha')
   chart.value.setOption(chartOption.value)
@@ -216,8 +216,8 @@ onUnmounted(() => {
 
 <template>
   <div class="chart-container">
-    <div 
-      ref="chartRef" 
+    <div
+      ref="chartRef"
       class="chart"
       :style="{ height: chartHeight }"
     />

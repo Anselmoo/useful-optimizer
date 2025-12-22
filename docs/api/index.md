@@ -105,7 +105,7 @@ import numpy as np
 
 def search(self) -> tuple[np.ndarray, float]:
     """Run the optimization search.
-    
+
     Returns:
         tuple: A tuple containing:
             - best_solution (np.ndarray): The best solution found
@@ -129,7 +129,7 @@ def __init__(
     population_size: int = 30
 ) -> None:
     """Initialize the optimizer.
-    
+
     Args:
         func: Objective function to minimize. Takes a numpy array
             and returns a scalar fitness value.
@@ -138,7 +138,7 @@ def __init__(
         dim: Dimensionality of the problem.
         max_iter: Maximum number of iterations.
         population_size: Number of individuals in the population.
-    
+
     Raises:
         ValueError: If dim < 1 or max_iter < 1.
     """

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * ECDFChart.vue
- * 
+ *
  * Empirical Cumulative Distribution Function chart - the gold standard
  * for optimizer comparison following COCO platform standards.
  */
@@ -92,8 +92,8 @@ const chartOption = computed(() => {
       formatter: (params: any) => {
         if (!Array.isArray(params)) return ''
         const budget = params[0]?.value[0]
-        const budgetDisplay = props.logXAxis 
-          ? `10^${budget.toFixed(1)}` 
+        const budgetDisplay = props.logXAxis
+          ? `10^${budget.toFixed(1)}`
           : budget.toFixed(0)
         let html = `<div style="font-weight:600">Budget: ${budgetDisplay}</div>`
         params.forEach((p: any) => {
@@ -162,7 +162,7 @@ const chartOption = computed(() => {
 
 const initChart = () => {
   if (!chartRef.value) return
-  
+
   echarts.registerTheme('catppuccin-mocha', catppuccinMochaTheme)
   chart.value = echarts.init(chartRef.value, 'catppuccin-mocha')
   chart.value.setOption(chartOption.value)
@@ -195,15 +195,15 @@ onUnmounted(() => {
         can solve within a given budget of function evaluations.
       </p>
     </div>
-    <div 
-      ref="chartRef" 
+    <div
+      ref="chartRef"
       class="chart"
       :style="{ height: chartHeight }"
     />
     <div class="target-info">
       <span class="label">Target precisions:</span>
-      <span 
-        v-for="(t, i) in targetPrecisions" 
+      <span
+        v-for="(t, i) in targetPrecisions"
         :key="i"
         class="target-badge"
       >

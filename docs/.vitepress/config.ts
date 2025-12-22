@@ -3,13 +3,13 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'Useful Optimizer',
   description: 'A comprehensive collection of 54+ optimization algorithms for numeric problems',
-  
+
   base: '/useful-optimizer/',
-  
+
   // TODO: Remove ignoreDeadLinks once all algorithm and API pages are created
   // Currently ignoring dead links as not all navigation links have corresponding pages yet
   ignoreDeadLinks: true,
-  
+
   head: [
     ['link', { rel: 'icon', type: 'image/svg+xml', href: '/logo.svg' }],
     ['meta', { name: 'theme-color', content: '#cba6f7' }],
@@ -17,10 +17,10 @@ export default defineConfig({
     ['meta', { name: 'og:title', content: 'Useful Optimizer' }],
     ['meta', { name: 'og:description', content: 'A comprehensive collection of 54+ optimization algorithms for numeric problems' }],
   ],
-  
+
   themeConfig: {
     logo: '/logo.svg',
-    
+
     nav: [
       { text: 'Guide', link: '/guide/' },
       { text: 'Algorithms', link: '/algorithms/' },
@@ -34,7 +34,7 @@ export default defineConfig({
         ]
       }
     ],
-    
+
     sidebar: {
       '/guide/': [
         {
@@ -142,26 +142,26 @@ export default defineConfig({
         }
       ]
     },
-    
+
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Anselmoo/useful-optimizer' }
     ],
-    
+
     footer: {
       message: 'Released under the MIT License.',
       copyright: 'Copyright © 2024 Anselm Hahn'
     },
-    
+
     search: {
       provider: 'local'
     },
-    
+
     editLink: {
       pattern: 'https://github.com/Anselmoo/useful-optimizer/edit/main/docs/:path',
       text: 'Edit this page on GitHub'
     }
   },
-  
+
   markdown: {
     math: true,
     lineNumbers: true

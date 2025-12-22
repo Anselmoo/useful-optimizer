@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * FitnessLandscape3D.vue
- * 
+ *
  * Interactive 3D fitness landscape visualization using ECharts-GL.
  * Allows orbit controls, zoom, and trajectory overlay.
  */
@@ -49,34 +49,34 @@ const chartHeight = computed(() => {
 // Benchmark function implementations
 const benchmarkFunctions: Record<string, (x: number, y: number) => number> = {
   sphere: (x, y) => x * x + y * y,
-  
+
   rosenbrock: (x, y) => {
     return 100 * Math.pow(y - x * x, 2) + Math.pow(1 - x, 2)
   },
-  
+
   rastrigin: (x, y) => {
     return 20 + (x * x - 10 * Math.cos(2 * Math.PI * x)) +
            (y * y - 10 * Math.cos(2 * Math.PI * y))
   },
-  
+
   ackley: (x, y) => {
     const a = 20
     const b = 0.2
     const c = 2 * Math.PI
     const d = 2
-    
+
     const sum1 = (x * x + y * y) / d
     const sum2 = (Math.cos(c * x) + Math.cos(c * y)) / d
-    
+
     return -a * Math.exp(-b * Math.sqrt(sum1)) - Math.exp(sum2) + a + Math.E
   },
-  
+
   griewank: (x, y) => {
     const sum = (x * x + y * y) / 4000
     const prod = Math.cos(x) * Math.cos(y / Math.sqrt(2))
     return sum - prod + 1
   },
-  
+
   himmelblau: (x, y) => {
     return Math.pow(x * x + y - 11, 2) + Math.pow(x + y * y - 7, 2)
   }
@@ -87,24 +87,24 @@ const generateLandscape = () => {
   const func = benchmarkFunctions[props.functionName] || benchmarkFunctions.sphere
   const [min, max] = props.bounds
   const step = (max - min) / props.resolution
-  
+
   const data: number[][] = []
   let minZ = Infinity
   let maxZ = -Infinity
-  
+
   for (let i = 0; i <= props.resolution; i++) {
     for (let j = 0; j <= props.resolution; j++) {
       const x = min + i * step
       const y = min + j * step
       const z = func(x, y)
-      
+
       minZ = Math.min(minZ, z)
       maxZ = Math.max(maxZ, z)
-      
+
       data.push([x, y, z])
     }
   }
-  
+
   return { data, minZ, maxZ }
 }
 
@@ -127,7 +127,7 @@ const getColors = () => {
 const chartOption = computed(() => {
   const { data, minZ, maxZ } = generateLandscape()
   const colors = getColors()
-  
+
   const series: echarts.SeriesOption[] = [
     {
       type: 'surface',
@@ -145,7 +145,7 @@ const chartOption = computed(() => {
       }
     } as any
   ]
-  
+
   // Add trajectory if provided
   if (props.trajectory && props.trajectory.length > 0) {
     series.push({
@@ -156,7 +156,7 @@ const chartOption = computed(() => {
         width: 3
       }
     } as any)
-    
+
     // Add start point
     series.push({
       type: 'scatter3D',
@@ -166,7 +166,7 @@ const chartOption = computed(() => {
         color: catppuccinColors.green
       }
     } as any)
-    
+
     // Add end point
     const last = props.trajectory[props.trajectory.length - 1]
     series.push({
@@ -178,7 +178,7 @@ const chartOption = computed(() => {
       }
     } as any)
   }
-  
+
   return {
     backgroundColor: catppuccinColors.base,
     title: {
@@ -237,7 +237,7 @@ const chartOption = computed(() => {
       name: 'f(x,y)',
       nameTextStyle: { color: catppuccinColors.text },
       axisLine: { lineStyle: { color: catppuccinColors.surface2 } },
-      axisLabel: { 
+      axisLabel: {
         color: catppuccinColors.subtext0,
         formatter: (value: number) => value.toExponential(0)
       },
@@ -274,7 +274,7 @@ const chartOption = computed(() => {
 
 const initChart = () => {
   if (!chartRef.value) return
-  
+
   echarts.registerTheme('catppuccin-mocha', catppuccinMochaTheme)
   chart.value = echarts.init(chartRef.value, 'catppuccin-mocha')
   chart.value.setOption(chartOption.value)
@@ -304,7 +304,7 @@ onUnmounted(() => {
     <div class="controls">
       <div class="control-group">
         <label>Function:</label>
-        <select 
+        <select
           :value="functionName"
           @change="emit('update:functionName', ($event.target as HTMLSelectElement).value)"
           class="select"
@@ -321,8 +321,8 @@ onUnmounted(() => {
         <span class="hint">🖱️ Drag to rotate • Scroll to zoom • Right-click to pan</span>
       </div>
     </div>
-    <div 
-      ref="chartRef" 
+    <div
+      ref="chartRef"
       class="chart"
       :style="{ height: chartHeight }"
     />

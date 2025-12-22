@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * ViolinPlot.vue
- * 
+ *
  * Statistical distribution visualization for final fitness values
  * across multiple algorithm runs.
  */
@@ -67,19 +67,19 @@ const calculateStats = (values: number[]) => {
   const min = sorted[0]
   const max = sorted[n - 1]
   const mean = values.reduce((a, b) => a + b, 0) / n
-  
+
   return { min, q1, median, q3, max, mean }
 }
 
 const chartOption = computed(() => {
   const categories = props.data.map(d => d.algorithm)
-  
+
   // Boxplot data: [min, Q1, median, Q3, max]
   const boxplotData = props.data.map(d => {
     const stats = calculateStats(d.values)
     return [stats.min, stats.q1, stats.median, stats.q3, stats.max]
   })
-  
+
   // Scatter data for individual points
   const scatterData: any[] = []
   props.data.forEach((algo, algoIndex) => {
@@ -95,7 +95,7 @@ const chartOption = computed(() => {
   })
 
   const series: echarts.SeriesOption[] = []
-  
+
   if (props.showBoxplot) {
     series.push({
       name: 'Boxplot',
@@ -114,7 +114,7 @@ const chartOption = computed(() => {
       }
     })
   }
-  
+
   if (props.showPoints) {
     series.push({
       name: 'Data Points',
@@ -202,7 +202,7 @@ const chartOption = computed(() => {
 
 const initChart = () => {
   if (!chartRef.value) return
-  
+
   echarts.registerTheme('catppuccin-mocha', catppuccinMochaTheme)
   chart.value = echarts.init(chartRef.value, 'catppuccin-mocha')
   chart.value.setOption(chartOption.value)
@@ -247,8 +247,8 @@ onUnmounted(() => {
         Show points
       </label>
     </div>
-    <div 
-      ref="chartRef" 
+    <div
+      ref="chartRef"
       class="chart"
       :style="{ height: chartHeight }"
     />

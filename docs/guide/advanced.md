@@ -24,7 +24,7 @@ best_solution, best_fitness = optimizer.search()
 # Access convergence history
 if hasattr(optimizer, 'best_fitness_history'):
     import matplotlib.pyplot as plt
-    
+
     plt.plot(optimizer.best_fitness_history)
     plt.xlabel('Iteration')
     plt.ylabel('Best Fitness')
@@ -137,7 +137,7 @@ fitness_values = []
 
 for run in range(n_runs):
     np.random.seed(42 + run)  # Different seed per run
-    
+
     optimizer = ParticleSwarm(
         func=shifted_ackley,
         lower_bound=-12.768,
@@ -145,7 +145,7 @@ for run in range(n_runs):
         dim=10,
         max_iter=100
     )
-    
+
     _, fitness = optimizer.search()
     fitness_values.append(fitness)
 
@@ -192,7 +192,7 @@ import numpy as np
 
 class MyOptimizer(AbstractOptimizer):
     """Custom optimization algorithm."""
-    
+
     def __init__(
         self,
         func,
@@ -210,7 +210,7 @@ class MyOptimizer(AbstractOptimizer):
             max_iter=max_iter,
             **kwargs
         )
-    
+
     def search(self) -> tuple[np.ndarray, float]:
         """Run the optimization."""
         # Initialize
@@ -220,18 +220,18 @@ class MyOptimizer(AbstractOptimizer):
             self.dim
         )
         best_fitness = self.func(best_solution)
-        
+
         # Main loop
         for _ in range(self.max_iter):
             # Your algorithm logic here
             candidate = best_solution + np.random.randn(self.dim) * 0.1
             candidate = np.clip(candidate, self.lower_bound, self.upper_bound)
-            
+
             fitness = self.func(candidate)
             if fitness < best_fitness:
                 best_solution = candidate
                 best_fitness = fitness
-        
+
         return best_solution, best_fitness
 ```
 
