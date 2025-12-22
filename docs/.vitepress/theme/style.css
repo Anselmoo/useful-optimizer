@@ -40,36 +40,36 @@
   --vp-c-bg-alt: var(--ctp-mocha-mantle);
   --vp-c-bg-elv: var(--ctp-mocha-surface0);
   --vp-c-bg-soft: var(--ctp-mocha-surface0);
-  
+
   /* Text Colors */
   --vp-c-text-1: var(--ctp-mocha-text);
   --vp-c-text-2: var(--ctp-mocha-subtext1);
   --vp-c-text-3: var(--ctp-mocha-subtext0);
-  
+
   /* Border Colors */
   --vp-c-border: var(--ctp-mocha-surface1);
   --vp-c-divider: var(--ctp-mocha-surface0);
   --vp-c-gutter: var(--ctp-mocha-surface0);
-  
+
   /* Brand Colors */
   --vp-c-brand-1: var(--ctp-mocha-mauve);
   --vp-c-brand-2: var(--ctp-mocha-lavender);
   --vp-c-brand-3: var(--ctp-mocha-blue);
   --vp-c-brand-soft: rgba(203, 166, 247, 0.14);
-  
+
   /* Semantic Colors */
   --vp-c-success-1: var(--ctp-mocha-green);
   --vp-c-success-2: var(--ctp-mocha-teal);
   --vp-c-success-soft: rgba(166, 227, 161, 0.14);
-  
+
   --vp-c-warning-1: var(--ctp-mocha-yellow);
   --vp-c-warning-2: var(--ctp-mocha-peach);
   --vp-c-warning-soft: rgba(249, 226, 175, 0.14);
-  
+
   --vp-c-danger-1: var(--ctp-mocha-red);
   --vp-c-danger-2: var(--ctp-mocha-maroon);
   --vp-c-danger-soft: rgba(243, 139, 168, 0.14);
-  
+
   /* Code Colors */
   --vp-code-block-bg: var(--ctp-mocha-mantle);
   --vp-code-line-highlight-color: rgba(137, 180, 250, 0.08);
@@ -78,10 +78,10 @@
   --vp-code-line-diff-remove-color: rgba(243, 139, 168, 0.12);
   --vp-code-copy-code-bg: var(--ctp-mocha-surface0);
   --vp-code-copy-code-hover-bg: var(--ctp-mocha-surface1);
-  
+
   /* Sidebar */
   --vp-sidebar-bg-color: var(--ctp-mocha-mantle);
-  
+
   /* Home */
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: linear-gradient(
@@ -90,14 +90,14 @@
     var(--ctp-mocha-blue) 50%,
     var(--ctp-mocha-teal) 100%
   );
-  
+
   --vp-home-hero-image-background-image: linear-gradient(
     135deg,
     var(--ctp-mocha-mauve) 0%,
     var(--ctp-mocha-blue) 100%
   );
   --vp-home-hero-image-filter: blur(72px);
-  
+
   /* Button Colors */
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: var(--ctp-mocha-base);
@@ -108,35 +108,35 @@
   --vp-button-brand-active-border: transparent;
   --vp-button-brand-active-text: var(--ctp-mocha-base);
   --vp-button-brand-active-bg: var(--ctp-mocha-blue);
-  
+
   --vp-button-alt-border: var(--ctp-mocha-surface1);
   --vp-button-alt-text: var(--ctp-mocha-text);
   --vp-button-alt-bg: var(--ctp-mocha-surface0);
   --vp-button-alt-hover-border: var(--ctp-mocha-surface2);
   --vp-button-alt-hover-text: var(--ctp-mocha-text);
   --vp-button-alt-hover-bg: var(--ctp-mocha-surface1);
-  
+
   /* Custom Component Colors */
   --vp-custom-block-tip-border: var(--ctp-mocha-green);
   --vp-custom-block-tip-text: var(--ctp-mocha-text);
   --vp-custom-block-tip-bg: rgba(166, 227, 161, 0.1);
   --vp-custom-block-tip-code-bg: var(--ctp-mocha-surface0);
-  
+
   --vp-custom-block-warning-border: var(--ctp-mocha-yellow);
   --vp-custom-block-warning-text: var(--ctp-mocha-text);
   --vp-custom-block-warning-bg: rgba(249, 226, 175, 0.1);
   --vp-custom-block-warning-code-bg: var(--ctp-mocha-surface0);
-  
+
   --vp-custom-block-danger-border: var(--ctp-mocha-red);
   --vp-custom-block-danger-text: var(--ctp-mocha-text);
   --vp-custom-block-danger-bg: rgba(243, 139, 168, 0.1);
   --vp-custom-block-danger-code-bg: var(--ctp-mocha-surface0);
-  
+
   --vp-custom-block-info-border: var(--ctp-mocha-blue);
   --vp-custom-block-info-text: var(--ctp-mocha-text);
   --vp-custom-block-info-bg: rgba(137, 180, 250, 0.1);
   --vp-custom-block-info-code-bg: var(--ctp-mocha-surface0);
-  
+
   --vp-custom-block-details-border: var(--ctp-mocha-overlay0);
   --vp-custom-block-details-text: var(--ctp-mocha-subtext1);
   --vp-custom-block-details-bg: var(--ctp-mocha-surface0);
@@ -249,8 +249,8 @@
 
 /* Algorithm Card Styles */
 .algorithm-card {
-  background-color: var(--ctp-mocha-surface0);
-  border: 1px solid var(--ctp-mocha-surface1);
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
   border-radius: 8px;
   padding: 16px;
   margin: 8px 0;
@@ -258,18 +258,36 @@
 }
 
 .algorithm-card:hover {
-  border-color: var(--ctp-mocha-mauve);
+  border-color: var(--vp-c-brand-1);
   box-shadow: 0 2px 12px rgba(203, 166, 247, 0.1);
 }
 
 .algorithm-card h3 {
-  color: var(--ctp-mocha-mauve);
+  color: var(--vp-c-brand-1);
   margin: 0 0 8px 0;
 }
 
 .algorithm-card p {
-  color: var(--ctp-mocha-subtext1);
+  color: var(--vp-c-text-2);
   margin: 0;
+}
+
+/* Dark mode algorithm card overrides */
+.dark .algorithm-card {
+  background-color: var(--ctp-mocha-surface0);
+  border-color: var(--ctp-mocha-surface1);
+}
+
+.dark .algorithm-card:hover {
+  border-color: var(--ctp-mocha-mauve);
+}
+
+.dark .algorithm-card h3 {
+  color: var(--ctp-mocha-mauve);
+}
+
+.dark .algorithm-card p {
+  color: var(--ctp-mocha-subtext1);
 }
 
 /* Badge Styles */
@@ -357,19 +375,33 @@
 }
 
 .feature-item {
-  background-color: var(--ctp-mocha-surface0);
-  border: 1px solid var(--ctp-mocha-surface1);
+  background-color: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-border);
   border-radius: 8px;
   padding: 20px;
 }
 
 .feature-item h4 {
-  color: var(--ctp-mocha-mauve);
+  color: var(--vp-c-brand-1);
   margin: 0 0 8px 0;
 }
 
 .feature-item p {
-  color: var(--ctp-mocha-subtext1);
+  color: var(--vp-c-text-2);
   margin: 0;
   font-size: 0.9rem;
+}
+
+/* Dark mode feature item overrides */
+.dark .feature-item {
+  background-color: var(--ctp-mocha-surface0);
+  border-color: var(--ctp-mocha-surface1);
+}
+
+.dark .feature-item h4 {
+  color: var(--ctp-mocha-mauve);
+}
+
+.dark .feature-item p {
+  color: var(--ctp-mocha-subtext1);
 }
