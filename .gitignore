@@ -178,6 +178,9 @@ docs/package-lock.json
 # Benchmark outputs
 benchmarks/output/
 
+# Serena
+.serena/
+
 # General
 .DS_Store
 .AppleDouble

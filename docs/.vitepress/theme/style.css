@@ -249,8 +249,8 @@
 
 /* Algorithm Card Styles */
 .algorithm-card {
-  background-color: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
+  background-color: var(--ctp-mocha-surface0);
+  border: 1px solid var(--ctp-mocha-surface1);
   border-radius: 8px;
   padding: 16px;
   margin: 8px 0;
@@ -258,36 +258,18 @@
 }
 
 .algorithm-card:hover {
-  border-color: var(--vp-c-brand-1);
+  border-color: var(--ctp-mocha-mauve);
   box-shadow: 0 2px 12px rgba(203, 166, 247, 0.1);
 }
 
 .algorithm-card h3 {
-  color: var(--vp-c-brand-1);
+  color: var(--ctp-mocha-mauve);
   margin: 0 0 8px 0;
 }
 
 .algorithm-card p {
-  color: var(--vp-c-text-2);
-  margin: 0;
-}
-
-/* Dark mode algorithm card overrides */
-.dark .algorithm-card {
-  background-color: var(--ctp-mocha-surface0);
-  border-color: var(--ctp-mocha-surface1);
-}
-
-.dark .algorithm-card:hover {
-  border-color: var(--ctp-mocha-mauve);
-}
-
-.dark .algorithm-card h3 {
-  color: var(--ctp-mocha-mauve);
-}
-
-.dark .algorithm-card p {
   color: var(--ctp-mocha-subtext1);
+  margin: 0;
 }
 
 /* Badge Styles */
@@ -375,33 +357,19 @@
 }
 
 .feature-item {
-  background-color: var(--vp-c-bg-soft);
-  border: 1px solid var(--vp-c-border);
+  background-color: var(--ctp-mocha-surface0);
+  border: 1px solid var(--ctp-mocha-surface1);
   border-radius: 8px;
   padding: 20px;
 }
 
 .feature-item h4 {
-  color: var(--vp-c-brand-1);
+  color: var(--ctp-mocha-mauve);
   margin: 0 0 8px 0;
 }
 
 .feature-item p {
-  color: var(--vp-c-text-2);
+  color: var(--ctp-mocha-subtext1);
   margin: 0;
   font-size: 0.9rem;
-}
-
-/* Dark mode feature item overrides */
-.dark .feature-item {
-  background-color: var(--ctp-mocha-surface0);
-  border-color: var(--ctp-mocha-surface1);
-}
-
-.dark .feature-item h4 {
-  color: var(--ctp-mocha-mauve);
-}
-
-.dark .feature-item p {
-  color: var(--ctp-mocha-subtext1);
 }
