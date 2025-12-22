@@ -30,8 +30,10 @@ from __future__ import annotations
 import argparse
 import ast
 import sys
+
 from pathlib import Path
 from typing import TYPE_CHECKING
+
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -62,6 +64,7 @@ class OptimizerInfo:
         category: str,
         parameters: list[str],
         existing_docstring: str | None,
+        *,
         is_multi_objective: bool,
     ) -> None:
         """Initialize OptimizerInfo."""
@@ -355,7 +358,7 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
         **Computational Complexity**:
             - Time per iteration: FIXME: $O(\\text{{[expression]}})$
             - Space complexity: FIXME: $O(\\text{{[expression]}})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim×10000 budget needed]_
+            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -425,7 +428,7 @@ def find_optimizer_files(
 
 
 def process_optimizer(
-    filepath: Path, dry_run: bool = False
+    filepath: Path, *, dry_run: bool = False
 ) -> OptimizerInfo | None:
     """Process a single optimizer file.
 
@@ -450,13 +453,13 @@ def process_optimizer(
     print(f"   Parameters: {', '.join(info.parameters)}")
 
     if dry_run:
-        print(f"   Action: DRY RUN - No changes made")
-        print(f"   Template preview (first 300 chars):")
+        print("   Action: DRY RUN - No changes made")
+        print("   Template preview (first 300 chars):")
         print(f"   {template[:300]}...")
     else:
-        print(f"   Action: Manual review required - FIXME markers added")
+        print("   Action: Manual review required - FIXME markers added")
         print(
-            f"   ⚠️  Note: This is a template. Manual review and completion needed."
+            "   ⚠️  Note: This is a template. Manual review and completion needed."
         )
 
     return info
@@ -519,6 +522,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     failed = []
 
     for filepath in optimizer_files:
+        info = None
         try:
             info = process_optimizer(filepath, dry_run=args.dry_run)
             if info:
@@ -527,7 +531,8 @@ def main(argv: Sequence[str] | None = None) -> int:
                 failed.append(filepath)
         except Exception as e:
             print(f"❌ Error processing {filepath}: {e}", file=sys.stderr)
-            failed.append(filepath)
+            if info is None:
+                failed.append(filepath)
 
     # Print summary
     print(f"\n{'='*70}")
@@ -538,21 +543,21 @@ def main(argv: Sequence[str] | None = None) -> int:
         for filepath in failed:
             print(f"   - {filepath.relative_to(opt_dir.parent)}")
 
-    print(f"\n📊 Summary:")
+    print("\n📊 Summary:")
     print(f"   Total files scanned: {len(optimizer_files)}")
     print(f"   Successfully processed: {len(processed)}")
     print(f"   Failed: {len(failed)}")
 
     if args.dry_run:
         print(
-            f"\n💡 This was a dry run. To apply changes, run without --dry-run flag."
+            "\n💡 This was a dry run. To apply changes, run without --dry-run flag."
         )
     else:
         print(
-            f"\n⚠️  Templates generated with FIXME markers. Manual review required!"
+            "\n⚠️  Templates generated with FIXME markers. Manual review required!"
         )
         print(
-            f"   See .github/prompts/optimizer-docs-template.md for guidance."
+            "   See .github/prompts/optimizer-docs-template.md for guidance."
         )
 
     return 0 if not failed else 1
