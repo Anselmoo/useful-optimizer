@@ -156,9 +156,6 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
         return_type = "tuple[np.ndarray, float]"
         return_desc = "Best solution found and its fitness value"
 
-    # Format parameters for display
-    params_str = ", ".join(info.parameters)
-
     template = f'''"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
 
     Algorithm Metadata:
@@ -487,12 +484,6 @@ def main(argv: Sequence[str] | None = None) -> int:
         choices=OPTIMIZER_CATEGORIES,
         help="Process only the specified category",
     )
-    parser.add_argument(
-        "--verbose",
-        "-v",
-        action="store_true",
-        help="Show detailed output including template previews",
-    )
 
     args = parser.parse_args(argv)
 
@@ -522,17 +513,16 @@ def main(argv: Sequence[str] | None = None) -> int:
     failed = []
 
     for filepath in optimizer_files:
-        info = None
         try:
             info = process_optimizer(filepath, dry_run=args.dry_run)
             if info:
                 processed.append(info)
             else:
                 failed.append(filepath)
-        except Exception as e:
+        except Exception as e:  # noqa: PERF203
+            # Exception handling in loop is necessary for graceful error handling
             print(f"❌ Error processing {filepath}: {e}", file=sys.stderr)
-            if info is None:
-                failed.append(filepath)
+            failed.append(filepath)
 
     # Print summary
     print(f"\n{'='*70}")
