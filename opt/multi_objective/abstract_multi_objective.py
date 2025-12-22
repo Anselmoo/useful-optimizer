@@ -3,6 +3,17 @@
 This module defines the base class for multi-objective optimization algorithms
 that return Pareto-optimal solution sets instead of a single optimal solution.
 
+**COCO/BBOB Multi-Objective Compliance Requirements:**
+All concrete multi-objective optimizer implementations must provide:
+- Algorithm metadata (name, version, authors, year, class)
+- Multi-objective BBOB benchmark settings (search space, dimensions, runs, seeds)
+- Hyperparameter documentation with BBOB-recommended values
+- Pareto front reproducibility requirements (seed logging, deterministic sorting)
+- Multi-objective performance indicators (Hypervolume, IGD, Spread)
+- Complexity analysis (time/space, function evaluations)
+
+See `.github/prompts/optimizer-docs-template.md` for complete template.
+
 References:
     Deb, K. et al. (2002). A Fast and Elitist Multiobjective Genetic Algorithm:
     NSGA-II. IEEE Transactions on Evolutionary Computation, 6(2), 182-197.
@@ -25,29 +36,87 @@ if TYPE_CHECKING:
 
 
 class AbstractMultiObjectiveOptimizer(ABC):
-    """Abstract base class for multi-objective optimizers.
+    """Abstract base class for multi-objective optimizers with COCO/BBOB compliance support.
 
     Multi-objective optimizers find a set of Pareto-optimal solutions that
-    represent trade-offs between multiple competing objectives.
+    represent trade-offs between multiple competing objectives. This base class
+    provides built-in support for COCO/BBOB multi-objective benchmark requirements.
 
     Args:
-        objectives: List of objective functions to minimize.
-        lower_bound: Lower bound of the search space.
-        upper_bound: Upper bound of the search space.
-        dim: Dimensionality of the search space.
-        max_iter: Maximum number of iterations. Defaults to 1000.
-        seed: Random seed for reproducibility. Defaults to None.
-        population_size: Number of individuals in the population. Defaults to 100.
+        objectives (Sequence[Callable[[ndarray], float]]):
+            List of objective functions to minimize. Each function must accept
+            numpy array and return scalar. BBOB multi-objective test suites available.
+        lower_bound (float):
+            Lower bound of the search space.
+            BBOB typical: -5 (most functions), -100 (Rastrigin, Weierstrass).
+        upper_bound (float):
+            Upper bound of the search space.
+            BBOB typical: 5 (most functions), 100 (Rastrigin, Weierstrass).
+        dim (int):
+            Dimensionality of the search space.
+            BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        max_iter (int, optional):
+            Maximum number of iterations.
+            BBOB recommendation: 10000 for complete evaluation.
+            Defaults to 1000.
+        seed (int | None, optional):
+            **REQUIRED for BBOB compliance.** Random seed for reproducibility.
+            BBOB requires seeds 0-14 for 15 independent runs.
+            Ensures deterministic Pareto front generation.
+            If None, generates random seed. Defaults to None.
+        population_size (int, optional):
+            Number of individuals in the population.
+            BBOB recommendation: 10*dim for population-based algorithms.
+            Defaults to 100.
 
     Attributes:
-        objectives: List of objective functions to minimize.
-        num_objectives: Number of objectives.
-        lower_bound: Lower bound of the search space.
-        upper_bound: Upper bound of the search space.
-        dim: Dimensionality of the search space.
-        max_iter: Maximum number of iterations.
-        seed: Random seed for reproducibility.
-        population_size: Number of individuals in the population.
+        objectives (list[Callable[[ndarray], float]]):
+            List of objective functions to minimize.
+        num_objectives (int):
+            Number of objectives.
+        lower_bound (float):
+            Lower bound of the search space.
+        upper_bound (float):
+            Upper bound of the search space.
+        dim (int):
+            Dimensionality of the search space.
+        max_iter (int):
+            Maximum number of iterations.
+        seed (int):
+            **REQUIRED for BBOB compliance.** Random seed for reproducibility.
+            Used for all random operations to ensure deterministic Pareto fronts.
+        population_size (int):
+            Number of individuals in the population.
+
+    Methods:
+        search() -> tuple[ndarray, ndarray]:
+            Perform the multi-objective optimization search.
+
+    Returns:
+        tuple[ndarray, ndarray]:
+            - pareto_solutions: 2D array of Pareto-optimal solutions
+              with shape (num_pareto_solutions, dim).
+            - pareto_fitness: 2D array of objective values for each
+              Pareto solution with shape (num_pareto_solutions, num_objectives).
+
+    Notes:
+        **BBOB Multi-Objective Standard Settings:**
+            - Search space bounds: Typically [-5, 5] for most functions
+            - Evaluation budget: dim * 10000 function evaluations
+            - Independent runs: 15 (using seeds 0-14)
+            - Performance indicators: Hypervolume, IGD, Spread, Epsilon
+
+        **Pareto Front Reproducibility:**
+            - Same seed must produce identical Pareto fronts across runs
+            - All random operations use `np.random.default_rng(self.seed)`
+            - Deterministic tie-breaking in non-dominated sorting
+            - Consistent ordering of solutions in returned Pareto front
+
+        **Multi-Objective Performance Metrics:**
+            - **Hypervolume (HV)**: Volume of objective space dominated by Pareto front
+            - **Inverted Generational Distance (IGD)**: Distance to reference Pareto front
+            - **Spread**: Diversity measure of Pareto front distribution
+            - **Epsilon Indicator**: Multiplicative convergence metric
 
     Example:
         >>> from opt.multi_objective.nsga_ii import NSGAII
