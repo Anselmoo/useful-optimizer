@@ -75,8 +75,9 @@ class StabilityResults:
 
     def print_summary(self) -> None:
         """Print a formatted summary of the results.
+
         Stability Test Results for ParticleSwarm on shifted_ackley
-        ============================================================
+
         Number of runs: 10
         ...
         """
