@@ -115,7 +115,7 @@ class BatAlgorithm(AbstractOptimizer):
         ...     lower_bound=-2.768,
         ...     upper_bound=2.768,
         ...     n_bats=10,
-        ...     max_iter=10
+        ...     max_iter=10,
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)

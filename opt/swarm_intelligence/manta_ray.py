@@ -55,11 +55,7 @@ class MantaRayForagingOptimization(AbstractOptimizer):
     Example with shifted_ackley:
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = MantaRayForagingOptimization(
-        ...     func=shifted_ackley,
-        ...     dim=2,
-        ...     lower_bound=-2.768,
-        ...     upper_bound=2.768,
-        ...     max_iter=10
+        ...     func=shifted_ackley, dim=2, lower_bound=-2.768, upper_bound=2.768, max_iter=10
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)

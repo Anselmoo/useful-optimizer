@@ -19,7 +19,7 @@ Example:
     ...     upper_bound=2.768,
     ...     dim=2,
     ...     n_initial=10,
-    ...     max_iter=50
+    ...     max_iter=50,
     ... )
     >>> best_solution, best_fitness = optimizer.search()
 """
@@ -71,11 +71,7 @@ class BayesianOptimizer(AbstractOptimizer):
     Example with shifted_ackley:
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = BayesianOptimizer(
-        ...     func=shifted_ackley,
-        ...     dim=2,
-        ...     lower_bound=-2.768,
-        ...     upper_bound=2.768,
-        ...     max_iter=10
+        ...     func=shifted_ackley, dim=2, lower_bound=-2.768, upper_bound=2.768, max_iter=10
         ... )
         >>> _, fitness = optimizer.search()
         >>> isinstance(float(fitness), float)

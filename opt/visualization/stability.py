@@ -75,10 +75,10 @@ class StabilityResults:
 
     def print_summary(self) -> None:
         """Print a formatted summary of the results.
-            Stability Test Results for ParticleSwarm on shifted_ackley
-            ============================================================
-            Number of runs: 10
-            ...
+        Stability Test Results for ParticleSwarm on shifted_ackley
+        ============================================================
+        Number of runs: 10
+        ...
         """
         stats = self.summary()
         print(
@@ -277,7 +277,7 @@ def run_stability_test(
         ...     dim=2,
         ...     max_iter=10,
         ...     seeds=[42, 123],
-        ...     verbose=False
+        ...     verbose=False,
         ... )
         >>> len(results.fitness_values) == 2
         True
@@ -376,7 +376,7 @@ def compare_optimizers_stability(
         ...     dim=2,
         ...     max_iter=10,
         ...     n_runs=2,
-        ...     show=False
+        ...     show=False,
         ... )  # doctest: +SKIP
     """
     import matplotlib.pyplot as plt

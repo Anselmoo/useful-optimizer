@@ -56,7 +56,9 @@ class AbstractMultiObjectiveOptimizer(ABC):
         ...     return sum(x**2)
         >>> def f2(x):
         ...     return sum((x - 2) ** 2)
-        >>> optimizer = NSGAII(objectives=[f1, f2], lower_bound=-5, upper_bound=5, dim=3, max_iter=10)
+        >>> optimizer = NSGAII(
+        ...     objectives=[f1, f2], lower_bound=-5, upper_bound=5, dim=3, max_iter=10
+        ... )
         >>> pareto_front, pareto_fitness = optimizer.search()
         >>> isinstance(pareto_front, np.ndarray)
         True
