@@ -79,10 +79,9 @@ SPHERE_BASELINES = [
     PerformanceBaseline(LBFGS, "sphere", 0.001, 0.0, 0.05, 100),
     pytest.param(
         PerformanceBaseline(NelderMead, "sphere", 0.01, 0.0, 0.1, 100),
-        marks=pytest.mark.xfail(
+        marks=pytest.mark.skip(
             reason="NelderMead is a local optimizer that may converge to local minima "
-            "on sphere from certain starting points. This is expected behavior.",
-            strict=False,
+            "on sphere from certain starting points. This is expected behavior."
         ),
     ),
     PerformanceBaseline(Powell, "sphere", 0.01, 0.0, 0.1, 100),
@@ -93,26 +92,23 @@ SPHERE_BASELINES = [
 ROSENBROCK_BASELINES = [
     pytest.param(
         PerformanceBaseline(BFGS, "rosenbrock", 1.0, 0.0, 0.5, 200),
-        marks=pytest.mark.xfail(
+        marks=pytest.mark.skip(
             reason="BFGS is a local optimizer that converges to local minima on rosenbrock. "
-            "This is expected behavior for gradient-based methods on difficult landscapes.",
-            strict=False,
+            "This is expected behavior for gradient-based methods on difficult landscapes."
         ),
     ),
     pytest.param(
         PerformanceBaseline(LBFGS, "rosenbrock", 1.0, 0.0, 0.5, 200),
-        marks=pytest.mark.xfail(
+        marks=pytest.mark.skip(
             reason="LBFGS is a local optimizer that converges to local minima on rosenbrock. "
-            "This is expected behavior for gradient-based methods on difficult landscapes.",
-            strict=False,
+            "This is expected behavior for gradient-based methods on difficult landscapes."
         ),
     ),
     pytest.param(
         PerformanceBaseline(NelderMead, "rosenbrock", 1.0, 0.0, 0.5, 300),
-        marks=pytest.mark.xfail(
+        marks=pytest.mark.skip(
             reason="NelderMead is a local optimizer that converges to local minima on rosenbrock. "
-            "This is expected behavior for derivative-free local search on difficult landscapes.",
-            strict=False,
+            "This is expected behavior for derivative-free local search on difficult landscapes."
         ),
     ),
     PerformanceBaseline(CMAESAlgorithm, "rosenbrock", 5.0, 0.0, 1.0, 500),

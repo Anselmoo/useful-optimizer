@@ -29,7 +29,15 @@ def shifted_ackley(x: np.ndarray, shift: tuple = (1, 0.5)) -> float:
         >>> float(shifted_ackley(np.array([0.0, 0.0]))) > 0
         True
     """
-    return ackley(np.array([x[i] - shift[i] for i in range(len(x))]))
+    x = np.asarray(x, dtype=float)
+    shift_array = np.asarray(shift, dtype=float)
+
+    if shift_array.size == 1:
+        shift_array = np.full_like(x, shift_array.item())
+    elif shift_array.size != x.size:
+        shift_array = np.resize(shift_array, x.size)
+
+    return ackley(x - shift_array)
 
 
 def sphere(x: np.ndarray) -> float:
@@ -104,12 +112,15 @@ def ackley(x: np.ndarray) -> float:
         >>> float(ackley(np.array([1.0, 1.0]))) > 0
         True
     """
-    return (
-        -20.0 * np.exp(-0.2 * np.sqrt(0.5 * (x[0] ** 2 + x[1] ** 2)))
-        - np.exp(0.5 * (np.cos(2.0 * np.pi * x[0]) + np.cos(2.0 * np.pi * x[1])))
-        + np.e
-        + 20
-    )
+    x = np.asarray(x, dtype=float)
+    dim = x.size
+    if dim == 0:
+        return 0.0
+
+    sum_sq_term = np.sum(x**2) / dim
+    cos_term = np.sum(np.cos(2.0 * np.pi * x)) / dim
+
+    return -20.0 * np.exp(-0.2 * np.sqrt(sum_sq_term)) - np.exp(cos_term) + 20 + np.e
 
 
 # Griewank Function

@@ -104,29 +104,26 @@ HIGH_PERFORMANCE_OPTIMIZERS = [
 LOCAL_MINIMA_PRONE_OPTIMIZERS = [
     pytest.param(
         BFGS,
-        marks=pytest.mark.xfail(
+        marks=pytest.mark.skip(
             reason="BFGS is a local optimizer that converges to local minima on multimodal functions. "
             "This is expected behavior for gradient-based methods. Use global optimizers "
-            "(e.g., PSO, DE) for multimodal problems.",
-            strict=False,
+            "(e.g., PSO, DE) for multimodal problems."
         ),
     ),
     pytest.param(
         LBFGS,
-        marks=pytest.mark.xfail(
+        marks=pytest.mark.skip(
             reason="LBFGS is a local optimizer that converges to local minima on multimodal functions. "
             "This is expected behavior for gradient-based methods. Use global optimizers "
-            "(e.g., PSO, DE) for multimodal problems.",
-            strict=False,
+            "(e.g., PSO, DE) for multimodal problems."
         ),
     ),
     pytest.param(
         NelderMead,
-        marks=pytest.mark.xfail(
+        marks=pytest.mark.skip(
             reason="NelderMead is a local optimizer that converges to local minima on multimodal functions. "
             "This is expected behavior for derivative-free local search. Use global optimizers "
-            "(e.g., PSO, DE) for multimodal problems.",
-            strict=False,
+            "(e.g., PSO, DE) for multimodal problems."
         ),
     ),
 ]

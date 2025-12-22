@@ -24,7 +24,8 @@ Example:
     ...     max_iter=500,
     ... )
     >>> best_solution, best_fitness = optimizer.search()
-    >>> print(f"Best fitness: {best_fitness}")
+    >>> isinstance(float(best_fitness), float)
+    True
 
 Attributes:
     func (Callable): The objective function to minimize.
