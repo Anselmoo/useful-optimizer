@@ -50,36 +50,47 @@ if TYPE_CHECKING:
 
 
 class CuckooSearch(AbstractOptimizer):
-    r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    r"""Cuckoo Search (CS) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
-        | Algorithm Name    | FIXME: [Full algorithm name]             |
-        | Acronym           | FIXME: [SHORT]                           |
-        | Year Introduced   | FIXME: [YYYY]                            |
-        | Authors           | FIXME: [Last, First; ...]                |
-        | Algorithm Class   | Swarm Intelligence |
-        | Complexity        | FIXME: O([expression])                   |
-        | Properties        | FIXME: [Population-based, ...]           |
+        | Algorithm Name    | Cuckoo Search                            |
+        | Acronym           | CS                                       |
+        | Year Introduced   | 2009                                     |
+        | Authors           | Yang, Xin-She; Deb, Suash                |
+        | Algorithm Class   | Swarm Intelligence                       |
+        | Complexity        | O(population_size * dim * max_iter)      |
+        | Properties        | Population-based, Lévy flights, Derivative-free |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
     Mathematical Formulation:
-        FIXME: Core update equation:
+        Core update equation using Lévy flights:
 
             $$
-            x_{t+1} = x_t + v_t
+            x_i^{t+1} = x_i^t + \alpha \oplus \text{Lévy}(\lambda)
             $$
 
         where:
-            - $x_t$ is the position at iteration $t$
-            - $v_t$ is the velocity/step at iteration $t$
-            - FIXME: Additional variable definitions...
+            - $x_i^t$ is the position of nest $i$ at iteration $t$
+            - $\alpha > 0$ is the step size (typically $\alpha = 1$)
+            - $\oplus$ denotes entry-wise multiplication
+            - Lévy$(\lambda)$ is a Lévy flight with parameter $\lambda = 1.5$
+
+        Lévy flight step:
+            $$
+            \text{Lévy}(\lambda) \sim u = t^{-\lambda}, \quad 1 < \lambda \leq 3
+            $$
+
+        Discovery and randomization:
+            - A fraction $p_a$ of worst nests are abandoned
+            - New random solutions replace abandoned nests
+            - Typical $p_a \in [0.1, 0.3]$
 
         Constraint handling:
-            - **Boundary conditions**: FIXME: [clamping/reflection/periodic]
-            - **Feasibility enforcement**: FIXME: [description]
+            - **Boundary conditions**: Clamping to [lower_bound, upper_bound]
+            - **Feasibility enforcement**: Random repositioning for out-of-bound solutions
 
     Hyperparameters:
         | Parameter              | Default | BBOB Recommended | Description                    |
