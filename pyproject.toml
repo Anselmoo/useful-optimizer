@@ -13,6 +13,7 @@ dev = [
     "ruff>=0.9.0",
     "pytest>=8.0.0",
     "pre-commit>=4.0.0",
+    "pydocstyle>=6.3.0",
 ]
 visualization = [
     "matplotlib>=3.7.0",
@@ -30,7 +31,7 @@ build-backend = "hatchling.build"
 packages = ["opt"]
 
 [dependency-groups]
-dev = ["ruff>=0.9.0", "pytest>=8.0.0", "pre-commit>=4.0.0"]
+dev = ["ruff>=0.9.0", "pytest>=8.0.0", "pre-commit>=4.0.0", "pydocstyle>=6.3.0"]
 
 [tool.pytest.ini_options]
 addopts = [
