@@ -32,9 +32,7 @@ if TYPE_CHECKING:
 @pytest.fixture
 def temp_optimizer_file() -> Generator[Path, None, None]:
     """Create a temporary optimizer file for testing."""
-    with tempfile.NamedTemporaryFile(
-        mode="w", suffix=".py", delete=False
-    ) as tmp:
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as tmp:
         tmp.write(
             '''"""Test optimizer module."""
 from __future__ import annotations
@@ -89,9 +87,7 @@ class TestOptimizer(AbstractOptimizer):
 @pytest.fixture
 def temp_multi_objective_file() -> Generator[Path, None, None]:
     """Create a temporary multi-objective optimizer file for testing."""
-    with tempfile.NamedTemporaryFile(
-        mode="w", suffix=".py", delete=False
-    ) as tmp:
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as tmp:
         tmp.write(
             '''"""Test multi-objective optimizer module."""
 from __future__ import annotations

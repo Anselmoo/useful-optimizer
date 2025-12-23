@@ -17,7 +17,7 @@ jobs:
   validate-batch-docstring-script:
     name: Validate Batch Docstring Update Script
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -57,7 +57,7 @@ jobs:
         run: |
           output=$(uv run python scripts/batch_update_docstrings.py --dry-run 2>&1)
           echo "$output"
-          
+
           # Check for successful processing message
           if echo "$output" | grep -q "✅ Successfully processed 117 optimizer files"; then
             echo "✅ Successfully parses all 117+ optimizer files"
@@ -69,7 +69,7 @@ jobs:
       - name: Verify templates have FIXME markers
         run: |
           output=$(uv run python scripts/batch_update_docstrings.py --dry-run --category classical 2>&1)
-          
+
           # Check for FIXME markers in output
           if echo "$output" | grep -q "FIXME"; then
             echo "✅ Generates templates with FIXME markers for manual completion"
@@ -82,10 +82,10 @@ jobs:
         run: |
           # Count abstract files in opt directory
           abstract_count=$(find opt -name "abstract_*.py" -type f | wc -l)
-          
+
           # Run script and check that abstract files are not processed
           output=$(uv run python scripts/batch_update_docstrings.py --dry-run 2>&1)
-          
+
           if echo "$output" | grep -q "abstract_"; then
             echo "❌ Abstract classes are being processed"
             exit 1
@@ -97,7 +97,7 @@ jobs:
         run: |
           # Test on a specific optimizer to verify parameters are extracted
           output=$(uv run python scripts/batch_update_docstrings.py --dry-run --category swarm_intelligence 2>&1)
-          
+
           # Check that parameters are being detected and listed
           if echo "$output" | grep -q "Parameters:.*func.*lower_bound.*upper_bound.*dim"; then
             echo "✅ Respects existing parameter signatures"
@@ -111,12 +111,12 @@ jobs:
           start_time=$(date +%s.%N)
           uv run python scripts/batch_update_docstrings.py --dry-run > /dev/null 2>&1
           end_time=$(date +%s.%N)
-          
+
           # Calculate duration
           duration=$(echo "$end_time - $start_time" | bc)
-          
+
           echo "Script execution time: ${duration}s"
-          
+
           # Check if duration is less than 5 seconds
           if (( $(echo "$duration < 5.0" | bc -l) )); then
             echo "✅ Runs in < 5 seconds (actual: ${duration}s)"
@@ -128,7 +128,7 @@ jobs:
       - name: Verify output summary
         run: |
           output=$(uv run python scripts/batch_update_docstrings.py --dry-run 2>&1)
-          
+
           # Check for expected summary output
           if echo "$output" | grep -q "✅ Successfully processed 117 optimizer files"; then
             echo "✅ Test run outputs expected summary"

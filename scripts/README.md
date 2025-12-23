@@ -176,20 +176,20 @@ uv run pytest opt/test/test_batch_update_docstrings.py -v
    - Verify formatting: `uv run ruff check opt/`
 4. Refer to `.github/prompts/optimizer-docs-template.md` for detailed guidance
 
-**Note:** The script writes templates directly to optimizer files when run without `--dry-run`. 
+**Note:** The script writes templates directly to optimizer files when run without `--dry-run`.
 Always use `--dry-run` first to preview changes before applying them to avoid accidental overwrites.
 
 ## Troubleshooting
 
 ### Common Issues
 
-**Issue**: Script can't find opt directory  
+**Issue**: Script can't find opt directory
 **Solution**: Run from repository root: `cd /path/to/useful-optimizer`
 
-**Issue**: Import errors  
+**Issue**: Import errors
 **Solution**: Ensure virtual environment is activated: `uv sync`
 
-**Issue**: AST parsing fails for a file  
+**Issue**: AST parsing fails for a file
 **Solution**: Check file for syntax errors: `uv run python -m py_compile opt/[category]/[file].py`
 
 ## Dependencies
