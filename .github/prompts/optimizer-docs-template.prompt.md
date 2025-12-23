@@ -292,7 +292,7 @@ Notes:
     **Computational Complexity**:
         - Time per iteration: $O(\text{[expression]})$
         - Space complexity: $O(\text{[expression]})$
-        - BBOB budget usage: _[Typical percentage of dim×10000 budget needed]_
+        - BBOB budget usage: _[Typical percentage of $\text{dim} \times 10000$ budget needed]_
 
     **BBOB Performance Characteristics**:
         - **Best function classes**: [Unimodal/Multimodal/Ill-conditioned/...]
