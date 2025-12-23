@@ -44,8 +44,42 @@ RECOMMENDED_SECTIONS = [
     "See Also:",
 ]
 
-# Regex pattern for section boundaries (4 spaces indentation + uppercase letter)
-SECTION_BOUNDARY_PATTERN = r"(?=\n\s{4}[A-Z][a-z]|\Z)"
+# Recognized section headers for parsing boundaries
+SECTION_HEADERS = [
+    "Algorithm Metadata",
+    "Mathematical Formulation",
+    "Hyperparameters",
+    "COCO/BBOB Benchmark Settings",
+    "Example",
+    "Args",
+    "Attributes",
+    "Methods",
+    "References",
+    "See Also",
+    "Notes",
+]
+SECTION_HEADERS_PATTERN = "|".join(re.escape(header) for header in SECTION_HEADERS)
+
+# Regex pattern for section boundaries (next known section header at line start)
+SECTION_BOUNDARY_PATTERN = rf"(?=\n(?:{SECTION_HEADERS_PATTERN}):|\Z)"
+
+
+def _extract_section(docstring: str, header: str) -> str | None:
+    """Extract the content of a specific section, using the last occurrence.
+
+    Args:
+        docstring: Docstring text to parse.
+        header: Header name without trailing colon (e.g., 'Example').
+
+    Returns:
+        Section content or None if not found.
+    """
+    pattern = rf"{re.escape(header)}:(.*?){SECTION_BOUNDARY_PATTERN}"
+    matches = list(re.finditer(pattern, docstring, re.DOTALL))
+    if not matches:
+        return None
+    return matches[-1].group(1)
+
 
 # Keywords that identify optimizer classes
 OPTIMIZER_KEYWORDS = ["optimizer", "optimization", "algorithm", "search"]
@@ -58,28 +92,61 @@ SEED_PARAMETER_PATTERN = r"seed\s*\([^)]*\):"
 DOI_LINK_PATTERN = r"https?://doi\.org/[^\s]+"
 
 
-def _extract_class_docstring(file_path: Path) -> str | None:
-    """Extract the first class docstring from a Python file.
+def _extract_class_docstring(file_path: Path) -> tuple[str | None, str | None]:
+    """Extract the first class docstring and its literal from a Python file.
 
     Args:
         file_path (Path): Path to the Python file.
 
     Returns:
-        str | None: The docstring content, or None if no class found.
+        tuple[str | None, str | None]: The cleaned docstring content and the raw
+            literal (including prefixes), or (None, None) if no class was found.
     """
     try:
-        with file_path.open(encoding="utf-8") as f:
-            tree = ast.parse(f.read(), filename=str(file_path))
+        source = file_path.read_text(encoding="utf-8")
+        tree = ast.parse(source, filename=str(file_path))
+
+        optimizer_candidates: list[tuple[ast.ClassDef, str | None]] = []
+        fallback_candidates: list[tuple[ast.ClassDef, str | None]] = []
 
         for node in ast.walk(tree):
-            if isinstance(node, ast.ClassDef):
-                # Check if class inherits from AbstractOptimizer or similar
-                docstring = ast.get_docstring(node)
-                if docstring:
-                    return docstring
+            if not isinstance(node, ast.ClassDef):
+                continue
+
+            docstring = ast.get_docstring(node)
+            if not docstring:
+                continue
+
+            base_names: list[str] = []
+            for base in node.bases:
+                if isinstance(base, ast.Name):
+                    base_names.append(base.id)
+                elif isinstance(base, ast.Attribute):
+                    base_names.append(base.attr)
+
+            # Attempt to capture the literal representation to check for raw strings.
+            literal = None
+            if node.body and isinstance(node.body[0], ast.Expr):
+                literal = ast.get_source_segment(source, node.body[0].value)
+
+            if (
+                "AbstractOptimizer" in base_names
+                or "AbstractMultiObjectiveOptimizer" in base_names
+            ):
+                optimizer_candidates.append((node, literal))
+            else:
+                fallback_candidates.append((node, literal))
+
+        if optimizer_candidates:
+            docstring = ast.get_docstring(optimizer_candidates[0][0])
+            return docstring, optimizer_candidates[0][1]
+
+        if fallback_candidates:
+            docstring = ast.get_docstring(fallback_candidates[0][0])
+            return docstring, fallback_candidates[0][1]
     except SyntaxError:
-        return None
-    return None
+        return None, None
+    return None, None
 
 
 def _check_required_sections(docstring: str, file_path: Path) -> list[str]:
@@ -197,18 +264,11 @@ def _check_example_seed(docstring: str, file_path: Path) -> list[str]:
     """
     errors = []
 
-    if "Example:" not in docstring:
+    example_section = _extract_section(docstring, "Example")
+
+    if not example_section:
         return errors
 
-    # Extract Example section
-    match = re.search(rf"Example:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL)
-
-    if not match:
-        return errors
-
-    example_section = match.group(1)
-
-    # Check for seed=42 in examples
     if "seed=42" not in example_section:
         errors.append(
             f"{file_path}: Example section should include 'seed=42' for reproducibility"
@@ -229,18 +289,11 @@ def _check_args_seed(docstring: str, file_path: Path) -> list[str]:
     """
     errors = []
 
-    if "Args:" not in docstring:
+    args_section = _extract_section(docstring, "Args")
+
+    if not args_section:
         return errors
 
-    # Extract Args section
-    match = re.search(rf"Args:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL)
-
-    if not match:
-        return errors
-
-    args_section = match.group(1)
-
-    # Check for seed parameter documentation
     if not re.search(SEED_PARAMETER_PATTERN, args_section, re.IGNORECASE):
         errors.append(
             f"{file_path}: Args section should document 'seed' parameter for BBOB compliance"
@@ -261,20 +314,11 @@ def _check_attributes_seed(docstring: str, file_path: Path) -> list[str]:
     """
     errors = []
 
-    if "Attributes:" not in docstring:
+    attributes_section = _extract_section(docstring, "Attributes")
+
+    if not attributes_section:
         return errors
 
-    # Extract Attributes section
-    match = re.search(
-        rf"Attributes:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL
-    )
-
-    if not match:
-        return errors
-
-    attributes_section = match.group(1)
-
-    # Check for seed attribute
     if not re.search(SEED_PARAMETER_PATTERN, attributes_section, re.IGNORECASE):
         errors.append(
             f"{file_path}: Attributes section should document 'seed' attribute (REQUIRED for BBOB)"
@@ -295,18 +339,11 @@ def _check_notes_bbob_performance(docstring: str, file_path: Path) -> list[str]:
     """
     errors = []
 
-    if "Notes:" not in docstring:
+    notes_section = _extract_section(docstring, "Notes")
+
+    if not notes_section:
         return errors
 
-    # Extract Notes section
-    match = re.search(rf"Notes:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL)
-
-    if not match:
-        return errors
-
-    notes_section = match.group(1)
-
-    # Check for BBOB Performance Characteristics
     if "BBOB Performance Characteristics" not in notes_section:
         errors.append(
             f"{file_path}: Notes section should include 'BBOB Performance Characteristics' subsection"
@@ -339,20 +376,11 @@ def _check_references_doi(docstring: str, file_path: Path) -> list[str]:
     """
     errors = []
 
-    if "References:" not in docstring:
+    references_section = _extract_section(docstring, "References")
+
+    if not references_section:
         return errors
 
-    # Extract References section
-    match = re.search(
-        rf"References:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL
-    )
-
-    if not match:
-        return errors
-
-    references_section = match.group(1)
-
-    # Check for DOI links
     if not re.search(DOI_LINK_PATTERN, references_section):
         errors.append(
             f"{file_path}: References section should include at least one DOI link (https://doi.org/...)"
@@ -389,7 +417,7 @@ def _validate_file(file_path: Path) -> list[str]:
     if file_path.name == "__init__.py":
         return errors
 
-    docstring = _extract_class_docstring(file_path)
+    docstring, raw_literal = _extract_class_docstring(file_path)
 
     if not docstring:
         # Not all files need to be optimizers (e.g., utility modules)
@@ -397,8 +425,28 @@ def _validate_file(file_path: Path) -> list[str]:
 
     # Only validate if it appears to be an optimizer class
     # (has certain keywords or inherits from AbstractOptimizer)
-    if not any(keyword in docstring.lower() for keyword in OPTIMIZER_KEYWORDS):
+    if all(keyword not in docstring.lower() for keyword in OPTIMIZER_KEYWORDS):
         return errors
+
+    # Enforce migration to the COCO/BBOB template for all optimizers.
+    if (
+        "Algorithm Metadata:" not in docstring
+        or "COCO/BBOB Benchmark Settings:" not in docstring
+    ):
+        errors.append(
+            f"{file_path}: Missing COCO/BBOB template sections (Algorithm Metadata and COCO/BBOB Benchmark Settings)"
+        )
+        return errors
+
+    # Require raw string docstrings when LaTeX, code fences, or escapes are present.
+    if raw_literal and (
+        ("\\" in docstring) or ("$" in docstring) or ("`" in docstring)
+    ):
+        stripped_literal = raw_literal.lstrip()
+        if not stripped_literal.startswith(('r"""', "r'''")):
+            errors.append(
+                f'{file_path}: Docstring should use a raw string literal (r"""...""") when containing LaTeX or code fences'
+            )
 
     # Run all validation checks
     errors.extend(_check_required_sections(docstring, file_path))

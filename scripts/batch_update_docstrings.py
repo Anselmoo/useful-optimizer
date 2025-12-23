@@ -212,7 +212,7 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
         return_type = "tuple[np.ndarray, float]"
         return_desc = "Best solution found and its fitness value"
 
-    template = f'''"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    template = f'''r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
