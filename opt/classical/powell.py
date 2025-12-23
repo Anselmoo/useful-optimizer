@@ -162,11 +162,11 @@ class Powell(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -175,8 +175,8 @@ class Powell(AbstractOptimizer):
 
     References:
         [1] Powell, M. J. D. (1964). "An efficient method for finding the minimum of a function of several variables without calculating derivatives."
-            _The Computer Journal_, 7(2), 155-162.
-            https://doi.org/10.1093/comjnl/7.2.155
+        _The Computer Journal_, 7(2), 155-162.
+        https://doi.org/10.1093/comjnl/7.2.155
 
         [2] Hansen, N., Auger, A., et al. (2021). "COCO: A platform for comparing continuous optimizers."
             _Optimization Methods and Software_, 36(1), 114-144.
@@ -194,9 +194,9 @@ class Powell(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(n^2)$
-            - Space complexity: $O(n^2)$
-            - BBOB budget usage: _20-50% of $\text{dim} \times 10000$_
+        - Time per iteration: $O(n^2)$
+        - Space complexity: $O(n^2)$
+        - BBOB budget usage: _20-50% of $\text{dim} \times 10000$_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Smooth, Well-conditioned
@@ -243,7 +243,7 @@ class Powell(AbstractOptimizer):
         """Perform the Powell optimization search with multiple random restarts.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         best_solution = None
         best_fitness = np.inf

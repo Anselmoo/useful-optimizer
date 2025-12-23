@@ -174,11 +174,11 @@ class SGDMomentum(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -287,7 +287,7 @@ class SGDMomentum(AbstractOptimizer):
         """Perform the SGD with Momentum optimization search.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         # Initialize solution randomly
         best_solution = np.random.default_rng(self.seed).uniform(
@@ -330,7 +330,7 @@ class SGDMomentum(AbstractOptimizer):
             x (np.ndarray): The point at which to compute the gradient.
 
         Returns:
-            np.ndarray: The gradient vector.
+        np.ndarray: The gradient vector.
         """
         epsilon = np.sqrt(np.finfo(float).eps)
         return approx_fprime(x, self.func, epsilon)

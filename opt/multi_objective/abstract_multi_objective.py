@@ -79,17 +79,17 @@ class AbstractMultiObjectiveOptimizer(ABC):
 
     Returns:
         tuple[ndarray, ndarray]: Tuple containing the Pareto-optimal solutions and fitness values.
-                        - pareto_solutions: 2D array of Pareto-optimal solutions with shape
-                            (num_pareto_solutions, dim).
-                        - pareto_fitness: 2D array of objective values for each Pareto solution with shape
-                            (num_pareto_solutions, num_objectives).
+        - pareto_solutions: 2D array of Pareto-optimal solutions with shape
+        (num_pareto_solutions, dim).
+        - pareto_fitness: 2D array of objective values for each Pareto solution with shape
+        (num_pareto_solutions, num_objectives).
 
     Notes:
         **BBOB Multi-Objective Standard Settings:**
-            - Search space bounds: Typically [-5, 5] for most functions
-            - Evaluation budget: dim * 10000 function evaluations
-            - Independent runs: 15 (using seeds 0-14)
-            - Performance indicators: Hypervolume, IGD, Spread, Epsilon
+        - Search space bounds: Typically [-5, 5] for most functions
+        - Evaluation budget: dim * 10000 function evaluations
+        - Independent runs: 15 (using seeds 0-14)
+        - Performance indicators: Hypervolume, IGD, Spread, Epsilon
 
         **Pareto Front Reproducibility:**
             - Same seed must produce identical Pareto fronts across runs
@@ -148,7 +148,7 @@ class AbstractMultiObjectiveOptimizer(ABC):
             solution: A candidate solution vector.
 
         Returns:
-            Array of objective values for the solution.
+        Array of objective values for the solution.
         """
         return np.array([obj(solution) for obj in self.objectives])
 
@@ -159,7 +159,7 @@ class AbstractMultiObjectiveOptimizer(ABC):
             population: 2D array of shape (population_size, dim).
 
         Returns:
-            2D array of shape (population_size, num_objectives).
+        2D array of shape (population_size, num_objectives).
         """
         return np.array([self.evaluate(ind) for ind in population])
 
@@ -175,7 +175,7 @@ class AbstractMultiObjectiveOptimizer(ABC):
             fitness_b: Objective values for solution B.
 
         Returns:
-            True if A dominates B, False otherwise.
+        True if A dominates B, False otherwise.
         """
         return bool(np.all(fitness_a <= fitness_b) and np.any(fitness_a < fitness_b))
 
@@ -186,7 +186,7 @@ class AbstractMultiObjectiveOptimizer(ABC):
             fitness: 2D array of shape (population_size, num_objectives).
 
         Returns:
-            List of fronts, where each front is a list of solution indices.
+        List of fronts, where each front is a list of solution indices.
         """
         n = len(fitness)
         domination_count = np.zeros(n, dtype=int)
@@ -233,7 +233,7 @@ class AbstractMultiObjectiveOptimizer(ABC):
             front: List of indices for solutions in this front.
 
         Returns:
-            Array of crowding distances for each solution in the front.
+        Array of crowding distances for each solution in the front.
         """
         n = len(front)
         _min_front_size = 2  # Minimum size for meaningful crowding distance
@@ -266,9 +266,9 @@ class AbstractMultiObjectiveOptimizer(ABC):
         """Perform the multi-objective optimization search.
 
         Returns:
-            Tuple containing:
+        Tuple containing:
         - pareto_solutions: 2D array of Pareto-optimal solutions
-                  with shape (num_pareto_solutions, dim).
+        with shape (num_pareto_solutions, dim).
         - pareto_fitness: 2D array of objective values for each
-                  Pareto solution with shape (num_pareto_solutions, num_objectives).
+        Pareto solution with shape (num_pareto_solutions, num_objectives).
         """

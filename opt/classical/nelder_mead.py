@@ -178,11 +178,11 @@ class NelderMead(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -191,8 +191,8 @@ class NelderMead(AbstractOptimizer):
 
     References:
         [1] Nelder, J. A., & Mead, R. (1965). "A simplex method for function minimization."
-            _The Computer Journal_, 7(4), 308-313.
-            https://doi.org/10.1093/comjnl/7.4.308
+        _The Computer Journal_, 7(4), 308-313.
+        https://doi.org/10.1093/comjnl/7.4.308
 
         [2] Wright, M. H. (1996). "Direct search methods: Once scorned, now respectable."
             _Pitman Research Notes in Mathematics Series_, 191-208.
@@ -227,9 +227,9 @@ class NelderMead(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O((n+1) \times f_{evals})$ for simplex operations
-            - Space complexity: $O(n^2)$ for storing simplex vertices
-            - BBOB budget usage: _Typically uses 30-60% of $\text{dim} \times 10000$ budget_
+        - Time per iteration: $O((n+1) \times f_{evals})$ for simplex operations
+        - Space complexity: $O(n^2)$ for storing simplex vertices
+        - BBOB budget usage: _Typically uses 30-60% of $\text{dim} \times 10000$ budget_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Non-smooth, Low-dimensional, Noisy functions
@@ -289,7 +289,7 @@ class NelderMead(AbstractOptimizer):
         """Perform the Nelder-Mead optimization search with multiple random restarts.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         best_solution = None
         best_fitness = np.inf

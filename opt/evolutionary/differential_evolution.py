@@ -189,11 +189,11 @@ class DifferentialEvolution(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -202,9 +202,9 @@ class DifferentialEvolution(AbstractOptimizer):
 
     References:
         [1] Storn, R., & Price, K. (1997). "Differential Evolution - A Simple and Efficient
-            Heuristic for Global Optimization over Continuous Spaces."
-            _Journal of Global Optimization_, 11(4), 341-359.
-            https://doi.org/10.1023/A:1008202821328
+        Heuristic for Global Optimization over Continuous Spaces."
+        _Journal of Global Optimization_, 11(4), 341-359.
+        https://doi.org/10.1023/A:1008202821328
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -237,9 +237,9 @@ class DifferentialEvolution(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(NP \cdot n)$ where $NP$ is population size, $n$ is dimension
-            - Space complexity: $O(NP \cdot n)$ for population storage
-            - BBOB budget usage: _Typically uses 40-80% of dim*10000 budget for convergence_
+        - Time per iteration: $O(NP \cdot n)$ where $NP$ is population size, $n$ is dimension
+        - Space complexity: $O(NP \cdot n)$ for population storage
+        - BBOB budget usage: _Typically uses 40-80% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, Weakly structured, Separable
@@ -302,7 +302,7 @@ class DifferentialEvolution(AbstractOptimizer):
         """Perform the differential evolution search.
 
         Returns:
-            Tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        Tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         # Initialize population and fitness
         population = np.random.default_rng(self.seed).uniform(

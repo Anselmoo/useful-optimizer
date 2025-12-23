@@ -158,11 +158,11 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -268,7 +268,7 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
         """Execute the Arithmetic Optimization Algorithm.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         # Initialize population
         population = np.random.uniform(

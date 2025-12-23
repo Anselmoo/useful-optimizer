@@ -60,8 +60,8 @@ class StabilityResults:
         """Generate statistical summary of the results.
 
         Returns:
-            dict[str, float]: Dictionary containing mean, std, min, max, and median fitness values.
-            {'mean': 0.123, 'std': 0.045, 'min': 0.001, 'max': 0.234, 'median': 0.112}
+        dict[str, float]: Dictionary containing mean, std, min, max, and median fitness values.
+        {'mean': 0.123, 'std': 0.045, 'min': 0.001, 'max': 0.234, 'median': 0.112}
         """
         return {
             "mean": float(np.mean(self.fitness_values)),
@@ -109,7 +109,7 @@ class StabilityResults:
             save_path (str | None, optional): Path to save the figure. If None, doesn't save.
 
         Returns:
-            Figure: The matplotlib figure object.
+        Figure: The matplotlib figure object.
         """
         import matplotlib.pyplot as plt
 
@@ -188,7 +188,7 @@ class StabilityResults:
             save_path (str | None, optional): Path to save the figure. If None, doesn't save.
 
         Returns:
-            Figure: The matplotlib figure object.
+        Figure: The matplotlib figure object.
         """
         import matplotlib.pyplot as plt
 

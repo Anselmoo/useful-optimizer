@@ -192,11 +192,11 @@ class TabuSearch(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -205,8 +205,8 @@ class TabuSearch(AbstractOptimizer):
 
     References:
         [1] Glover, F. (1986). "Future paths for integer programming and links to artificial intelligence."
-            _Computers & Operations Research_, 13(5), 533-549.
-            https://doi.org/10.1016/0305-0548(86)90048-1
+        _Computers & Operations Research_, 13(5), 533-549.
+        https://doi.org/10.1016/0305-0548(86)90048-1
 
         [2] Glover, F., & Laguna, M. (1997). "Tabu Search."
             _Kluwer Academic Publishers_, Boston.
@@ -227,9 +227,9 @@ class TabuSearch(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(|N| \times |T|)$ for neighborhood and tabu checks
-            - Space complexity: $O(|T| + |P|)$ for tabu list and population
-            - BBOB budget usage: _40-70% of $\text{dim} \times 10000$_
+        - Time per iteration: $O(|N| \times |T|)$ for neighborhood and tabu checks
+        - Space complexity: $O(|T| + |P|)$ for tabu list and population
+        - BBOB budget usage: _40-70% of $\text{dim} \times 10000$_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, Discrete-like landscapes
@@ -305,7 +305,7 @@ class TabuSearch(AbstractOptimizer):
             solution (ndarray): The solution to generate the neighborhood for.
 
         Returns:
-            ndarray: The generated neighborhood.
+        ndarray: The generated neighborhood.
 
         """
         neighborhood = [
@@ -320,7 +320,7 @@ class TabuSearch(AbstractOptimizer):
         This method performs the Tabu Search algorithm to find the best solution.
 
         Returns:
-            tuple[np.ndarray, float]: The best solution found and its corresponding score.
+        tuple[np.ndarray, float]: The best solution found and its corresponding score.
 
         """
         self.initialize_population()

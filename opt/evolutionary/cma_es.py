@@ -173,11 +173,11 @@ class CMAESAlgorithm(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -186,9 +186,9 @@ class CMAESAlgorithm(AbstractOptimizer):
 
     References:
         [1] Hansen, N., & Ostermeier, A. (2001). "Completely derandomized self-adaptation
-            in evolution strategies."
-            _Evolutionary Computation_, 9(2), 159-195.
-            https://doi.org/10.1162/106365601750190398
+        in evolution strategies."
+        _Evolutionary Computation_, 9(2), 159-195.
+        https://doi.org/10.1162/106365601750190398
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -221,9 +221,9 @@ class CMAESAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(n^3 + \lambda n^2)$ where $n$ is dimension, $\lambda$ is population size
-            - Space complexity: $O(n^2)$ for covariance matrix storage
-            - BBOB budget usage: _Typically uses 30-70% of dim*10000 budget for convergence_
+        - Time per iteration: $O(n^3 + \lambda n^2)$ where $n$ is dimension, $\lambda$ is population size
+        - Space complexity: $O(n^2)$ for covariance matrix storage
+        - BBOB budget usage: _Typically uses 30-70% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Ill-conditioned, Weakly structured multimodal, Multimodal with adequate structure
@@ -286,7 +286,7 @@ class CMAESAlgorithm(AbstractOptimizer):
         """Run the CMA-ES algorithm to search for the optimal solution.
 
         Returns:
-            Tuple[np.ndarray, float]: A tuple containing the best solution found and its corresponding fitness value.
+        Tuple[np.ndarray, float]: A tuple containing the best solution found and its corresponding fitness value.
         """
         # Initialize mean and covariance matrix
         rng = np.random.default_rng(self.seed)

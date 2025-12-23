@@ -179,11 +179,11 @@ class StochasticFractalSearch(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -306,7 +306,7 @@ class StochasticFractalSearch(AbstractOptimizer):
         This method performs the stochastic fractal search algorithm to find the minimum of the objective function.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best individual found and its corresponding score.
+        tuple[np.ndarray, float]: A tuple containing the best individual found and its corresponding score.
 
         """
         self.initialize_population()
@@ -337,7 +337,7 @@ class StochasticFractalSearch(AbstractOptimizer):
             x (np.ndarray): The individual to calculate the fractal dimension for.
 
         Returns:
-            float: The fractal dimension of the individual.
+        float: The fractal dimension of the individual.
         """
         return np.sum(np.abs(x - self.population.mean(axis=0))) / (
             self.dim * self.population.std()
@@ -352,7 +352,7 @@ class StochasticFractalSearch(AbstractOptimizer):
             x (np.ndarray): The individual to perform the diffusion phase on.
 
         Returns:
-            np.ndarray: The individual after the diffusion phase.
+        np.ndarray: The individual after the diffusion phase.
         """
         return x + self.diffusion_parameter * np.random.default_rng(self.seed).uniform(
             -1, 1, self.dim

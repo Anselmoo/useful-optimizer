@@ -162,11 +162,11 @@ class AtomSearchOptimizer(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -175,8 +175,8 @@ class AtomSearchOptimizer(AbstractOptimizer):
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -209,9 +209,9 @@ class AtomSearchOptimizer(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -274,7 +274,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
             fitness: Fitness values of all atoms.
 
         Returns:
-            Normalized mass values.
+        Normalized mass values.
         """
         worst = np.max(fitness)
         best = np.min(fitness)
@@ -293,7 +293,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
             iteration: Current iteration.
 
         Returns:
-            Constraint factor value.
+        Constraint factor value.
         """
         return np.exp(-20 * iteration / self.max_iter)
 
@@ -308,7 +308,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
             sigma: Distance at which potential is zero.
 
         Returns:
-            Force value (negative = attraction, positive = repulsion).
+        Force value (negative = attraction, positive = repulsion).
         """
         distance = max(distance, _EPSILON)
 
@@ -322,7 +322,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
         """Execute the optimization algorithm.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         # Initialize population (atoms)
         population = np.random.uniform(

@@ -159,11 +159,11 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -172,8 +172,8 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -206,9 +206,9 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -260,7 +260,7 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
         """Execute the Honey Badger Algorithm.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         # Initialize population
         positions = np.random.uniform(
@@ -338,7 +338,7 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
             iteration: Current iteration number.
 
         Returns:
-            Alpha value controlling search intensity.
+        Alpha value controlling search intensity.
         """
         c = 2.0  # Constant
         return c * np.exp(-iteration / self.max_iter)
@@ -351,7 +351,7 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
             prey: Position of prey (best solution).
 
         Returns:
-            Smell intensity value.
+        Smell intensity value.
         """
         r2 = np.random.rand()
         distance = np.linalg.norm(position - prey)

@@ -184,11 +184,11 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -197,7 +197,7 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
 
     References:
         [1] Atashpaz-Gargari, E., & Lucas, C. (2007). "Imperialist Competitive Algorithm: An Algorithm for Optimization Inspired by Imperialistic Competition."
-            _IEEE Congress on Evolutionary Computation (CEC 2007)_, 4661-4667.
+        _IEEE Congress on Evolutionary Computation (CEC 2007)_, 4661-4667.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -228,9 +228,9 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(NP \cdot n)$
-            - Space complexity: $O(NP \cdot n)$
-            - BBOB budget usage: _Typically uses 60-90% of dim*10000 budget_
+        - Time per iteration: $O(NP \cdot n)$
+        - Space complexity: $O(NP \cdot n)$
+        - BBOB budget usage: _Typically uses 60-90% of dim*10000 budget_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Moderately multimodal, Structured
@@ -291,7 +291,7 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
         """Run the Imperialist Competitive Algorithm optimization.
 
         Returns:
-            tuple[np.ndarray, float]: The best solution found and its fitness value.
+        tuple[np.ndarray, float]: The best solution found and its fitness value.
 
         """
         # Initialize population

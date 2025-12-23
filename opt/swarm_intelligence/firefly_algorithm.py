@@ -193,11 +193,11 @@ class FireflyAlgorithm(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -206,9 +206,9 @@ class FireflyAlgorithm(AbstractOptimizer):
 
     References:
         [1] Yang, X.-S. (2009). "Firefly Algorithms for Multimodal Optimization."
-            In: _Stochastic Algorithms: Foundations and Applications (SAGA 2009)_,
-            Lecture Notes in Computer Science, vol. 5792, Springer, pp. 169-178.
-            https://doi.org/10.1007/978-3-642-04944-6_14
+        In: _Stochastic Algorithms: Foundations and Applications (SAGA 2009)_,
+        Lecture Notes in Computer Science, vol. 5792, Springer, pp. 169-178.
+        https://doi.org/10.1007/978-3-642-04944-6_14
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -244,9 +244,9 @@ class FireflyAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(\text{population\_size}^2 \times \text{dim})$
-            - Space complexity: $O(\text{population\_size} \times \text{dim})$
-            - BBOB budget usage: _Typically uses 70-90% of dim*10000 budget for convergence_
+        - Time per iteration: $O(\text{population\_size}^2 \times \text{dim})$
+        - Space complexity: $O(\text{population\_size} \times \text{dim})$
+        - BBOB budget usage: _Typically uses 70-90% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, Separable functions
@@ -311,7 +311,7 @@ class FireflyAlgorithm(AbstractOptimizer):
         """Run the Firefly Algorithm optimization.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
 
         """
         # Initialize population

@@ -170,11 +170,11 @@ class GeneticAlgorithm(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -183,8 +183,8 @@ class GeneticAlgorithm(AbstractOptimizer):
 
     References:
         [1] Holland, J. H. (1975). "Adaptation in Natural and Artificial Systems."
-            _University of Michigan Press_, Ann Arbor.
-            (Republished by MIT Press, 1992)
+        _University of Michigan Press_, Ann Arbor.
+        (Republished by MIT Press, 1992)
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -217,9 +217,9 @@ class GeneticAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(NP \cdot n + NP \log NP)$ for tournament selection
-            - Space complexity: $O(NP \cdot n)$ for population storage
-            - BBOB budget usage: _Typically uses 60-95% of dim*10000 budget for convergence_
+        - Time per iteration: $O(NP \cdot n + NP \log NP)$ for tournament selection
+        - Space complexity: $O(NP \cdot n)$ for population storage
+        - BBOB budget usage: _Typically uses 60-95% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Separable, Moderately structured
@@ -282,7 +282,7 @@ class GeneticAlgorithm(AbstractOptimizer):
         """Initializes the population with random values within the specified bounds.
 
         Returns:
-            np.ndarray: The initialized population.
+        np.ndarray: The initialized population.
         """
         return np.random.default_rng(self.seed).uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
@@ -299,7 +299,7 @@ class GeneticAlgorithm(AbstractOptimizer):
             rng (np.random.Generator): Random number generator.
 
         Returns:
-            np.ndarray: The child produced by crossover.
+        np.ndarray: The child produced by crossover.
         """
         r = rng.random(self.dim)
         return np.where(r < self.crossover_rate, parent1, parent2)
@@ -315,7 +315,7 @@ class GeneticAlgorithm(AbstractOptimizer):
             rng (np.random.Generator): Random number generator.
 
         Returns:
-            np.ndarray: The mutated individual.
+        np.ndarray: The mutated individual.
         """
         r = rng.random(self.dim)
         mutation_strength = rng.uniform(0.8, 1.2, self.dim)  # More moderate mutation
@@ -328,7 +328,7 @@ class GeneticAlgorithm(AbstractOptimizer):
             iteration (int): The current iteration.
 
         Returns:
-            float: The mutation rate.
+        float: The mutation rate.
         """
         return 0.5 * (1 + np.sin(iteration / self.max_iter * np.pi - np.pi / 2))
 
@@ -347,7 +347,7 @@ class GeneticAlgorithm(AbstractOptimizer):
             rng (np.random.Generator): Random number generator.
 
         Returns:
-            np.ndarray: The selected individual.
+        np.ndarray: The selected individual.
         """
         # Shift fitness to ensure all values are positive, then invert for minimization
         shifted_fitness = fitness - np.min(fitness) + 1e-10

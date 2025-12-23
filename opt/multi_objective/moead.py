@@ -171,7 +171,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -180,8 +180,8 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -214,9 +214,9 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -280,7 +280,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         """Generate uniformly distributed weight vectors.
 
         Returns:
-            Weight vectors of shape (population_size, n_objectives).
+        Weight vectors of shape (population_size, n_objectives).
         """
         if self.n_objectives == _BI_OBJECTIVE:
             # Simple uniform distribution for 2 objectives
@@ -304,7 +304,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             weights: Weight vectors.
 
         Returns:
-            Neighborhood indices for each subproblem.
+        Neighborhood indices for each subproblem.
         """
         distances = np.zeros((self.population_size, self.population_size))
         for i in range(self.population_size):
@@ -324,7 +324,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             z_star: Reference point (ideal point).
 
         Returns:
-            Aggregated scalar value.
+        Aggregated scalar value.
         """
         # Add small constant to avoid division by zero
         weight_adj = np.maximum(weight, 1e-6)
@@ -340,7 +340,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             parent2: Second parent.
 
         Returns:
-            Two offspring.
+        Two offspring.
         """
         child1 = parent1.copy()
         child2 = parent2.copy()
@@ -392,7 +392,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             x: Solution to mutate.
 
         Returns:
-            Mutated solution.
+        Mutated solution.
         """
         y = x.copy()
 
@@ -424,7 +424,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         """Execute the optimization algorithm.
 
         Returns:
-            Tuple of (pareto_front, pareto_set).
+        Tuple of (pareto_front, pareto_set).
         """
         # Generate weight vectors
         weights = self._generate_weight_vectors()
@@ -535,7 +535,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             fitness: Fitness values.
 
         Returns:
-            Tuple of (pareto_front, pareto_set).
+        Tuple of (pareto_front, pareto_set).
         """
         n = len(population)
         is_dominated = np.zeros(n, dtype=bool)

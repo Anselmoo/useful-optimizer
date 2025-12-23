@@ -169,11 +169,11 @@ class TrustRegion(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -182,8 +182,8 @@ class TrustRegion(AbstractOptimizer):
 
     References:
         [1] Conn, A. R., Gould, N. I., & Toint, P. L. (2000). "Trust Region Methods."
-            _SIAM_, Philadelphia.
-            https://doi.org/10.1137/1.9780898719857
+        _SIAM_, Philadelphia.
+        https://doi.org/10.1137/1.9780898719857
 
         [2] Nocedal, J., & Wright, S. J. (2006). "Numerical Optimization" (2nd ed.).
             _Springer_, Chapter 4: Trust-Region Methods.
@@ -204,9 +204,9 @@ class TrustRegion(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(n^3)$ for subproblem solve
-            - Space complexity: $O(n^2)$
-            - BBOB budget usage: _15-40% of $\text{dim} \times 10000$_
+        - Time per iteration: $O(n^3)$ for subproblem solve
+        - Space complexity: $O(n^2)$
+        - BBOB budget usage: _15-40% of $\text{dim} \times 10000$_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Smooth, Ill-conditioned
@@ -266,7 +266,7 @@ class TrustRegion(AbstractOptimizer):
         """Perform the Trust Region optimization search with multiple random restarts.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         best_solution = None
         best_fitness = np.inf

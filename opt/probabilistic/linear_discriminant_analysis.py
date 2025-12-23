@@ -178,11 +178,11 @@ class LDAnalysis(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -191,8 +191,8 @@ class LDAnalysis(AbstractOptimizer):
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -225,9 +225,9 @@ class LDAnalysis(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -295,7 +295,7 @@ class LDAnalysis(AbstractOptimizer):
         """Create an instance of LinearDiscriminantAnalysis.
 
         Returns:
-            LinearDiscriminantAnalysis: An instance of LinearDiscriminantAnalysis.
+        LinearDiscriminantAnalysis: An instance of LinearDiscriminantAnalysis.
         """
         return LinearDiscriminantAnalysis(solver="lsqr")
 
@@ -309,7 +309,7 @@ class LDAnalysis(AbstractOptimizer):
             fitness (np.ndarray): The fitness array.
 
         Returns:
-            Tuple[np.ndarray, np.ndarray]: The vectorized population and fitness arrays.
+        Tuple[np.ndarray, np.ndarray]: The vectorized population and fitness arrays.
         """
         return population.reshape(-1, self.dim), fitness
 
@@ -317,7 +317,7 @@ class LDAnalysis(AbstractOptimizer):
         """Perform the search optimization.
 
         Returns:
-            Tuple[np.ndarray, float]: The best solution found and its fitness value.
+        Tuple[np.ndarray, float]: The best solution found and its fitness value.
         """
         self.population = np.random.default_rng(self.seed).uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)

@@ -59,12 +59,13 @@ def fix_docstring_indentation(file_path: Path) -> bool:
 
         # Fix indentation if in a section
         if in_section:
-            # Check if line starts with 16 spaces (double indentation)
-            if line.startswith("                ") and not line.startswith(
-                "                 "
-            ):
-                # Reduce from 16 to 8 spaces
-                fixed_line = "        " + line[16:]
+            # Count leading spaces
+            leading_spaces = len(line) - len(line.lstrip())
+
+            # If line has 12+ spaces (excessive indentation), reduce to 8
+            if leading_spaces >= 12 and line.strip():
+                # Standard Google style uses 8 spaces for section content
+                fixed_line = "        " + line.lstrip()
                 modified_lines.append(fixed_line)
             else:
                 modified_lines.append(line)

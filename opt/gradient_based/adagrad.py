@@ -167,11 +167,11 @@ class ADAGrad(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -281,7 +281,7 @@ class ADAGrad(AbstractOptimizer):
         """Perform the ADAGrad search algorithm.
 
         Returns:
-            Tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        Tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         x = np.random.default_rng(self.seed).uniform(
             self.lower_bound, self.upper_bound, self.dim

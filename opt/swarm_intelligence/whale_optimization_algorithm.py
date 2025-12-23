@@ -175,11 +175,11 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -188,8 +188,8 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
 
     References:
         [1] Mirjalili, S., Lewis, A. (2016). "The Whale Optimization Algorithm."
-            _Advances in Engineering Software_, 95, 51-67.
-            https://doi.org/10.1016/j.advengsoft.2016.01.008
+        _Advances in Engineering Software_, 95, 51-67.
+        https://doi.org/10.1016/j.advengsoft.2016.01.008
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -225,9 +225,9 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(\text{population\_size} \times \text{dim})$
-            - Space complexity: $O(\text{population\_size} \times \text{dim})$
-            - BBOB budget usage: _Typically uses 60-75% of dim*10000 budget for convergence_
+        - Time per iteration: $O(\text{population\_size} \times \text{dim})$
+        - Space complexity: $O(\text{population\_size} \times \text{dim})$
+        - BBOB budget usage: _Typically uses 60-75% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Multimodal with few local optima
@@ -265,8 +265,8 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
         """Runs the Whale Optimization Algorithm and returns the best solution found.
 
         Returns:
-            Tuple[np.ndarray, float]: A tuple containing the best solution found (as a numpy array)
-            and its corresponding fitness value (a float).
+        Tuple[np.ndarray, float]: A tuple containing the best solution found (as a numpy array)
+        and its corresponding fitness value (a float).
 
         """
         # Initialize whale positions and fitness

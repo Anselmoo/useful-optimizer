@@ -166,7 +166,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -175,8 +175,8 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -209,9 +209,9 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -277,7 +277,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             obj2: Second objective vector.
 
         Returns:
-            True if obj1 Pareto-dominates obj2.
+        True if obj1 Pareto-dominates obj2.
         """
         return np.all(obj1 <= obj2) and np.any(obj1 < obj2)
 
@@ -290,7 +290,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             objectives_values: Array of objective values (n_solutions x n_objectives).
 
         Returns:
-            Array of strength values.
+        Array of strength values.
         """
         n = len(objectives_values)
         strength = np.zeros(n)
@@ -316,7 +316,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             strength: Array of strength values.
 
         Returns:
-            Array of raw fitness values.
+        Array of raw fitness values.
         """
         n = len(objectives_values)
         raw_fitness = np.zeros(n)
@@ -337,7 +337,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             objectives_values: Array of objective values.
 
         Returns:
-            Array of density values.
+        Array of density values.
         """
         n = len(objectives_values)
         density = np.zeros(n)
@@ -368,7 +368,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             parent2: Second parent solution.
 
         Returns:
-            Tuple of two offspring solutions.
+        Tuple of two offspring solutions.
         """
         child1 = parent1.copy()
         child2 = parent2.copy()
@@ -416,7 +416,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             individual: Solution to mutate.
 
         Returns:
-            Mutated solution.
+        Mutated solution.
         """
         y = individual.copy()
 
@@ -455,7 +455,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             fitness: Fitness values for selection.
 
         Returns:
-            Tuple of (selected_population, selected_objectives).
+        Tuple of (selected_population, selected_objectives).
         """
         # Get non-dominated individuals (fitness < 1)
         non_dominated_mask = fitness < 1
@@ -492,7 +492,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             objectives_values: Objective values.
 
         Returns:
-            Indices of selected solutions.
+        Indices of selected solutions.
         """
         selected = list(indices)
 
@@ -523,7 +523,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             fitness: Array of fitness values.
 
         Returns:
-            Index of selected individual.
+        Index of selected individual.
         """
         idx1 = np.random.randint(len(fitness))
         idx2 = np.random.randint(len(fitness))
@@ -536,7 +536,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         """Execute SPEA2.
 
         Returns:
-            Tuple of (pareto_front_solutions, pareto_front_objectives).
+        Tuple of (pareto_front_solutions, pareto_front_objectives).
         """
         # Initialize population
         population = np.random.uniform(

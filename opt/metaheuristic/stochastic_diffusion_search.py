@@ -208,11 +208,11 @@ class StochasticDiffusionSearch(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -294,7 +294,7 @@ class StochasticDiffusionSearch(AbstractOptimizer):
         """Run the Stochastic Diffusion Search algorithm.
 
         Returns:
-            tuple[np.ndarray, float]: The best solution found and its corresponding score.
+        tuple[np.ndarray, float]: The best solution found and its corresponding score.
         """
         self.population = [
             Agent(self.dim, self.lower_bound, self.upper_bound, self.func)

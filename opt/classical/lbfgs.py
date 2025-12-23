@@ -164,11 +164,11 @@ class LBFGS(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -177,8 +177,8 @@ class LBFGS(AbstractOptimizer):
 
     References:
         [1] Nocedal, J. (1980). "Updating quasi-Newton matrices with limited storage."
-            _Mathematics of Computation_, 35(151), 773-782.
-            https://doi.org/10.1090/S0025-5718-1980-0572855-7
+        _Mathematics of Computation_, 35(151), 773-782.
+        https://doi.org/10.1090/S0025-5718-1980-0572855-7
 
         [2] Liu, D. C., & Nocedal, J. (1989). "On the limited memory BFGS method for large scale optimization."
             _Mathematical Programming_, 45(1-3), 503-528.
@@ -214,9 +214,9 @@ class LBFGS(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(mn)$ where $m$ is memory parameter (typically 5-20)
-            - Space complexity: $O(mn)$ for storing $m$ vector pairs
-            - BBOB budget usage: _Typically uses 10-30% of $\text{dim} \times 10000$ budget for smooth functions_
+        - Time per iteration: $O(mn)$ where $m$ is memory parameter (typically 5-20)
+        - Space complexity: $O(mn)$ for storing $m$ vector pairs
+        - BBOB budget usage: _Typically uses 10-30% of $\text{dim} \times 10000$ budget for smooth functions_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Smooth, High-dimensional
@@ -276,7 +276,7 @@ class LBFGS(AbstractOptimizer):
         """Perform the L-BFGS optimization search with multiple random restarts.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         best_solution = None
         best_fitness = np.inf

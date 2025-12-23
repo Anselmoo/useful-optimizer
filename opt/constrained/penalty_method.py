@@ -175,11 +175,11 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -188,8 +188,8 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -222,9 +222,9 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -296,7 +296,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
             penalty: Current penalty coefficient.
 
         Returns:
-            Penalized objective value.
+        Penalized objective value.
         """
         obj = self.func(x)
 
@@ -316,7 +316,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
         """Execute the Penalty Method optimization.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         # Initialize from random point
         current = np.random.uniform(self.lower_bound, self.upper_bound, self.dim)
@@ -366,7 +366,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
             x: Point to evaluate.
 
         Returns:
-            Total violation measure.
+        Total violation measure.
         """
         violation = 0.0
 

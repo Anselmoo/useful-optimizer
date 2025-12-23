@@ -189,11 +189,11 @@ class HarmonySearch(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -304,7 +304,7 @@ class HarmonySearch(AbstractOptimizer):
         """Initialize the harmony memory.
 
         Returns:
-            ndarray: The initialized harmony memory.
+        ndarray: The initialized harmony memory.
 
         """
         return np.random.default_rng(self.seed).uniform(
@@ -318,7 +318,7 @@ class HarmonySearch(AbstractOptimizer):
             harmony_memory (ndarray): The harmony memory.
 
         Returns:
-            ndarray: The new solution.
+        ndarray: The new solution.
 
         """
         new_solution = np.zeros(self.dim)
@@ -349,7 +349,7 @@ class HarmonySearch(AbstractOptimizer):
         """Run the Harmony Search optimization.
 
         Returns:
-            tuple[np.ndarray, float]: The best solution found and its fitness value.
+        tuple[np.ndarray, float]: The best solution found and its fitness value.
 
         """
         harmony_memory = self._initialize()

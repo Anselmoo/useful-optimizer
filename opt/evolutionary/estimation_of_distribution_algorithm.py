@@ -173,11 +173,11 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -186,7 +186,7 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
 
     References:
         [1] Mühlenbein, H., & Paaß, G. (1996). "From Recombination of Genes to the Estimation of Distributions I. Binary Parameters."
-            _Parallel Problem Solving from Nature_, LNCS 1141, 178-187.
+        _Parallel Problem Solving from Nature_, LNCS 1141, 178-187.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -217,9 +217,9 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(NP \cdot n)$
-            - Space complexity: $O(NP \cdot n)$
-            - BBOB budget usage: _Typically uses 55-90% of dim*10000 budget_
+        - Time per iteration: $O(NP \cdot n)$
+        - Space complexity: $O(NP \cdot n)$
+        - BBOB budget usage: _Typically uses 55-90% of dim*10000 budget_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Separable, Unimodal
@@ -254,7 +254,7 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
         """Initialize the population.
 
         Returns:
-            np.ndarray: The initialized population.
+        np.ndarray: The initialized population.
         """
         return np.random.default_rng(self.seed).uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
@@ -268,7 +268,7 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
             fitness (np.ndarray): The fitness values of the individuals.
 
         Returns:
-            np.ndarray: The selected individuals.
+        np.ndarray: The selected individuals.
         """
         idx = np.argsort(fitness)[: self.population_size // 2]
         return population[idx]
@@ -280,7 +280,7 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
             population (np.ndarray): The selected individuals.
 
         Returns:
-            tuple[np.ndarray, np.ndarray]: A tuple containing the estimated mean and standard deviation.
+        tuple[np.ndarray, np.ndarray]: A tuple containing the estimated mean and standard deviation.
 
         """
         mean = np.mean(population, axis=0)
@@ -295,7 +295,7 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
             std (np.ndarray): The estimated standard deviation.
 
         Returns:
-            np.ndarray: The generated new individuals.
+        np.ndarray: The generated new individuals.
 
         """
         return np.random.default_rng(self.seed).normal(
@@ -306,7 +306,7 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
         """Execute the search process and return the best solution and fitness.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution and its fitness.
+        tuple[np.ndarray, float]: A tuple containing the best solution and its fitness.
 
         """
         population = self._initialize()

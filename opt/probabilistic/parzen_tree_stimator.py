@@ -169,11 +169,11 @@ class ParzenTreeEstimator(AbstractOptimizer):
 
     Returns:
         tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        Best solution found and its fitness value
 
     Raises:
         ValueError:
-                    If search space is invalid or function evaluation fails.
+        If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
@@ -182,8 +182,8 @@ class ParzenTreeEstimator(AbstractOptimizer):
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -216,9 +216,9 @@ class ParzenTreeEstimator(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -309,7 +309,7 @@ class ParzenTreeEstimator(AbstractOptimizer):
         It fits a Gaussian kernel density estimator to each distribution.
 
         Returns:
-            Tuple[KernelDensity, KernelDensity]: The fitted kernel density estimators for the low and high score distributions.
+        Tuple[KernelDensity, KernelDensity]: The fitted kernel density estimators for the low and high score distributions.
         """
         cut = np.quantile(self.scores, self.gamma)
         l_x = self.population[self.scores < cut]
@@ -326,7 +326,7 @@ class ParzenTreeEstimator(AbstractOptimizer):
             g_kde (KernelDensity): Kernel density estimator for the high-score distribution.
 
         Returns:
-            np.ndarray: Selected set of hyperparameters.
+        np.ndarray: Selected set of hyperparameters.
         """
         samples = l_kde.sample(self.n_samples)
         l_score = l_kde.score_samples(samples)
@@ -340,7 +340,7 @@ class ParzenTreeEstimator(AbstractOptimizer):
         It updates the population of hyperparameters based on the scores and selects the best solution.
 
         Returns:
-            Tuple[np.ndarray, float]: The best set of hyperparameters and its corresponding score.
+        Tuple[np.ndarray, float]: The best set of hyperparameters and its corresponding score.
         """
         self.initialize_population()
         for _ in range(self.max_iter):
