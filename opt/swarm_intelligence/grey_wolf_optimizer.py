@@ -40,36 +40,49 @@ from opt.abstract_optimizer import AbstractOptimizer
 
 
 class GreyWolfOptimizer(AbstractOptimizer):
-    r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    r"""Grey Wolf Optimizer (GWO) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
-        | Algorithm Name    | FIXME: [Full algorithm name]             |
-        | Acronym           | FIXME: [SHORT]                           |
-        | Year Introduced   | FIXME: [YYYY]                            |
-        | Authors           | FIXME: [Last, First; ...]                |
-        | Algorithm Class   | Swarm Intelligence |
-        | Complexity        | FIXME: O([expression])                   |
-        | Properties        | FIXME: [Population-based, ...]           |
+        | Algorithm Name    | Grey Wolf Optimizer                      |
+        | Acronym           | GWO                                      |
+        | Year Introduced   | 2014                                     |
+        | Authors           | Mirjalili, Seyedali; Mirjalili, Seyed Mohammad; Lewis, Andrew |
+        | Algorithm Class   | Swarm Intelligence                       |
+        | Complexity        | O(pack_size * dim * max_iter)            |
+        | Properties        | Population-based, Hierarchy-based, Derivative-free |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
     Mathematical Formulation:
-        FIXME: Core update equation:
+        Core update equations based on grey wolf hunting hierarchy:
+
+        Encircling prey:
+            $$
+            \vec{D} = |\vec{C} \cdot \vec{X}_p(t) - \vec{X}(t)|
+            $$
 
             $$
-            x_{t+1} = x_t + v_t
+            \vec{X}(t+1) = \vec{X}_p(t) - \vec{A} \cdot \vec{D}
+            $$
+
+        Position update guided by alpha, beta, delta wolves:
+            $$
+            \vec{X}(t+1) = \frac{\vec{X}_1 + \vec{X}_2 + \vec{X}_3}{3}
             $$
 
         where:
-            - $x_t$ is the position at iteration $t$
-            - $v_t$ is the velocity/step at iteration $t$
-            - FIXME: Additional variable definitions...
+            - $\vec{X}(t)$ is the position of a grey wolf at iteration $t$
+            - $\vec{X}_p$ is the position of the prey (target)
+            - $\vec{A} = 2\vec{a} \cdot \vec{r}_1 - \vec{a}$ and $\vec{C} = 2 \cdot \vec{r}_2$
+            - $\vec{a}$ linearly decreases from 2 to 0
+            - $\vec{r}_1, \vec{r}_2$ are random vectors in [0,1]
+            - $\vec{X}_1, \vec{X}_2, \vec{X}_3$ are positions based on $\alpha, \beta, \delta$
 
         Constraint handling:
-            - **Boundary conditions**: FIXME: [clamping/reflection/periodic]
-            - **Feasibility enforcement**: FIXME: [description]
+            - **Boundary conditions**: Clamping to [lower_bound, upper_bound]
+            - **Feasibility enforcement**: Position updates respect hierarchy guidance
 
     Hyperparameters:
         | Parameter              | Default | BBOB Recommended | Description                    |
