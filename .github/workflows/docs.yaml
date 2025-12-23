@@ -60,6 +60,10 @@ jobs:
         working-directory: docs
         run: npm install
 
+      - name: Validate documentation migration
+        working-directory: docs
+        run: npm run validate:migration
+
       - name: Build documentation
         working-directory: docs
         run: npm run docs:build

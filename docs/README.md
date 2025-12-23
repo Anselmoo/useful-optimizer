@@ -159,9 +159,46 @@ The build will fail and list all dead links that need to be addressed.
 2. Use consistent structure: overview, interface, examples
 3. Cross-reference with algorithm pages
 
+## Testing
+
+### Validate Migration
+
+To verify the documentation migration to KaTeX is working correctly:
+
+```bash
+npm run validate:migration
+```
+
+This runs a comprehensive validation script that checks:
+- Correct dependencies in package.json
+- VitePress configuration for KaTeX
+- Built output contains KaTeX rendering
+- No MathJax traces remain
+
+### Full Integration Test
+
+To run a complete test including clean install and build:
+
+```bash
+./test-docs-migration.sh
+```
+
+This script:
+1. Performs a clean npm install (without `--legacy-peer-deps`)
+2. Validates all dependencies
+3. Builds the documentation
+4. Verifies KaTeX rendering in output
+5. Runs the validation script
+
 ## CI/CD
 
 A GitHub Actions workflow builds and deploys the documentation to GitHub Pages on pushes to the main branch.
+
+The workflow includes:
+- Dependency installation validation (no legacy flags)
+- Migration validation check
+- Documentation build
+- Deployment to GitHub Pages
 
 ## Troubleshooting
 
@@ -183,10 +220,10 @@ If the dev server shows 404 errors:
 ### Dependency Conflicts
 
 If `npm install` fails:
-- Ensure you're not using `--legacy-peer-deps` (no longer needed)
+- Ensure you're not using `--legacy-peer-deps` (no longer needed after KaTeX migration)
 - Delete `node_modules/` and `package-lock.json`
 - Run `npm install` again
-- If still failing, check that echarts is v5.4.0 not v6.0.0
+- Run `npm run validate:migration` to verify the setup
 
 ## License
 
