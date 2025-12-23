@@ -198,7 +198,7 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Eusuff, M. M., & Lansey, K. E. (2006). "Shuffled frog-leaping algorithm: 
+        [1] Eusuff, M. M., & Lansey, K. E. (2006). "Shuffled frog-leaping algorithm:
             a memetic meta-heuristic for discrete optimization."
             _Engineering Optimization_, 38(2), 129-154.
             https://doi.org/10.1080/03052150500384759
@@ -236,7 +236,7 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(population\_size \times dim)$
             - Space complexity: $O(population\_size \times dim)$
-            - BBOB budget usage: _Typically uses 50-70% of dim×10000 budget for convergence_
+            - BBOB budget usage: _Typically uses 50-70% of $dim \times 10000$ budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, discrete-like continuous problems
