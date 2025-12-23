@@ -2,7 +2,48 @@
 
 Useful Optimizer is a Python optimization library containing **120 optimization algorithms** organized into 10 categories for numeric problems. The project uses **uv** for dependency management, virtual environments, and packaging while providing a comprehensive collection of metaheuristic, gradient-based, and nature-inspired optimization techniques.
 
-**Always reference these instructions first and fall back to search or shell commands only when you encounter unexpected information that does not match the info here.** All commands are written as **single-line Fish-shell commands** so they can be copied directly into the terminal.
+**Always reference these instructions first and fall back to search or shell commands only when you encounter unexpected information that does not match the info here.**
+
+## Shell Command Syntax
+- **Local terminal commands**: Fish shell (single-line, can be copied directly)
+- **Agent/automated mode**: Bash syntax (used in `.github/prompts/*.prompt.md` files)
+- All Fish commands use `&&` for chaining, semicolons for inline Python
+
+## Docs Completion Workflow (MANDATORY)
+- When working on documentation tasks, **follow `.github/prompts/docs-completion.prompt.md` exactly** (objectives, non-goals, and steps). Do not improvise outside that prompt.
+- Use the branch and stack from the prompt: `git checkout docs/algorithm-pages-and-sidebar`, VitePress v1.6.4/Vue 3/ECharts, Python 3.10+.
+- Apply these exact code fixes from the prompt verbatim before other changes:
+
+  **Fix 1: `benchmarks/run_benchmark_suite.py` line 148**
+  ```python
+  # FIND:
+  if hasattr(optimizer, "best_fitness_history"):
+      convergence_history = optimizer.best_fitness_history
+
+  # REPLACE WITH:
+  if optimizer.track_history and optimizer.history.get("best_fitness"):
+      convergence_history = optimizer.history["best_fitness"]
+  ```
+
+  **Fix 2: `benchmarks/generate_plots.py` line 69**
+  ```python
+  # FIND:
+  run.get("convergence_history")
+
+  # REPLACE WITH:
+  run.get("history", {}).get("best_fitness", [])
+  ```
+
+  **Fix 3: Register Vue-ECharts in `docs/.vitepress/theme/index.ts`**
+  - Replace entire file with the TypeScript code from Step 4 of the prompt
+  - Registers: VChart, ConvergenceChart, ECDFChart, ViolinPlot, FitnessLandscape3D
+
+- Generate docs pages and JSON exports as directed; **do not modify optimizer algorithm logic** (explicit non-goal).
+- Validation commands (Fish shell for local testing):
+  ```fish
+  uv run python -c "from benchmarks.run_benchmark_suite import run_single_benchmark; print('OK')"
+  cd docs; npm run docs:dev
+  ```
 
 ## Working Effectively
 
@@ -150,7 +191,7 @@ uv run python -c "from opt.abstract_optimizer import AbstractOptimizer; from opt
 - Place in appropriate category subdirectory: classical/, swarm_intelligence/, gradient_based/, etc.
 - Include a `if __name__ == "__main__":` block for direct testing
 - Use benchmark functions from `opt.benchmark.functions` for testing
-- **IMPORTANT:** Follow COCO/BBOB docstring template in `.github/prompts/optimizer-docs-template.md`nting issues
+- **IMPORTANT:** Follow COCO/BBOB docstring template in `.github/prompts/optimizer-docs-template.prompt.md`nting issues
 - Ruff configuration is in `pyproject.toml` with Google docstring convention
 - Pre-commit hooks are configured but run `ruff` manually to be sure
 

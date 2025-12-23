@@ -1,3 +1,9 @@
+---
+agent: 'agent'
+model: Auto (copilot)
+tools: ['read', 'edit', 'search', 'web', 'ai-agent-guidelines/code-analysis-prompt-builder', 'ai-agent-guidelines/digital-enterprise-architect-prompt-builder', 'ai-agent-guidelines/documentation-generator-prompt-builder', 'ai-agent-guidelines/guidelines-validator', 'ai-agent-guidelines/hierarchical-prompt-builder', 'ai-agent-guidelines/hierarchy-level-selector', 'ai-agent-guidelines/l9-distinguished-engineer-prompt-builder', 'ai-agent-guidelines/semantic-code-analyzer', 'ai-agent-guidelines/strategy-frameworks-builder', 'context7/*', 'github/*', 'serena/*', 'agent', 'ms-python.python/getPythonEnvironmentInfo', 'ms-python.python/getPythonExecutableCommand', 'ms-python.python/installPythonPackage', 'ms-python.python/configurePythonEnvironment', 'ms-vscode.vscode-websearchforcopilot/websearch', 'todo']
+description: 'Generate a comprehensive COCO/BBOB compliant optimizer docstring template for the useful-optimizer library, ensuring all required sections and formatting conventions are included for scientific reproducibility and benchmark compliance.'
+---
 # COCO/BBOB Compliant Optimizer Docstring Template
 
 This template provides a standardized format for documenting optimization algorithms in the `useful-optimizer` library to ensure COCO/BBOB benchmark compliance and scientific reproducibility.
@@ -6,6 +12,8 @@ This template provides a standardized format for documenting optimization algori
 
 When writing docstrings, use the following Markdown formatting to enhance readability:
 
+- **String literal**: Use raw triple double quotes (`r"""..."""`) for optimizer docstrings.
+  Raw strings are required because the template includes LaTeX (`$`, `\\`) and code fences.
 - **Mathematical expressions**: Use LaTeX notation
   - Display math: `$$ ... $$` for equations on their own line
   - Inline math: `$...$` for mathematical symbols and variables in text
