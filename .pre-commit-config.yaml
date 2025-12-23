@@ -15,6 +15,19 @@ repos:
         types_or: [python, pyi, jupyter]
       - id: ruff-format
 
+  # Docstring validation
+  # Note: Both pydocstyle and custom validator target optimizer files
+  # - pydocstyle: Specific category directories for Google-style compliance
+  # - validate-optimizer-docs: Broader pattern with exclusions for COCO/BBOB compliance
+  - repo: https://github.com/pycqa/pydocstyle
+    rev: "6.3.0"
+    hooks:
+      - id: pydocstyle
+        args:
+          - --convention=google
+          - --add-ignore=D100,D104
+        files: ^opt/(classical|constrained|evolutionary|gradient_based|metaheuristic|multi_objective|physics_inspired|probabilistic|social_inspired|swarm_intelligence)/.*\.py$
+
   - repo: local
     hooks:
       - id: google-docstring-inline-summaries
@@ -23,3 +36,10 @@ repos:
         language: system
         pass_filenames: true
         files: ^opt/(abstract_optimizer\.py|multi_objective/abstract_multi_objective\.py)$
+      # Custom optimizer validator
+      - id: validate-optimizer-docs
+        name: Validate optimizer COCO/BBOB compliance
+        entry: python scripts/validate_optimizer_docs.py
+        language: python
+        files: ^opt/.*/.*\.py$
+        exclude: ^opt/(benchmark|test|__pycache__|visualization)/.*
