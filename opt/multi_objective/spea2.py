@@ -39,7 +39,7 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         | Algorithm Name    | Strength Pareto Evolutionary Algorithm 2 |
         | Acronym           | SPEA2                                    |
         | Year Introduced   | 2001                                     |
-        | Authors           | Zitzler, Eckart; Laumanns, Marco; Thiele, Lothar|
+        | Authors           | Zitzler, Eckart; Laumanns, Marco; Thiele, Lothar |
         | Algorithm Class   | Multi-Objective Evolutionary             |
         | Complexity        | O(M² log M) per generation               |
         | Properties        | Archive-based, Elitist, Density estimation, Derivative-free|

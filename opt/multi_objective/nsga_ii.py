@@ -75,7 +75,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         | Algorithm Name    | Non-dominated Sorting Genetic Algorithm II|
         | Acronym           | NSGA-II                                  |
         | Year Introduced   | 2002                                     |
-        | Authors           | Deb, Kalyanmoy; Pratap, Amrit; Agarwal, Sameer; Meyarivan, T. |
+        | Authors           | Deb, Kalyanmoy; Pratap, Amrit; Agarwal, Sameer; Meyarivan, T |
         | Algorithm Class   | Multi-Objective Evolutionary             |
         | Complexity        | O(mN²) per generation                    |
         | Properties        | Population-based, Elitist, Derivative-free|
