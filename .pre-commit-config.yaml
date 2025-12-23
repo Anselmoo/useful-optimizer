@@ -42,4 +42,4 @@ repos:
         entry: python scripts/validate_optimizer_docs.py
         language: python
         files: ^opt/.*/.*\.py$
-        exclude: ^opt/(benchmark|test|__pycache__|visualization)/
+        exclude: ^opt/(benchmark|test|__pycache__|visualization)/.*

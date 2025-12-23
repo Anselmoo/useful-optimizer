@@ -50,6 +50,13 @@ SECTION_BOUNDARY_PATTERN = r"(?=\n\s{4}[A-Z][a-z]|\Z)"
 # Keywords that identify optimizer classes
 OPTIMIZER_KEYWORDS = ["optimizer", "optimization", "algorithm", "search"]
 
+# Standard BBOB dimensions for testing
+STANDARD_BBOB_DIMENSIONS = "2, 3, 5, 10, 20, 40"
+
+# Regex patterns for validation
+SEED_PARAMETER_PATTERN = r"seed\s*\([^)]*\):"
+DOI_LINK_PATTERN = r"https?://doi\.org/[^\s]+"
+
 
 def _extract_class_docstring(file_path: Path) -> str | None:
     """Extract the first class docstring from a Python file.
@@ -168,11 +175,11 @@ def _check_bbob_settings(docstring: str, file_path: Path) -> list[str]:
 
     # Check for standard dimensions
     if (
-        "2, 3, 5, 10, 20, 40" not in bbob_section
+        STANDARD_BBOB_DIMENSIONS not in bbob_section
         and "Dimensions tested:" in bbob_section
     ):
         errors.append(
-            f"{file_path}: BBOB Benchmark Settings should specify standard dimensions (2, 3, 5, 10, 20, 40)"
+            f"{file_path}: BBOB Benchmark Settings should specify standard dimensions ({STANDARD_BBOB_DIMENSIONS})"
         )
 
     return errors
@@ -234,8 +241,7 @@ def _check_args_seed(docstring: str, file_path: Path) -> list[str]:
     args_section = match.group(1)
 
     # Check for seed parameter documentation
-    seed_pattern = r"seed\s*\([^)]*\):"
-    if not re.search(seed_pattern, args_section, re.IGNORECASE):
+    if not re.search(SEED_PARAMETER_PATTERN, args_section, re.IGNORECASE):
         errors.append(
             f"{file_path}: Args section should document 'seed' parameter for BBOB compliance"
         )
@@ -269,8 +275,7 @@ def _check_attributes_seed(docstring: str, file_path: Path) -> list[str]:
     attributes_section = match.group(1)
 
     # Check for seed attribute
-    seed_pattern = r"seed\s*\([^)]*\):"
-    if not re.search(seed_pattern, attributes_section, re.IGNORECASE):
+    if not re.search(SEED_PARAMETER_PATTERN, attributes_section, re.IGNORECASE):
         errors.append(
             f"{file_path}: Attributes section should document 'seed' attribute (REQUIRED for BBOB)"
         )
@@ -348,8 +353,7 @@ def _check_references_doi(docstring: str, file_path: Path) -> list[str]:
     references_section = match.group(1)
 
     # Check for DOI links
-    doi_pattern = r"https?://doi\.org/[^\s]+"
-    if not re.search(doi_pattern, references_section):
+    if not re.search(DOI_LINK_PATTERN, references_section):
         errors.append(
             f"{file_path}: References section should include at least one DOI link (https://doi.org/...)"
         )
