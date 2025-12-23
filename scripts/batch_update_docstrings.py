@@ -265,59 +265,48 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
 
     Args:
         FIXME: Document all parameters with BBOB guidance.
-        Detected parameters from __init__ signature: {', '.join(info.parameters)}
+        Detected parameters from __init__ signature: {", ".join(info.parameters)}
 
         Common parameters (adjust based on actual signature):
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
+        func (Callable[[ndarray], float]): Objective function to minimize.
+            Must accept numpy array and return scalar.
             BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional):
-            Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
+        lower_bound (float): Lower bound of search space.
+            BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space.
+            BBOB typical: 5 (most functions).
+        dim (int): Problem dimensionality.
+            BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        max_iter (int, optional): Maximum iterations.
+            BBOB recommendation: 10000 for complete evaluation.
             Defaults to 1000.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
+        seed (int | None, optional): Random seed for reproducibility.
+            BBOB requires seeds 0-14 for 15 runs.
             If None, generates random seed. Defaults to None.
-        population_size (int, optional):
-            Population size. BBOB recommendation: 10*dim for population-based methods.
+        population_size (int, optional): Population size.
+            BBOB recommendation: 10*dim for population-based methods.
             Defaults to 100. (Only for population-based algorithms)
-        track_history (bool, optional):
-            Enable convergence history tracking for BBOB post-processing.
-            Defaults to False.
-        FIXME: [algorithm_specific_params] ([type], optional):
-            FIXME: Document any algorithm-specific parameters not listed above.
-            Defaults to [value].
+        track_history (bool, optional): Enable convergence history
+            tracking for BBOB post-processing. Defaults to False.
+        FIXME: [algorithm_specific_params] ([type], optional): FIXME: Document any
+            algorithm-specific parameters not listed above. Defaults to [value].
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        population_size (int):
-            Number of individuals in population.
-        track_history (bool):
-            Whether convergence history is tracked.
-        history (dict[str, list]):
-            Optimization history if track_history=True. Contains:
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        population_size (int): Number of individuals in population.
+        track_history (bool): Whether convergence history is tracked.
+        history (dict[str, list]): Optimization history if track_history=True.
+            Contains:
             - 'best_fitness': list[float] - Best fitness per iteration
             - 'best_solution': list[ndarray] - Best solution per iteration
             - 'population_fitness': list[ndarray] - All fitness values
             - 'population': list[ndarray] - All solutions
-        FIXME: [algorithm_specific_attrs] ([type]):
-            FIXME: [Description]
+        FIXME: [algorithm_specific_attrs] ([type]): FIXME: [Description]
 
     Methods:
         search() -> {return_type}:
@@ -410,9 +399,7 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
     return template
 
 
-def find_optimizer_files(
-    base_path: Path, category: str | None = None
-) -> list[Path]:
+def find_optimizer_files(base_path: Path, category: str | None = None) -> list[Path]:
     """Find all optimizer Python files, excluding abstract base classes.
 
     Args:
@@ -432,14 +419,12 @@ def find_optimizer_files(
             continue
 
         # Find all .py files in category, excluding abstract_*.py and __init__.py
-        for py_file in cat_path.glob("*.py"):
-            if (
-                py_file.name.startswith("abstract_")
-                or py_file.name == "__init__.py"
-            ):
-                continue
-            optimizer_files.append(py_file)
-
+        optimizer_files.extend(
+            py_file
+            for py_file in cat_path.glob("*.py")
+            if not py_file.name.startswith("abstract_")
+            and py_file.name != "__init__.py"
+        )
     return sorted(optimizer_files)
 
 
@@ -471,26 +456,21 @@ def write_template_to_file(filepath: Path, info: OptimizerInfo, template: str) -
                 # Find where to insert/replace the docstring
                 lines = original_content.splitlines(keepends=True)
 
-                # Check if there's an existing docstring
-                existing_docstring_node = ast.get_docstring(node, clean=False)
-
-                if existing_docstring_node:
-                    # Find the docstring location by checking the first statement
-                    if node.body and isinstance(node.body[0], ast.Expr):
-                        docstring_node = node.body[0]
-                        # Replace existing docstring
-                        start_line = docstring_node.lineno - 1
-                        end_line = docstring_node.end_lineno
-
-                        # Build new content
-                        new_lines = [
-                            *lines[:start_line],
-                            f"    {template}\n",
-                            *lines[end_line:],
-                        ]
-                    else:
+                if existing_docstring_node := ast.get_docstring(node, clean=False):
+                    if not node.body or not isinstance(node.body[0], ast.Expr):
                         # Shouldn't happen if get_docstring returned something
                         return False
+                    docstring_node = node.body[0]
+                    # Replace existing docstring
+                    start_line = docstring_node.lineno - 1
+                    end_line = docstring_node.end_lineno
+
+                    # Build new content
+                    new_lines = [
+                        *lines[:start_line],
+                        f"    {template}\n",
+                        *lines[end_line:],
+                    ]
                 else:
                     # No existing docstring - insert after class definition line
                     # Find the line after "class ClassName(...):"
@@ -516,9 +496,7 @@ def write_template_to_file(filepath: Path, info: OptimizerInfo, template: str) -
         return False
 
 
-def process_optimizer(
-    filepath: Path, *, dry_run: bool = False
-) -> OptimizerInfo | None:
+def process_optimizer(filepath: Path, *, dry_run: bool = False) -> OptimizerInfo | None:
     """Process a single optimizer file.
 
     Args:
@@ -555,7 +533,9 @@ def process_optimizer(
     # Write template to file
     elif write_template_to_file(filepath, info, template):
         print("   Action: ✅ Docstring template written to file")
-        print("   ⚠️  Note: Review and complete FIXME markers in the generated template.")
+        print(
+            "   ⚠️  Note: Review and complete FIXME markers in the generated template."
+        )
     else:
         print("   Action: ❌ Failed to write template to file")
         return None
@@ -576,9 +556,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         description="Batch update optimizer docstrings with COCO/BBOB compliance templates."
     )
     parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Preview changes without modifying files",
+        "--dry-run", action="store_true", help="Preview changes without modifying files"
     )
     parser.add_argument(
         "--category",
@@ -626,7 +604,7 @@ def main(argv: Sequence[str] | None = None) -> int:
             failed.append(filepath)
 
     # Print summary
-    print(f"\n{'='*70}")
+    print(f"\n{'=' * 70}")
     print(f"✅ Successfully processed {len(processed)} optimizer files")
 
     if failed:
@@ -644,16 +622,10 @@ def main(argv: Sequence[str] | None = None) -> int:
     print(f"   Failed: {len(failed)}")
 
     if args.dry_run:
-        print(
-            "\n💡 This was a dry run. To apply changes, run without --dry-run flag."
-        )
+        print("\n💡 This was a dry run. To apply changes, run without --dry-run flag.")
     else:
-        print(
-            "\n⚠️  Templates generated with FIXME markers. Manual review required!"
-        )
-        print(
-            "   See .github/prompts/optimizer-docs-template.md for guidance."
-        )
+        print("\n⚠️  Templates generated with FIXME markers. Manual review required!")
+        print("   See .github/prompts/optimizer-docs-template.md for guidance.")
 
     return 0 if not failed else 1
 
