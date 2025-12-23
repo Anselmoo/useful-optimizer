@@ -1,8 +1,12 @@
-# Batch Docstring Update Script
+# Scripts Documentation
 
-## Overview
+This directory contains validation and generation scripts for the useful-optimizer library.
 
-The `batch_update_docstrings.py` script automates the generation of COCO/BBOB-compliant docstring templates for all optimizer classes in the useful-optimizer library. This eliminates the error-prone and time-consuming manual process of updating 117+ optimizer docstrings.
+## Available Scripts
+
+### 1. `batch_update_docstrings.py` - Docstring Template Generator
+
+Automates the generation of COCO/BBOB-compliant docstring templates for all optimizer classes.
 
 ## Features
 
@@ -96,7 +100,10 @@ uv run python scripts/batch_update_docstrings.py --help
 
 ```
 scripts/
-  └── batch_update_docstrings.py    # Main script
+  ├── batch_update_docstrings.py                    # Main docstring template generator
+  ├── check_google_docstring_inline_descriptions.py # Enforce Google-style inline parameter descriptions
+  ├── validate_optimizer_docs.py                    # Validate COCO/BBOB compliance
+  └── generate_docs.py                              # VitePress documentation generator
 opt/
   ├── classical/                     # 9 optimizers
   ├── constrained/                   # 5 optimizers
@@ -213,6 +220,101 @@ When modifying the script:
 ## Related Documentation
 
 - [COCO/BBOB Template](../.github/prompts/optimizer-docs-template.prompt.md): Complete docstring template guide
+- [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html#383-functions-and-methods): Official docstring formatting guidelines
+- [Copilot Instructions](../.github/copilot-instructions.md): Comprehensive project development guidelines
+
+---
+
+## 2. `check_google_docstring_inline_descriptions.py` - Google Style Validator
+
+Enforces Google-style docstring formatting by ensuring parameter descriptions start on the same line as the parameter name.
+
+### Purpose
+
+This script prevents the common mistake of adding line breaks between parameter names and their descriptions, which violates the official Google Python Style Guide.
+
+### What It Checks
+
+**✅ CORRECT** (parameter description on same line):
+```python
+Args:
+    func (Callable[[ndarray], float]): Objective function to minimize.
+    lower_bound (float): Lower bound of search space.
+```
+
+**❌ WRONG** (line break after parameter name):
+```python
+Args:
+    func (Callable[[ndarray], float]):
+        Objective function to minimize.
+    lower_bound (float):
+        Lower bound of search space.
+```
+
+### Usage
+
+The script is automatically run by pre-commit hooks on all optimizer files:
+
+```bash
+# Run manually on specific files
+python scripts/check_google_docstring_inline_descriptions.py opt/swarm_intelligence/particle_swarm.py
+
+# Run via pre-commit (recommended)
+pre-commit run google-docstring-inline-summaries --all-files
+```
+
+### Pre-Commit Integration
+
+Configured in `.pre-commit-config.yaml` to run on:
+- `opt/abstract_optimizer.py`
+- `opt/multi_objective/abstract_multi_objective.py`
+- All optimizer files in: `classical/`, `constrained/`, `evolutionary/`, `gradient_based/`, `metaheuristic/`, `multi_objective/`, `physics_inspired/`, `probabilistic/`, `social_inspired/`, `swarm_intelligence/`
+
+Excludes: `benchmark/`, `test/`, `__pycache__/`, `visualization/`
+
+### Error Messages
+
+```
+opt/swarm_intelligence/particle_swarm.py:45: Docstring entry missing inline summary after type: func (Callable[[ndarray], float]):
+```
+
+### How to Fix
+
+Move the description to the same line as the parameter:
+
+```python
+# Before (WRONG)
+    func (Callable[[ndarray], float]):
+        Objective function to minimize.
+
+# After (CORRECT)
+    func (Callable[[ndarray], float]): Objective function to minimize.
+```
+
+For long descriptions, continue on the next line with proper indentation:
+
+```python
+    parameter2 (str): This is a longer definition. I need to include so much
+        information that it needs a second line. Notice the indentation.
+```
+
+### References
+
+- **Google Python Style Guide**: https://google.github.io/styleguide/pyguide.html#383-functions-and-methods
+- **PEP 257**: https://peps.python.org/pep-0257/
+- **Sphinx Napoleon**: https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
+
+---
+
+## 3. `validate_optimizer_docs.py` - COCO/BBOB Compliance Validator
+
+Validates optimizer docstrings for COCO/BBOB scientific benchmarking compliance (see issue [#110](https://github.com/Anselmoo/useful-optimizer/issues/110)).
+
+---
+
+## 4. `generate_docs.py` - VitePress Documentation Generator
+
+Generates VitePress documentation pages from optimizer source code.
 - [COCO Platform](https://coco-platform.org/): Official COCO/BBOB documentation
 - [BBOB Test Suite](https://coco-platform.org/testsuites/bbob/overview.html): Benchmark suite overview
 

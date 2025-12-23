@@ -196,12 +196,26 @@ uv run python -c "from opt.abstract_optimizer import AbstractOptimizer; from opt
 - Pre-commit hooks are configured but run `ruff` manually to be sure
 
 ### Docstring Formatting Guidelines (CRITICAL)
-**All optimizer docstrings must follow these strict formatting rules to pass Ruff linting:**
+**All optimizer docstrings must follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html#383-functions-and-methods) and pass Ruff linting:**
 
+- **Follow Google docstring conventions**:
+  - See [Google Python Style Guide - Docstrings](https://google.github.io/styleguide/pyguide.html#38-comments-and-docstrings)
+  - See [PEP 257 - Docstring Conventions](https://peps.python.org/pep-0257/)
+  - See [Sphinx Napoleon - Google Style](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html)
 - **Accurate indentation**: Use consistent 4-space indentation for all docstring content
-- **No line breaks in Args/Attributes**: Keep parameter descriptions on single lines
+- **CRITICAL - No line breaks in Args/Attributes**: Parameter descriptions MUST start on same line as parameter name
   - ✅ Correct: `n_bats (int): Number of bats in the population. Recommended: 10-50 bats.`
-  - ❌ Wrong: Multi-line parameter descriptions that break across lines
+  - ❌ Wrong: Parameter name on one line, description on next line (common in agent mode)
+  - ❌ Wrong Example:
+    ```python
+    func (Callable[[ndarray], float]):
+        Objective function to minimize. Must accept numpy array.
+    ```
+  - ✅ Correct Example:
+    ```python
+    func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array.
+    ```
+  - If description is too long, continue on next line with proper indentation (aligned with first line of description)
 - **Use LaTeX for mathematical symbols** (Ruff RUF002 compliance):
   - ❌ NEVER use unicode: `×` (multiplication sign), `α` (alpha), `β` (beta), etc.
   - ✅ ALWAYS use LaTeX: `$\times$`, `$\alpha$`, `$\beta$`
@@ -212,7 +226,7 @@ uv run python -c "from opt.abstract_optimizer import AbstractOptimizer; from opt
   - Complexity: `O(n $\times$ m)` NOT `O(n × m)`
   - Greek letters: `$\alpha$`, `$\beta$`, `$\gamma$` NOT `α`, `β`, `γ`
   - Budget expressions: `dim $\times$ 10000` NOT `dim×10000`
-- **Pre-commit validation**: Run `pre-commit run -a` before committing to catch RUF002 errors
+- **Pre-commit validation**: Run `pre-commit run -a` before committing to catch RUF002 and formatting errors
 
 ### Creating New Optimizers
 - Inherit from `AbstractOptimizer` class in `opt/abstract_optimizer.py`
