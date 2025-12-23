@@ -6,6 +6,8 @@ This template provides a standardized format for documenting optimization algori
 
 When writing docstrings, use the following Markdown formatting to enhance readability:
 
+- **String literal**: Use raw triple double quotes (`r"""..."""`) for optimizer docstrings.
+  Raw strings are required because the template includes LaTeX (`$`, `\\`) and code fences.
 - **Mathematical expressions**: Use LaTeX notation
   - Display math: `$$ ... $$` for equations on their own line
   - Inline math: `$...$` for mathematical symbols and variables in text
