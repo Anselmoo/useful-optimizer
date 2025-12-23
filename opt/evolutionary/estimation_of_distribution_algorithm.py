@@ -150,45 +150,22 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
         True
 
     Args:
-        FIXME: Document all parameters with BBOB guidance.
-        Detected parameters from __init__ signature:
-
-        Common parameters (adjust based on actual signature):
-        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
-            numpy array and return scalar. BBOB functions available in
-            `opt.benchmark.functions`.
-        lower_bound (float): Lower bound of search space. BBOB typical: -5
-            (most functions).
-        upper_bound (float): Upper bound of search space. BBOB typical: 5
-            (most functions).
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array and return scalar. BBOB functions available in `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
         dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for
-            complete evaluation. Defaults to 1000.
-        seed (int | None, optional): Random seed for reproducibility. BBOB requires
-            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
-        population_size (int, optional): Population size. BBOB recommendation: 10*dim
-            for population-based methods. Defaults to 100. (Only for population-based
-            algorithms)
-        track_history (bool, optional): Enable convergence history tracking for BBOB
-            post-processing. Defaults to False.
-        FIXME: [algorithm_specific_params] ([type], optional): FIXME: Document any
-            algorithm-specific parameters not listed above. Defaults to [value].
+        population_size (int, optional): Population size. BBOB recommendation: 10*dim for population-based methods. Defaults to 100.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for complete evaluation. Defaults to 1000.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
         lower_bound (float): Lower search space boundary.
         upper_bound (float): Upper search space boundary.
         dim (int): Problem dimensionality.
+        population_size (int): Number of individuals in population.
         max_iter (int): Maximum number of iterations.
         seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        population_size (int): Number of individuals in population.
-        track_history (bool): Whether convergence history is tracked.
-        history (dict[str, list]): Optimization history if track_history=True. Contains:
-            - 'best_fitness': list[float] - Best fitness per iteration
-            - 'best_solution': list[ndarray] - Best solution per iteration
-            - 'population_fitness': list[ndarray] - All fitness values
-            - 'population': list[ndarray] - All solutions
-        FIXME: [algorithm_specific_attrs] ([type]): FIXME: [Description]
 
     Methods:
         search() -> tuple[np.ndarray, float]:

@@ -157,45 +157,26 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
         True
 
     Args:
-        FIXME: Document all parameters with BBOB guidance.
-        Detected parameters from __init__ signature: func, dim, lower_bound, upper_bound, num_empires, population_size, max_iter, revolution_rate, seed
-
-        Common parameters (adjust based on actual signature):
-        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
-            numpy array and return scalar. BBOB functions available in
-            `opt.benchmark.functions`.
-        lower_bound (float): Lower bound of search space. BBOB typical: -5
-            (most functions).
-        upper_bound (float): Upper bound of search space. BBOB typical: 5
-            (most functions).
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array and return scalar. BBOB functions available in `opt.benchmark.functions`.
         dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for
-            complete evaluation. Defaults to 1000.
-        seed (int | None, optional): Random seed for reproducibility. BBOB requires
-            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
-        population_size (int, optional): Population size. BBOB recommendation: 10*dim
-            for population-based methods. Defaults to 100. (Only for population-based
-            algorithms)
-        track_history (bool, optional): Enable convergence history tracking for BBOB
-            post-processing. Defaults to False.
-        FIXME: [algorithm_specific_params] ([type], optional): FIXME: Document any
-            algorithm-specific parameters not listed above. Defaults to [value].
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        num_empires (int, optional): Number of initial empires. BBOB recommendation: 5-20. Defaults to 15.
+        population_size (int, optional): Total number of countries. BBOB recommendation: 10*dim for population-based methods. Defaults to 100.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for complete evaluation. Defaults to 1000.
+        revolution_rate (float, optional): Revolution probability. BBOB recommendation: 0.2-0.5. Defaults to 0.3.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
+        dim (int): Problem dimensionality.
         lower_bound (float): Lower search space boundary.
         upper_bound (float): Upper search space boundary.
-        dim (int): Problem dimensionality.
+        num_empires (int): Number of initial empires.
+        population_size (int): Total number of countries.
         max_iter (int): Maximum number of iterations.
+        revolution_rate (float): Revolution probability.
         seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        population_size (int): Number of individuals in population.
-        track_history (bool): Whether convergence history is tracked.
-        history (dict[str, list]): Optimization history if track_history=True. Contains:
-            - 'best_fitness': list[float] - Best fitness per iteration
-            - 'best_solution': list[ndarray] - Best solution per iteration
-            - 'population_fitness': list[ndarray] - All fitness values
-            - 'population': list[ndarray] - All solutions
-        FIXME: [algorithm_specific_attrs] ([type]): FIXME: [Description]
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -278,11 +259,6 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
 
         **Version History**:
             - v0.1.0: Initial implementation
-            - FIXME: BBOB known issues: [Any BBOB-specific challenges]
-
-        **Version History**:
-            - v0.1.0: Initial implementation
-            - FIXME: [vX.X.X]: [Changes relevant to BBOB compliance]
     """
 
     def __init__(

@@ -143,50 +143,26 @@ class GeneticAlgorithm(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        population_size (int, optional):
-            Number of individuals. BBOB recommendation: 10*dim to 20*dim.
-            Defaults to 150.
-        max_iter (int, optional):
-            Maximum iterations/generations. BBOB recommendation: 10000 for complete evaluation.
-            Defaults to 1000.
-        tournament_size (int, optional):
-            Number of individuals in tournament selection. Higher values increase
-            selection pressure. BBOB recommendation: 2-5. Defaults to 3.
-        crossover_rate (float, optional):
-            Probability of inheriting from first parent in crossover.
-            BBOB recommendation: 0.6-0.9. Defaults to 0.7.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
-            If None, generates random seed. Defaults to None.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array and return scalar. BBOB functions available in `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        population_size (int, optional): Number of individuals. BBOB recommendation: 10*dim to 20*dim. Defaults to 150.
+        max_iter (int, optional): Maximum iterations/generations. BBOB recommendation: 10000 for complete evaluation. Defaults to 1000.
+        tournament_size (int, optional): Number of individuals in tournament selection. Higher values increase selection pressure. BBOB recommendation: 2-5. Defaults to 3.
+        crossover_rate (float, optional): Probability of inheriting from first parent in crossover. BBOB recommendation: 0.6-0.9. Defaults to 0.7.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        population_size (int):
-            Number of individuals in population.
-        max_iter (int):
-            Maximum number of iterations/generations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        tournament_size (int):
-            Tournament selection size.
-        crossover_rate (float):
-            Crossover probability.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        population_size (int): Number of individuals in population.
+        max_iter (int): Maximum number of iterations/generations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        tournament_size (int): Tournament selection size.
+        crossover_rate (float): Crossover probability.
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -275,12 +251,6 @@ class GeneticAlgorithm(AbstractOptimizer):
         **Version History**:
             - v0.1.0: Initial implementation
             - v0.1.2: Current BBOB-compliant version with real-valued encoding
-            - FIXME: [Any known issues or limitations specific to this implementation]
-            - FIXME: BBOB known issues: [Any BBOB-specific challenges]
-
-        **Version History**:
-            - v0.1.0: Initial implementation
-            - FIXME: [vX.X.X]: [Changes relevant to BBOB compliance]
     """
 
     def __init__(
