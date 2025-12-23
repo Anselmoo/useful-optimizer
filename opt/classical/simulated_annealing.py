@@ -126,7 +126,6 @@ class SimulatedAnnealing(AbstractOptimizer):
         True
 
     Args:
-        FIXME: Document all parameters with BBOB guidance.
         Detected parameters from __init__ signature: func, lower_bound, upper_bound, dim, population_size, max_iter, init_temperature, stopping_temperature, cooling_rate, dynamic_cooling, seed
 
         func (Callable[[ndarray], float]): Objective function to minimize.
