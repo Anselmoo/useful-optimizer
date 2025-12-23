@@ -14,9 +14,17 @@ When writing docstrings, use the following Markdown formatting to enhance readab
 
 - **String literal**: Use raw triple double quotes (`r"""..."""`) for optimizer docstrings.
   Raw strings are required because the template includes LaTeX (`$`, `\\`) and code fences.
-- **Mathematical expressions**: Use LaTeX notation
+- **Mathematical expressions**: Use LaTeX notation **EXCLUSIVELY** (Ruff RUF002)
   - Display math: `$$ ... $$` for equations on their own line
   - Inline math: `$...$` for mathematical symbols and variables in text
+  - **CRITICAL**: NEVER use unicode symbols (×, α, β, γ, etc.) - ALWAYS use LaTeX:
+    - Multiplication: `$\times$` NOT `×`
+    - Greek letters: `$\alpha$`, `$\beta$`, `$\gamma$` NOT `α`, `β`, `γ`
+    - See: https://docs.astral.sh/ruff/rules/ambiguous-unicode-character-docstring/
+- **No line breaks in parameter descriptions**: Keep Args/Attributes on single lines
+  - ✅ Correct: `param (type): Description continues on same line. More details here.`
+  - ❌ Wrong: Breaking descriptions across multiple lines
+- **Accurate indentation**: Use consistent 4-space indentation throughout
 - **Emphasis**: Use `**bold**` for important terms, headers, and key values
 - **Code elements**: Use `` `code` `` for parameter names, constants, and code snippets
 - **Italics**: Use `_italic_` for journal names, emphasis, and notes
@@ -43,7 +51,7 @@ Algorithm Metadata:
     | Year Introduced   | [YYYY]                                   |
     | Authors           | [Last1, First1; Last2, First2]          |
     | Algorithm Class   | [Metaheuristic/Evolutionary/Gradient/...]|
-    | Complexity        | O([expression])                          |
+    | Complexity        | O([expression with LaTeX: n $\times$ m]) |
     | Properties        | [Population-based, Derivative-free, ...] |
     | Implementation    | Python 3.10+                             |
     | COCO Compatible   | Yes                                      |

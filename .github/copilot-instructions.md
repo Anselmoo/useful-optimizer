@@ -195,6 +195,25 @@ uv run python -c "from opt.abstract_optimizer import AbstractOptimizer; from opt
 - Ruff configuration is in `pyproject.toml` with Google docstring convention
 - Pre-commit hooks are configured but run `ruff` manually to be sure
 
+### Docstring Formatting Guidelines (CRITICAL)
+**All optimizer docstrings must follow these strict formatting rules to pass Ruff linting:**
+
+- **Accurate indentation**: Use consistent 4-space indentation for all docstring content
+- **No line breaks in Args/Attributes**: Keep parameter descriptions on single lines
+  - ✅ Correct: `n_bats (int): Number of bats in the population. Recommended: 10-50 bats.`
+  - ❌ Wrong: Multi-line parameter descriptions that break across lines
+- **Use LaTeX for mathematical symbols** (Ruff RUF002 compliance):
+  - ❌ NEVER use unicode: `×` (multiplication sign), `α` (alpha), `β` (beta), etc.
+  - ✅ ALWAYS use LaTeX: `$\times$`, `$\alpha$`, `$\beta$`
+  - See https://docs.astral.sh/ruff/rules/ambiguous-unicode-character-docstring/
+- **LaTeX formatting conventions**:
+  - Display math (own line): `$$ equation $$`
+  - Inline math (in text): `$variable$` or `$expression$`
+  - Complexity: `O(n $\times$ m)` NOT `O(n × m)`
+  - Greek letters: `$\alpha$`, `$\beta$`, `$\gamma$` NOT `α`, `β`, `γ`
+  - Budget expressions: `dim $\times$ 10000` NOT `dim×10000`
+- **Pre-commit validation**: Run `pre-commit run -a` before committing to catch RUF002 errors
+
 ### Creating New Optimizers
 - Inherit from `AbstractOptimizer` class in `opt/abstract_optimizer.py`
 - Implement the required `search()` method returning `tuple[np.ndarray, float]`
