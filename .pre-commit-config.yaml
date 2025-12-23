@@ -19,7 +19,7 @@ repos:
     hooks:
       - id: google-docstring-inline-summaries
         name: Enforce inline Google docstring summaries
-        entry: uv run python scripts/check_google_docstring_inline_descriptions.py
+        entry: python scripts/check_google_docstring_inline_descriptions.py
         language: system
         pass_filenames: true
         files: ^opt/(abstract_optimizer\.py|multi_objective/abstract_multi_objective\.py)$
