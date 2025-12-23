@@ -53,47 +53,56 @@ if TYPE_CHECKING:
 
 
 class RMSprop(AbstractOptimizer):
-    r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    r"""Root Mean Square Propagation (RMSprop) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
-        | Algorithm Name    | FIXME: [Full algorithm name]             |
-        | Acronym           | FIXME: [SHORT]                           |
-        | Year Introduced   | FIXME: [YYYY]                            |
-        | Authors           | FIXME: [Last, First; ...]                |
-        | Algorithm Class   | Gradient Based |
-        | Complexity        | FIXME: O([expression])                   |
-        | Properties        | FIXME: [Population-based, ...]           |
+        | Algorithm Name    | Root Mean Square Propagation             |
+        | Acronym           | RMSprop                                  |
+        | Year Introduced   | 2012                                     |
+        | Authors           | Hinton, Geoffrey; Srivastava, Nitish    |
+        | Algorithm Class   | Gradient Based                           |
+        | Complexity        | O(dim)                                   |
+        | Properties        | Adaptive learning rate, Moving average   |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
     Mathematical Formulation:
-        FIXME: Core update equation:
+        Core update equations:
 
             $$
-            x_{t+1} = x_t + v_t
+            E[g^2]_t = \rho \cdot E[g^2]_{t-1} + (1 - \rho) \cdot g_t^2
+            $$
+
+            $$
+            x_{t+1} = x_t - \frac{\eta}{\sqrt{E[g^2]_t + \epsilon}} \cdot g_t
             $$
 
         where:
-            - $x_t$ is the position at iteration $t$
-            - $v_t$ is the velocity/step at iteration $t$
-            - FIXME: Additional variable definitions...
+            - $x_t$ is the solution at iteration $t$
+            - $g_t$ is the gradient at iteration $t$
+            - $\eta$ is the learning rate
+            - $\rho$ is the decay rate for moving average
+            - $\epsilon$ is a small constant for numerical stability
+            - $E[g^2]_t$ is the moving average of squared gradients
 
         Constraint handling:
-            - **Boundary conditions**: FIXME: [clamping/reflection/periodic]
-            - **Feasibility enforcement**: FIXME: [description]
+            - **Boundary conditions**: Clamping to `[lower_bound, upper_bound]`
+            - **Feasibility enforcement**: Solutions clipped after each update
 
     Hyperparameters:
-        | Parameter              | Default | BBOB Recommended | Description                    |
-        |------------------------|---------|------------------|--------------------------------|
-        | population_size        | 100     | 10*dim           | Number of individuals          |
-        | max_iter               | 1000    | 10000            | Maximum iterations             |
-        | FIXME: [param_name]    | [val]   | [bbob_val]       | [description]                  |
+        | Parameter        | Default | BBOB Recommended | Description                       |
+        |------------------|---------|------------------|-----------------------------------|
+        | max_iter         | 1000    | 10000            | Maximum iterations                |
+        | learning_rate    | 0.01    | 0.001-0.1        | Learning rate (step size)         |
+        | rho              | 0.9     | 0.9-0.99         | Decay rate for moving average     |
+        | epsilon          | 1e-8    | 1e-8             | Numerical stability constant      |
 
         **Sensitivity Analysis**:
-            - FIXME: `[param_name]`: **[High/Medium/Low]** impact on convergence
-            - Recommended tuning ranges: FIXME: $\text{[param]} \in [\text{min}, \text{max}]$
+            - `learning_rate`: **High** impact on convergence
+            - `rho`: **Medium** impact - controls adaptation speed
+            - Recommended tuning ranges: $\eta \in [0.0001, 0.1]$, $\rho \in [0.85, 0.99]$
 
     COCO/BBOB Benchmark Settings:
         **Search Space**:
