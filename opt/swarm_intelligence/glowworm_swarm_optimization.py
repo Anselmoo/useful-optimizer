@@ -178,22 +178,21 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -226,9 +225,9 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -292,7 +291,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
         """Initializes the population of glowworms with random positions.
 
         Returns:
-            ndarray: The initialized population of glowworms.
+        ndarray: The initialized population of glowworms.
         """
         return np.random.default_rng(self.seed).uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
@@ -305,7 +304,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
             population (ndarray): Population for which to compute fitness values.
 
         Returns:
-            ndarray: Computed fitness values for the population.
+        ndarray: Computed fitness values for the population.
         """
         return np.apply_along_axis(self.func, 1, population)
 
@@ -317,7 +316,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
             fitness (ndarray): The fitness values of the glowworms.
 
         Returns:
-            ndarray: The updated luciferin levels of the glowworms.
+        ndarray: The updated luciferin levels of the glowworms.
         """
         return (1 - self.luciferin_decay) * fitness / np.linalg.norm(population, axis=1)
 
@@ -329,7 +328,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
             luciferin (ndarray): The luciferin levels of the glowworms.
 
         Returns:
-            ndarray: The new population of glowworms after moving.
+        ndarray: The new population of glowworms after moving.
 
         """
         new_population = []
@@ -360,7 +359,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
         """Run the glowworm swarm optimization algorithm and return the best solution and fitness.
 
         Returns:
-            tuple[np.ndarray, float]: The best solution found by the algorithm and its corresponding fitness value.
+        tuple[np.ndarray, float]: The best solution found by the algorithm and its corresponding fitness value.
 
         """
         population = self._initialize()

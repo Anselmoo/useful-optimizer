@@ -410,11 +410,11 @@ def calculate_solution_quality(
 
     Returns:
         Dictionary with quality metrics:
-            - point_distance: Euclidean distance from optimal point
-            - value_error: Absolute error in fitness value
-            - point_within_tolerance: Whether point is within tolerance
-            - value_within_tolerance: Whether value is within tolerance
-            - overall_pass: Whether both tolerances are met
+        - point_distance: Euclidean distance from optimal point
+        - value_error: Absolute error in fitness value
+        - point_within_tolerance: Whether point is within tolerance
+        - value_within_tolerance: Whether value is within tolerance
+        - overall_pass: Whether both tolerances are met
     """
     point_distance = float(np.linalg.norm(solution - benchmark.optimal_point))
     value_error = abs(fitness - benchmark.optimal_value)

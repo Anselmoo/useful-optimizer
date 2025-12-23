@@ -180,23 +180,22 @@ class SalpSwarmOptimizer(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Mirjalili, S., Gandomi, A.H., Mirjalili, S.Z., Saremi, S., Faris, H., Mirjalili, S.M. (2017).
-            "Salp Swarm Algorithm: A bio-inspired optimizer for engineering design problems."
-            _Advances in Engineering Software_, 114, 163-191.
-            https://doi.org/10.1016/j.advengsoft.2017.07.002
+        "Salp Swarm Algorithm: A bio-inspired optimizer for engineering design problems."
+        _Advances in Engineering Software_, 114, 163-191.
+        https://doi.org/10.1016/j.advengsoft.2017.07.002
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -232,9 +231,9 @@ class SalpSwarmOptimizer(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(\text{population\_size} \times \text{dim})$
-            - Space complexity: $O(\text{population\_size} \times \text{dim})$
-            - BBOB budget usage: _Typically uses 65-80% of dim*10000 budget for convergence_
+        - Time per iteration: $O(\text{population\_size} \times \text{dim})$
+        - Space complexity: $O(\text{population\_size} \times \text{dim})$
+        - BBOB budget usage: _Typically uses 65-80% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Simple multimodal functions
@@ -297,9 +296,9 @@ class SalpSwarmOptimizer(AbstractOptimizer):
         """Execute the Salp Swarm Algorithm.
 
         Returns:
-            Tuple containing:
-                - best_solution: The best solution found (numpy array).
-                - best_fitness: The fitness value of the best solution.
+        Tuple containing:
+        - best_solution: The best solution found (numpy array).
+        - best_fitness: The fitness value of the best solution.
         """
         rng = np.random.default_rng(self.seed)
 

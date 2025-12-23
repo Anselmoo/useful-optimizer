@@ -172,22 +172,21 @@ class ConjugateGradient(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Hestenes, M. R., & Stiefel, E. (1952). "Methods of conjugate gradients for solving linear systems."
-            _Journal of Research of the National Bureau of Standards_, 49(6), 409-436.
-            https://doi.org/10.6028/jres.049.044
+        _Journal of Research of the National Bureau of Standards_, 49(6), 409-436.
+        https://doi.org/10.6028/jres.049.044
 
         [2] Fletcher, R., & Reeves, C. M. (1964). "Function minimization by conjugate gradients."
             _The Computer Journal_, 7(2), 149-154.
@@ -226,9 +225,9 @@ class ConjugateGradient(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(n^2)$ for direction updates and line search
-            - Space complexity: $O(n)$ for storing vectors
-            - BBOB budget usage: _Typically uses 15-40% of $\text{dim} \times 10000$ budget for smooth functions_
+        - Time per iteration: $O(n^2)$ for direction updates and line search
+        - Space complexity: $O(n)$ for storing vectors
+        - BBOB budget usage: _Typically uses 15-40% of $\text{dim} \times 10000$ budget for smooth functions_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Smooth, Well-conditioned quadratic
@@ -288,7 +287,7 @@ class ConjugateGradient(AbstractOptimizer):
         """Perform the Conjugate Gradient optimization search with multiple random restarts.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         best_solution = None
         best_fitness = np.inf

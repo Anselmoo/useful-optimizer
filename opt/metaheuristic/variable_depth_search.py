@@ -187,22 +187,21 @@ class VariableDepthSearch(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -235,9 +234,9 @@ class VariableDepthSearch(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -304,7 +303,7 @@ class VariableDepthSearch(AbstractOptimizer):
         """Run the Variable Depth Search algorithm.
 
         Returns:
-            Tuple[np.ndarray, float]: The best solution found and its corresponding fitness value.
+        Tuple[np.ndarray, float]: The best solution found and its corresponding fitness value.
         """
         self.initialize_population()
         for _ in range(self.max_iter):
