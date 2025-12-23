@@ -4,6 +4,45 @@
 This script uses AST parsing to process all optimizer files and generate
 COCO/BBOB-compliant docstring templates with FIXME markers for human review.
 
+Workflow:
+    ```mermaid
+    flowchart TD
+        A[Start: Parse CLI Args] --> B{Dry Run Mode?}
+        B -->|Yes| C[Preview Mode]
+        B -->|No| D[Write Mode]
+
+        C --> E[Find Optimizer Files]
+        D --> E
+
+        E --> F[Filter by Category?]
+        F -->|Yes| G[Select Category Files]
+        F -->|No| H[All 10 Categories]
+
+        G --> I[Process Each File]
+        H --> I
+
+        I --> J[AST Parse File]
+        J --> K{Valid Optimizer Class?}
+
+        K -->|No| L[Skip File]
+        K -->|Yes| M[Extract Class Info]
+
+        M --> N[Detect Parameters]
+        N --> O[Generate BBOB Template]
+
+        O --> P{Dry Run?}
+        P -->|Yes| Q[Print Preview]
+        P -->|No| R[Write to File]
+
+        Q --> S{More Files?}
+        R --> S
+        L --> S
+
+        S -->|Yes| I
+        S -->|No| T[Print Summary]
+        T --> U[End]
+    ```
+
 Features:
 - AST parsing to extract class names, parameters, existing docstrings
 - Template generation with FIXME markers
@@ -268,26 +307,23 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
         Detected parameters from __init__ signature: {", ".join(info.parameters)}
 
         Common parameters (adjust based on actual signature):
-        func (Callable[[ndarray], float]): Objective function to minimize.
-            Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float): Lower bound of search space.
-            BBOB typical: -5 (most functions).
-        upper_bound (float): Upper bound of search space.
-            BBOB typical: 5 (most functions).
-        dim (int): Problem dimensionality.
-            BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional): Maximum iterations.
-            BBOB recommendation: 10000 for complete evaluation.
-            Defaults to 1000.
-        seed (int | None, optional): Random seed for reproducibility.
-            BBOB requires seeds 0-14 for 15 runs.
-            If None, generates random seed. Defaults to None.
-        population_size (int, optional): Population size.
-            BBOB recommendation: 10*dim for population-based methods.
-            Defaults to 100. (Only for population-based algorithms)
-        track_history (bool, optional): Enable convergence history
-            tracking for BBOB post-processing. Defaults to False.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for
+            complete evaluation. Defaults to 1000.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
+        population_size (int, optional): Population size. BBOB recommendation: 10*dim
+            for population-based methods. Defaults to 100. (Only for population-based
+            algorithms)
+        track_history (bool, optional): Enable convergence history tracking for BBOB
+            post-processing. Defaults to False.
         FIXME: [algorithm_specific_params] ([type], optional): FIXME: Document any
             algorithm-specific parameters not listed above. Defaults to [value].
 
@@ -300,8 +336,7 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
         seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
         population_size (int): Number of individuals in population.
         track_history (bool): Whether convergence history is tracked.
-        history (dict[str, list]): Optimization history if track_history=True.
-            Contains:
+        history (dict[str, list]): Optimization history if track_history=True. Contains:
             - 'best_fitness': list[float] - Best fitness per iteration
             - 'best_solution': list[ndarray] - Best solution per iteration
             - 'population_fitness': list[ndarray] - All fitness values
