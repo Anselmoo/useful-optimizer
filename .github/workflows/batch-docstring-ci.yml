@@ -1,0 +1,154 @@
+name: Batch Docstring Script CI
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/batch_update_docstrings.py'
+      - 'opt/test/test_batch_update_docstrings.py'
+      - '.github/workflows/batch-docstring-ci.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'scripts/batch_update_docstrings.py'
+      - 'opt/test/test_batch_update_docstrings.py'
+
+jobs:
+  validate-batch-docstring-script:
+    name: Validate Batch Docstring Update Script
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Check script exists
+        run: |
+          if [ ! -f scripts/batch_update_docstrings.py ]; then
+            echo "❌ Script not found at scripts/batch_update_docstrings.py"
+            exit 1
+          fi
+          echo "✅ Script created at scripts/batch_update_docstrings.py"
+
+      - name: Run tests
+        run: |
+          uv run pytest opt/test/test_batch_update_docstrings.py -v
+          echo "✅ All tests passed"
+
+      - name: Check linting
+        run: |
+          uv run ruff check scripts/batch_update_docstrings.py
+          echo "✅ Linting passed"
+
+      - name: Verify script parses all optimizer files
+        run: |
+          output=$(uv run python scripts/batch_update_docstrings.py --dry-run 2>&1)
+          echo "$output"
+
+          # Check for successful processing message
+          if echo "$output" | grep -q "✅ Successfully processed 117 optimizer files"; then
+            echo "✅ Successfully parses all 117+ optimizer files"
+          else
+            echo "❌ Failed to parse all optimizer files"
+            exit 1
+          fi
+
+      - name: Verify templates have FIXME markers
+        run: |
+          output=$(uv run python scripts/batch_update_docstrings.py --dry-run --category classical 2>&1)
+
+          # Check for FIXME markers in output
+          if echo "$output" | grep -q "FIXME"; then
+            echo "✅ Generates templates with FIXME markers for manual completion"
+          else
+            echo "❌ Templates missing FIXME markers"
+            exit 1
+          fi
+
+      - name: Verify abstract classes are skipped
+        run: |
+          # Count abstract files in opt directory
+          abstract_count=$(find opt -name "abstract_*.py" -type f | wc -l)
+
+          # Run script and check that abstract files are not processed
+          output=$(uv run python scripts/batch_update_docstrings.py --dry-run 2>&1)
+
+          if echo "$output" | grep -q "abstract_"; then
+            echo "❌ Abstract classes are being processed"
+            exit 1
+          else
+            echo "✅ Skips abstract base classes (found $abstract_count abstract files, none processed)"
+          fi
+
+      - name: Verify parameter signature preservation
+        run: |
+          # Test on a specific optimizer to verify parameters are extracted
+          output=$(uv run python scripts/batch_update_docstrings.py --dry-run --category swarm_intelligence 2>&1)
+
+          # Check that parameters are being detected and listed
+          if echo "$output" | grep -q "Parameters:.*func.*lower_bound.*upper_bound.*dim"; then
+            echo "✅ Respects existing parameter signatures"
+          else
+            echo "❌ Parameter signatures not properly extracted"
+            exit 1
+          fi
+
+      - name: Verify performance (< 5 seconds)
+        run: |
+          start_time=$(date +%s.%N)
+          uv run python scripts/batch_update_docstrings.py --dry-run > /dev/null 2>&1
+          end_time=$(date +%s.%N)
+
+          # Calculate duration
+          duration=$(echo "$end_time - $start_time" | bc)
+
+          echo "Script execution time: ${duration}s"
+
+          # Check if duration is less than 5 seconds
+          if (( $(echo "$duration < 5.0" | bc -l) )); then
+            echo "✅ Runs in < 5 seconds (actual: ${duration}s)"
+          else
+            echo "❌ Script took longer than 5 seconds (${duration}s)"
+            exit 1
+          fi
+
+      - name: Verify output summary
+        run: |
+          output=$(uv run python scripts/batch_update_docstrings.py --dry-run 2>&1)
+
+          # Check for expected summary output
+          if echo "$output" | grep -q "✅ Successfully processed 117 optimizer files"; then
+            echo "✅ Test run outputs expected summary"
+            echo "$output" | grep -A 5 "Successfully processed"
+          else
+            echo "❌ Expected output summary not found"
+            exit 1
+          fi
+
+      - name: Summary
+        if: success()
+        run: |
+          echo "=========================================="
+          echo "✅ All Acceptance Criteria Met!"
+          echo "=========================================="
+          echo "✅ Script created at scripts/batch_update_docstrings.py"
+          echo "✅ Successfully parses all 117+ optimizer files"
+          echo "✅ Generates templates with FIXME markers for manual completion"
+          echo "✅ Skips abstract base classes"
+          echo "✅ Respects existing parameter signatures"
+          echo "✅ Runs in < 5 seconds"
+          echo "✅ Test run outputs summary: '✅ Processed 117+ optimizer files'"
+          echo "=========================================="
