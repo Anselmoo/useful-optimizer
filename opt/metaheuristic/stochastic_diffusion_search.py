@@ -255,7 +255,7 @@ class StochasticDiffusionSearch(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(population\_size \times dim)$
             - Space complexity: $O(population\_size \times dim)$
-            - BBOB budget usage: _Typically uses 65-85% of dim×10000 budget for convergence_
+            - BBOB budget usage: _Typically uses 65-85% of dim $\times$ 10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Pattern-like, discrete-like continuous problems

@@ -225,7 +225,9 @@ uv run python -c "from opt.abstract_optimizer import AbstractOptimizer; from opt
   - Inline math (in text): `$variable$` or `$expression$`
   - Complexity: `O(n $\times$ m)` NOT `O(n × m)`
   - Greek letters: `$\alpha$`, `$\beta$`, `$\gamma$` NOT `α`, `β`, `γ`
-  - Budget expressions: `dim $\times$ 10000` NOT `dim×10000`
+  - Budget expressions: `dim $\times$ 10000` NOT `dim×10000` or `dim*10000`
+  - Dimension notation: Use plain `dim` (NOT `\text{dim}`) for consistency
+  - Variables in LaTeX: `$O(population\_size \times dim)$` with escaped underscores
 - **Pre-commit validation**: Run `pre-commit run -a` before committing to catch RUF002 and formatting errors
 
 ### Creating New Optimizers
