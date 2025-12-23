@@ -174,8 +174,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+                tuple[np.ndarray, float]: Best solution found and its fitness value
 
     Raises:
                 ValueError:

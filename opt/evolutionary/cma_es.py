@@ -140,50 +140,32 @@ class CMAESAlgorithm(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array and return scalar.
             BBOB functions available in `opt.benchmark.functions`.
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        population_size (int, optional):
-            Number of offspring per generation (λ). BBOB recommendation: 4+⌊3ln(dim)⌋.
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        population_size (int, optional): Number of offspring per generation (λ). BBOB recommendation: 4+⌊3ln(dim)⌋.
             Defaults to 100.
-        max_iter (int, optional):
-            Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
             Defaults to 1000.
-        sigma_init (float, optional):
-            Initial global step-size controlling search spread. BBOB recommendation:
+        sigma_init (float, optional): Initial global step-size controlling search spread. BBOB recommendation:
             approximately (upper_bound - lower_bound)/5. Defaults to 0.5.
-        epsilon (float, optional):
-            Minimum step-size threshold to prevent numerical instability.
+        epsilon (float, optional): Minimum step-size threshold to prevent numerical instability.
             Defaults to 1e-9.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
             If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        dim (int):
-            Problem dimensionality.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        population_size (int):
-            Number of offspring per generation.
-        max_iter (int):
-            Maximum number of iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        sigma (float):
-            Current global step-size (adaptive during optimization).
-        epsilon (float):
-            Minimum step-size threshold.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        dim (int): Problem dimensionality.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        population_size (int): Number of offspring per generation.
+        max_iter (int): Maximum number of iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        sigma (float): Current global step-size (adaptive during optimization).
+        epsilon (float): Minimum step-size threshold.
 
     Methods:
         search() -> tuple[np.ndarray, float]:

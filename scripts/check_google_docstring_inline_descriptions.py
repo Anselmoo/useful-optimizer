@@ -82,8 +82,12 @@ def _check_file(path: Path) -> list[str]:
             continue
 
         if in_target_section:
-            # End the section when we hit a blank line or a new section header.
-            if stripped == "" or _NEXT_SECTION_HEADER_RE.match(line):
+            # End the section when we hit a blank line, a new section header, or closing docstring.
+            if (
+                stripped == ""
+                or _NEXT_SECTION_HEADER_RE.match(line)
+                or stripped in ('"""', "'''")
+            ):
                 in_target_section = False
                 current_section = None
                 continue

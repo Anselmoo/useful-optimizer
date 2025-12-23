@@ -167,8 +167,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[ndarray, ndarray]:
-                    Pareto-optimal solutions and their fitness values
+                tuple[ndarray, ndarray]: Pareto-optimal solutions and their fitness values
 
     Raises:
                 ValueError:
