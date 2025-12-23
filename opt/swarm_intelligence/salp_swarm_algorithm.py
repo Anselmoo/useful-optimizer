@@ -151,10 +151,6 @@ class SalpSwarmOptimizer(AbstractOptimizer):
         True
 
     Args:
-        FIXME: Document all parameters with BBOB guidance.
-        Detected parameters from __init__ signature: func, lower_bound, upper_bound, dim, max_iter, seed, population_size
-
-        Common parameters (adjust based on actual signature):
         func (Callable[[ndarray], float]): Objective function to minimize. Must accept
             numpy array and return scalar. BBOB functions available in
             `opt.benchmark.functions`.
@@ -167,13 +163,8 @@ class SalpSwarmOptimizer(AbstractOptimizer):
             complete evaluation. Defaults to 1000.
         seed (int | None, optional): Random seed for reproducibility. BBOB requires
             seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
-        population_size (int, optional): Population size. BBOB recommendation: 10*dim
-            for population-based methods. Defaults to 100. (Only for population-based
-            algorithms)
-        track_history (bool, optional): Enable convergence history tracking for BBOB
-            post-processing. Defaults to False.
-        FIXME: [algorithm_specific_params] ([type], optional): FIXME: Document any
-            algorithm-specific parameters not listed above. Defaults to [value].
+        population_size (int, optional): Number of salps in the chain. BBOB recommendation: 10*dim
+            for population-based methods. Defaults to 100.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
