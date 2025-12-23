@@ -163,8 +163,7 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
         Best solution found and its fitness value
 
     Raises:
-        ValueError:
-        If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True

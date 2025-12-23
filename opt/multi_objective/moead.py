@@ -170,8 +170,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         tuple[ndarray, ndarray]: Pareto-optimal solutions and their fitness values
 
     Raises:
-        ValueError:
-        If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
         - Modifies self.history if track_history=True
