@@ -87,9 +87,9 @@ The site uses the **Catppuccin Mocha** color scheme, a soothing pastel theme wit
 
 ## Features
 
-### MathJax Support
+### KaTeX Math Rendering
 
-LaTeX equations are supported via `markdown.math: true`:
+LaTeX equations are supported via KaTeX (fast, lightweight math renderer):
 
 **Inline math**: `$f(x) = x^2$`
 
@@ -112,14 +112,16 @@ Syntax highlighting with line numbers is enabled for all code blocks.
 
 - **vitepress**: `^1.5.0` - Documentation framework
 - **vue**: `^3.4.0` - Required by VitePress
-- **echarts**: `^6.0.0` - Charting library
-- **vue-echarts**: `^8.0.0` - Vue wrapper for ECharts
+- **echarts**: `^6.0.0` - Charting library (actively maintained)
+- **vue-echarts**: `^8.0.0` - Vue wrapper for ECharts (actively maintained)
 - **@catppuccin/vitepress**: `^0.1.2` - Catppuccin theme support
-- **markdown-it-mathjax3**: `^4.3.2` - LaTeX math rendering
+- **markdown-it-katex**: `^2.0.3` - Fast LaTeX math rendering with KaTeX
 
 ### Dependency Notes
 
-- **Note**: `echarts-gl` was removed from the documentation dependencies due to lack of maintenance and incompatibility with recent ECharts releases (ECharts v6+). The site now targets `echarts:^6.0.0`.
+- **Math rendering**: Migrated from `markdown-it-mathjax3` to `markdown-it-katex` for better performance, smaller bundle size, and active maintenance.
+- **Charts**: Using modern `echarts` v6.0.0 and `vue-echarts` v8.0.0, both actively maintained packages.
+- **Note**: `echarts-gl` was removed from the documentation dependencies due to lack of maintenance and incompatibility with recent ECharts releases (ECharts v6+).
 
 ### TODO: 3D visualization (non-visible)
 
@@ -157,9 +159,46 @@ The build will fail and list all dead links that need to be addressed.
 2. Use consistent structure: overview, interface, examples
 3. Cross-reference with algorithm pages
 
+## Testing
+
+### Validate Migration
+
+To verify the documentation migration to KaTeX is working correctly:
+
+```bash
+npm run validate:migration
+```
+
+This runs a comprehensive validation script that checks:
+- Correct dependencies in package.json
+- VitePress configuration for KaTeX
+- Built output contains KaTeX rendering
+- No MathJax traces remain
+
+### Full Integration Test
+
+To run a complete test including clean install and build:
+
+```bash
+./test-docs-migration.sh
+```
+
+This script:
+1. Performs a clean npm install (without `--legacy-peer-deps`)
+2. Validates all dependencies
+3. Builds the documentation
+4. Verifies KaTeX rendering in output
+5. Runs the validation script
+
 ## CI/CD
 
 A GitHub Actions workflow builds and deploys the documentation to GitHub Pages on pushes to the main branch.
+
+The workflow includes:
+- Dependency installation validation (no legacy flags)
+- Migration validation check
+- Documentation build
+- Deployment to GitHub Pages
 
 ## Troubleshooting
 
@@ -181,10 +220,10 @@ If the dev server shows 404 errors:
 ### Dependency Conflicts
 
 If `npm install` fails:
-- Ensure you're not using `--legacy-peer-deps` (no longer needed)
+- Ensure you're not using `--legacy-peer-deps` (no longer needed after KaTeX migration)
 - Delete `node_modules/` and `package-lock.json`
 - Run `npm install` again
-- If still failing, check that echarts is v5.4.0 not v6.0.0
+- Run `npm run validate:migration` to verify the setup
 
 ## License
 
