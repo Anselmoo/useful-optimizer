@@ -16,6 +16,9 @@ repos:
       - id: ruff-format
 
   # Docstring validation
+  # Note: Both pydocstyle and custom validator target optimizer files
+  # - pydocstyle: Specific category directories for Google-style compliance
+  # - validate-optimizer-docs: Broader pattern with exclusions for COCO/BBOB compliance
   - repo: https://github.com/pycqa/pydocstyle
     rev: "6.3.0"
     hooks:

@@ -44,6 +44,12 @@ RECOMMENDED_SECTIONS = [
     "See Also:",
 ]
 
+# Regex pattern for section boundaries (4 spaces indentation + uppercase letter)
+SECTION_BOUNDARY_PATTERN = r"(?=\n\s{4}[A-Z][a-z]|\Z)"
+
+# Keywords that identify optimizer classes
+OPTIMIZER_KEYWORDS = ["optimizer", "optimization", "algorithm", "search"]
+
 
 def _extract_class_docstring(file_path: Path) -> str | None:
     """Extract the first class docstring from a Python file.
@@ -141,7 +147,7 @@ def _check_bbob_settings(docstring: str, file_path: Path) -> list[str]:
 
     # Extract the BBOB section
     match = re.search(
-        r"COCO/BBOB Benchmark Settings:(.*?)(?=\n\s{4}[A-Z][a-z]|\Z)",
+        rf"COCO/BBOB Benchmark Settings:(.*?){SECTION_BOUNDARY_PATTERN}",
         docstring,
         re.DOTALL,
     )
@@ -188,7 +194,7 @@ def _check_example_seed(docstring: str, file_path: Path) -> list[str]:
         return errors
 
     # Extract Example section
-    match = re.search(r"Example:(.*?)(?=\n\s{4}[A-Z][a-z]|\Z)", docstring, re.DOTALL)
+    match = re.search(rf"Example:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL)
 
     if not match:
         return errors
@@ -220,7 +226,7 @@ def _check_args_seed(docstring: str, file_path: Path) -> list[str]:
         return errors
 
     # Extract Args section
-    match = re.search(r"Args:(.*?)(?=\n\s{4}[A-Z][a-z]|\Z)", docstring, re.DOTALL)
+    match = re.search(rf"Args:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL)
 
     if not match:
         return errors
@@ -253,7 +259,9 @@ def _check_attributes_seed(docstring: str, file_path: Path) -> list[str]:
         return errors
 
     # Extract Attributes section
-    match = re.search(r"Attributes:(.*?)(?=\n\s{4}[A-Z][a-z]|\Z)", docstring, re.DOTALL)
+    match = re.search(
+        rf"Attributes:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL
+    )
 
     if not match:
         return errors
@@ -286,7 +294,7 @@ def _check_notes_bbob_performance(docstring: str, file_path: Path) -> list[str]:
         return errors
 
     # Extract Notes section
-    match = re.search(r"Notes:(.*?)(?=\n\s{4}[A-Z][a-z]|\Z)", docstring, re.DOTALL)
+    match = re.search(rf"Notes:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL)
 
     if not match:
         return errors
@@ -330,7 +338,9 @@ def _check_references_doi(docstring: str, file_path: Path) -> list[str]:
         return errors
 
     # Extract References section
-    match = re.search(r"References:(.*?)(?=\n\s{4}[A-Z][a-z]|\Z)", docstring, re.DOTALL)
+    match = re.search(
+        rf"References:(.*?){SECTION_BOUNDARY_PATTERN}", docstring, re.DOTALL
+    )
 
     if not match:
         return errors
@@ -383,10 +393,7 @@ def _validate_file(file_path: Path) -> list[str]:
 
     # Only validate if it appears to be an optimizer class
     # (has certain keywords or inherits from AbstractOptimizer)
-    if not any(
-        keyword in docstring.lower()
-        for keyword in ["optimizer", "optimization", "algorithm", "search"]
-    ):
+    if not any(keyword in docstring.lower() for keyword in OPTIMIZER_KEYWORDS):
         return errors
 
     # Run all validation checks
