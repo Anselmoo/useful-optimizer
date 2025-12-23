@@ -289,7 +289,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             - Space complexity: $O(mN)$ for population and fitness storage
             - BBOB budget usage: _Typically 60-80% of dim*10000 budget for convergence_
 
-        **BBOB Multi-Objective Performance**:
+        **BBOB Performance Characteristics** (Multi-Objective):
             - **Best function classes**: Separable, low-dimensional (2-3 objectives)
             - **Weak function classes**: Many-objective (>3), highly multimodal
             - Typical Hypervolume: **85-95%** of reference front (bi-objective, dim=5)

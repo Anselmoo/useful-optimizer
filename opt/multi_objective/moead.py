@@ -133,6 +133,8 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         ...     population_size=50,
         ...     max_iter=10,
         ... )
+        >>> # Note: seed parameter not yet implemented (BBOB compliance gap)
+        >>> # For BBOB: would use seed=42 for reproducibility
         >>> pareto_front, pareto_set = optimizer.search()
         >>> isinstance(pareto_front, np.ndarray) and len(pareto_front) > 0
         True
@@ -150,6 +152,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         ...     dim=5,
         ...     max_iter=10,
         ... )
+        >>> # Note: seed=42 would be added here for BBOB compliance
         >>> pareto_front, pareto_set = optimizer.search()
         >>> pareto_front.shape[1] == 2  # Two objectives
         True
@@ -169,6 +172,9 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             10000 for complete evaluation. Defaults to 300.
         n_neighbors (int, optional): Neighborhood size for each subproblem. Larger
             values = more exploration. Range: [10, 30]. Defaults to 20.
+        seed (int | None, optional): **BBOB compliance gap - not currently implemented.**
+            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
+            If None, uses global numpy RNG. Defaults to None (not implemented).
 
     Attributes:
         objectives (list[Callable[[ndarray], float]]): List of objective functions.
@@ -180,6 +186,8 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         max_iter (int): Maximum number of generations.
         n_neighbors (int): Neighborhood size for local search.
         n_objectives (int): Alias for num_objectives.
+        seed (int | None): **BBOB compliance gap - not currently implemented.**
+            Random seed for reproducibility. Would be required for BBOB compliance.
 
     Methods:
         search() -> tuple[ndarray, ndarray]:
@@ -246,7 +254,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             - Space complexity: $O(N \cdot (d + m))$ for population and fitness
             - BBOB budget usage: _Typically 50-70% of dim*10000 budget for convergence_
 
-        **BBOB Multi-Objective Performance**:
+        **BBOB Performance Characteristics** (Multi-Objective):
             - **Best function classes**: Convex Pareto fronts, many-objective (>3)
             - **Weak function classes**: Highly irregular/disconnected Pareto fronts
             - Typical Hypervolume: **80-90%** of reference front (bi-objective, dim=5)
