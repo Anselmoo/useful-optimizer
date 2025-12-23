@@ -1,7 +1,7 @@
 ---
-mode: 'agent'
-model: 'claude-sonnet-4'
-tools: ['editFiles', 'codebase', 'terminal', 'githubRepo']
+agent: 'agent'
+model: Auto (copilot)
+tools: ['read', 'edit', 'search', 'web', 'ai-agent-guidelines/code-analysis-prompt-builder', 'ai-agent-guidelines/digital-enterprise-architect-prompt-builder', 'ai-agent-guidelines/documentation-generator-prompt-builder', 'ai-agent-guidelines/guidelines-validator', 'ai-agent-guidelines/hierarchical-prompt-builder', 'ai-agent-guidelines/hierarchy-level-selector', 'ai-agent-guidelines/l9-distinguished-engineer-prompt-builder', 'ai-agent-guidelines/semantic-code-analyzer', 'ai-agent-guidelines/strategy-frameworks-builder', 'context7/*', 'github/*', 'serena/*', 'agent', 'ms-python.python/getPythonEnvironmentInfo', 'ms-python.python/getPythonExecutableCommand', 'ms-python.python/installPythonPackage', 'ms-python.python/configurePythonEnvironment', 'ms-vscode.vscode-websearchforcopilot/websearch', 'todo']
 description: 'Complete VitePress documentation with JSON-driven benchmark visualization'
 ---
 
