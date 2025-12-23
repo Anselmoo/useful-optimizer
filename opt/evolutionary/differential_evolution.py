@@ -289,11 +289,6 @@ class DifferentialEvolution(AbstractOptimizer):
         **Version History**:
             - v0.1.0: Initial implementation
             - v0.1.2: Current BBOB-compliant version
-            - FIXME: BBOB known issues: [Any BBOB-specific challenges]
-
-        **Version History**:
-            - v0.1.0: Initial implementation
-            - FIXME: [vX.X.X]: [Changes relevant to BBOB compliance]
     """
 
     def __init__(
