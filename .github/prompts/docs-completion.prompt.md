@@ -83,7 +83,6 @@ import './style.css'
 // ECharts
 import { VChart } from 'vue-echarts'
 import 'echarts'
-import 'echarts-gl'
 
 // Custom components
 import ConvergenceChart from './components/ConvergenceChart.vue'

@@ -112,16 +112,14 @@ Syntax highlighting with line numbers is enabled for all code blocks.
 
 - **vitepress**: `^1.5.0` - Documentation framework
 - **vue**: `^3.4.0` - Required by VitePress
-- **echarts**: `^5.4.0` - Charting library (compatible with echarts-gl)
-- **echarts-gl**: `^2.0.9` - 3D visualization support
-- **vue-echarts**: `^7.0.0` - Vue wrapper for ECharts
+- **echarts**: `^6.0.0` - Charting library
+- **vue-echarts**: `^8.0.0` - Vue wrapper for ECharts
 - **@catppuccin/vitepress**: `^0.1.2` - Catppuccin theme support
 - **markdown-it-mathjax3**: `^4.3.2` - LaTeX math rendering
 
 ### Dependency Notes
 
-- **echarts pinned to v5.4.0**: `echarts-gl@2.0.9` requires `echarts@^5.x`. Do not upgrade to echarts@6 until echarts-gl supports it.
-  - **TODO**: Monitor [echarts-gl releases](https://github.com/ecomfe/echarts-gl/releases) for echarts@6 compatibility. Once available, upgrade both packages together.
+- **Note**: `echarts-gl` was removed from the documentation dependencies due to lack of maintenance and incompatibility with recent ECharts releases (ECharts v6+). The site now targets `echarts:^6.0.0`. If 3D visualizations are required, consider using an actively maintained alternative or a custom integration pinned to compatible versions.
 - **vue-echarts v7**: Compatible with echarts@5. Version 8 requires echarts@6.
 
 ## Dead Links

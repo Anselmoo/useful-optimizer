@@ -172,7 +172,7 @@ export default defineConfig({
 
   vite: {
     ssr: {
-      noExternal: ['echarts', 'vue-echarts', 'echarts-gl', 'zrender']
+      noExternal: ['echarts', 'vue-echarts', 'zrender']
     }
   }
 })
