@@ -91,47 +91,64 @@ def extract_optimizer_info(filepath: Path) -> OptimizerInfo | None:
 
         tree = ast.parse(source)
 
-        # Find the main optimizer class
-        # (inherits from AbstractOptimizer or AbstractMultiObjectiveOptimizer)
-        for node in ast.walk(tree):
-            if isinstance(node, ast.ClassDef):
-                # Check if it inherits from AbstractOptimizer or AbstractMultiObjectiveOptimizer
-                base_names = []
-                for base in node.bases:
-                    if isinstance(base, ast.Name):
-                        base_names.append(base.id)
-                    elif isinstance(base, ast.Attribute):
-                        base_names.append(base.attr)
+        # Process only top-level classes in definition order for deterministic behavior
+        optimizer_candidates: list[tuple[ast.ClassDef, bool]] = []
+        for node in tree.body:
+            if not isinstance(node, ast.ClassDef):
+                continue
 
-                is_optimizer = "AbstractOptimizer" in base_names
-                is_multi_objective = "AbstractMultiObjectiveOptimizer" in base_names
+            # Check if it inherits from AbstractOptimizer or AbstractMultiObjectiveOptimizer
+            base_names: list[str] = []
+            for base in node.bases:
+                if isinstance(base, ast.Name):
+                    base_names.append(base.id)
+                elif isinstance(base, ast.Attribute):
+                    base_names.append(base.attr)
 
-                if not (is_optimizer or is_multi_objective):
-                    continue
+            is_optimizer = "AbstractOptimizer" in base_names
+            is_multi_objective = "AbstractMultiObjectiveOptimizer" in base_names
 
-                class_name = node.name
-                existing_docstring = ast.get_docstring(node)
+            if not (is_optimizer or is_multi_objective):
+                continue
 
-                # Extract __init__ parameters
-                parameters = []
-                for item in node.body:
-                    if isinstance(item, ast.FunctionDef) and item.name == "__init__":
-                        for arg in item.args.args:
-                            if arg.arg != "self":
-                                parameters.append(arg.arg)
-                        break
+            optimizer_candidates.append((node, is_multi_objective))
 
-                # Detect category from filepath
-                category = filepath.parent.name
+        if not optimizer_candidates:
+            # No optimizer-like classes found in this file
+            return None
 
-                return OptimizerInfo(
-                    class_name=class_name,
-                    filepath=filepath,
-                    category=category,
-                    parameters=parameters,
-                    existing_docstring=existing_docstring,
-                    is_multi_objective=is_multi_objective,
-                )
+        if len(optimizer_candidates) > 1:
+            class_names = ", ".join(cls.name for cls, _ in optimizer_candidates)
+            print(
+                f"⚠️  Multiple optimizer classes found in {filepath}: {class_names}. "
+                "Using the first one in definition order.",
+                file=sys.stderr,
+            )
+
+        node, is_multi_objective = optimizer_candidates[0]
+        class_name = node.name
+        existing_docstring = ast.get_docstring(node)
+
+        # Extract __init__ parameters
+        parameters: list[str] = []
+        for item in node.body:
+            if isinstance(item, ast.FunctionDef) and item.name == "__init__":
+                for arg in item.args.args:
+                    if arg.arg != "self":
+                        parameters.append(arg.arg)
+                break
+
+        # Detect category from filepath
+        category = filepath.parent.name
+
+        return OptimizerInfo(
+            class_name=class_name,
+            filepath=filepath,
+            category=category,
+            parameters=parameters,
+            existing_docstring=existing_docstring,
+            is_multi_objective=is_multi_objective,
+        )
 
     except (SyntaxError, UnicodeDecodeError) as e:
         print(f"⚠️  Error parsing {filepath}: {e}", file=sys.stderr)
@@ -240,7 +257,6 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
         ...     upper_bound=5,
         ...     dim=10,
         ...     max_iter=10000,
-        ...     population_size=100,
         ...     seed=42
         ... )
         >>> solution, fitness = optimizer.search()
@@ -248,7 +264,10 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
         True
 
     Args:
-        FIXME: Document all parameters with BBOB guidance
+        FIXME: Document all parameters with BBOB guidance.
+        Detected parameters from __init__ signature: {', '.join(info.parameters)}
+
+        Common parameters (adjust based on actual signature):
         func (Callable[[ndarray], float]):
             Objective function to minimize. Must accept numpy array and return scalar.
             BBOB functions available in `opt.benchmark.functions`.
@@ -266,12 +285,12 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
             If None, generates random seed. Defaults to None.
         population_size (int, optional):
             Population size. BBOB recommendation: 10*dim for population-based methods.
-            Defaults to 100.
+            Defaults to 100. (Only for population-based algorithms)
         track_history (bool, optional):
             Enable convergence history tracking for BBOB post-processing.
             Defaults to False.
         FIXME: [algorithm_specific_params] ([type], optional):
-            FIXME: [Description with BBOB tuning guidance]
+            FIXME: Document any algorithm-specific parameters not listed above.
             Defaults to [value].
 
     Attributes:
@@ -424,6 +443,79 @@ def find_optimizer_files(
     return sorted(optimizer_files)
 
 
+def write_template_to_file(filepath: Path, info: OptimizerInfo, template: str) -> bool:
+    """Write the generated template to the optimizer file.
+
+    Args:
+        filepath: Path to the optimizer file.
+        info: OptimizerInfo object with class metadata.
+        template: Generated docstring template.
+
+    Returns:
+        True if file was successfully written, False otherwise.
+    """
+    try:
+        # Read the original file
+        with filepath.open("r", encoding="utf-8") as f:
+            original_content = f.read()
+
+        # Parse to find the class definition
+        tree = ast.parse(original_content)
+
+        # Find the class node and its docstring location
+        for node in tree.body:
+            if isinstance(node, ast.ClassDef) and node.name == info.class_name:
+                # Calculate line numbers for replacement
+                class_start_line = node.lineno
+
+                # Find where to insert/replace the docstring
+                lines = original_content.splitlines(keepends=True)
+
+                # Check if there's an existing docstring
+                existing_docstring_node = ast.get_docstring(node, clean=False)
+
+                if existing_docstring_node:
+                    # Find the docstring location by checking the first statement
+                    if node.body and isinstance(node.body[0], ast.Expr):
+                        docstring_node = node.body[0]
+                        # Replace existing docstring
+                        start_line = docstring_node.lineno - 1
+                        end_line = docstring_node.end_lineno
+
+                        # Build new content
+                        new_lines = [
+                            *lines[:start_line],
+                            f"    {template}\n",
+                            *lines[end_line:],
+                        ]
+                    else:
+                        # Shouldn't happen if get_docstring returned something
+                        return False
+                else:
+                    # No existing docstring - insert after class definition line
+                    # Find the line after "class ClassName(...):"
+                    insert_line = class_start_line  # This is 1-indexed
+                    new_lines = [
+                        *lines[:insert_line],
+                        f"    {template}\n\n",
+                        *lines[insert_line:],
+                    ]
+
+                # Write the modified content
+                new_content = "".join(new_lines)
+                with filepath.open("w", encoding="utf-8") as f:
+                    f.write(new_content)
+
+                return True
+
+        # No matching class found - this is in else block of the for loop
+        return False  # noqa: TRY300
+
+    except Exception as e:
+        print(f"❌ Error writing to {filepath}: {e}", file=sys.stderr)
+        return False
+
+
 def process_optimizer(
     filepath: Path, *, dry_run: bool = False
 ) -> OptimizerInfo | None:
@@ -445,7 +537,14 @@ def process_optimizer(
 
     # Output processing information
     print(f"\n📝 Generated BBOB template for {info.class_name}")
-    print(f"   File: {filepath.relative_to(filepath.parents[2])}")
+
+    # Safely compute relative path
+    try:
+        display_path = filepath.relative_to(filepath.parents[2])
+    except (IndexError, ValueError):
+        display_path = filepath
+    print(f"   File: {display_path}")
+
     print(f"   Category: {info.category}")
     print(f"   Parameters: {', '.join(info.parameters)}")
 
@@ -453,11 +552,13 @@ def process_optimizer(
         print("   Action: DRY RUN - No changes made")
         print("   Template preview (first 300 chars):")
         print(f"   {template[:300]}...")
+    # Write template to file
+    elif write_template_to_file(filepath, info, template):
+        print("   Action: ✅ Docstring template written to file")
+        print("   ⚠️  Note: Review and complete FIXME markers in the generated template.")
     else:
-        print("   Action: Manual review required - FIXME markers added")
-        print(
-            "   ⚠️  Note: This is a template. Manual review and completion needed."
-        )
+        print("   Action: ❌ Failed to write template to file")
+        return None
 
     return info
 
@@ -531,7 +632,11 @@ def main(argv: Sequence[str] | None = None) -> int:
     if failed:
         print(f"⚠️  Failed to process {len(failed)} files:")
         for filepath in failed:
-            print(f"   - {filepath.relative_to(opt_dir.parent)}")
+            try:
+                rel_path = filepath.relative_to(opt_dir.parent)
+            except ValueError:
+                rel_path = filepath
+            print(f"   - {rel_path}")
 
     print("\n📊 Summary:")
     print(f"   Total files scanned: {len(optimizer_files)}")

@@ -10,7 +10,8 @@ The `batch_update_docstrings.py` script automates the generation of COCO/BBOB-co
 - ✅ **Template Generation**: Generates COCO/BBOB-compliant templates with FIXME markers for manual completion
 - ✅ **Category Detection**: Auto-detects optimizer category from directory structure
 - ✅ **Skip Abstract Classes**: Automatically excludes `abstract_*.py` files
-- ✅ **Dry Run Mode**: Preview changes before applying them
+- ✅ **Dry Run Mode**: Preview changes before writing to files
+- ✅ **File Writing**: Automatically writes generated templates to optimizer files (when not in dry-run mode)
 - ✅ **Multi-Objective Support**: Handles both single-objective and multi-objective optimizers
 - ✅ **High Performance**: Processes 117 files in ~0.15 seconds
 
@@ -25,7 +26,7 @@ uv run python scripts/batch_update_docstrings.py --dry-run
 # Process specific category only
 uv run python scripts/batch_update_docstrings.py --category swarm_intelligence
 
-# Process all optimizers (generates templates)
+# Process all optimizers (writes templates to files - CAUTION!)
 uv run python scripts/batch_update_docstrings.py
 
 # Show help
@@ -34,7 +35,7 @@ uv run python scripts/batch_update_docstrings.py --help
 
 ### Command-Line Options
 
-- `--dry-run`: Preview changes without modifying files
+- `--dry-run`: Preview changes without writing to files (recommended for first run)
 - `--category {category}`: Process only the specified category
   - Available categories: `classical`, `constrained`, `evolutionary`, `gradient_based`, `metaheuristic`, `multi_objective`, `physics_inspired`, `probabilistic`, `social_inspired`, `swarm_intelligence`
 
@@ -47,7 +48,8 @@ uv run python scripts/batch_update_docstrings.py --help
    File: opt/swarm_intelligence/particle_swarm.py
    Category: swarm_intelligence
    Parameters: func, lower_bound, upper_bound, dim, population_size, max_iter, seed
-   Action: Manual review required - FIXME markers added
+   Action: ✅ Docstring template written to file
+   ⚠️  Note: Review and complete FIXME markers in the generated template.
    ⚠️  Note: This is a template. Manual review and completion needed.
 
 ...
@@ -162,7 +164,7 @@ uv run pytest opt/test/test_batch_update_docstrings.py -v
 
 ## Next Steps After Running Script
 
-1. Review generated templates with FIXME markers
+1. Review the generated templates with FIXME markers in the modified optimizer files
 2. Complete algorithm-specific information:
    - Fill in metadata (year, authors, acronym)
    - Add mathematical formulation
@@ -173,6 +175,9 @@ uv run pytest opt/test/test_batch_update_docstrings.py -v
    - Run doctests: `uv run python -m doctest opt/[category]/[module].py`
    - Verify formatting: `uv run ruff check opt/`
 4. Refer to `.github/prompts/optimizer-docs-template.md` for detailed guidance
+
+**Note:** The script writes templates directly to optimizer files when run without `--dry-run`. 
+Always use `--dry-run` first to preview changes before applying them to avoid accidental overwrites.
 
 ## Troubleshooting
 
