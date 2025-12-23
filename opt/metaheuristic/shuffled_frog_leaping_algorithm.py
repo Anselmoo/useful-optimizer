@@ -199,7 +199,7 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
                 - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Eusuff, M. M., & Lansey, K. E. (2006). "Shuffled frog-leaping algorithm: 
+        [1] Eusuff, M. M., & Lansey, K. E. (2006). "Shuffled frog-leaping algorithm:
             a memetic meta-heuristic for discrete optimization."
             _Engineering Optimization_, 38(2), 129-154.
             https://doi.org/10.1080/03052150500384759
