@@ -59,46 +59,66 @@ _LEVY_BETA = 1.5  # Lévy flight parameter
 
 
 class MarinePredatorsOptimizer(AbstractOptimizer):
-    r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    r"""Marine Predators Algorithm (MPA) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
-        | Algorithm Name    | FIXME: [Full algorithm name]             |
-        | Acronym           | FIXME: [SHORT]                           |
-        | Year Introduced   | FIXME: [YYYY]                            |
-        | Authors           | FIXME: [Last, First; ...]                |
+        | Algorithm Name    | Marine Predators Algorithm               |
+        | Acronym           | MPA                                      |
+        | Year Introduced   | 2020                                     |
+        | Authors           | Faramarzi, Afshin; Heidarinejad, Mohammad; Mirjalili, Seyedali; Gandomi, Amir H. |
         | Algorithm Class   | Swarm Intelligence |
-        | Complexity        | FIXME: O([expression])                   |
-        | Properties        | FIXME: [Population-based, ...]           |
+        | Complexity        | O(population_size $\times$ dim $\times$ max_iter) |
+        | Properties        | Population-based, Lévy flights, Brownian motion, Derivative-free |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
     Mathematical Formulation:
-        FIXME: Core update equation:
+        Based on optimal foraging strategy of marine predators using Lévy and Brownian movements.
 
+        Three optimization phases (based on velocity ratio):
+
+        Phase 1 (High velocity ratio - exploration):
             $$
-            x_{t+1} = x_t + v_t
+            \text{stepsize} = RB \odot (\text{Elite} - RB \odot \text{Prey})
+            $$
+            $$
+            \text{Prey} = \text{Prey} + P \times R \times \text{stepsize}
+            $$
+
+        Phase 2 (Unit velocity ratio - transition):
+            Half population uses Brownian, half uses Lévy movement
+
+        Phase 3 (Low velocity ratio - exploitation):
+            $$
+            \text{stepsize} = RL \odot (RL \odot \text{Elite} - \text{Prey})
+            $$
+            $$
+            \text{Prey} = \text{Elite} + P \times CF \times \text{stepsize}
             $$
 
         where:
-            - $x_t$ is the position at iteration $t$
-            - $v_t$ is the velocity/step at iteration $t$
-            - FIXME: Additional variable definitions...
+            - $\text{Elite}$ is the best solution (top predator)
+            - $RB$ is Brownian random vector
+            - $RL$ is Lévy random vector
+            - $P = 0.5$ is proportion constant
+            - $CF = (1 - t/T)^{2t/T}$ is convergence factor
+            - $\odot$ denotes element-wise multiplication
 
         Constraint handling:
-            - **Boundary conditions**: FIXME: [clamping/reflection/periodic]
-            - **Feasibility enforcement**: FIXME: [description]
+            - **Boundary conditions**: Clamping to [lower_bound, upper_bound]
+            - **Feasibility enforcement**: Position updates maintain search space bounds
 
     Hyperparameters:
         | Parameter              | Default | BBOB Recommended | Description                    |
         |------------------------|---------|------------------|--------------------------------|
         | population_size        | 100     | 10*dim           | Number of individuals          |
         | max_iter               | 1000    | 10000            | Maximum iterations             |
-        | FIXME: [param_name]    | [val]   | [bbob_val]       | [description]                  |
+        | FADs effect        | 0.2     | 0.2              | Fish Aggregating Devices probability |
 
         **Sensitivity Analysis**:
-            - FIXME: `[param_name]`: **[High/Medium/Low]** impact on convergence
+            - `FADs`: **Low** impact - memory saving mechanism
             - Recommended tuning ranges: FIXME: $\text{[param]} \in [\text{min}, \text{max}]$
 
     COCO/BBOB Benchmark Settings:
