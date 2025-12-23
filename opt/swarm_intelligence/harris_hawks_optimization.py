@@ -186,17 +186,17 @@ class HarrisHawksOptimizer(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
+        tuple[np.ndarray, float]:
                     Best solution found and its fitness value
 
     Raises:
-                ValueError:
+        ValueError:
                     If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Heidari, A.A., Mirjalili, S., Faris, H., Aljarah, I., Mafarja, M., Chen, H. (2019).
@@ -300,8 +300,8 @@ class HarrisHawksOptimizer(AbstractOptimizer):
 
         Returns:
             Tuple containing:
-                - best_solution: The best solution found (numpy array).
-                - best_fitness: The fitness value of the best solution.
+        - best_solution: The best solution found (numpy array).
+        - best_fitness: The fitness value of the best solution.
         """
         rng = np.random.default_rng(self.seed)
 

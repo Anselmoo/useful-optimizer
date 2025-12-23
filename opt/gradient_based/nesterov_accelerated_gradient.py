@@ -173,17 +173,17 @@ class NesterovAcceleratedGradient(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
+        tuple[np.ndarray, float]:
                     Best solution found and its fitness value
 
     Raises:
-                ValueError:
+        ValueError:
                     If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies solution during iteration
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Nesterov, Y. (1983). "A method for solving the convex programming problem

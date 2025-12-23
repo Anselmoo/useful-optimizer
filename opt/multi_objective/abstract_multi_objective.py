@@ -78,7 +78,7 @@ class AbstractMultiObjectiveOptimizer(ABC):
         search() -> tuple[ndarray, ndarray]: Perform the multi-objective optimization search.
 
     Returns:
-                tuple[ndarray, ndarray]: Tuple containing the Pareto-optimal solutions and fitness values.
+        tuple[ndarray, ndarray]: Tuple containing the Pareto-optimal solutions and fitness values.
                         - pareto_solutions: 2D array of Pareto-optimal solutions with shape
                             (num_pareto_solutions, dim).
                         - pareto_fitness: 2D array of objective values for each Pareto solution with shape
@@ -267,8 +267,8 @@ class AbstractMultiObjectiveOptimizer(ABC):
 
         Returns:
             Tuple containing:
-                - pareto_solutions: 2D array of Pareto-optimal solutions
+        - pareto_solutions: 2D array of Pareto-optimal solutions
                   with shape (num_pareto_solutions, dim).
-                - pareto_fitness: 2D array of objective values for each
+        - pareto_fitness: 2D array of objective values for each
                   Pareto solution with shape (num_pareto_solutions, num_objectives).
         """

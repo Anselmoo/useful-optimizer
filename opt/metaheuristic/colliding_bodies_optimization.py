@@ -154,17 +154,17 @@ class CollidingBodiesOptimization(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
+        tuple[np.ndarray, float]:
                     Best solution found and its fitness value
 
     Raises:
-                ValueError:
+        ValueError:
                     If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Kaveh, A., & Mahdavi, V. R. (2014). "Colliding bodies optimization:

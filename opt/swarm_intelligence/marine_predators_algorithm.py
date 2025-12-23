@@ -190,17 +190,17 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
+        tuple[np.ndarray, float]:
                     Best solution found and its fitness value
 
     Raises:
-                ValueError:
+        ValueError:
                     If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
@@ -343,8 +343,8 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
 
         Returns:
             Tuple containing:
-                - best_solution: The best solution found (numpy array).
-                - best_fitness: The fitness value of the best solution.
+        - best_solution: The best solution found (numpy array).
+        - best_fitness: The fitness value of the best solution.
         """
         rng = np.random.default_rng(self.seed)
 
