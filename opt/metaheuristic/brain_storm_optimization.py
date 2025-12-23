@@ -1,14 +1,14 @@
 from __future__ import annotations
 
-from typing import Callable
+from collections.abc import Callable
+
 import numpy as np
 
 from opt.abstract_optimizer import AbstractOptimizer
 
 
 class BrainStormOptimizer(AbstractOptimizer):
-    """
-    Brain Storm Optimization (BSO).
+    """Brain Storm Optimization (BSO).
 
     Social-inspired population-based optimizer that generates new solutions
     by perturbing or combining elite ideas (cluster representatives).

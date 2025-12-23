@@ -26,12 +26,13 @@ from opt.metaheuristic.variable_neighbourhood_search import VariableNeighborhood
 from opt.metaheuristic.very_large_scale_neighborhood_search import (
     VeryLargeScaleNeighborhood,
 )
-from .brain_storm_optimization import BrainStormOptimizer
 
+from .brain_storm_optimization import BrainStormOptimizer
 
 
 __all__: list[str] = [
     "ArithmeticOptimizationAlgorithm",
+    "BrainStormOptimizer",
     "CollidingBodiesOptimization",
     "CrossEntropyMethod",
     "EagleStrategy",
@@ -45,5 +46,4 @@ __all__: list[str] = [
     "VariableDepthSearch",
     "VariableNeighborhoodSearch",
     "VeryLargeScaleNeighborhood",
-    "BrainStormOptimizer",
 ]
