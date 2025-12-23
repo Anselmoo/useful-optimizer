@@ -87,9 +87,9 @@ The site uses the **Catppuccin Mocha** color scheme, a soothing pastel theme wit
 
 ## Features
 
-### MathJax Support
+### KaTeX Math Rendering
 
-LaTeX equations are supported via `markdown.math: true`:
+LaTeX equations are supported via KaTeX (fast, lightweight math renderer):
 
 **Inline math**: `$f(x) = x^2$`
 
@@ -112,14 +112,16 @@ Syntax highlighting with line numbers is enabled for all code blocks.
 
 - **vitepress**: `^1.5.0` - Documentation framework
 - **vue**: `^3.4.0` - Required by VitePress
-- **echarts**: `^6.0.0` - Charting library
-- **vue-echarts**: `^8.0.0` - Vue wrapper for ECharts
+- **echarts**: `^6.0.0` - Charting library (actively maintained)
+- **vue-echarts**: `^8.0.0` - Vue wrapper for ECharts (actively maintained)
 - **@catppuccin/vitepress**: `^0.1.2` - Catppuccin theme support
-- **markdown-it-mathjax3**: `^4.3.2` - LaTeX math rendering
+- **markdown-it-katex**: `^2.0.3` - Fast LaTeX math rendering with KaTeX
 
 ### Dependency Notes
 
-- **Note**: `echarts-gl` was removed from the documentation dependencies due to lack of maintenance and incompatibility with recent ECharts releases (ECharts v6+). The site now targets `echarts:^6.0.0`.
+- **Math rendering**: Migrated from `markdown-it-mathjax3` to `markdown-it-katex` for better performance, smaller bundle size, and active maintenance.
+- **Charts**: Using modern `echarts` v6.0.0 and `vue-echarts` v8.0.0, both actively maintained packages.
+- **Note**: `echarts-gl` was removed from the documentation dependencies due to lack of maintenance and incompatibility with recent ECharts releases (ECharts v6+).
 
 ### TODO: 3D visualization (non-visible)
 

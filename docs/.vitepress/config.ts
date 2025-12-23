@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import markdownItKatex from 'markdown-it-katex'
 
 const base = '/useful-optimizer/'
 
@@ -15,6 +16,7 @@ export default defineConfig({
   head: [
     // Must include base prefix; otherwise GitHub Pages serves this at /useful-optimizer/favicon.svg
     ['link', { rel: 'icon', type: 'image/svg+xml', href: `${base}favicon.svg` }],
+    ['link', { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css' }],
     ['meta', { name: 'theme-color', content: '#cba6f7' }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:title', content: 'Useful Optimizer' }],
@@ -166,7 +168,9 @@ export default defineConfig({
   },
 
   markdown: {
-    math: true,
+    config: (md) => {
+      md.use(markdownItKatex)
+    },
     lineNumbers: true
   },
 
