@@ -119,7 +119,15 @@ Syntax highlighting with line numbers is enabled for all code blocks.
 
 ### Dependency Notes
 
-- **Note**: `echarts-gl` was removed from the documentation dependencies due to lack of maintenance and incompatibility with recent ECharts releases (ECharts v6+). The site now targets `echarts:^6.0.0`. If 3D visualizations are required, consider using an actively maintained alternative or a custom integration pinned to compatible versions.
+- **Note**: `echarts-gl` was removed from the documentation dependencies due to lack of maintenance and incompatibility with recent ECharts releases (ECharts v6+). The site now targets `echarts:^6.0.0`.
+
+### TODO: 3D visualization (non-visible)
+
+- **Goal**: Provide 3D benchmark visualizations without shipping `echarts-gl` in the docs build.
+  - Consider server-side rendering or an export pipeline to produce PNG/SVG/GLTF assets for the docs.
+  - Alternatively, implement an optional, lazily-loaded 3D viewer (Three.js / Deck.gl / Plotly) that is not required for the default docs build.
+- **Tracking**: Create an issue `docs: implement non-visible 3D visualization pipeline` to track effort, tests, and compatibility requirements.
+- **CI**: Add a docs-specific npm check to catch dependency/peer-dependency issues early (see workflow).
 - **vue-echarts v7**: Compatible with echarts@5. Version 8 requires echarts@6.
 
 ## Dead Links
