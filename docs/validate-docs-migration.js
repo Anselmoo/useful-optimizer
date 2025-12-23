@@ -2,10 +2,10 @@
 
 /**
  * Documentation Dependency Validation Script
- * 
+ *
  * Validates that the documentation migration to KaTeX is successful.
  * Run this script to verify math rendering and dependency health.
- * 
+ *
  * Usage:
  *   node validate-docs-migration.js
  */
@@ -67,7 +67,7 @@ section('1. Checking package.json');
 try {
   const packagePath = join(docsDir, 'package.json');
   const packageJson = JSON.parse(readFileSync(packagePath, 'utf-8'));
-  
+
   // Check for markdown-it-katex
   if (packageJson.devDependencies['markdown-it-katex']) {
     success(`markdown-it-katex found: ${packageJson.devDependencies['markdown-it-katex']}`);
@@ -75,7 +75,7 @@ try {
   } else {
     error('markdown-it-katex not found in devDependencies');
   }
-  
+
   // Check that markdown-it-mathjax3 is removed
   if (!packageJson.devDependencies['markdown-it-mathjax3']) {
     success('markdown-it-mathjax3 correctly removed');
@@ -83,11 +83,11 @@ try {
   } else {
     error('markdown-it-mathjax3 still present - should be removed');
   }
-  
+
   // Verify ECharts versions
   const echartsVersion = packageJson.devDependencies['echarts'];
   const vueEchartsVersion = packageJson.devDependencies['vue-echarts'];
-  
+
   if (echartsVersion && vueEchartsVersion) {
     success(`echarts: ${echartsVersion}`);
     success(`vue-echarts: ${vueEchartsVersion}`);
@@ -95,7 +95,7 @@ try {
   } else {
     error('ECharts packages missing');
   }
-  
+
 } catch (err) {
   error(`Failed to read package.json: ${err.message}`);
 }
@@ -105,21 +105,21 @@ section('2. Checking VitePress Configuration');
 try {
   const configPath = join(docsDir, '.vitepress', 'config.ts');
   const configContent = readFileSync(configPath, 'utf-8');
-  
+
   // Check for KaTeX import
   if (configContent.includes('markdown-it-katex')) {
     success('markdown-it-katex import found');
   } else {
     error('markdown-it-katex import missing');
   }
-  
+
   // Check for KaTeX CSS
   if (configContent.includes('katex@') && configContent.includes('.min.css')) {
     success('KaTeX CSS stylesheet configured');
   } else {
     warning('KaTeX CSS might be missing from head configuration');
   }
-  
+
   // Check for plugin configuration
   if (configContent.includes('md.use(markdownItKatex)')) {
     success('KaTeX plugin configured in markdown config');
@@ -127,14 +127,14 @@ try {
   } else {
     error('KaTeX plugin not configured - check markdown.config section');
   }
-  
+
   // Check that old math: true option is removed
   if (configContent.includes('math: true')) {
     warning('Found "math: true" - this option does nothing and should be removed');
   } else {
     success('Legacy "math: true" option removed');
   }
-  
+
 } catch (err) {
   error(`Failed to read VitePress config: ${err.message}`);
 }
@@ -143,10 +143,10 @@ try {
 section('3. Checking Built Documentation');
 try {
   const builtFunctionsPath = join(docsDir, '.vitepress', 'dist', 'benchmarks', 'functions.html');
-  
+
   if (existsSync(builtFunctionsPath)) {
     const htmlContent = readFileSync(builtFunctionsPath, 'utf-8');
-    
+
     // Check for KaTeX classes
     const katexMatches = htmlContent.match(/katex/g);
     if (katexMatches && katexMatches.length > 0) {
@@ -155,14 +155,14 @@ try {
     } else {
       error('No KaTeX rendering found in built HTML');
     }
-    
+
     // Check for MathJax traces (should not exist)
     if (htmlContent.includes('mjx') || htmlContent.includes('mathjax')) {
       error('MathJax traces found - migration incomplete');
     } else {
       success('No MathJax traces found (clean migration)');
     }
-    
+
     // Check for math content
     if (htmlContent.includes('mathbf') || htmlContent.includes('sum')) {
       success('Mathematical content found in HTML');
@@ -183,13 +183,13 @@ section('4. Checking Node Modules');
 try {
   const nodeModulesKatex = join(docsDir, 'node_modules', 'markdown-it-katex');
   const nodeModulesMathjax = join(docsDir, 'node_modules', 'markdown-it-mathjax3');
-  
+
   if (existsSync(nodeModulesKatex)) {
     success('markdown-it-katex installed in node_modules');
   } else {
     error('markdown-it-katex not found in node_modules - run npm install');
   }
-  
+
   if (!existsSync(nodeModulesMathjax)) {
     success('markdown-it-mathjax3 not in node_modules (correctly removed)');
   } else {

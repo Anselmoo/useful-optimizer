@@ -117,7 +117,7 @@ if [ -f "$DIST_DIR/benchmarks/functions.html" ]; then
         echo -e "${RED}❌ No KaTeX rendering found${NC}"
         exit 1
     fi
-    
+
     # Check for MathJax traces (should not exist)
     if grep -q "mjx\|MathJax" "$DIST_DIR/benchmarks/functions.html"; then
         echo -e "${RED}❌ MathJax traces found in built HTML${NC}"

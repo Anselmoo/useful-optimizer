@@ -292,9 +292,9 @@ No action needed - documentation will continue to work as before with improved p
 
 ---
 
-**Migration completed**: December 2025  
-**By**: GitHub Copilot  
-**Branch**: copilot/investigate-doc-dependency-migration  
-**Commits**: 4 (a13ae4d, 237cd65, 63aa05d, b5dfbf5)  
-**Files changed**: 9 files, ~40KB added  
+**Migration completed**: December 2025
+**By**: GitHub Copilot
+**Branch**: copilot/investigate-doc-dependency-migration
+**Commits**: 4 (a13ae4d, 237cd65, 63aa05d, b5dfbf5)
+**Files changed**: 9 files, ~40KB added
 **Status**: ✅ Ready for merge
