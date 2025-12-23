@@ -206,7 +206,7 @@ class TrustRegion(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(n^3)$ for subproblem solve
             - Space complexity: $O(n^2)$
-            - BBOB budget usage: _15-40% of dim×10000_
+            - BBOB budget usage: _15-40% of $\text{dim} \times 10000$_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Smooth, Ill-conditioned

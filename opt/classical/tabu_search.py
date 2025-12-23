@@ -80,7 +80,7 @@ class TabuSearch(AbstractOptimizer):
         | Year Introduced   | 1986                                     |
         | Authors           | Glover, Fred                             |
         | Algorithm Class   | Classical                                |
-        | Complexity        | O(population × neighbors × iterations)   |
+        | Complexity        | $O(\text{population} \times \text{neighbors} \times \text{iterations})$   |
         | Properties        | Memory-based, Local search, Metaheuristic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
@@ -110,7 +110,7 @@ class TabuSearch(AbstractOptimizer):
         |------------------------|---------|------------------|--------------------------------|
         | population_size        | 100     | 10-50            | Number of independent runs     |
         | max_iter               | 1000    | 5000-10000       | Maximum iterations per run     |
-        | tabu_list_size         | 50      | dim to 5×dim     | Tabu memory size               |
+        | tabu_list_size         | 50      | dim to $5 \times \text{dim}$     | Tabu memory size               |
         | neighborhood_size      | 10      | 10-20            | Neighbors evaluated per iter   |
 
         **Sensitivity Analysis**:
@@ -229,7 +229,7 @@ class TabuSearch(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(|N| \times |T|)$ for neighborhood and tabu checks
             - Space complexity: $O(|T| + |P|)$ for tabu list and population
-            - BBOB budget usage: _40-70% of dim×10000_
+            - BBOB budget usage: _40-70% of $\text{dim} \times 10000$_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, Discrete-like landscapes

@@ -54,7 +54,7 @@ class HillClimbing(AbstractOptimizer):
         | Year Introduced   | 1950s                                    |
         | Authors           | Various (classic heuristic method)       |
         | Algorithm Class   | Classical                                |
-        | Complexity        | O(n × candidates × iterations)           |
+        | Complexity        | $O(n \times \text{candidates} \times \text{iterations})$           |
         | Properties        | Local search, Greedy, Derivative-free, Adaptive step |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
@@ -230,7 +230,7 @@ class HillClimbing(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(n \times c)$ where $c=4$ candidates per dimension
             - Space complexity: $O(n)$ for storing position and step sizes
-            - BBOB budget usage: _Typically uses 20-50% of dim×10000 budget_
+            - BBOB budget usage: _Typically uses 20-50% of $\text{dim} \times 10000$ budget_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Smooth, Low-dimensional

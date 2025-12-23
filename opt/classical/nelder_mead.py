@@ -57,7 +57,7 @@ class NelderMead(AbstractOptimizer):
         | Year Introduced   | 1965                                     |
         | Authors           | Nelder, John; Mead, Roger                |
         | Algorithm Class   | Classical                                |
-        | Complexity        | O((n+1) × evals) per iteration           |
+        | Complexity        | $O((n+1) \times \text{evals})$ per iteration           |
         | Properties        | Derivative-free, Simplex-based, Deterministic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
@@ -229,7 +229,7 @@ class NelderMead(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O((n+1) \times f_{evals})$ for simplex operations
             - Space complexity: $O(n^2)$ for storing simplex vertices
-            - BBOB budget usage: _Typically uses 30-60% of dim×10000 budget_
+            - BBOB budget usage: _Typically uses 30-60% of $\text{dim} \times 10000$ budget_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Non-smooth, Low-dimensional, Noisy functions

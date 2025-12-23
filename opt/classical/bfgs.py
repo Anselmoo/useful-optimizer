@@ -229,7 +229,7 @@ class BFGS(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(n^2)$ for Hessian approximation update
             - Space complexity: $O(n^2)$ for storing inverse Hessian approximation
-            - BBOB budget usage: _Typically uses 10-30% of dim×10000 budget for smooth functions_
+            - BBOB budget usage: _Typically uses 10-30% of $\text{dim} \times 10000$ budget for smooth functions_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Smooth, Moderate conditioning

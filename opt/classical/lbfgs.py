@@ -216,7 +216,7 @@ class LBFGS(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(mn)$ where $m$ is memory parameter (typically 5-20)
             - Space complexity: $O(mn)$ for storing $m$ vector pairs
-            - BBOB budget usage: _Typically uses 10-30% of dim×10000 budget for smooth functions_
+            - BBOB budget usage: _Typically uses 10-30% of $\text{dim} \times 10000$ budget for smooth functions_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Smooth, High-dimensional

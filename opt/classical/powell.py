@@ -196,7 +196,7 @@ class Powell(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(n^2)$
             - Space complexity: $O(n^2)$
-            - BBOB budget usage: _20-50% of dim×10000_
+            - BBOB budget usage: _20-50% of $\text{dim} \times 10000$_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Smooth, Well-conditioned

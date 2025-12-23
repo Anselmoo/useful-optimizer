@@ -44,7 +44,7 @@ class SimulatedAnnealing(AbstractOptimizer):
         | Year Introduced   | 1983                                     |
         | Authors           | Kirkpatrick, Scott; Gelatt, C. Daniel; Vecchi, Mario |
         | Algorithm Class   | Classical                                |
-        | Complexity        | O(iterations × evaluations)              |
+        | Complexity        | $O(\text{iterations} \times \text{evaluations})$              |
         | Properties        | Metaheuristic, Probabilistic, Global search |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
@@ -136,7 +136,7 @@ class SimulatedAnnealing(AbstractOptimizer):
         max_iter (int, optional): Maximum iterations per run. Defaults to 1000.
         init_temperature (float, optional): Initial temperature. Higher=more exploration. Defaults to 100.0.
         stopping_temperature (float, optional): Temperature stopping criterion. Defaults to 1e-8.
-        cooling_rate (float, optional): Geometric cooling factor (0 < α < 1). Defaults to 0.99.
+        cooling_rate (float, optional): Geometric cooling factor ($0 < \alpha < 1$). Defaults to 0.99.
         dynamic_cooling (bool, optional): Enable adaptive cooling schedule. Defaults to True.
         seed (int | None, optional): Random seed for BBOB reproducibility. Defaults to None.
 
@@ -197,7 +197,7 @@ class SimulatedAnnealing(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(1)$ per proposal
             - Space complexity: $O(n)$
-            - BBOB budget usage: _30-70% of dim×10000_
+            - BBOB budget usage: _30-70% of $\text{dim} \times 10000$_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, Rugged landscapes
