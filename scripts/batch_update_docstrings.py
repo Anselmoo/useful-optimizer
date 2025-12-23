@@ -660,7 +660,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         print("\n💡 This was a dry run. To apply changes, run without --dry-run flag.")
     else:
         print("\n⚠️  Templates generated with FIXME markers. Manual review required!")
-        print("   See .github/prompts/optimizer-docs-template.md for guidance.")
+        print("   See .github/prompts/optimizer-docs-template.prompt.md for guidance.")
 
     return 0 if not failed else 1
 

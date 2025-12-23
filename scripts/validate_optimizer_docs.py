@@ -1,7 +1,7 @@
 """Validate optimizer docstrings for COCO/BBOB compliance.
 
 This script validates that optimizer docstrings follow the COCO/BBOB template
-defined in `.github/prompts/optimizer-docs-template.md`. It checks for:
+defined in `.github/prompts/optimizer-docs-template.prompt.md`. It checks for:
 - Algorithm Metadata block present
 - BBOB Benchmark Settings section present
 - Example includes seed=42

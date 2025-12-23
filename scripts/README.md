@@ -63,7 +63,7 @@ uv run python scripts/batch_update_docstrings.py --help
    Failed: 0
 
 ⚠️  Templates generated with FIXME markers. Manual review required!
-   See .github/prompts/optimizer-docs-template.md for guidance.
+   See .github/prompts/optimizer-docs-template.prompt.md for guidance.
 ```
 
 ## Implementation Details
@@ -174,7 +174,7 @@ uv run pytest opt/test/test_batch_update_docstrings.py -v
 3. Validate generated docstrings:
    - Run doctests: `uv run python -m doctest opt/[category]/[module].py`
    - Verify formatting: `uv run ruff check opt/`
-4. Refer to `.github/prompts/optimizer-docs-template.md` for detailed guidance
+4. Refer to `.github/prompts/optimizer-docs-template.prompt.md` for detailed guidance
 
 **Note:** The script writes templates directly to optimizer files when run without `--dry-run`.
 Always use `--dry-run` first to preview changes before applying them to avoid accidental overwrites.
@@ -212,7 +212,7 @@ When modifying the script:
 
 ## Related Documentation
 
-- [COCO/BBOB Template](../.github/prompts/optimizer-docs-template.md): Complete docstring template guide
+- [COCO/BBOB Template](../.github/prompts/optimizer-docs-template.prompt.md): Complete docstring template guide
 - [COCO Platform](https://coco-platform.org/): Official COCO/BBOB documentation
 - [BBOB Test Suite](https://coco-platform.org/testsuites/bbob/overview.html): Benchmark suite overview
 

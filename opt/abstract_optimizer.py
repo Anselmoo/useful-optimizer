@@ -9,7 +9,7 @@ All concrete optimizer implementations inheriting from this class must provide:
 - Performance characteristics on BBOB function classes
 - Complexity analysis (time/space, function evaluations)
 
-See `.github/prompts/optimizer-docs-template.md` for complete template.
+See `.github/prompts/optimizer-docs-template.prompt.md` for complete template.
 """
 
 from __future__ import annotations
