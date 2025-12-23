@@ -172,8 +172,7 @@ class BatAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = BatAlgorithm(
-        ...     func=sphere, dim=10, lower_bound=-5, upper_bound=5,
-        ...     n_bats=20, max_iter=100, seed=42
+        ...     func=sphere, dim=10, lower_bound=-5, upper_bound=5, n_bats=20, max_iter=100, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
