@@ -4,6 +4,19 @@ Useful Optimizer is a Python optimization library containing **120 optimization 
 
 **Always reference these instructions first and fall back to search or shell commands only when you encounter unexpected information that does not match the info here.** All commands are written as **single-line Fish-shell commands** so they can be copied directly into the terminal.
 
+## Docs Completion Workflow (MANDATORY)
+- When working on documentation tasks, **follow `.github/prompts/docs-completion.prompt.md` exactly** (objectives, non-goals, and steps). Do not improvise outside that prompt.
+- Use the branch and stack from the prompt: `git checkout docs/algorithm-pages-and-sidebar`, VitePress v1.6.4/Vue 3/ECharts, Python 3.10+.
+- Apply the code fixes from the prompt verbatim before other changes:
+  - `uv run python - <<'PY'` edits in `benchmarks/run_benchmark_suite.py` and `benchmarks/generate_plots.py` per the prompt.
+  - Register Vue-ECharts in `docs/.vitepress/theme/index.ts` exactly as specified.
+- Generate docs pages and JSON exports as directed; **do not modify optimizer algorithm logic** (explicit non-goal).
+- Validation commands from the prompt (single-line fish):
+  ```fish
+  uv run python -c "from benchmarks.run_benchmark_suite import run_single_benchmark; print('OK')"
+  cd docs; npm run docs:dev
+  ```
+
 ## Working Effectively
 
 ### Initial Setup and Installation
