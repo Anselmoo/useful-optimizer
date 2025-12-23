@@ -161,50 +161,32 @@ class AdaDelta(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array and return scalar.
             BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional):
-            Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
             Defaults to 1000.
-        rho (float, optional):
-            Decay rate for moving averages of squared gradients and updates.
+        rho (float, optional): Decay rate for moving averages of squared gradients and updates.
             Controls adaptation speed. BBOB recommendation: 0.90-0.99.
             Defaults to 0.95.
-        eps (float, optional):
-            Small constant for numerical stability in division operations.
+        eps (float, optional): Small constant for numerical stability in division operations.
             Prevents division by zero. Defaults to 1e-8.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
             If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        rho (float):
-            Decay rate for moving averages.
-        eps (float):
-            Numerical stability constant.
-        Eg (ndarray):
-            Moving average of squared gradients, shape (dim,).
-        Edx (ndarray):
-            Moving average of squared parameter updates, shape (dim,).
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        rho (float): Decay rate for moving averages.
+        eps (float): Numerical stability constant.
+        Eg (ndarray): Moving average of squared gradients, shape (dim,).
+        Edx (ndarray): Moving average of squared parameter updates, shape (dim,).
 
     Methods:
         search() -> tuple[np.ndarray, float]:

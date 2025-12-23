@@ -144,45 +144,29 @@ class SGDMomentum(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array and return scalar.
             BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional):
-            Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
             Defaults to 1000.
-        learning_rate (float, optional):
-            Learning rate (step size). Controls magnitude of parameter updates.
+        learning_rate (float, optional): Learning rate (step size). Controls magnitude of parameter updates.
             BBOB recommendation: 0.001-0.1. Defaults to 0.01.
-        momentum (float, optional):
-            Momentum coefficient. Accumulates fraction of previous update.
+        momentum (float, optional): Momentum coefficient. Accumulates fraction of previous update.
             BBOB recommendation: 0.9-0.99. Defaults to 0.9.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
             If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        learning_rate (float):
-            Learning rate (step size).
-        momentum (float):
-            Momentum coefficient.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        learning_rate (float): Learning rate (step size).
+        momentum (float): Momentum coefficient.
 
     Methods:
         search() -> tuple[np.ndarray, float]:

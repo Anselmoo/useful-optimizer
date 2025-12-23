@@ -162,55 +162,35 @@ class AMSGrad(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array and return scalar.
             BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional):
-            Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
             Defaults to 1000.
-        learning_rate (float, optional):
-            Learning rate (step size). Controls magnitude of parameter updates.
+        learning_rate (float, optional): Learning rate (step size). Controls magnitude of parameter updates.
             BBOB recommendation: 0.001-0.01. Defaults to 0.001.
-        beta1 (float, optional):
-            Exponential decay rate for first moment estimates.
+        beta1 (float, optional): Exponential decay rate for first moment estimates.
             BBOB recommendation: 0.9. Defaults to 0.9.
-        beta2 (float, optional):
-            Exponential decay rate for second moment estimates.
+        beta2 (float, optional): Exponential decay rate for second moment estimates.
             BBOB recommendation: 0.999. Defaults to 0.999.
-        epsilon (float, optional):
-            Small constant for numerical stability. Prevents division by zero.
+        epsilon (float, optional): Small constant for numerical stability. Prevents division by zero.
             Defaults to 1e-8.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
             If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        learning_rate (float):
-            Learning rate (step size).
-        beta1 (float):
-            Decay rate for first moment.
-        beta2 (float):
-            Decay rate for second moment.
-        epsilon (float):
-            Numerical stability constant.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        learning_rate (float): Learning rate (step size).
+        beta1 (float): Decay rate for first moment.
+        beta2 (float): Decay rate for second moment.
+        epsilon (float): Numerical stability constant.
 
     Methods:
         search() -> tuple[np.ndarray, float]:
