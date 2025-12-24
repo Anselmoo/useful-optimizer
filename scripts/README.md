@@ -2,6 +2,76 @@
 
 This directory contains validation and generation scripts for the useful-optimizer library.
 
+## 🎯 Schema-Driven Documentation Pipeline
+
+The project uses a **unified, schema-driven documentation pipeline** with Pydantic models for type-safe validation:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│              Schema-Driven Validation Pipeline                  │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  docs/schemas/          opt/                  scripts/          │
+│  ┌────────────────┐    ┌─────────────────┐   ┌──────────────┐  │
+│  │ docstring-     │───▶│ docstring_      │──▶│ unified_     │  │
+│  │ schema.json    │    │ models.py       │   │ validator.py │  │
+│  │                │    │ (Pydantic)      │   │              │  │
+│  └────────────────┘    └─────────────────┘   └──────────────┘  │
+│                             │                        │          │
+│                             │                        ▼          │
+│                             │                  Pre-commit       │
+│                             │                  CI/CD            │
+│                             ▼                                   │
+│                        Type-safe                                │
+│                        Validation                               │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+### Core Components
+
+1. **JSON Schema** (`docs/schemas/docstring-schema.json`)
+   - Single source of truth for docstring structure
+   - Defines COCO/BBOB template requirements
+   - 722 lines defining metadata, args, attributes, etc.
+
+2. **Pydantic Models** (`opt/docstring_models.py`)
+   - Generated from JSON schema using `datamodel-code-generator`
+   - Type-safe Python models for validation
+   - Includes: `CocoBbobOptimizerDocstringSchema`, `AlgorithmMetadata`, etc.
+
+3. **DocstringParser** (`scripts/docstring_parser.py`)
+   - Extracts docstrings from Python files
+   - Parses sections (Algorithm Metadata, Args, etc.)
+   - Validates against Pydantic models
+
+4. **Unified Validator** (`scripts/unified_validator.py`)
+   - CLI tool for validating optimizer docstrings
+   - Replaces regex-based validators
+   - Provides detailed Pydantic validation errors
+
+### Quick Start
+
+```bash
+# Validate a single file
+uv run python scripts/unified_validator.py opt/classical/simulated_annealing.py -v
+
+# Validate all optimizer files
+uv run python scripts/unified_validator.py --all
+
+# Test the parser
+uv run python scripts/docstring_parser.py opt/swarm_intelligence/particle_swarm.py
+```
+
+### Testing
+
+```bash
+# Run Pydantic model tests
+uv run pytest opt/test/test_docstring_models.py -v
+
+# Run parser tests
+uv run pytest opt/test/test_docstring_parser.py -v
+```
+
 ## Available Scripts
 
 ### 1. `batch_update_docstrings.py` - Docstring Template Generator

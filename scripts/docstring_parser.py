@@ -88,7 +88,7 @@ class DocstringParser:
                     if docstring:
                         return docstring
 
-        except SyntaxError:
+        except (SyntaxError, FileNotFoundError, OSError):
             return None
 
         return None

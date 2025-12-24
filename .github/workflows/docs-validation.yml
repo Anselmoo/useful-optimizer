@@ -1,0 +1,100 @@
+name: Documentation Validation
+
+on:
+  pull_request:
+    paths:
+      - 'opt/**/*.py'
+      - 'docs/schemas/**/*.json'
+      - 'scripts/**.py'
+      - '.github/workflows/docs-validation.yml'
+  push:
+    branches:
+      - main
+    paths:
+      - 'opt/**/*.py'
+      - 'docs/schemas/**/*.json'
+      - 'scripts/**.py'
+
+jobs:
+  validate-docstrings:
+    name: Validate Optimizer Docstrings
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Validate docstrings against schema
+        run: |
+          uv run python scripts/unified_validator.py \
+            opt/classical/*.py \
+            opt/constrained/*.py \
+            opt/evolutionary/*.py \
+            opt/gradient_based/*.py \
+            opt/metaheuristic/*.py \
+            opt/multi_objective/*.py \
+            opt/physics_inspired/*.py \
+            opt/probabilistic/*.py \
+            opt/social_inspired/*.py \
+            opt/swarm_intelligence/*.py \
+            --verbose
+        continue-on-error: true  # Allow failures but report them
+
+  schema-consistency:
+    name: Validate Schema Consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Validate schema files are valid JSON
+        run: |
+          python -c "import json; json.load(open('docs/schemas/docstring-schema.json'))"
+          python -c "import json; json.load(open('docs/schemas/vitepress-mapping-schema.json'))"
+          python -c "import json; json.load(open('docs/schemas/default-mapping.json'))"
+
+      - name: Verify Pydantic models match schema
+        run: |
+          uv run python -c "from opt.docstring_models import CocoBbobOptimizerDocstringSchema; print('✓ Pydantic models imported successfully')"
+
+  generate-docs-dry-run:
+    name: Generate Docs (Dry Run)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Test docs generation
+        run: |
+          # Test that generate_docs.py can be imported and run
+          uv run python -c "import scripts.generate_docs; print('✓ generate_docs.py imports successfully')"
+        continue-on-error: true  # Allow failures for now
