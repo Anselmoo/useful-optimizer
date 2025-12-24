@@ -225,18 +225,18 @@ class SocialGroupOptimizer(AbstractOptimizer):
             Execute SGO through three-phase social learning process.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    - best_solution (np.ndarray): Best solution found, shape (dim,)
-                    - best_fitness (float): Fitness value at best_solution
+        tuple[np.ndarray, float]:
+            - best_solution (np.ndarray): Best solution found, shape (dim,)
+            - best_fitness (float): Fitness value at best_solution
 
     Raises:
         ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Executes improving, acquiring, and introspection phases per iteration
-                - Self-introspection coefficient adapts linearly: $c \cdot (1 - t)$
-                - Supports early stopping and convergence tracking
-                - BBOB: Returns final best solution after max_iter or early stop
+        - Executes improving, acquiring, and introspection phases per iteration
+        - Self-introspection coefficient adapts linearly: $c \cdot (1 - t)$
+        - Supports early stopping and convergence tracking
+        - BBOB: Returns final best solution after max_iter or early stop
 
     References:
         [1] Satapathy, S. C., & Naik, A. (2016).

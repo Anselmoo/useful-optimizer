@@ -168,17 +168,17 @@ class TeachingLearningOptimizer(AbstractOptimizer):
             Execute TLBO optimization through teacher and learner phases.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    - best_solution (np.ndarray): Best solution found, shape (dim,)
-                    - best_fitness (float): Fitness value at best_solution
+        tuple[np.ndarray, float]:
+            - best_solution (np.ndarray): Best solution found, shape (dim,)
+            - best_fitness (float): Fitness value at best_solution
 
     Raises:
         ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Executes both teacher and learner phases in each iteration
-                - Uses greedy selection for accepting new solutions
-                - BBOB: Returns final best solution after max_iter
+        - Executes both teacher and learner phases in each iteration
+        - Uses greedy selection for accepting new solutions
+        - BBOB: Returns final best solution after max_iter
 
     References:
         [1] Rao, R. V., Savsani, V. J., & Vakharia, D. P. (2011).

@@ -189,17 +189,17 @@ class PoliticalOptimizer(AbstractOptimizer):
             Execute Political Optimizer through constituency and campaign phases.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    - best_solution (np.ndarray): Best solution found, shape (dim,)
-                    - best_fitness (float): Fitness value at best_solution
+        tuple[np.ndarray, float]:
+            - best_solution (np.ndarray): Best solution found, shape (dim,)
+            - best_fitness (float): Fitness value at best_solution
 
     Raises:
         ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Randomly alternates between constituency and campaign phases
-                - Adaptive party switching probability decreases over time
-                - BBOB: Returns final best solution after max_iter
+        - Randomly alternates between constituency and campaign phases
+        - Adaptive party switching probability decreases over time
+        - BBOB: Returns final best solution after max_iter
 
     References:
         [1] Askari, Q., Younas, I., & Saeed, M. (2020).

@@ -196,18 +196,18 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
             Execute SLC through matches, training, and transfers.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    - best_solution (np.ndarray): Best solution found, shape (dim,)
-                    - best_fitness (float): Fitness value at best_solution
+        tuple[np.ndarray, float]:
+            - best_solution (np.ndarray): Best solution found, shape (dim,)
+            - best_fitness (float): Fitness value at best_solution
 
     Raises:
         ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Each iteration simulates matches between weighted opponents
-                - Training phase (20% probability) adds exploration
-                - Transfer window (10% probability) enables dimension exchange
-                - BBOB: Returns final best solution after max_iter
+        - Each iteration simulates matches between weighted opponents
+        - Training phase (20% probability) adds exploration
+        - Transfer window (10% probability) enables dimension exchange
+        - BBOB: Returns final best solution after max_iter
 
     References:
         [1] Moosavian, N., & Roodsari, B. K. (2014).
