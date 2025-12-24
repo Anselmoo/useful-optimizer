@@ -206,17 +206,16 @@ class RIMEOptimizer(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Su, H., Zhao, D., Heidari, A. A., Liu, L., Zhang, X., Mafarja, M., & Chen, H. (2023).
@@ -327,7 +326,7 @@ class RIMEOptimizer(AbstractOptimizer):
         """Execute the RIME Optimization Algorithm.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         rng = np.random.default_rng(self.seed)
 

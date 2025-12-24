@@ -28,6 +28,45 @@ Stack: VitePress v1.6.4, Vue 3, ECharts, Python 3.10+
 - Modify optimizer algorithm logic
 - Restructure existing 117 algorithm pages
 
+## Docstring Formatting Requirements (CRITICAL)
+
+**All docstrings must follow [Google Python Style Guide](https://google.github.io/styleguide/pyguide.html#383-functions-and-methods).**
+
+### Parameter Description Format
+
+**CRITICAL**: Parameter descriptions MUST start on the **same line** as the parameter name. This is the official Google style.
+
+**❌ WRONG** (line break after parameter name - common in agent mode):
+```python
+func (Callable[[ndarray], float]):
+    Objective function to minimize. Must accept numpy array and return scalar.
+    BBOB functions available in `opt.benchmark.functions`.
+```
+
+**✅ CORRECT** (description on same line):
+```python
+func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array and return scalar. BBOB functions available in `opt.benchmark.functions`.
+```
+
+**✅ CORRECT** (multi-line with proper indentation):
+```python
+parameter2 (str): This is a longer definition. I need to include so much
+    information that it needs a second line. Notice the indentation.
+```
+
+### Key Rules
+
+1. **No line breaks between parameter name and description**
+2. **Consistent 4-space indentation**
+3. **LaTeX for mathematical symbols**: `$\times$` not `×`, `$\alpha$` not `α`
+4. **Run validation**: `pre-commit run -a` before committing
+
+### References
+
+- [Google Python Style Guide - Functions and Methods](https://google.github.io/styleguide/pyguide.html#383-functions-and-methods)
+- [PEP 257 - Docstring Conventions](https://peps.python.org/pep-0257/)
+- [Sphinx Napoleon - Google Style](https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html)
+
 ---
 
 ## Workflow

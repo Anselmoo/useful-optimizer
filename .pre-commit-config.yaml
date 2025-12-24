@@ -35,7 +35,8 @@ repos:
         entry: python scripts/check_google_docstring_inline_descriptions.py
         language: system
         pass_filenames: true
-        files: ^opt/(abstract_optimizer\.py|multi_objective/abstract_multi_objective\.py)$
+        files: ^opt/(abstract_optimizer\.py|multi_objective/abstract_multi_objective\.py|(classical|constrained|evolutionary|gradient_based|metaheuristic|multi_objective|physics_inspired|probabilistic|social_inspired|swarm_intelligence)/.*\.py)$
+        exclude: ^opt/(benchmark|test|__pycache__|visualization)/.*
       # Custom optimizer validator
       - id: validate-optimizer-docs
         name: Validate optimizer COCO/BBOB compliance

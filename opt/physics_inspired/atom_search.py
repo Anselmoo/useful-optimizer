@@ -198,17 +198,16 @@ class AtomSearchOptimizer(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Zhao, W., Wang, L., & Zhang, Z. (2019).
@@ -322,7 +321,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
             fitness: Fitness values of all atoms.
 
         Returns:
-            Normalized mass values.
+        Normalized mass values.
         """
         worst = np.max(fitness)
         best = np.min(fitness)
@@ -341,7 +340,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
             iteration: Current iteration.
 
         Returns:
-            Constraint factor value.
+        Constraint factor value.
         """
         return np.exp(-20 * iteration / self.max_iter)
 
@@ -356,7 +355,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
             sigma: Distance at which potential is zero.
 
         Returns:
-            Force value (negative = attraction, positive = repulsion).
+        Force value (negative = attraction, positive = repulsion).
         """
         distance = max(distance, _EPSILON)
 
@@ -370,7 +369,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
         """Execute the optimization algorithm.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         rng = np.random.default_rng(self.seed)
 

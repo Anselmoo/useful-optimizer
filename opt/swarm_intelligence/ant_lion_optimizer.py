@@ -177,22 +177,21 @@ class AntLionOptimizer(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -225,9 +224,9 @@ class AntLionOptimizer(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -271,7 +270,7 @@ class AntLionOptimizer(AbstractOptimizer):
             dim: Dimensionality.
 
         Returns:
-            Cumulative random walk array of shape (max_iter, dim).
+        Cumulative random walk array of shape (max_iter, dim).
         """
         # Generate random steps: -1 or +1 based on random threshold
         steps = (
@@ -291,7 +290,7 @@ class AntLionOptimizer(AbstractOptimizer):
             iteration: Current iteration index.
 
         Returns:
-            Normalized position at given iteration.
+        Normalized position at given iteration.
         """
         min_walk = walk.min(axis=0)
         max_walk = walk.max(axis=0)
@@ -308,9 +307,9 @@ class AntLionOptimizer(AbstractOptimizer):
         """Execute the Ant Lion Optimizer algorithm.
 
         Returns:
-            Tuple containing:
-                - best_solution: The best solution found (numpy array).
-                - best_fitness: The fitness value of the best solution.
+        Tuple containing:
+        - best_solution: The best solution found (numpy array).
+        - best_fitness: The fitness value of the best solution.
         """
         rng = np.random.default_rng(self.seed)
 

@@ -39,7 +39,7 @@ class Visualizer:
             optimizer (AbstractOptimizer): The optimizer instance to visualize.
 
         Raises:
-            ValueError: If optimizer doesn't have history tracked.
+        ValueError: If optimizer doesn't have history tracked.
         """
         if not optimizer.track_history or not optimizer.history:
             msg = (
@@ -62,7 +62,7 @@ class Visualizer:
             ax (Axes | None, optional): Matplotlib axes to plot on. If None, creates new figure.
 
         Returns:
-            Figure: The matplotlib figure object.
+        Figure: The matplotlib figure object.
         """
         import matplotlib.pyplot as plt
 
@@ -108,10 +108,10 @@ class Visualizer:
             max_points (int, optional): Maximum number of points to plot. Defaults to 1000.
 
         Returns:
-            Figure: The matplotlib figure object.
+        Figure: The matplotlib figure object.
 
         Raises:
-            ValueError: If optimizer dimensionality is not 2.
+        ValueError: If optimizer dimensionality is not 2.
         """
         import matplotlib.pyplot as plt
 
@@ -199,7 +199,7 @@ class Visualizer:
             ax (Axes | None, optional): Matplotlib axes to plot on. If None, creates new figure.
 
         Returns:
-            Figure: The matplotlib figure object.
+        Figure: The matplotlib figure object.
         """
         import matplotlib.pyplot as plt
 
