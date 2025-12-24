@@ -163,62 +163,45 @@ class SocialGroupOptimizer(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        population_size (int, optional):
-            Number of individuals in social group. BBOB recommendation: 10*dim
-            for population-based methods. Defaults to 30.
-        max_iter (int, optional):
-            Maximum iterations. BBOB recommendation: 10000 for
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        population_size (int, optional): Number of individuals in social group. BBOB
+            recommendation: 10*dim for population-based methods. Defaults to 30.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for
             complete evaluation. Defaults to 100.
-        c (float, optional):
-            Self-introspection coefficient controlling exploration intensity.
-            Higher values increase diversity. Defaults to 0.2.
-        track_convergence (bool, optional):
-            Enable convergence history tracking. Defaults to False.
-        early_stopping (bool, optional):
-            Enable early stopping when improvement stagnates. Defaults to False.
-        tolerance (float, optional):
-            Minimum improvement threshold for early stopping. Defaults to 1e-6.
-        patience (int, optional):
-            Iterations without improvement before early stopping. Defaults to 10.
-        verbose (bool, optional):
-            Print optimization progress. Defaults to False.
+        c (float, optional): Self-introspection coefficient controlling exploration
+            intensity. Higher values increase diversity. Defaults to 0.2.
+        track_convergence (bool, optional): Enable convergence history tracking.
+            Defaults to False.
+        early_stopping (bool, optional): Enable early stopping when improvement
+            stagnates. Defaults to False.
+        tolerance (float, optional): Minimum improvement threshold for early stopping.
+            Defaults to 1e-6.
+        patience (int, optional): Iterations without improvement before early stopping.
+            Defaults to 10.
+        verbose (bool, optional): Print optimization progress. Defaults to False.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        population_size (int):
-            Number of individuals in the social group.
-        max_iter (int):
-            Maximum number of iterations.
-        c (float):
-            Self-introspection coefficient (adapts linearly).
-        track_convergence (bool):
-            Whether convergence history is tracked.
-        convergence_history (list[float]):
-            Best fitness values per iteration if track_convergence=True.
-        early_stopping (bool):
-            Whether early stopping is enabled.
-        tolerance (float):
-            Minimum improvement threshold.
-        patience (int):
-            Early stopping patience counter.
-        verbose (bool):
-            Whether to print progress.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        population_size (int): Number of individuals in the social group.
+        max_iter (int): Maximum number of iterations.
+        c (float): Self-introspection coefficient (adapts linearly).
+        track_convergence (bool): Whether convergence history is tracked.
+        convergence_history (list[float]): Best fitness values per iteration if
+            track_convergence=True.
+        early_stopping (bool): Whether early stopping is enabled.
+        tolerance (float): Minimum improvement threshold.
+        patience (int): Early stopping patience counter.
+        verbose (bool): Whether to print progress.
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -360,7 +343,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
         """
         # Initialize population (social group)
         population = np.random.uniform(
-            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim),
         )
         fitness = np.array([self.func(ind) for ind in population])
 
@@ -436,7 +419,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
             if self.verbose and (iteration + 1) % 10 == 0:
                 print(
                     f"Iteration {iteration + 1}/{self.max_iter}: "
-                    f"Best fitness = {best_fitness:.6f}"
+                    f"Best fitness = {best_fitness:.6f}",
                 )
 
             # Early stopping check
@@ -449,7 +432,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
                         if self.verbose:
                             print(
                                 f"Early stopping at iteration {iteration + 1}: "
-                                f"No improvement for {self.patience} iterations"
+                                f"No improvement for {self.patience} iterations",
                             )
                         break
                 elif improvement >= self.tolerance:

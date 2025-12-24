@@ -133,35 +133,26 @@ class TeachingLearningOptimizer(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        population_size (int, optional):
-            Number of learners (students) in the classroom. BBOB recommendation: 10*dim
-            for population-based methods. Defaults to 50.
-        max_iter (int, optional):
-            Maximum iterations (teaching sessions). BBOB recommendation: 10000 for
-            complete evaluation. Defaults to 500.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        population_size (int, optional): Number of learners (students) in the classroom.
+            BBOB recommendation: 10*dim for population-based methods. Defaults to 50.
+        max_iter (int, optional): Maximum iterations (teaching sessions). BBOB
+            recommendation: 10000 for complete evaluation. Defaults to 500.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        population_size (int):
-            Number of learners in the classroom.
-        max_iter (int):
-            Maximum number of teaching iterations.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        population_size (int): Number of learners in the classroom.
+        max_iter (int): Maximum number of teaching iterations.
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -283,7 +274,7 @@ class TeachingLearningOptimizer(AbstractOptimizer):
         """
         # Initialize population (students)
         population = np.random.uniform(
-            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim),
         )
 
         # Evaluate initial fitness
@@ -303,7 +294,7 @@ class TeachingLearningOptimizer(AbstractOptimizer):
 
             # Teaching factor (randomly 1 or 2)
             teaching_factor = np.random.randint(
-                _TEACHING_FACTOR_MIN, _TEACHING_FACTOR_MAX + 1
+                _TEACHING_FACTOR_MIN, _TEACHING_FACTOR_MAX + 1,
             )
 
             # ===== Teacher Phase =====

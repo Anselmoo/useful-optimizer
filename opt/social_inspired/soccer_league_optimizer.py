@@ -156,40 +156,29 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        population_size (int, optional):
-            Total number of teams in the league. BBOB recommendation: 10*dim
-            for population-based methods. Defaults to 30.
-        max_iter (int, optional):
-            Maximum iterations (seasons). BBOB recommendation: 10000 for
-            complete evaluation. Defaults to 100.
-        num_teams (int, optional):
-            Number of teams (deprecated, clamped to min(num_teams, population_size)).
-            Defaults to 10.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        population_size (int, optional): Total number of teams in the league. BBOB
+            recommendation: 10*dim for population-based methods. Defaults to 30.
+        max_iter (int, optional): Maximum iterations (seasons). BBOB recommendation:
+            10000 for complete evaluation. Defaults to 100.
+        num_teams (int, optional): Number of teams (deprecated, clamped to
+            min(num_teams, population_size)). Defaults to 10.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        population_size (int):
-            Total number of teams in the league.
-        max_iter (int):
-            Maximum number of seasons (iterations).
-        num_teams (int):
-            Teams per league (clamped to population_size).
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        population_size (int): Total number of teams in the league.
+        max_iter (int): Maximum number of seasons (iterations).
+        num_teams (int): Teams per league (clamped to population_size).
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -315,7 +304,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         """
         # Initialize teams (positions)
         teams = np.random.uniform(
-            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim),
         )
         fitness = np.array([self.func(team) for team in teams])
 

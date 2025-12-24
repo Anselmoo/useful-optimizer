@@ -149,40 +149,29 @@ class PoliticalOptimizer(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        population_size (int, optional):
-            Number of politicians in the election. BBOB recommendation: 10*dim
-            for population-based methods. Defaults to 30.
-        max_iter (int, optional):
-            Maximum iterations (election cycles). BBOB recommendation: 10000 for
-            complete evaluation. Defaults to 100.
-        num_parties (int, optional):
-            Number of political parties (clusters). Affects diversity and exploration.
-            Defaults to 5.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        population_size (int, optional): Number of politicians in the election. BBOB
+            recommendation: 10*dim for population-based methods. Defaults to 30.
+        max_iter (int, optional): Maximum iterations (election cycles). BBOB
+            recommendation: 10000 for complete evaluation. Defaults to 100.
+        num_parties (int, optional): Number of political parties (clusters). Affects
+            diversity and exploration. Defaults to 5.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        population_size (int):
-            Number of politicians in the election.
-        max_iter (int):
-            Maximum number of election iterations.
-        num_parties (int):
-            Number of political parties (clusters).
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        population_size (int): Number of politicians in the election.
+        max_iter (int): Maximum number of election iterations.
+        num_parties (int): Number of political parties (clusters).
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -306,7 +295,7 @@ class PoliticalOptimizer(AbstractOptimizer):
         """
         # Initialize population (politicians)
         population = np.random.uniform(
-            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim),
         )
         fitness = np.array([self.func(ind) for ind in population])
 
