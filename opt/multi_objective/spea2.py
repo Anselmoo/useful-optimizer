@@ -204,9 +204,9 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Returns final archive after max_iter generations
-                - Archive truncation maintains diversity via k-NN distance
-                - Uses strength and density for fitness assignment
+        - Returns final archive after max_iter generations
+        - Archive truncation maintains diversity via k-NN distance
+        - Uses strength and density for fitness assignment
 
     References:
         [1] Zitzler, E., Laumanns, M., & Thiele, L. (2001).
