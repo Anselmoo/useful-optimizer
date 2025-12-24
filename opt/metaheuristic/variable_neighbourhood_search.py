@@ -173,17 +173,16 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Mladenović, N., & Hansen, P. (1997). "Variable neighborhood search."
@@ -294,7 +293,7 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
             x (np.ndarray): The individual to be shaken.
 
         Returns:
-            np.ndarray: The shaken individual.
+        np.ndarray: The shaken individual.
 
         """
         return x + np.random.default_rng(self.seed).uniform(
@@ -308,8 +307,8 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
         best individual within the search space that minimizes the objective function.
 
         Returns:
-            Tuple[np.ndarray, float]: A tuple containing the best individual found and
-                its corresponding fitness value.
+        Tuple[np.ndarray, float]: A tuple containing the best individual found and
+        its corresponding fitness value.
         """
         self.initialize_population()
         for _ in range(self.max_iter):

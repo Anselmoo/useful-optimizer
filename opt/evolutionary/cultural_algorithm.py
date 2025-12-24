@@ -185,21 +185,20 @@ class CulturalAlgorithm(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Reynolds, R. G. (1994). "An Introduction to Cultural Algorithms."
-            _Proceedings of 3rd Annual Conference on Evolutionary Programming_, Vol. 24, 131-139.
+        _Proceedings of 3rd Annual Conference on Evolutionary Programming_, Vol. 24, 131-139.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -227,9 +226,9 @@ class CulturalAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(NP \cdot n)$
-            - Space complexity: $O((NP + BS) \cdot n)$ with belief space
-            - BBOB budget usage: _Typically uses 50-85% of dim*10000 budget_
+        - Time per iteration: $O(NP \cdot n)$
+        - Space complexity: $O((NP + BS) \cdot n)$ with belief space
+        - BBOB budget usage: _Typically uses 50-85% of dim*10000 budget_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Moderately multimodal, Structured
@@ -293,7 +292,7 @@ class CulturalAlgorithm(AbstractOptimizer):
         """Perform the Cultural Algorithm search.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         # Initialize population and belief space
         population = np.random.default_rng(self.seed).uniform(

@@ -198,22 +198,20 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[ndarray, ndarray]:
-                    Pareto-optimal solutions and their fitness values
+        tuple[ndarray, ndarray]: Pareto-optimal solutions and their fitness values
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -246,9 +244,9 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -328,7 +326,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             rng: Random number generator.
 
         Returns:
-            Initial population array.
+        Initial population array.
         """
         return rng.uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
@@ -350,7 +348,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             crowding: Crowding distances for each individual.
 
         Returns:
-            Selected parent.
+        Selected parent.
         """
         candidates = rng.choice(len(population), self.tournament_size, replace=False)
 
@@ -375,7 +373,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             parent2: Second parent.
 
         Returns:
-            Tuple of two offspring.
+        Tuple of two offspring.
         """
         child1 = parent1.copy()
         child2 = parent2.copy()
@@ -426,7 +424,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             individual: Individual to mutate.
 
         Returns:
-            Mutated individual.
+        Mutated individual.
         """
         mutant = individual.copy()
 
@@ -462,7 +460,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             fitness: Fitness values for all individuals.
 
         Returns:
-            Tuple of (ranks, crowding_distances) arrays.
+        Tuple of (ranks, crowding_distances) arrays.
         """
         fronts = self.fast_non_dominated_sort(fitness)
         n = len(fitness)
@@ -482,9 +480,9 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         """Execute the NSGA-II algorithm.
 
         Returns:
-            Tuple containing:
-                - pareto_solutions: 2D array of Pareto-optimal solutions.
-                - pareto_fitness: 2D array of objective values.
+        Tuple containing:
+        - pareto_solutions: 2D array of Pareto-optimal solutions.
+        - pareto_fitness: 2D array of objective values.
         """
         rng = np.random.default_rng(self.seed)
 

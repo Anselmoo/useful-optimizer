@@ -225,23 +225,22 @@ class BatAlgorithm(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Yang, X.-S. (2010). "A New Metaheuristic Bat-Inspired Algorithm."
-            In: _Nature Inspired Cooperative Strategies for Optimization (NICSO 2010)_,
-            Studies in Computational Intelligence, vol. 284, Springer, pp. 65-74.
-            https://doi.org/10.1007/978-3-642-12538-6_6
+        In: _Nature Inspired Cooperative Strategies for Optimization (NICSO 2010)_,
+        Studies in Computational Intelligence, vol. 284, Springer, pp. 65-74.
+        https://doi.org/10.1007/978-3-642-12538-6_6
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -277,9 +276,9 @@ class BatAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(\text{n\_bats} \times \text{dim})$
-            - Space complexity: $O(\text{n\_bats} \times \text{dim})$
-            - BBOB budget usage: _Typically uses 60-80% of dim*10000 budget for convergence_
+        - Time per iteration: $O(\text{n\_bats} \times \text{dim})$
+        - Space complexity: $O(\text{n\_bats} \times \text{dim})$
+        - BBOB budget usage: _Typically uses 60-80% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Multimodal with regular structure
@@ -357,7 +356,7 @@ class BatAlgorithm(AbstractOptimizer):
         """Run the Bat Algorithm optimization.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found (position) and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found (position) and its fitness value.
 
         """
         best_solution_idx = None

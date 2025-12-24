@@ -80,14 +80,14 @@ class AbstractOptimizer(ABC):
 
     Returns:
         tuple[ndarray, float]: Tuple containing the best solution found (shape: (dim,))
-            and its corresponding fitness value (scalar).
+        and its corresponding fitness value (scalar).
 
     Notes:
         **BBOB Standard Settings:**
-            - Search space bounds: Typically [-5, 5] for most functions
-            - Evaluation budget: dim * 10000 function evaluations
-            - Independent runs: 15 (using seeds 0-14)
-            - Target precision: 1e-8
+        - Search space bounds: Typically [-5, 5] for most functions
+        - Evaluation budget: dim * 10000 function evaluations
+        - Independent runs: 15 (using seeds 0-14)
+        - Target precision: 1e-8
 
         **Reproducibility:**
             - Same seed must produce identical results across runs
@@ -135,5 +135,5 @@ class AbstractOptimizer(ABC):
         """Perform the optimization search.
 
         Returns:
-            Tuple containing the best solution found and its corresponding fitness value.
+        Tuple containing the best solution found and its corresponding fitness value.
         """

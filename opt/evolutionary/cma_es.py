@@ -140,73 +140,54 @@ class CMAESAlgorithm(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept numpy array and return scalar.
             BBOB functions available in `opt.benchmark.functions`.
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        population_size (int, optional):
-            Number of offspring per generation (λ). BBOB recommendation: 4+⌊3ln(dim)⌋.
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        population_size (int, optional): Number of offspring per generation (λ). BBOB recommendation: 4+⌊3ln(dim)⌋.
             Defaults to 100.
-        max_iter (int, optional):
-            Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000 for complete evaluation.
             Defaults to 1000.
-        sigma_init (float, optional):
-            Initial global step-size controlling search spread. BBOB recommendation:
+        sigma_init (float, optional): Initial global step-size controlling search spread. BBOB recommendation:
             approximately (upper_bound - lower_bound)/5. Defaults to 0.5.
-        epsilon (float, optional):
-            Minimum step-size threshold to prevent numerical instability.
+        epsilon (float, optional): Minimum step-size threshold to prevent numerical instability.
             Defaults to 1e-9.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
             If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        dim (int):
-            Problem dimensionality.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        population_size (int):
-            Number of offspring per generation.
-        max_iter (int):
-            Maximum number of iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        sigma (float):
-            Current global step-size (adaptive during optimization).
-        epsilon (float):
-            Minimum step-size threshold.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        dim (int): Problem dimensionality.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        population_size (int): Number of offspring per generation.
+        max_iter (int): Maximum number of iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        sigma (float): Current global step-size (adaptive during optimization).
+        epsilon (float): Minimum step-size threshold.
 
     Methods:
         search() -> tuple[np.ndarray, float]:
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Hansen, N., & Ostermeier, A. (2001). "Completely derandomized self-adaptation
-            in evolution strategies."
-            _Evolutionary Computation_, 9(2), 159-195.
-            https://doi.org/10.1162/106365601750190398
+        in evolution strategies."
+        _Evolutionary Computation_, 9(2), 159-195.
+        https://doi.org/10.1162/106365601750190398
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -239,9 +220,9 @@ class CMAESAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(n^3 + \lambda n^2)$ where $n$ is dimension, $\lambda$ is population size
-            - Space complexity: $O(n^2)$ for covariance matrix storage
-            - BBOB budget usage: _Typically uses 30-70% of dim*10000 budget for convergence_
+        - Time per iteration: $O(n^3 + \lambda n^2)$ where $n$ is dimension, $\lambda$ is population size
+        - Space complexity: $O(n^2)$ for covariance matrix storage
+        - BBOB budget usage: _Typically uses 30-70% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Ill-conditioned, Weakly structured multimodal, Multimodal with adequate structure
@@ -304,7 +285,7 @@ class CMAESAlgorithm(AbstractOptimizer):
         """Run the CMA-ES algorithm to search for the optimal solution.
 
         Returns:
-            Tuple[np.ndarray, float]: A tuple containing the best solution found and its corresponding fitness value.
+        Tuple[np.ndarray, float]: A tuple containing the best solution found and its corresponding fitness value.
         """
         # Initialize mean and covariance matrix
         rng = np.random.default_rng(self.seed)

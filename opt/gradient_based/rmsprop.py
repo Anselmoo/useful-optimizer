@@ -180,17 +180,16 @@ class RMSprop(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Tieleman, T., & Hinton, G. (2012). "Lecture 6.5-rmsprop: Divide the gradient
@@ -295,7 +294,7 @@ class RMSprop(AbstractOptimizer):
         """Perform the RMSprop optimization search.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         # Initialize solution randomly
         best_solution = np.random.default_rng(self.seed).uniform(
@@ -341,7 +340,7 @@ class RMSprop(AbstractOptimizer):
             x (np.ndarray): The point at which to compute the gradient.
 
         Returns:
-            np.ndarray: The gradient vector.
+        np.ndarray: The gradient vector.
         """
         epsilon = np.sqrt(np.finfo(float).eps)
         return approx_fprime(x, self.func, epsilon)

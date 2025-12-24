@@ -192,17 +192,16 @@ class ParticleFilter(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Gordon, N. J., Salmond, D. J., & Smith, A. F. M. (1993).
@@ -309,8 +308,8 @@ class ParticleFilter(AbstractOptimizer):
         """Run the Particle Swarm Optimization algorithm to find the optimal solution.
 
         Returns:
-            Tuple[np.ndarray, float]: A tuple containing the global best position and
-                the corresponding score.
+        Tuple[np.ndarray, float]: A tuple containing the global best position and
+        the corresponding score.
         """
         # Initialize particles
         particles = np.random.default_rng(self.seed).uniform(

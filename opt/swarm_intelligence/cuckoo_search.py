@@ -180,23 +180,22 @@ class CuckooSearch(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Yang, X.-S., Deb, S. (2009). "Cuckoo Search via Lévy Flights."
-            In: _Proceedings of World Congress on Nature & Biologically Inspired
-            Computing (NaBIC 2009)_, IEEE Publications, pp. 210-214.
-            https://doi.org/10.1109/NABIC.2009.5393690
+        In: _Proceedings of World Congress on Nature & Biologically Inspired
+        Computing (NaBIC 2009)_, IEEE Publications, pp. 210-214.
+        https://doi.org/10.1109/NABIC.2009.5393690
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -232,9 +231,9 @@ class CuckooSearch(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(\text{population\_size} \times \text{dim})$
-            - Space complexity: $O(\text{population\_size} \times \text{dim})$
-            - BBOB budget usage: _Typically uses 50-70% of dim*10000 budget for convergence_
+        - Time per iteration: $O(\text{population\_size} \times \text{dim})$
+        - Space complexity: $O(\text{population\_size} \times \text{dim})$
+        - BBOB budget usage: _Typically uses 50-70% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, High-dimensional problems
@@ -295,7 +294,7 @@ class CuckooSearch(AbstractOptimizer):
         """Run the Cuckoo Search algorithm.
 
         Returns:
-            Tuple[np.ndarray, float]: The best solution found and its corresponding fitness value.
+        Tuple[np.ndarray, float]: The best solution found and its corresponding fitness value.
         """
         population = np.random.default_rng(self.seed).uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)

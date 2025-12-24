@@ -154,17 +154,16 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Chou, J. S., & Nguyen, N. M. (2020). "FBI inspired meta-optimization."
@@ -255,7 +254,7 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
         """Execute the Forensic-Based Investigation Optimization.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         # Initialize investigator positions
         positions = np.random.uniform(

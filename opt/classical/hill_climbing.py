@@ -179,21 +179,20 @@ class HillClimbing(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Russell, S. J., & Norvig, P. (2010). "Artificial Intelligence: A Modern Approach" (3rd ed.).
-            _Prentice Hall_, Chapter 4: Beyond Classical Search.
+        _Prentice Hall_, Chapter 4: Beyond Classical Search.
 
         [2] Selman, B., & Gomes, C. P. (2006). "Hill-climbing search."
             _Encyclopedia of Cognitive Science_.
@@ -228,9 +227,9 @@ class HillClimbing(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(n \times c)$ where $c=4$ candidates per dimension
-            - Space complexity: $O(n)$ for storing position and step sizes
-            - BBOB budget usage: _Typically uses 20-50% of $\text{dim} \times 10000$ budget_
+        - Time per iteration: $O(n \times c)$ where $c=4$ candidates per dimension
+        - Space complexity: $O(n)$ for storing position and step sizes
+        - BBOB budget usage: _Typically uses 20-50% of $\text{dim} \times 10000$ budget_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Smooth, Low-dimensional
@@ -298,7 +297,7 @@ class HillClimbing(AbstractOptimizer):
         """Perform the hill climbing search.
 
         Returns:
-            tuple[np.ndarray, float]: The optimal solution and its corresponding score.
+        tuple[np.ndarray, float]: The optimal solution and its corresponding score.
 
         """
         # Initialize solution

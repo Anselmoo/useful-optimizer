@@ -158,22 +158,21 @@ class SimulatedAnnealing(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Kirkpatrick, S., Gelatt, C. D., & Vecchi, M. P. (1983). "Optimization by simulated annealing."
-            _Science_, 220(4598), 671-680.
-            https://doi.org/10.1126/science.220.4598.671
+        _Science_, 220(4598), 671-680.
+        https://doi.org/10.1126/science.220.4598.671
 
         [2] Metropolis, N., et al. (1953). "Equation of state calculations by fast computing machines."
             _The Journal of Chemical Physics_, 21(6), 1087-1092.
@@ -195,9 +194,9 @@ class SimulatedAnnealing(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(1)$ per proposal
-            - Space complexity: $O(n)$
-            - BBOB budget usage: _30-70% of $\text{dim} \times 10000$_
+        - Time per iteration: $O(1)$ per proposal
+        - Space complexity: $O(n)$
+        - BBOB budget usage: _30-70% of $\text{dim} \times 10000$_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, Rugged landscapes
@@ -258,7 +257,7 @@ class SimulatedAnnealing(AbstractOptimizer):
         """Perform the simulated annealing optimization.
 
         Returns:
-            tuple[np.ndarray, float]: The best solution found and its corresponding cost.
+        tuple[np.ndarray, float]: The best solution found and its corresponding cost.
 
         """
         best_solution: np.ndarray = np.empty(self.dim)

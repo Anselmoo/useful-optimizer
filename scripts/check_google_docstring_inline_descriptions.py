@@ -72,9 +72,15 @@ def _check_file(path: Path) -> list[str]:
 
     in_target_section = False
     current_section = None
+    skip_next_line = False  # Track if we should skip the next line
 
     for idx, line in enumerate(lines, start=1):
         stripped = line.strip().lower()
+
+        # Skip lines that are continuations from previous violations
+        if skip_next_line:
+            skip_next_line = False
+            continue
 
         if stripped in _SECTION_HEADERS:
             in_target_section = True
@@ -82,8 +88,12 @@ def _check_file(path: Path) -> list[str]:
             continue
 
         if in_target_section:
-            # End the section when we hit a blank line or a new section header.
-            if stripped == "" or _NEXT_SECTION_HEADER_RE.match(line):
+            # End the section when we hit a blank line, a new section header, or closing docstring.
+            if (
+                stripped == ""
+                or _NEXT_SECTION_HEADER_RE.match(line)
+                or stripped in ('"""', "'''")
+            ):
                 in_target_section = False
                 current_section = None
                 continue
@@ -127,6 +137,18 @@ def _check_file(path: Path) -> list[str]:
                     errors.append(
                         f"{path}:{idx}: {current_section.capitalize()} entry missing inline summary after type: {line.strip()}"
                     )
+                    # Also check if the next line looks like a continuation (description on separate line)
+                    # This is also wrong - the description should be on the same line as the type
+                    if idx < len(lines):
+                        next_line = lines[
+                            idx
+                        ]  # idx is 1-based, so lines[idx] is next line
+                        if next_line.strip() and not next_line.strip().startswith("-"):
+                            # Report the description line too
+                            errors.append(
+                                f"{path}:{idx + 1}: {current_section.capitalize()} description should be on same line as type (line {idx})"
+                            )
+                            skip_next_line = True
 
     return errors
 

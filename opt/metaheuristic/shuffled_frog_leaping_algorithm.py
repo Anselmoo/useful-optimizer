@@ -186,17 +186,16 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Eusuff, M. M., & Lansey, K. E. (2006). "Shuffled frog-leaping algorithm:
@@ -298,7 +297,7 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
         """Run the Shuffled Frog Leaping Algorithm (SFLA) optimization process.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best frog position and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best frog position and its fitness value.
 
         """
         # Initialize frog positions and fitness

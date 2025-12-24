@@ -186,23 +186,22 @@ class HarrisHawksOptimizer(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Heidari, A.A., Mirjalili, S., Faris, H., Aljarah, I., Mafarja, M., Chen, H. (2019).
-            "Harris hawks optimization: Algorithm and applications."
-            _Future Generation Computer Systems_, 97, 849-872.
-            https://doi.org/10.1016/j.future.2019.02.028
+        "Harris hawks optimization: Algorithm and applications."
+        _Future Generation Computer Systems_, 97, 849-872.
+        https://doi.org/10.1016/j.future.2019.02.028
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -238,9 +237,9 @@ class HarrisHawksOptimizer(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(\text{population\_size} \times \text{dim})$
-            - Space complexity: $O(\text{population\_size} \times \text{dim})$
-            - BBOB budget usage: _Typically uses 55-70% of dim*10000 budget for convergence_
+        - Time per iteration: $O(\text{population\_size} \times \text{dim})$
+        - Space complexity: $O(\text{population\_size} \times \text{dim})$
+        - BBOB budget usage: _Typically uses 55-70% of dim*10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, High-dimensional problems
@@ -282,7 +281,7 @@ class HarrisHawksOptimizer(AbstractOptimizer):
             dim: Dimensionality of the step.
 
         Returns:
-            Levy flight step vector.
+        Levy flight step vector.
         """
         beta = 1.5
         sigma = (
@@ -299,9 +298,9 @@ class HarrisHawksOptimizer(AbstractOptimizer):
         """Execute the Harris Hawks Optimization algorithm.
 
         Returns:
-            Tuple containing:
-                - best_solution: The best solution found (numpy array).
-                - best_fitness: The fitness value of the best solution.
+        Tuple containing:
+        - best_solution: The best solution found (numpy array).
+        - best_fitness: The fitness value of the best solution.
         """
         rng = np.random.default_rng(self.seed)
 

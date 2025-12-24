@@ -167,22 +167,21 @@ class BFGS(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Broyden, C. G. (1970). "The Convergence of a Class of Double-rank Minimization Algorithms."
-            _IMA Journal of Applied Mathematics_, 6(1), 76-90.
-            https://doi.org/10.1093/imamat/6.1.76
+        _IMA Journal of Applied Mathematics_, 6(1), 76-90.
+        https://doi.org/10.1093/imamat/6.1.76
 
         [2] Fletcher, R. (1970). "A new approach to variable metric algorithms."
             _The Computer Journal_, 13(3), 317-322.
@@ -227,9 +226,9 @@ class BFGS(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: $O(n^2)$ for Hessian approximation update
-            - Space complexity: $O(n^2)$ for storing inverse Hessian approximation
-            - BBOB budget usage: _Typically uses 10-30% of $\text{dim} \times 10000$ budget for smooth functions_
+        - Time per iteration: $O(n^2)$ for Hessian approximation update
+        - Space complexity: $O(n^2)$ for storing inverse Hessian approximation
+        - BBOB budget usage: _Typically uses 10-30% of $\text{dim} \times 10000$ budget for smooth functions_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Smooth, Moderate conditioning
@@ -289,7 +288,7 @@ class BFGS(AbstractOptimizer):
         """Perform the BFGS optimization search with multiple random restarts.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         best_solution = None
         best_fitness = np.inf

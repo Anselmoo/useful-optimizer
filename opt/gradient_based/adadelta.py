@@ -193,17 +193,16 @@ class AdaDelta(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         [1] Zeiler, M. D. (2012). "ADADELTA: An Adaptive Learning Rate Method."
@@ -308,7 +307,7 @@ class AdaDelta(AbstractOptimizer):
             x (np.ndarray): The current solution.
 
         Returns:
-            np.ndarray: The updated solution.
+        np.ndarray: The updated solution.
         """
         g = approx_fprime(x, self.func, self.eps)
         self.Eg = self.rho * self.Eg + (1 - self.rho) * g**2
@@ -320,7 +319,7 @@ class AdaDelta(AbstractOptimizer):
         """Perform the AdaDelta search.
 
         Returns:
-            Tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
+        Tuple[np.ndarray, float]: A tuple containing the best solution found and its fitness value.
         """
         # Initialize solution
         x = np.random.default_rng(self.seed).uniform(
