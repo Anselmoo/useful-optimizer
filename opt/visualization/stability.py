@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
     from matplotlib.figure import Figure
 
-    from opt.abstract_optimizer import AbstractOptimizer
+    from opt.abstract import AbstractOptimizer
 
 
 class StabilityResults:

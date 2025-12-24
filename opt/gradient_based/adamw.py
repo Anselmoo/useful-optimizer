@@ -46,7 +46,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 from opt.constants import ADAMW_LEARNING_RATE
 from opt.constants import ADAMW_WEIGHT_DECAY
 from opt.constants import ADAM_BETA1

@@ -18,7 +18,7 @@ import numpy as np
 
 from scipy.special import gamma
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:

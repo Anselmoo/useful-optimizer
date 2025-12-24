@@ -32,7 +32,7 @@ from opt.benchmark.functions import shifted_ackley
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from opt.abstract_optimizer import AbstractOptimizer
+    from opt.abstract import AbstractOptimizer
 
 
 def run_demo(

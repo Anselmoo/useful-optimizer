@@ -30,7 +30,7 @@ import numpy as np
 
 from scipy.linalg import sqrtm
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:

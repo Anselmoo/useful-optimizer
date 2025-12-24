@@ -27,7 +27,7 @@ import numpy as np
 
 from sklearn.neighbors import KernelDensity
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:

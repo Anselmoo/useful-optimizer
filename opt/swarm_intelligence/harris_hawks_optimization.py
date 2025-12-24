@@ -42,7 +42,7 @@ import math
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 # Algorithm-specific constants (from original paper)
