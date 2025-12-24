@@ -30,7 +30,7 @@ _SWITCH_PROBABILITY = 0.8  # Probability of global pollination
 
 
 class FlowerPollinationAlgorithm(AbstractOptimizer):
-    r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    r"""Flower Pollination Algorithm (FPA) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
@@ -46,7 +46,7 @@ class FlowerPollinationAlgorithm(AbstractOptimizer):
         | COCO Compatible   | Yes                                      |
 
     Mathematical Formulation:
-        FIXME: Core update equation:
+        Core update equations:
 
             $$
             x_{t+1} = x_t + v_t

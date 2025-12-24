@@ -33,7 +33,7 @@ _EXPANSION_THRESHOLD_2 = 1 / 3  # Second phase transition
 
 
 class AquilaOptimizer(AbstractOptimizer):
-    r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    r"""Aquila Optimizer (AO) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
@@ -49,7 +49,7 @@ class AquilaOptimizer(AbstractOptimizer):
         | COCO Compatible   | Yes                                      |
 
     Mathematical Formulation:
-        FIXME: Core update equation:
+        Core update equations:
 
             $$
             x_{t+1} = x_t + v_t

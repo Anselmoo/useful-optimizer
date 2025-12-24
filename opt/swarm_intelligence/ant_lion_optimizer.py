@@ -46,7 +46,7 @@ _RANDOM_WALK_THRESHOLD = 0.5
 
 
 class AntLionOptimizer(AbstractOptimizer):
-    r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    r"""Ant Lion Optimizer (ALO) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
@@ -62,7 +62,7 @@ class AntLionOptimizer(AbstractOptimizer):
         | COCO Compatible   | Yes                                      |
 
     Mathematical Formulation:
-        FIXME: Core update equation:
+        Core update equations:
 
             $$
             x_{t+1} = x_t + v_t

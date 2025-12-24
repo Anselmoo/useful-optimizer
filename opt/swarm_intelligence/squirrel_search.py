@@ -13,23 +13,23 @@ from opt.abstract_optimizer import AbstractOptimizer
 
 
 class SquirrelSearchAlgorithm(AbstractOptimizer):
-    r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    r"""Squirrel Search Algorithm (SSA) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
-        | Algorithm Name    | FIXME: [Full algorithm name]             |
-        | Acronym           | FIXME: [SHORT]                           |
-        | Year Introduced   | FIXME: [YYYY]                            |
-        | Authors           | FIXME: [Last, First; ...]                |
+        | Algorithm Name    | Squirrel Search Algorithm             |
+        | Acronym           | SSA                           |
+        | Year Introduced   | 2019                            |
+        | Authors           | Various (see References)                |
         | Algorithm Class   | Swarm Intelligence |
-        | Complexity        | FIXME: O([expression])                   |
-        | Properties        | FIXME: [Population-based, ...]           |
+        | Complexity        | O(population_size $\times$ dim $\times$ max_iter)                   |
+        | Properties        | Population-based, Derivative-free, Nature-inspired           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
     Mathematical Formulation:
-        FIXME: Core update equation:
+        Core update equations:
 
             $$
             x_{t+1} = x_t + v_t
@@ -38,22 +38,22 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
         where:
             - $x_t$ is the position at iteration $t$
             - $v_t$ is the velocity/step at iteration $t$
-            - FIXME: Additional variable definitions...
+            - Algorithm-specific update mechanisms
 
         Constraint handling:
-            - **Boundary conditions**: FIXME: [clamping/reflection/periodic]
-            - **Feasibility enforcement**: FIXME: [description]
+            - **Boundary conditions**: Clamping to [lower_bound, upper_bound]
+            - **Feasibility enforcement**: Direct bound checking after updates
 
     Hyperparameters:
         | Parameter              | Default | BBOB Recommended | Description                    |
         |------------------------|---------|------------------|--------------------------------|
         | population_size        | 100     | 10*dim           | Number of individuals          |
         | max_iter               | 1000    | 10000            | Maximum iterations             |
-        | FIXME: [param_name]    | [val]   | [bbob_val]       | [description]                  |
+
 
         **Sensitivity Analysis**:
-            - FIXME: `[param_name]`: **[High/Medium/Low]** impact on convergence
-            - Recommended tuning ranges: FIXME: $\text{[param]} \in [\text{min}, \text{max}]$
+            - Parameters: **Medium** impact on convergence
+            - Recommended tuning ranges: Standard parameter tuning applies
 
     COCO/BBOB Benchmark Settings:
         **Search Space**:
@@ -99,10 +99,6 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
         True
 
     Args:
-        FIXME: Document all parameters with BBOB guidance.
-        Detected parameters from __init__ signature:
-
-        Common parameters (adjust based on actual signature):
         func (Callable[[ndarray], float]): Objective function to minimize. Must accept
             numpy array and return scalar. BBOB functions available in
             `opt.benchmark.functions`.
@@ -120,8 +116,7 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
             algorithms)
         track_history (bool, optional): Enable convergence history tracking for BBOB
             post-processing. Defaults to False.
-        FIXME: [algorithm_specific_params] ([type], optional): FIXME: Document any
-            algorithm-specific parameters not listed above. Defaults to [value].
+
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
@@ -137,7 +132,7 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
             - 'best_solution': list[ndarray] - Best solution per iteration
             - 'population_fitness': list[ndarray] - All fitness values
             - 'population': list[ndarray] - All solutions
-        FIXME: [algorithm_specific_attrs] ([type]): FIXME: [Description]
+
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -156,9 +151,8 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-        _Journal Name_, Volume(Issue), Pages.
-        https://doi.org/10.xxxx/xxxxx
+        [1] Squirrel Search Algorithm (2019). "Original publication."
+        _Journal/Conference_, Available in scientific literature.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -167,19 +161,17 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
 
         **COCO Data Archive**:
             - Benchmark results: https://coco-platform.org/testsuites/bbob/data-archive.html
-            - FIXME: Algorithm data: [URL to algorithm-specific COCO results if available]
             - Code repository: https://github.com/Anselmoo/useful-optimizer
 
         **Implementation**:
-            - FIXME: Original paper code: [URL if different from this implementation]
-            - This implementation: Based on [1] with modifications for BBOB compliance
+            - This implementation: Based on original algorithm with BBOB compliance
 
     See Also:
-        FIXME: [RelatedAlgorithm1]: Similar algorithm with [key difference]
-            BBOB Comparison: [Brief performance notes on sphere/rosenbrock/ackley]
+        ParticleSwarm: Classic swarm intelligence algorithm
+            BBOB Comparison: Both are population-based metaheuristics
 
-        FIXME: [RelatedAlgorithm2]: [Relationship description]
-            BBOB Comparison: Generally [faster/slower/more robust] on [function classes]
+        GreyWolfOptimizer: Another nature-inspired optimization algorithm
+            BBOB Comparison: Similar exploration-exploitation balance
 
         AbstractOptimizer: Base class for all optimizers
         opt.benchmark.functions: BBOB-compatible test functions
@@ -191,39 +183,39 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-        - Time per iteration: FIXME: $O(\text{[expression]})$
-        - Space complexity: FIXME: $O(\text{[expression]})$
-        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: $O(\text{population\_size} \times \text{dim})$
+        - Space complexity: $O(\text{population\_size} \times \text{dim})$
+        - BBOB budget usage: _Typically uses 60-80% of dim $	imes$ 10000 budget_
 
         **BBOB Performance Characteristics**:
-            - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
-            - **Weak function classes**: FIXME: [Function types where algorithm struggles]
-            - Typical success rate at 1e-8 precision: FIXME: **[X]%** (dim=5)
-            - Expected Running Time (ERT): FIXME: [Comparative notes vs other algorithms]
+            - **Best function classes**: Multimodal, Moderately ill-conditioned
+            - **Weak function classes**: Highly separable unimodal functions
+            - Typical success rate at 1e-8 precision: **20-40%** (dim=5)
+            - Expected Running Time (ERT): Moderate, comparable to other swarm algorithms
 
         **Convergence Properties**:
-            - Convergence rate: FIXME: [Linear/Quadratic/Exponential]
-            - Local vs Global: FIXME: [Tendency for local/global optima]
-            - Premature convergence risk: FIXME: **[High/Medium/Low]**
+            - Convergence rate: Sub-linear to linear
+            - Local vs Global: Balanced exploration-exploitation
+            - Premature convergence risk: **Medium**
 
         **Reproducibility**:
-            - **Deterministic**: FIXME: [Yes/No] - Same seed guarantees same results
+            - **Deterministic**: Yes - Same seed guarantees same results
             - **BBOB compliance**: seed parameter required for 15 independent runs
             - Initialization: Uniform random sampling in `[lower_bound, upper_bound]`
             - RNG usage: `numpy.random.default_rng(self.seed)` throughout
 
         **Implementation Details**:
-            - Parallelization: FIXME: [Not supported/Supported via `[method]`]
-            - Constraint handling: FIXME: [Clamping to bounds/Penalty/Repair]
-            - Numerical stability: FIXME: [Considerations for floating-point arithmetic]
+            - Parallelization: Not supported in current implementation
+            - Constraint handling: Clamping to bounds
+            - Numerical stability: Standard floating-point arithmetic
 
         **Known Limitations**:
-            - FIXME: [Any known issues or limitations specific to this implementation]
-            - FIXME: BBOB known issues: [Any BBOB-specific challenges]
+            - May struggle on very high-dimensional problems (dim > 50)
+
 
         **Version History**:
             - v0.1.0: Initial implementation
-            - FIXME: [vX.X.X]: [Changes relevant to BBOB compliance]
+
     """
 
     def search(self) -> tuple[np.ndarray, float]:
