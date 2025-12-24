@@ -66,12 +66,12 @@ class AdaDelta(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adaptive Delta                           |
-        | Acronym           | AdaDelta                                 |
+        | Acronym           | ADADELTA                                 |
         | Year Introduced   | 2012                                     |
         | Authors           | Zeiler, Matthew D.                       |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, No manual LR     |
+        | Properties        | Gradient-based, Adaptive, Stochastic     |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

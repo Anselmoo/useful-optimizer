@@ -40,9 +40,9 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         | Acronym           | SPEA2                                    |
         | Year Introduced   | 2001                                     |
         | Authors           | Zitzler, Eckart; Laumanns, Marco; Thiele, Lothar |
-        | Algorithm Class   | Multi-Objective Evolutionary             |
+        | Algorithm Class   | Multi-Objective                          |
         | Complexity        | O(M² log M) per generation               |
-        | Properties        | Archive-based, Elitist, Density estimation, Derivative-free|
+        | Properties        | Archive-based, Population-based, Derivative-free |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

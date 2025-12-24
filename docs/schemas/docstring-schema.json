@@ -139,7 +139,14 @@
                             "Parallel-capable",
                             "Decomposition-based",
                             "Neighborhood search",
-                            "Archive-based"
+                            "Archive-based",
+                            "Nature-inspired",
+                            "Swarm-based",
+                            "Bio-inspired",
+                            "Memory-based",
+                            "Local search",
+                            "Global search",
+                            "Convergence guaranteed"
                         ]
                     }
                 },

@@ -64,7 +64,7 @@ class GravitationalSearchOptimizer(AbstractOptimizer):
         | Acronym           | GSA                                      |
         | Year Introduced   | 2009                                     |
         | Authors           | Rashedi, Esmat; Nezamabadi-Pour, Hossein; Saryazdi, Saeid |
-        | Algorithm Class   | Physics Inspired                         |
+        | Algorithm Class   | Physics-Inspired                         |
         | Complexity        | O(N² $\times$ dim $\times$ max_iter)     |
         | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
