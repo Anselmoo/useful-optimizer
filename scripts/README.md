@@ -11,7 +11,7 @@ The project uses a **unified, schema-driven documentation pipeline** with Pydant
 │              Schema-Driven Validation Pipeline                  │
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                 │
-│  docs/schemas/          opt/                  scripts/          │
+│  docs/schemas/          scripts/              scripts/          │
 │  ┌────────────────┐    ┌─────────────────┐   ┌──────────────┐  │
 │  │ docstring-     │───▶│ docstring_      │──▶│ unified_     │  │
 │  │ schema.json    │    │ models.py       │   │ validator.py │  │
@@ -34,10 +34,11 @@ The project uses a **unified, schema-driven documentation pipeline** with Pydant
    - Defines COCO/BBOB template requirements
    - 722 lines defining metadata, args, attributes, etc.
 
-2. **Pydantic Models** (`opt/docstring_models.py`)
+2. **Pydantic Models** (`scripts/docstring_models.py`)
    - Generated from JSON schema using `datamodel-code-generator`
    - Type-safe Python models for validation
    - Includes: `CocoBbobOptimizerDocstringSchema`, `AlgorithmMetadata`, etc.
+   - **Note**: Pydantic and jsonschema are optional dependencies in `[dependency-groups]` validate group
 
 3. **DocstringParser** (`scripts/docstring_parser.py`)
    - Extracts docstrings from Python files
@@ -48,6 +49,16 @@ The project uses a **unified, schema-driven documentation pipeline** with Pydant
    - CLI tool for validating optimizer docstrings
    - Replaces regex-based validators
    - Provides detailed Pydantic validation errors
+
+### Installation
+
+```bash
+# Install core dependencies (numpy, scipy, scikit-learn)
+uv sync
+
+# Install code hygiene and validation tools (includes Pydantic and jsonschema)
+uv sync --group validate
+```
 
 ### Quick Start
 
@@ -66,10 +77,10 @@ uv run python scripts/docstring_parser.py opt/swarm_intelligence/particle_swarm.
 
 ```bash
 # Run Pydantic model tests
-uv run pytest opt/test/test_docstring_models.py -v
+uv run pytest scripts/test/test_docstring_models.py -v
 
 # Run parser tests
-uv run pytest opt/test/test_docstring_parser.py -v
+uv run pytest scripts/test/test_docstring_parser.py -v
 ```
 
 ## Available Scripts

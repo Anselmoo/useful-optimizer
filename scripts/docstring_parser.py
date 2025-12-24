@@ -2,7 +2,7 @@
 
 This module provides a DocstringParser class that extracts and parses
 optimizer docstrings from Python files and validates them against the
-Pydantic models defined in opt.docstring_models.
+Pydantic models defined in scripts.docstring_models.
 """
 
 from __future__ import annotations
@@ -13,7 +13,7 @@ import re
 
 from pathlib import Path
 
-from opt.docstring_models import CocoBbobOptimizerDocstringSchema
+from scripts.docstring_models import CocoBbobOptimizerDocstringSchema
 
 
 # Section headers that define boundaries in docstrings

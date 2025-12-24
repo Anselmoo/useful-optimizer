@@ -43,8 +43,11 @@ repos:
       - id: unified-docstring-validator
         name: Validate optimizer docstrings (Pydantic schema)
         entry: python scripts/unified_validator.py
-        language: system
+        language: python
         pass_filenames: true
         files: ^opt/(classical|constrained|evolutionary|gradient_based|metaheuristic|multi_objective|physics_inspired|probabilistic|social_inspired|swarm_intelligence)/.*\.py$
         exclude: ^opt/(benchmark|test|__pycache__|visualization|__init__)/.*
+        additional_dependencies:
+          - pydantic>=2.12.5
+          - jsonschema>=4.23.0
 

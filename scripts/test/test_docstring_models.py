@@ -6,17 +6,17 @@ import pytest
 
 from pydantic import ValidationError
 
-from opt.docstring_models import AlgorithmClass
-from opt.docstring_models import AlgorithmMetadata
-from opt.docstring_models import Args
-from opt.docstring_models import Attributes
-from opt.docstring_models import COCOBBOBSettings
-from opt.docstring_models import CocoBbobOptimizerDocstringSchema
-from opt.docstring_models import Example
-from opt.docstring_models import Notes
-from opt.docstring_models import Parameter
-from opt.docstring_models import Property
-from opt.docstring_models import References
+from scripts.docstring_models import AlgorithmClass
+from scripts.docstring_models import AlgorithmMetadata
+from scripts.docstring_models import Args
+from scripts.docstring_models import Attributes
+from scripts.docstring_models import COCOBBOBSettings
+from scripts.docstring_models import CocoBbobOptimizerDocstringSchema
+from scripts.docstring_models import Example
+from scripts.docstring_models import Notes
+from scripts.docstring_models import Parameter
+from scripts.docstring_models import Property
+from scripts.docstring_models import References
 
 
 class TestAlgorithmMetadata:

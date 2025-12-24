@@ -10,7 +10,6 @@ dependencies = [
     "numpy>=1.26.4",
  "scipy>=1.12.0",
  "scikit-learn>=1.5.1",
- "pydantic>=2.12.5",
 ]
 
 [project.optional-dependencies]
@@ -42,6 +41,10 @@ dev = [
  "pre-commit>=4.0.0",
  "pydocstyle>=6.3.0",
  "datamodel-code-generator>=0.48.0",
+]
+validate = [
+    "pydantic>=2.12.5",
+    "jsonschema>=4.23.0",
 ]
 
 [tool.pytest.ini_options]
@@ -147,8 +150,9 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 "opt/social_inspired/social_group_optimizer.py" = ["FBT001", "FBT002"]
 "benchmarks/*" = ["PERF203", "S101", "ANN001", "ANN201", "ANN003"]
 "opt/demo.py" = ["TC002", "ANN401"]
-"opt/docstring_models.py" = ["D200", "D415", "FBT003", "D101", "TC002"]  # Generated code - ignore docstring style
+"scripts/docstring_models.py" = ["D200", "D415", "FBT003", "D101", "TC002"]  # Generated code - ignore docstring style
 "scripts/unified_validator.py" = ["FBT001", "FBT002", "TRY300"]  # CLI script
+"scripts/test/*" = ["S101"]  # Test files - allow assert
 
 
 
