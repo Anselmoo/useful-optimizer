@@ -60,7 +60,7 @@ class AdaMax(AbstractOptimizer):
         | Acronym           | ADAMAX                                   |
         | Year Introduced   | 2014                                     |
         | Authors           | Kingma, Diederik P.; Ba, Jimmy Lei       |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | Adaptive learning rate, Infinity norm    |
         | Implementation    | Python 3.10+                             |

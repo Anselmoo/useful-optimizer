@@ -71,7 +71,7 @@ class AdamW(AbstractOptimizer):
         | Acronym           | ADAMW                                    |
         | Year Introduced   | 2017                                     |
         | Authors           | Loshchilov, Ilya; Hutter, Frank          |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | Adaptive learning rate, Weight decay     |
         | Implementation    | Python 3.10+                             |

@@ -52,7 +52,7 @@ class ADAGrad(AbstractOptimizer):
         | Acronym           | ADAGRAD                                  |
         | Year Introduced   | 2011                                     |
         | Authors           | Duchi, John; Hazan, Elad; Singer, Yoram  |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | Adaptive learning rate, Parameter-wise  |
         | Implementation    | Python 3.10+                             |

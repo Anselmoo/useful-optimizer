@@ -67,7 +67,7 @@ class EquilibriumOptimizer(AbstractOptimizer):
         | Acronym           | EO                                       |
         | Year Introduced   | 2020                                     |
         | Authors           | Faramarzi, Afshin; Heidarinejad, Mohammad; Stephens, Brent; Mirjalili, Seyedali |
-        | Algorithm Class   | Physics Inspired                         |
+        | Algorithm Class   | Physics-Inspired                         |
         | Complexity        | O(N $\times$ dim $\times$ max_iter)      |
         | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |

@@ -70,7 +70,7 @@ class Nadam(AbstractOptimizer):
         | Acronym           | NADAM                                    |
         | Year Introduced   | 2016                                     |
         | Authors           | Dozat, Timothy                           |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | Adaptive learning rate, Nesterov momentum |
         | Implementation    | Python 3.10+                             |

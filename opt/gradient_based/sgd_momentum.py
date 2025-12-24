@@ -60,7 +60,7 @@ class SGDMomentum(AbstractOptimizer):
         | Acronym           | SGD-M                                    |
         | Year Introduced   | 1964                                     |
         | Authors           | Polyak, Boris T.                         |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | First-order, Momentum-based              |
         | Implementation    | Python 3.10+                             |

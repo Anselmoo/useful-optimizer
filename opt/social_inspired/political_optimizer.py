@@ -49,7 +49,7 @@ class PoliticalOptimizer(AbstractOptimizer):
         | Acronym           | PO                                       |
         | Year Introduced   | 2020                                     |
         | Authors           | Askari, Q.; Younas, I.; Saeed, M.        |
-        | Algorithm Class   | Social Inspired                          |
+        | Algorithm Class   | Social-Inspired                          |
         | Complexity        | O(population_size * dim * max_iter)      |
         | Properties        | Population-based, Derivative-free, Multi-party |
         | Implementation    | Python 3.10+                             |

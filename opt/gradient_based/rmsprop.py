@@ -62,7 +62,7 @@ class RMSprop(AbstractOptimizer):
         | Acronym           | RMSPROP                                  |
         | Year Introduced   | 2012                                     |
         | Authors           | Hinton, Geoffrey; Srivastava, Nitish    |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | Adaptive learning rate, Moving average   |
         | Implementation    | Python 3.10+                             |

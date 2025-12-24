@@ -55,7 +55,7 @@ class SGD(AbstractOptimizer):
         | Acronym           | SGD                                      |
         | Year Introduced   | 1951                                     |
         | Authors           | Robbins, Herbert; Monro, Sutton          |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | First-order, Stochastic                  |
         | Implementation    | Python 3.10+                             |

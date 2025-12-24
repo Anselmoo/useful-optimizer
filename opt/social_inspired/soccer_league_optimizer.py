@@ -49,7 +49,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         | Acronym           | SLC                                      |
         | Year Introduced   | 2014                                     |
         | Authors           | Moosavian, N.; Roodsari, B. K.           |
-        | Algorithm Class   | Social Inspired                          |
+        | Algorithm Class   | Social-Inspired                          |
         | Complexity        | O(population_size * dim * max_iter)      |
         | Properties        | Population-based, Derivative-free, Competitive |
         | Implementation    | Python 3.10+                             |

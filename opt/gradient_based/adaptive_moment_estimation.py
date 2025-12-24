@@ -53,7 +53,7 @@ class ADAMOptimization(AbstractOptimizer):
         | Acronym           | ADAM                                     |
         | Year Introduced   | 2014                                     |
         | Authors           | Kingma, Diederik P.; Ba, Jimmy Lei       |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | Adaptive learning rate, Momentum-based   |
         | Implementation    | Python 3.10+                             |

@@ -65,7 +65,7 @@ class AMSGrad(AbstractOptimizer):
         | Acronym           | AMSGRAD                                  |
         | Year Introduced   | 2018                                     |
         | Authors           | Reddi, Sashank J.; Kale, Satyen; Kumar, Sanjiv |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | Adaptive learning rate, Non-decreasing second moment |
         | Implementation    | Python 3.10+                             |

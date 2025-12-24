@@ -50,7 +50,7 @@ class RIMEOptimizer(AbstractOptimizer):
         | Acronym           | RIME                                     |
         | Year Introduced   | 2023                                     |
         | Authors           | Su, Hang; Zhao, Dong; Heidari, Ali Asghar; Liu, Laith; Zhang, Xiaoqin; Mafarja, Majdi; Chen, Huiling |
-        | Algorithm Class   | Physics Inspired                         |
+        | Algorithm Class   | Physics-Inspired                         |
         | Complexity        | O(N $\times$ dim $\times$ max_iter)      |
         | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |

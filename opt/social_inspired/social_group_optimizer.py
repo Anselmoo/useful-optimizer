@@ -49,7 +49,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
         | Acronym           | SGO                                      |
         | Year Introduced   | 2016                                     |
         | Authors           | Satapathy, S. C.; Naik, A.               |
-        | Algorithm Class   | Social Inspired                          |
+        | Algorithm Class   | Social-Inspired                          |
         | Complexity        | O(population_size * dim * max_iter)      |
         | Properties        | Population-based, Derivative-free, Three-phase |
         | Implementation    | Python 3.10+                             |

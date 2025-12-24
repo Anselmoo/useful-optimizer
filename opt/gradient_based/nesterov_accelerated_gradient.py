@@ -60,7 +60,7 @@ class NesterovAcceleratedGradient(AbstractOptimizer):
         | Acronym           | NAG                                      |
         | Year Introduced   | 1983                                     |
         | Authors           | Nesterov, Yurii                          |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
         | Properties        | Momentum-based, Lookahead gradient       |
         | Implementation    | Python 3.10+                             |
