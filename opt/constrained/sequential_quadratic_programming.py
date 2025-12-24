@@ -145,43 +145,37 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        constraints (list[Callable[[ndarray], float]] | None, optional):
-            List of inequality constraints in form $g(x) \leq 0$. Defaults to None.
-        eq_constraints (list[Callable[[ndarray], float]] | None, optional):
-            List of equality constraints in form $h(x) = 0$. Defaults to None.
-        max_iter (int, optional):
-            Maximum SQP iterations. BBOB recommendation: 1000-5000 for SQP.
-            Defaults to 100.
-        tol (float, optional):
-            Convergence tolerance. Smaller values enforce tighter convergence.
-            Defaults to 1e-6.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        constraints (list[Callable[[ndarray], float]] | None, optional): List of
+            inequality constraints in form $g(x) \leq 0$. Defaults to None.
+        eq_constraints (list[Callable[[ndarray], float]] | None, optional): List of
+            equality constraints in form $h(x) = 0$. Defaults to None.
+        max_iter (int, optional): Maximum SQP iterations. BBOB recommendation: 1000-5000
+            for SQP. Defaults to 100.
+        tol (float, optional): Convergence tolerance. Smaller values enforce tighter
+            convergence. Defaults to 1e-6.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of SQP iterations.
-        constraints (list[Callable[[ndarray], float]]):
-            Inequality constraints $g(x) \leq 0$.
-        eq_constraints (list[Callable[[ndarray], float]]):
-            Equality constraints $h(x) = 0$.
-        tol (float):
-            Convergence tolerance.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of SQP iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        constraints (list[Callable[[ndarray], float]]): Inequality constraints
+            $g(x) \leq 0$.
+        eq_constraints (list[Callable[[ndarray], float]]): Equality constraints
+            $h(x) = 0$.
+        tol (float): Convergence tolerance.
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -297,6 +291,7 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
         eq_constraints: list[Callable[[np.ndarray], float]] | None = None,
         max_iter: int = 100,
         tol: float = 1e-6,
+        seed: int | None = None,
     ) -> None:
         """Initialize Sequential Quadratic Programming.
 
@@ -309,8 +304,9 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
             eq_constraints: Equality constraints h(x) = 0. Defaults to None.
             max_iter: Maximum iterations. Defaults to 100.
             tol: Convergence tolerance. Defaults to 1e-6.
+            seed: Random seed for reproducibility. Defaults to None.
         """
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter)
+        super().__init__(func, lower_bound, upper_bound, dim, max_iter, seed=seed)
         self.constraints = constraints or []
         self.eq_constraints = eq_constraints or []
         self.tol = tol

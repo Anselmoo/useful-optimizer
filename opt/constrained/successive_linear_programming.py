@@ -145,40 +145,29 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional):
-            Maximum SLP iterations. BBOB recommendation: 5000-10000 for SLP.
-            Defaults to 1000.
-        population_size (int, optional):
-            Population size for gradient estimation via finite differences.
-            Defaults to 100.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
-            If None, generates random seed. Defaults to None.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        max_iter (int, optional): Maximum SLP iterations. BBOB recommendation: 5000-10000
+            for SLP. Defaults to 1000.
+        population_size (int, optional): Population size for gradient estimation via
+            finite differences. Defaults to 100.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of SLP iterations.
-        population_size (int):
-            Population size for gradient estimation.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of SLP iterations.
+        population_size (int): Population size for gradient estimation.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
 
     Methods:
         search() -> tuple[np.ndarray, float]:

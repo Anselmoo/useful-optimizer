@@ -138,48 +138,40 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        constraints (list[Callable[[ndarray], float]] | None, optional):
-            List of inequality constraints in form $g(x) \leq 0$. Defaults to None.
-        eq_constraints (list[Callable[[ndarray], float]] | None, optional):
-            List of equality constraints in form $h(x) = 0$. Defaults to None.
-        max_iter (int, optional):
-            Maximum outer iterations. BBOB recommendation: 1000-5000 for penalty methods.
-            Defaults to 100.
-        initial_penalty (float, optional):
-            Starting penalty coefficient ρ₀. Larger values enforce constraints earlier.
-            Defaults to 1.0.
-        penalty_growth (float, optional):
-            Penalty growth factor gamma > 1. Larger values reach high penalties faster but
-            may cause ill-conditioning. Defaults to 2.0.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        constraints (list[Callable[[ndarray], float]] | None, optional): List of
+            inequality constraints in form $g(x) \leq 0$. Defaults to None.
+        eq_constraints (list[Callable[[ndarray], float]] | None, optional): List of
+            equality constraints in form $h(x) = 0$. Defaults to None.
+        max_iter (int, optional): Maximum outer iterations. BBOB recommendation:
+            1000-5000 for penalty methods. Defaults to 100.
+        initial_penalty (float, optional): Starting penalty coefficient ρ₀. Larger values
+            enforce constraints earlier. Defaults to 1.0.
+        penalty_growth (float, optional): Penalty growth factor gamma > 1. Larger values
+            reach high penalties faster but may cause ill-conditioning. Defaults to 2.0.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of outer iterations.
-        constraints (list[Callable[[ndarray], float]]):
-            Inequality constraints $g(x) \leq 0$.
-        eq_constraints (list[Callable[[ndarray], float]]):
-            Equality constraints $h(x) = 0$.
-        initial_penalty (float):
-            Initial penalty coefficient.
-        penalty_growth (float):
-            Penalty growth factor per iteration.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of outer iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        constraints (list[Callable[[ndarray], float]]): Inequality constraints
+            $g(x) \leq 0$.
+        eq_constraints (list[Callable[[ndarray], float]]): Equality constraints
+            $h(x) = 0$.
+        initial_penalty (float): Initial penalty coefficient.
+        penalty_growth (float): Penalty growth factor per iteration.
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -289,6 +281,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
         max_iter: int = 100,
         initial_penalty: float = 1.0,
         penalty_growth: float = 2.0,
+        seed: int | None = None,
     ) -> None:
         """Initialize Penalty Method Optimizer.
 
@@ -302,8 +295,9 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
             max_iter: Outer iterations. Defaults to 100.
             initial_penalty: Starting penalty. Defaults to 1.0.
             penalty_growth: Penalty growth rate. Defaults to 2.0.
+            seed: Random seed for reproducibility. Defaults to None.
         """
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter)
+        super().__init__(func, lower_bound, upper_bound, dim, max_iter, seed=seed)
         self.constraints = constraints or []
         self.eq_constraints = eq_constraints or []
         self.initial_penalty = initial_penalty

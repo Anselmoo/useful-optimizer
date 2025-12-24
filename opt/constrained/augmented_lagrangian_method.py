@@ -155,52 +155,36 @@ class AugmentedLagrangian(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional):
-            Maximum outer iterations. BBOB recommendation: 10000 for complete
-            evaluation. Defaults to 1000.
-        c (float, optional):
-            Initial penalty parameter for constraint violations. Higher values
-            enforce constraints more strictly. Defaults to 1.0.
-        lambda_ (float, optional):
-            Initial Lagrange multiplier. Represents dual variable for constraints.
-            Defaults to 0.1.
-        static_cost (float, optional):
-            Large penalty cost applied when constraint evaluation yields NaN.
-            Prevents numerical issues. Defaults to 1e10.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
-            If None, generates random seed. Defaults to None.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        max_iter (int, optional): Maximum outer iterations. BBOB recommendation: 10000
+            for complete evaluation. Defaults to 1000.
+        c (float, optional): Initial penalty parameter for constraint violations. Higher
+            values enforce constraints more strictly. Defaults to 1.0.
+        lambda_ (float, optional): Initial Lagrange multiplier. Represents dual variable
+            for constraints. Defaults to 0.1.
+        static_cost (float, optional): Large penalty cost applied when constraint
+            evaluation yields NaN. Prevents numerical issues. Defaults to 1e10.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of outer iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        c (float):
-            Current penalty parameter (increases adaptively).
-        lambda_ (float):
-            Current Lagrange multiplier (updated each iteration).
-        static_cost (float):
-            Large penalty for NaN constraint values.
-        solution (np.ndarray | None):
-            Best solution found during optimization.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of outer iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        c (float): Current penalty parameter (increases adaptively).
+        lambda_ (float): Current Lagrange multiplier (updated each iteration).
+        static_cost (float): Large penalty for NaN constraint values.
+        solution (np.ndarray | None): Best solution found during optimization.
 
     Methods:
         search() -> tuple[np.ndarray, float]:

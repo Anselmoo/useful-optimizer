@@ -138,45 +138,37 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        constraints (list[Callable[[ndarray], float]] | None, optional):
-            List of inequality constraints in form $g(x) \leq 0$. Barrier method
-            requires strictly feasible starting point. Defaults to None.
-        max_iter (int, optional):
-            Maximum outer iterations. BBOB recommendation: 1000-5000 for barrier methods.
-            Defaults to 100.
-        initial_mu (float, optional):
-            Starting barrier coefficient. Larger values keep solution farther from
-            boundary initially. Defaults to 10.0.
-        mu_reduction (float, optional):
-            Barrier reduction factor β (0 < β < 1). Smaller values approach boundary
-            faster but may cause numerical issues. Defaults to 0.5.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5
+            (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5
+            (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        constraints (list[Callable[[ndarray], float]] | None, optional): List of
+            inequality constraints in form $g(x) \leq 0$. Barrier method requires
+            strictly feasible starting point. Defaults to None.
+        max_iter (int, optional): Maximum outer iterations. BBOB recommendation:
+            1000-5000 for barrier methods. Defaults to 100.
+        initial_mu (float, optional): Starting barrier coefficient. Larger values keep
+            solution farther from boundary initially. Defaults to 10.0.
+        mu_reduction (float, optional): Barrier reduction factor β (0 < β < 1). Smaller
+            values approach boundary faster but may cause numerical issues. Defaults to 0.5.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of outer iterations.
-        constraints (list[Callable[[ndarray], float]]):
-            Inequality constraints $g(x) \leq 0$.
-        initial_mu (float):
-            Initial barrier coefficient.
-        mu_reduction (float):
-            Barrier reduction factor per iteration.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of outer iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        constraints (list[Callable[[ndarray], float]]): Inequality constraints
+            $g(x) \leq 0$.
+        initial_mu (float): Initial barrier coefficient.
+        mu_reduction (float): Barrier reduction factor per iteration.
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -288,6 +280,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         max_iter: int = 100,
         initial_mu: float = 10.0,
         mu_reduction: float = 0.5,
+        seed: int | None = None,
     ) -> None:
         """Initialize Barrier Method Optimizer.
 
@@ -300,8 +293,9 @@ class BarrierMethodOptimizer(AbstractOptimizer):
             max_iter: Outer iterations. Defaults to 100.
             initial_mu: Starting barrier coefficient. Defaults to 10.0.
             mu_reduction: Barrier reduction rate. Defaults to 0.5.
+            seed: Random seed for reproducibility. Defaults to None.
         """
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter)
+        super().__init__(func, lower_bound, upper_bound, dim, max_iter, seed=seed)
         self.constraints = constraints or []
         self.initial_mu = initial_mu
         self.mu_reduction = mu_reduction
