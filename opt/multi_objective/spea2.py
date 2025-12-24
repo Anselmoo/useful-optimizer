@@ -194,11 +194,11 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             Execute SPEA2 multi-objective optimization.
 
     Returns:
-                tuple[ndarray, ndarray]:
-                    - archive (ndarray): 2D array of Pareto-optimal solutions
-                      with shape (archive_size, dim)
-                    - archive_obj (ndarray): 2D array of objective values with shape
-                      (archive_size, num_objectives)
+        tuple[ndarray, ndarray]: A tuple (pareto_solutions, pareto_fitness) containing Pareto-optimal solutions and their corresponding objective values.
+            - archive (ndarray): 2D array of Pareto-optimal solutions
+                with shape (archive_size, dim)
+            - archive_obj (ndarray): 2D array of objective values with shape
+                (archive_size, num_objectives)
 
     Raises:
         ValueError: If search space is invalid or function evaluation fails.

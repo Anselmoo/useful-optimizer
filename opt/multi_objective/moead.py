@@ -194,20 +194,20 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             Execute MOEA/D multi-objective optimization.
 
     Returns:
-                tuple[ndarray, ndarray]:
-                    - pareto_front (ndarray): 2D array of objective values with shape
-                      (num_pareto_solutions, num_objectives) - NOTE: order reversed
-                      from typical convention for compatibility
-                    - pareto_set (ndarray): 2D array of Pareto-optimal solutions
-                      with shape (num_pareto_solutions, dim)
+        tuple[ndarray, ndarray]: A tuple (pareto_solutions, pareto_fitness) containing Pareto-optimal solutions and their corresponding objective values.
+            - pareto_front (ndarray): 2D array of objective values with shape
+                (num_pareto_solutions, num_objectives) - NOTE: order reversed
+                from typical convention for compatibility
+            - pareto_set (ndarray): 2D array of Pareto-optimal solutions
+                with shape (num_pareto_solutions, dim)
 
     Raises:
         ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Returns non-dominated solutions from archive
-                - Tchebycheff decomposition used for scalar optimization
-                - Neighborhood-based mating and update
+        - Returns non-dominated solutions from archive
+        - Tchebycheff decomposition used for scalar optimization
+        - Neighborhood-based mating and update
 
     References:
         [1] Zhang, Q., & Li, H. (2007).

@@ -231,19 +231,19 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             Execute NSGA-II multi-objective optimization.
 
     Returns:
-                tuple[ndarray, ndarray]:
-                    - pareto_solutions (ndarray): 2D array of Pareto-optimal solutions
-                      with shape (num_pareto_solutions, dim)
-                    - pareto_fitness (ndarray): 2D array of objective values with shape
-                      (num_pareto_solutions, num_objectives)
+        tuple[ndarray, ndarray]: A tuple (pareto_solutions, pareto_fitness) containing Pareto-optimal solutions and their corresponding objective values.
+            - pareto_solutions (ndarray): 2D array of Pareto-optimal solutions
+                with shape (num_pareto_solutions, dim)
+            - pareto_fitness (ndarray): 2D array of objective values with shape
+                (num_pareto_solutions, num_objectives)
 
     Raises:
         ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Returns first Pareto front (rank 0) solutions
-                - Uses self.seed for all random number generation
-                - BBOB: Returns Pareto front after max_iter generations
+        - Returns first Pareto front (rank 0) solutions
+        - Uses self.seed for all random number generation
+        - BBOB: Returns Pareto front after max_iter generations
 
     References:
         [1] Deb, K., Pratap, A., Agarwal, S., & Meyarivan, T. (2002).
