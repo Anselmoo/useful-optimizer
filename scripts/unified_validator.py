@@ -12,16 +12,23 @@ from __future__ import annotations
 
 import argparse
 import sys
-
+import importlib.util
 from pathlib import Path
 
 
-# Add repository root to path for imports
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
 from pydantic import ValidationError
 
-from scripts.docstring_parser import DocstringParser
+# Load DocstringParser from sibling docstring_parser.py without modifying sys.path
+_DOCSTRING_PARSER_PATH = Path(__file__).parent / "docstring_parser.py"
+_DOCSTRING_PARSER_SPEC = importlib.util.spec_from_file_location(
+    "scripts.docstring_parser",
+    _DOCSTRING_PARSER_PATH,
+)
+if _DOCSTRING_PARSER_SPEC is None or _DOCSTRING_PARSER_SPEC.loader is None:
+    raise ImportError(f"Could not load docstring_parser module from {_DOCSTRING_PARSER_PATH}")
+_docstring_parser_module = importlib.util.module_from_spec(_DOCSTRING_PARSER_SPEC)
+_DOCSTRING_PARSER_SPEC.loader.exec_module(_docstring_parser_module)
+DocstringParser = _docstring_parser_module.DocstringParser
 
 
 def validate_file(file_path: Path, verbose: bool = False) -> tuple[bool, list[str]]:
