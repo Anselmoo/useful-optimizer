@@ -237,7 +237,7 @@ class SineCosineAlgorithm(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(population\_size \times dim)$
             - Space complexity: $O(population\_size \times dim)$
-            - BBOB budget usage: _Typically uses 40-60% of dim×10000 budget for convergence_
+            - BBOB budget usage: _Typically uses 40-60% of dim $\times$ 10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, weakly-multimodal problems

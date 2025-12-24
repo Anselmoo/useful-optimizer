@@ -222,7 +222,7 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(neighborhood\_size \times dim)$
             - Space complexity: $O(population\_size \times dim)$
-            - BBOB budget usage: _Typically uses 60-80% of dim×10000 budget for convergence_
+            - BBOB budget usage: _Typically uses 60-80% of dim $\times$ 10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, rugged landscapes with local structure
