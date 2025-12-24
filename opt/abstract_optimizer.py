@@ -20,6 +20,8 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
+from opt.abstract.history import HistoryConfig
+from opt.abstract.history import OptimizationHistory
 from opt.constants import DEFAULT_MAX_ITERATIONS
 from opt.constants import DEFAULT_POPULATION_SIZE
 from opt.constants import DEFAULT_SEED
@@ -119,6 +121,20 @@ class AbstractOptimizer(ABC):
             self.seed = seed
         self.population_size = population_size
         self.track_history = track_history
+        self._history_buffer = (
+            OptimizationHistory(
+                max_iter=self.max_iter + 1,  # include final state
+                dim=self.dim,
+                population_size=self.population_size,
+                config=HistoryConfig(
+                    track_population=True,
+                    track_population_fitness=True,
+                    max_history_size=self.max_iter + 1,
+                ),
+            )
+            if track_history
+            else None
+        )
         self.history: dict[str, list] = (
             {
                 "best_fitness": [],
@@ -129,6 +145,29 @@ class AbstractOptimizer(ABC):
             if track_history
             else {}
         )
+
+    def _record_history(
+        self,
+        best_fitness: float,
+        best_solution: ndarray,
+        population_fitness: ndarray | None = None,
+        population: ndarray | None = None,
+    ) -> None:
+        """Record iteration history using preallocated storage."""
+        if not self.track_history or self._history_buffer is None:
+            return
+        self._history_buffer.record(
+            best_fitness=best_fitness,
+            best_solution=best_solution,
+            population_fitness=population_fitness,
+            population=population,
+        )
+
+    def _finalize_history(self) -> None:
+        """Convert preallocated history to list-based format for consumers."""
+        if not self.track_history or self._history_buffer is None:
+            return
+        self.history = self._history_buffer.to_dict()
 
     @abstractmethod
     def search(self) -> tuple[ndarray, float]:

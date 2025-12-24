@@ -27,6 +27,9 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
+from opt.abstract.history import HistoryConfig
+from opt.abstract.history import OptimizationHistory
+
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -62,6 +65,8 @@ class AbstractMultiObjectiveOptimizer(ABC):
         population_size (int, optional): The number of individuals in the population.
             BBOB recommendation: 10*dim for population-based algorithms.
             Defaults to 100.
+        track_history (bool, optional): Whether to track optimization history.
+            Stores convergence data for downstream analysis. Defaults to False.
 
     Attributes:
         objectives (list[Callable[[ndarray], float]]): Objective functions to minimize.
@@ -73,6 +78,15 @@ class AbstractMultiObjectiveOptimizer(ABC):
         seed (int): **REQUIRED for BBOB compliance.** Random seed for reproducibility.
             Used for all random operations to ensure deterministic Pareto fronts.
         population_size (int): The number of individuals in the population.
+        track_history (bool): Whether to record optimization history for analysis.
+        history (dict[str, list]): Optimization history if track_history is True.
+            Contains keys:
+            - 'best_fitness': Scalarized best fitness per iteration.
+            - 'best_solution': Corresponding solution vector.
+            - 'pareto_fitness': Objective values of the non-dominated set.
+            - 'pareto_solutions': Non-dominated solutions.
+            - 'population_fitness': Fitness of full population per iteration.
+            - 'population': Population positions per iteration.
 
     Methods:
         search() -> tuple[ndarray, ndarray]: Perform the multi-objective optimization search.
@@ -127,6 +141,7 @@ class AbstractMultiObjectiveOptimizer(ABC):
         max_iter: int = 1000,
         seed: int | None = None,
         population_size: int = 100,
+        track_history: bool = False,  # noqa: FBT001, FBT002
     ) -> None:
         """Initialize the multi-objective optimizer."""
         self.objectives = list(objectives)
@@ -140,6 +155,33 @@ class AbstractMultiObjectiveOptimizer(ABC):
         else:
             self.seed = seed
         self.population_size = population_size
+        self.track_history = track_history
+        self._history_buffer = (
+            OptimizationHistory(
+                max_iter=self.max_iter + 1,  # include final state
+                dim=self.dim,
+                population_size=self.population_size,
+                config=HistoryConfig(
+                    track_population=True,
+                    track_population_fitness=True,
+                    max_history_size=self.max_iter + 1,
+                ),
+            )
+            if track_history
+            else None
+        )
+        self.history: dict[str, list] = (
+            {
+                "best_fitness": [],
+                "best_solution": [],
+                "pareto_fitness": [],
+                "pareto_solutions": [],
+                "population_fitness": [],
+                "population": [],
+            }
+            if track_history
+            else {}
+        )
 
     def evaluate(self, solution: ndarray) -> ndarray:
         """Evaluate a solution on all objectives.
@@ -260,6 +302,44 @@ class AbstractMultiObjectiveOptimizer(ABC):
                     ) / f_range
 
         return distances
+
+    def _record_history(
+        self,
+        best_fitness: float,
+        best_solution: ndarray,
+        population_fitness: ndarray | None = None,
+        population: ndarray | None = None,
+        pareto_fitness: ndarray | None = None,
+        pareto_solutions: ndarray | None = None,
+    ) -> None:
+        """Record iteration history using preallocated storage."""
+        if not self.track_history or self._history_buffer is None:
+            return
+
+        self._history_buffer.record(
+            best_fitness=best_fitness,
+            best_solution=best_solution,
+            population_fitness=population_fitness,
+            population=population,
+        )
+
+        if pareto_fitness is not None and pareto_solutions is not None:
+            self.history["pareto_fitness"].append(pareto_fitness.copy())
+            self.history["pareto_solutions"].append(pareto_solutions.copy())
+
+    def _finalize_history(self) -> None:
+        """Convert preallocated history to list-based format for consumers."""
+        if not self.track_history or self._history_buffer is None:
+            return
+
+        buffer_dict = self._history_buffer.to_dict()
+
+        if "pareto_fitness" in self.history:
+            buffer_dict["pareto_fitness"] = self.history["pareto_fitness"]
+        if "pareto_solutions" in self.history:
+            buffer_dict["pareto_solutions"] = self.history["pareto_solutions"]
+
+        self.history = buffer_dict
 
     @abstractmethod
     def search(self) -> tuple[ndarray, ndarray]:

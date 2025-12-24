@@ -321,12 +321,19 @@ class FireflyAlgorithm(AbstractOptimizer):
         )
         fitness = np.apply_along_axis(self.func, 1, population)
 
-        for iteration in range(self.max_iter):
+        best_index = int(fitness.argmin())
+        best_solution = population[best_index].copy()
+        best_fitness = float(fitness[best_index])
+
+        for _ in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
-                best_idx = fitness.argmin()
-                self.history["best_fitness"].append(float(fitness[best_idx]))
-                self.history["best_solution"].append(population[best_idx].copy())
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                    population_fitness=fitness.copy(),
+                    population=population.copy(),
+                )
 
             for i in range(self.population_size):
                 for j in range(self.population_size):
@@ -343,14 +350,19 @@ class FireflyAlgorithm(AbstractOptimizer):
                         )
                         fitness[j] = self.func(population[j])
 
-        best_index = fitness.argmin()
-        best_solution = population[best_index]
-        best_fitness = fitness[best_index]
+            best_index = int(fitness.argmin())
+            best_solution = population[best_index]
+            best_fitness = float(fitness[best_index])
 
         # Track final state
         if self.track_history:
-            self.history["best_fitness"].append(float(best_fitness))
-            self.history["best_solution"].append(best_solution.copy())
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+                population_fitness=fitness.copy(),
+                population=population.copy(),
+            )
+            self._finalize_history()
 
         return best_solution, best_fitness
 

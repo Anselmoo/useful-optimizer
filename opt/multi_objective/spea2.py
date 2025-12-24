@@ -301,6 +301,8 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         max_iter: int,
         population_size: int = 100,
         archive_size: int = 100,
+        *,
+        track_history: bool = False,
     ) -> None:
         """Initialize SPEA2.
 
@@ -312,8 +314,17 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             max_iter: Maximum number of iterations.
             population_size: Size of the population.
             archive_size: Size of the external archive.
+            track_history: Enable convergence history tracking.
         """
-        super().__init__(objectives, lower_bound, upper_bound, dim, max_iter)
+        super().__init__(
+            objectives=objectives,
+            lower_bound=lower_bound,
+            upper_bound=upper_bound,
+            dim=dim,
+            max_iter=max_iter,
+            population_size=population_size,
+            track_history=track_history,
+        )
         self.population_size = population_size
         self.archive_size = archive_size
 
@@ -600,8 +611,50 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
         archive = np.empty((0, self.dim))
         archive_obj = np.empty((0, len(self.objectives)))
 
+        def record_history() -> None:
+            """Record convergence and Pareto front history if enabled."""
+            if not self.track_history:
+                return
+
+            if len(archive) > 0:
+                pareto_solutions = archive.copy()
+                pareto_fitness = archive_obj.copy()
+                best_source_pop = archive
+                best_source_obj = archive_obj
+            else:
+                is_dominated = np.zeros(len(population), dtype=bool)
+                for idx in range(len(population)):
+                    if is_dominated[idx]:
+                        continue
+                    for jdx in range(len(population)):
+                        if idx == jdx:
+                            continue
+                        if self._dominates(
+                            objectives_values[jdx], objectives_values[idx]
+                        ):
+                            is_dominated[idx] = True
+                            break
+                mask = ~is_dominated
+                pareto_solutions = population[mask]
+                pareto_fitness = objectives_values[mask]
+                best_source_pop = population
+                best_source_obj = objectives_values
+
+            scalar_fitness = np.sum(best_source_obj, axis=1)
+            best_idx = int(np.argmin(scalar_fitness))
+
+            self._record_history(
+                best_fitness=float(scalar_fitness[best_idx]),
+                best_solution=best_source_pop[best_idx].copy(),
+                population_fitness=objectives_values.copy(),
+                population=population.copy(),
+                pareto_fitness=pareto_fitness,
+                pareto_solutions=pareto_solutions,
+            )
+
         # Main loop
         for _ in range(self.max_iter):
+            record_history()
             # Combine population and archive
             combined_pop = (
                 np.vstack([population, archive]) if len(archive) > 0 else population
@@ -653,6 +706,9 @@ class SPEA2(AbstractMultiObjectiveOptimizer):
             objectives_values = np.array(
                 [[obj(ind) for obj in self.objectives] for ind in population]
             )
+
+        record_history()
+        self._finalize_history()
 
         return archive, archive_obj
 
