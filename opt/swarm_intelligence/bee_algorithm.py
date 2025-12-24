@@ -131,7 +131,17 @@ class BeeAlgorithm(AbstractOptimizer):
         True
 
     Args:
-        Standard BBOB parameters: func, lower_bound, upper_bound, dim, max_iter, seed, population_size.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5.
+        upper_bound (float): Upper bound of search space. BBOB typical: 5.
+        n_bees (int, optional): Number of bees in population. Defaults to 50.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000. Defaults to 1000.
+        scout_bee (float, optional): Scout bee ratio. Defaults to 0.01.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.

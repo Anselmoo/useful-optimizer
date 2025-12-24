@@ -257,6 +257,7 @@ class AfricanVulturesOptimizer(AbstractOptimizer):
         population_size: int = 50,
         max_iter: int = 500,
         seed: int | None = None,
+        *,
         track_history: bool = False,
     ) -> None:
         """Initialize the AVOA optimizer.
@@ -268,6 +269,8 @@ class AfricanVulturesOptimizer(AbstractOptimizer):
             dim: Number of dimensions.
             population_size: Number of vultures.
             max_iter: Maximum iterations.
+            seed: Random seed for reproducibility. BBOB requires seeds 0-14.
+            track_history: Enable convergence history tracking for BBOB.
         """
         super().__init__(func, lower_bound, upper_bound, dim, seed=seed, track_history=track_history)
         self.population_size = population_size

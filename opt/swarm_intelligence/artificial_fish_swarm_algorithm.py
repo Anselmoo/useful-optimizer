@@ -130,7 +130,20 @@ class ArtificialFishSwarm(AbstractOptimizer):
         True
 
     Args:
-        Standard BBOB parameters: func, lower_bound, upper_bound, dim, max_iter, seed, population_size.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5.
+        upper_bound (float): Upper bound of search space. BBOB typical: 5.
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        fish_swarm (int, optional): Number of fish in swarm. Defaults to 50.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000. Defaults to 1000.
+        visual (int, optional): Visual distance parameter. Defaults to 1.
+        step (float, optional): Step size parameter. Defaults to 0.1.
+        try_number (int, optional): Number of attempts. Defaults to 3.
+        epsilon (float, optional): Small value for numerical stability. Defaults to 1e-9.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.

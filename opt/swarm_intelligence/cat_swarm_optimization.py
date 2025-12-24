@@ -128,7 +128,20 @@ class CatSwarmOptimization(AbstractOptimizer):
         True
 
     Args:
-        Standard BBOB parameters: func, lower_bound, upper_bound, dim, max_iter, seed, population_size.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5.
+        upper_bound (float): Upper bound of search space. BBOB typical: 5.
+        cats (int, optional): Number of cats in population. Defaults to 50.
+        max_iter (int, optional): Maximum iterations. BBOB recommendation: 10000. Defaults to 1000.
+        seeking_memory_pool (int, optional): Memory pool size for seeking mode. Defaults to 5.
+        counts_of_dimension_to_change (int | None, optional): Dimensions to change. Defaults to None.
+        smp_change_probability (float, optional): SMP change probability. Defaults to 0.1.
+        spc_probability (float, optional): SPC probability. Defaults to 0.2.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
