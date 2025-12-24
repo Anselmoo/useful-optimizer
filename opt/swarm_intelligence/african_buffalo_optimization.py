@@ -269,7 +269,15 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
             seed: Random seed for reproducibility. BBOB requires seeds 0-14.
             track_history: Enable convergence history tracking for BBOB.
         """
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter, seed=seed, track_history=track_history)
+        super().__init__(
+            func,
+            lower_bound,
+            upper_bound,
+            dim,
+            max_iter,
+            seed=seed,
+            track_history=track_history,
+        )
         self.population_size = population_size
         self.lp1 = lp1
         self.lp2 = lp2
