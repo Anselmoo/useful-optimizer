@@ -153,56 +153,33 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        population_size (int, optional):
-            Number of particles in SMC population.
-            BBOB recommendation: 10*dim for adequate coverage.
-            Defaults to 50.
-        max_iter (int, optional):
-            Maximum SMC iterations.
-            BBOB recommendation: 500-2000 depending on problem.
-            Defaults to 100.
-        initial_temp (float, optional):
-            Starting temperature for importance weighting.
-            Higher values increase initial diversity.
-            BBOB tuning: 1.0-10.0.
-            Defaults to 10.0.
-        final_temp (float, optional):
-            Final temperature for importance weighting.
-            Lower values improve final convergence.
-            BBOB tuning: 0.01-0.5.
-            Defaults to 0.1.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
-            If None, generates random seed. Defaults to None.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        population_size (int, optional): Number of particles in SMC population.
+            BBOB recommendation: 10*dim for adequate coverage. Defaults to 50.
+        max_iter (int, optional): Maximum SMC iterations.
+            BBOB recommendation: 500-2000 depending on problem. Defaults to 100.
+        initial_temp (float, optional): Starting temperature for importance weighting.
+            Higher values increase initial diversity. BBOB tuning: 1.0-10.0. Defaults to 10.0.
+        final_temp (float, optional): Final temperature for importance weighting.
+            Lower values improve final convergence. BBOB tuning: 0.01-0.5. Defaults to 0.1.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of SMC iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        population_size (int):
-            Number of particles in population.
-        initial_temp (float):
-            Starting temperature for importance weighting.
-        final_temp (float):
-            Final temperature for importance weighting.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of SMC iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        population_size (int): Number of particles in population.
+        initial_temp (float): Starting temperature for importance weighting.
+        final_temp (float): Final temperature for importance weighting.
 
     Methods:
         search() -> tuple[np.ndarray, float]:

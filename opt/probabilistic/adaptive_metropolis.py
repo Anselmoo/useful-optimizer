@@ -146,55 +146,36 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        max_iter (int, optional):
-            Maximum MCMC iterations. BBOB recommendation: 5000-10000.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        max_iter (int, optional): Maximum MCMC iterations. BBOB recommendation: 5000-10000.
             Defaults to 1000.
-        initial_temp (float, optional):
-            Starting temperature for annealing schedule.
-            Higher values increase initial exploration.
-            BBOB tuning: 1.0-10.0 depending on function landscape.
-            Defaults to 10.0.
-        final_temp (float, optional):
-            Final temperature for annealing schedule.
-            Lower values improve final convergence precision.
-            BBOB tuning: 0.001-0.1.
+        initial_temp (float, optional): Starting temperature for annealing schedule.
+            Higher values increase initial exploration. BBOB tuning: 1.0-10.0 depending on
+            function landscape. Defaults to 10.0.
+        final_temp (float, optional): Final temperature for annealing schedule.
+            Lower values improve final convergence precision. BBOB tuning: 0.001-0.1.
             Defaults to 0.01.
-        adaptation_start (int, optional):
-            Iteration to start covariance adaptation.
+        adaptation_start (int, optional): Iteration to start covariance adaptation.
             BBOB recommendation: max(100, 2*dim) for stable covariance estimation.
             Defaults to 100.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
-            If None, generates random seed. Defaults to None.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of MCMC iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        initial_temp (float):
-            Starting temperature for simulated annealing schedule.
-        final_temp (float):
-            Final temperature for annealing schedule.
-        adaptation_start (int):
-            Iteration to begin covariance adaptation.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of MCMC iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        initial_temp (float): Starting temperature for simulated annealing schedule.
+        final_temp (float): Final temperature for annealing schedule.
+        adaptation_start (int): Iteration to begin covariance adaptation.
 
     Methods:
         search() -> tuple[np.ndarray, float]:

@@ -154,49 +154,31 @@ class BayesianOptimizer(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        n_initial (int, optional):
-            Number of initial random samples to build GP surrogate.
-            BBOB recommendation: 2*dim for low-dim, 10-20 for high-dim.
-            Defaults to 10.
-        max_iter (int, optional):
-            Maximum Bayesian optimization iterations after initial sampling.
-            BBOB recommendation: 100-500 depending on budget.
-            Defaults to 50.
-        xi (float, optional):
-            Exploration parameter for Expected Improvement acquisition.
-            Higher values favor exploration over exploitation.
-            BBOB tuning: 0.01-0.1 depending on function smoothness.
-            Defaults to 0.01.
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
-            If None, generates random seed. Defaults to None.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        n_initial (int, optional): Number of initial random samples to build GP surrogate.
+            BBOB recommendation: 2*dim for low-dim, 10-20 for high-dim. Defaults to 10.
+        max_iter (int, optional): Maximum Bayesian optimization iterations after initial
+            sampling. BBOB recommendation: 100-500 depending on budget. Defaults to 50.
+        xi (float, optional): Exploration parameter for Expected Improvement acquisition.
+            Higher values favor exploration over exploitation. BBOB tuning: 0.01-0.1
+            depending on function smoothness. Defaults to 0.01.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of Bayesian optimization iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        n_initial (int):
-            Number of initial random samples for GP training.
-        xi (float):
-            Exploration parameter for Expected Improvement.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of Bayesian optimization iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        n_initial (int): Number of initial random samples for GP training.
+        xi (float): Exploration parameter for Expected Improvement.
 
     Methods:
         search() -> tuple[np.ndarray, float]:

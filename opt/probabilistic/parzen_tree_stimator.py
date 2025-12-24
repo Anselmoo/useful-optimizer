@@ -144,71 +144,43 @@ class ParzenTreeEstimator(AbstractOptimizer):
         True
 
     Args:
-        func (Callable[[ndarray], float]):
-            Objective function to minimize. Must accept numpy array and return scalar.
-            BBOB functions available in `opt.benchmark.functions`.
-        dim (int):
-            Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
-        lower_bound (float):
-            Lower bound of search space. BBOB typical: -5 (most functions).
-        upper_bound (float):
-            Upper bound of search space. BBOB typical: 5 (most functions).
-        population_size (int, optional):
-            Number of observations to maintain for KDE fitting.
-            BBOB recommendation: 10*dim.
-            Defaults to 100.
-        max_iter (int, optional):
-            Maximum TPE iterations.
-            BBOB recommendation: 500-2000.
-            Defaults to 1000.
-        gamma (float, optional):
-            Quantile for splitting observations into good/bad.
-            Lower values are more selective for good observations.
-            BBOB tuning: 0.10-0.25.
+        func (Callable[[ndarray], float]): Objective function to minimize. Must accept
+            numpy array and return scalar. BBOB functions available in
+            `opt.benchmark.functions`.
+        dim (int): Problem dimensionality. BBOB standard dimensions: 2, 3, 5, 10, 20, 40.
+        lower_bound (float): Lower bound of search space. BBOB typical: -5 (most functions).
+        upper_bound (float): Upper bound of search space. BBOB typical: 5 (most functions).
+        population_size (int, optional): Number of observations to maintain for KDE fitting.
+            BBOB recommendation: 10*dim. Defaults to 100.
+        max_iter (int, optional): Maximum TPE iterations.
+            BBOB recommendation: 500-2000. Defaults to 1000.
+        gamma (float, optional): Quantile for splitting observations into good/bad.
+            Lower values are more selective for good observations. BBOB tuning: 0.10-0.25.
             Defaults to 0.15.
-        bandwidth (float, optional):
-            Gaussian kernel bandwidth for KDE.
-            BBOB tuning: 0.1-0.5 depending on problem smoothness.
-            Defaults to 0.2.
-        n_samples (int | None, optional):
-            Number of candidates to sample from good KDE.
-            If None, uses population_size.
-            BBOB recommendation: Same as population_size.
+        bandwidth (float, optional): Gaussian kernel bandwidth for KDE.
+            BBOB tuning: 0.1-0.5 depending on problem smoothness. Defaults to 0.2.
+        n_samples (int | None, optional): Number of candidates to sample from good KDE.
+            If None, uses population_size. BBOB recommendation: Same as population_size.
             Defaults to None.
-        selection_strategy (str, optional):
-            Strategy for selecting next point: "difference" or "ratio".
-            "difference": argmax(l(x) - g(x))
-            "ratio": argmax(g(x) / l(x)) equivalent to max l/g
-            Defaults to "difference".
-        seed (int | None, optional):
-            Random seed for reproducibility. BBOB requires seeds 0-14 for 15 runs.
-            If None, generates random seed. Defaults to None.
+        selection_strategy (str, optional): Strategy for selecting next point:
+            "difference" or "ratio". "difference": argmax(l(x) - g(x)),
+            "ratio": argmax(g(x) / l(x)) equivalent to max l/g. Defaults to "difference".
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
-        func (Callable[[ndarray], float]):
-            The objective function being optimized.
-        lower_bound (float):
-            Lower search space boundary.
-        upper_bound (float):
-            Upper search space boundary.
-        dim (int):
-            Problem dimensionality.
-        max_iter (int):
-            Maximum number of TPE iterations.
-        seed (int):
-            **REQUIRED** Random seed for reproducibility (BBOB compliance).
-        population_size (int):
-            Number of observations for KDE.
-        gamma (float):
-            Quantile threshold for good/bad split.
-        bandwidth (float):
-            KDE kernel bandwidth.
-        n_samples (int):
-            Number of candidates sampled from good KDE.
-        population (np.ndarray):
-            Current population of observations.
-        scores (np.ndarray):
-            Fitness values for population.
+        func (Callable[[ndarray], float]): The objective function being optimized.
+        lower_bound (float): Lower search space boundary.
+        upper_bound (float): Upper search space boundary.
+        dim (int): Problem dimensionality.
+        max_iter (int): Maximum number of TPE iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
+        population_size (int): Number of observations for KDE.
+        gamma (float): Quantile threshold for good/bad split.
+        bandwidth (float): KDE kernel bandwidth.
+        n_samples (int): Number of candidates sampled from good KDE.
+        population (np.ndarray): Current population of observations.
+        scores (np.ndarray): Fitness values for population.
 
     Methods:
         search() -> tuple[np.ndarray, float]:
