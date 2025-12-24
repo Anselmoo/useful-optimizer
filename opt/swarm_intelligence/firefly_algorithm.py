@@ -291,6 +291,7 @@ class FireflyAlgorithm(AbstractOptimizer):
         beta_0: float = 1,
         gamma: float = 1,
         seed: int | None = None,
+        track_history: bool = False,
     ) -> None:
         """Initialize the FireflyAlgorithm class."""
         super().__init__(
@@ -301,6 +302,7 @@ class FireflyAlgorithm(AbstractOptimizer):
             max_iter=max_iter,
             seed=seed,
             population_size=population_size,
+            track_history=track_history,
         )
         self.alpha = alpha
         self.beta_0 = beta_0
@@ -319,7 +321,13 @@ class FireflyAlgorithm(AbstractOptimizer):
         )
         fitness = np.apply_along_axis(self.func, 1, population)
 
-        for _ in range(self.max_iter):
+        for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                best_idx = fitness.argmin()
+                self.history["best_fitness"].append(float(fitness[best_idx]))
+                self.history["best_solution"].append(population[best_idx].copy())
+
             for i in range(self.population_size):
                 for j in range(self.population_size):
                     if fitness[i] < fitness[j]:
@@ -338,6 +346,12 @@ class FireflyAlgorithm(AbstractOptimizer):
         best_index = fitness.argmin()
         best_solution = population[best_index]
         best_fitness = fitness[best_index]
+
+        # Track final state
+        if self.track_history:
+            self.history["best_fitness"].append(float(best_fitness))
+            self.history["best_solution"].append(best_solution.copy())
+
         return best_solution, best_fitness
 
 
