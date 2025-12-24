@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Benchmark Data Schema",
+  "description": "IOHprofiler-compatible benchmark results for optimizer evaluation",
+  "type": "object",
+  "required": ["metadata", "benchmarks"],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": ["max_iterations", "n_runs", "dimensions", "timestamp"],
+      "properties": {
+        "max_iterations": { "type": "integer", "minimum": 1 },
+        "n_runs": { "type": "integer", "minimum": 1 },
+        "dimensions": {
+          "type": "array",
+          "items": { "type": "integer", "minimum": 2 }
+        },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "python_version": { "type": "string" },
+        "numpy_version": { "type": "string" }
+      }
+    },
+    "benchmarks": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "description": "Function name (e.g., 'shifted_ackley') → dimension → optimizer → results",
+        "additionalProperties": {
+          "type": "object",
+          "description": "Dimension (e.g., '2', '10', '30')",
+          "additionalProperties": {
+            "type": "object",
+            "description": "Optimizer name",
+            "required": ["runs", "statistics", "success_rate"],
+            "properties": {
+              "runs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": ["best_fitness", "best_solution", "n_evaluations"],
+                  "properties": {
+                    "best_fitness": { "type": "number" },
+                    "best_solution": {
+                      "type": "array",
+                      "items": { "type": "number" }
+                    },
+                    "n_evaluations": { "type": "integer" },
+                    "history": {
+                      "type": "object",
+                      "properties": {
+                        "best_fitness": {
+                          "type": "array",
+                          "items": { "type": "number" }
+                        },
+                        "mean_fitness": {
+                          "type": "array",
+                          "items": { "type": "number" }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "statistics": {
+                "type": "object",
+                "required": ["mean_fitness", "std_fitness", "min_fitness", "max_fitness", "median_fitness"],
+                "properties": {
+                  "mean_fitness": { "type": "number" },
+                  "std_fitness": { "type": "number" },
+                  "min_fitness": { "type": "number" },
+                  "max_fitness": { "type": "number" },
+                  "median_fitness": { "type": "number" },
+                  "q1_fitness": { "type": "number" },
+                  "q3_fitness": { "type": "number" }
+                }
+              },
+              "success_rate": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

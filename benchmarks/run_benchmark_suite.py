@@ -145,8 +145,8 @@ def run_single_benchmark(
 
         # Extract convergence history if available
         convergence_history = None
-        if hasattr(optimizer, "best_fitness_history"):
-            convergence_history = optimizer.best_fitness_history
+        if optimizer.track_history and optimizer.history.get("best_fitness"):
+            convergence_history = optimizer.history["best_fitness"]
 
         return {
             "optimizer": optimizer_class.__name__,
