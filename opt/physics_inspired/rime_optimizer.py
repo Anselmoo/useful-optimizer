@@ -51,7 +51,7 @@ class RIMEOptimizer(AbstractOptimizer):
         | Year Introduced   | 2023                                     |
         | Authors           | Su, Hang; Zhao, Dong; Heidari, Ali Asghar; Liu, Laith; Zhang, Xiaoqin; Mafarja, Majdi; Chen, Huiling |
         | Algorithm Class   | Physics Inspired                         |
-        | Complexity        | O(N × dim × max_iter)                    |
+        | Complexity        | O(N $\times$ dim $\times$ max_iter)      |
         | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
@@ -121,10 +121,10 @@ class RIMEOptimizer(AbstractOptimizer):
             - **Feasibility enforcement**: Solutions exceeding bounds are clipped using `np.clip`
 
     Hyperparameters:
-        | Parameter              | Default | BBOB Recommended | Description                    |
-        |------------------------|---------|------------------|--------------------------------|
-        | population_size        | 30      | 10*dim           | Number of agents (solutions)   |
-        | max_iter               | 100     | 10000            | Maximum iterations             |
+        | Parameter              | Default | BBOB Recommended | Description                                           |
+        |------------------------|---------|------------------|-------------------------------------------------------|
+        | population_size        | 30      | 10*dim           | Number of agents (candidate solutions) in population  |
+        | max_iter               | 100     | 10000            | Maximum number of iterations for optimization         |
 
         **Sensitivity Analysis**:
             - `population_size`: **Medium** impact. Moderate populations balance
@@ -256,7 +256,7 @@ class RIMEOptimizer(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(N \times \text{dim})$ for position updates
             - Space complexity: $O(N \times \text{dim})$ for population storage
-            - BBOB budget usage: _Typically uses 40-60% of dim×10000 budget for convergence_
+            - BBOB budget usage: _Typically uses 40-60% of dim $\times$ 10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Weakly multimodal, Continuous functions

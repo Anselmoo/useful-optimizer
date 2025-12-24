@@ -68,7 +68,7 @@ class EquilibriumOptimizer(AbstractOptimizer):
         | Year Introduced   | 2020                                     |
         | Authors           | Faramarzi, Afshin; Heidarinejad, Mohammad; Stephens, Brent; Mirjalili, Seyedali |
         | Algorithm Class   | Physics Inspired                         |
-        | Complexity        | O(N × dim × max_iter)                    |
+        | Complexity        | O(N $\times$ dim $\times$ max_iter)      |
         | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
@@ -136,13 +136,13 @@ class EquilibriumOptimizer(AbstractOptimizer):
               using `np.clip`
 
     Hyperparameters:
-        | Parameter              | Default | BBOB Recommended | Description                    |
-        |------------------------|---------|------------------|--------------------------------|
-        | population_size        | 100     | 10*dim           | Number of particles            |
-        | max_iter               | 1000    | 10000            | Maximum iterations             |
-        | a1                     | 2.0     | 2.0              | Generation rate control        |
-        | a2                     | 1.0     | 1.0              | Time decay exponent            |
-        | gp                     | 0.5     | 0.5              | Generation probability         |
+        | Parameter              | Default | BBOB Recommended | Description                                           |
+        |------------------------|---------|------------------|-------------------------------------------------------|
+        | population_size        | 100     | 10*dim           | Number of particles (candidate solutions) in population |
+        | max_iter               | 1000    | 10000            | Maximum number of iterations for optimization         |
+        | a1                     | 2.0     | 2.0              | Generation rate control constant (controls magnitude) |
+        | a2                     | 1.0     | 1.0              | Time decay exponent (controls exploitation transition)|
+        | gp                     | 0.5     | 0.5              | Generation probability threshold for mechanism activation |
 
         **Sensitivity Analysis**:
             - `a1`: **Medium** impact. Controls generation rate magnitude.
@@ -287,7 +287,7 @@ class EquilibriumOptimizer(AbstractOptimizer):
         **Computational Complexity**:
             - Time per iteration: $O(N \times \text{dim})$ for position updates
             - Space complexity: $O(N \times \text{dim})$ for population and equilibrium pool
-            - BBOB budget usage: _Typically uses 50-70% of dim×10000 budget for convergence_
+            - BBOB budget usage: _Typically uses 50-70% of dim $\times$ 10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Separable, Weakly structured multimodal

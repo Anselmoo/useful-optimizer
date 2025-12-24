@@ -65,7 +65,7 @@ class GravitationalSearchOptimizer(AbstractOptimizer):
         | Year Introduced   | 2009                                     |
         | Authors           | Rashedi, Esmat; Nezamabadi-Pour, Hossein; Saryazdi, Saeid |
         | Algorithm Class   | Physics Inspired                         |
-        | Complexity        | O(N² × dim × max_iter)                   |
+        | Complexity        | O(N² $\times$ dim $\times$ max_iter)     |
         | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
@@ -135,12 +135,12 @@ class GravitationalSearchOptimizer(AbstractOptimizer):
               back to the nearest boundary using `np.clip`
 
     Hyperparameters:
-        | Parameter              | Default | BBOB Recommended | Description                    |
-        |------------------------|---------|------------------|--------------------------------|
-        | population_size        | 100     | 10*dim           | Number of agents (solutions)   |
-        | max_iter               | 1000    | 10000            | Maximum iterations             |
-        | g0                     | 100.0   | 100.0            | Initial gravitational constant |
-        | alpha                  | 20.0    | 20.0             | Decay rate for G(t)            |
+        | Parameter              | Default | BBOB Recommended | Description                                           |
+        |------------------------|---------|------------------|-------------------------------------------------------|
+        | population_size        | 100     | 10*dim           | Number of agents (candidate solutions) in population  |
+        | max_iter               | 1000    | 10000            | Maximum number of iterations for optimization         |
+        | g0                     | 100.0   | 100.0            | Initial gravitational constant controlling force strength |
+        | alpha                  | 20.0    | 20.0             | Exponential decay rate for gravitational constant G(t) |
 
         **Sensitivity Analysis**:
             - `population_size`: **Medium** impact on convergence. Larger populations
@@ -283,7 +283,7 @@ class GravitationalSearchOptimizer(AbstractOptimizer):
             - Time per iteration: $O(N^2 \times \text{dim})$ due to pairwise force
               calculations between all agents
             - Space complexity: $O(N \times \text{dim})$ for population storage
-            - BBOB budget usage: _Typically uses 60-80% of dim×10000 budget for convergence_
+            - BBOB budget usage: _Typically uses 60-80% of dim $\times$ 10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Unimodal, Separable functions (Sphere, Ellipsoid)

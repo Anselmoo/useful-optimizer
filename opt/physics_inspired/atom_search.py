@@ -40,7 +40,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
         | Year Introduced   | 2019                                     |
         | Authors           | Zhao, Weiguo; Wang, Liying; Zhang, Zhenxing |
         | Algorithm Class   | Physics Inspired                         |
-        | Complexity        | O(N² × dim × max_iter)                   |
+        | Complexity        | O(N² $\times$ dim $\times$ max_iter)     |
         | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
@@ -113,10 +113,10 @@ class AtomSearchOptimizer(AbstractOptimizer):
               and velocity component is negated (elastic collision)
 
     Hyperparameters:
-        | Parameter              | Default | BBOB Recommended | Description                    |
-        |------------------------|---------|------------------|--------------------------------|
-        | population_size        | 50      | 10*dim           | Number of atoms                |
-        | max_iter               | 500     | 10000            | Maximum iterations             |
+        | Parameter              | Default | BBOB Recommended | Description                                           |
+        |------------------------|---------|------------------|-------------------------------------------------------|
+        | population_size        | 50      | 10*dim           | Number of atoms (candidate solutions) in population   |
+        | max_iter               | 500     | 10000            | Maximum number of iterations for optimization         |
 
         **Sensitivity Analysis**:
             - `population_size`: **High** impact. Larger populations improve exploration
@@ -250,7 +250,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
             - Time per iteration: $O(N^2 \times \text{dim})$ due to pairwise Lennard-Jones
               force calculations between all atoms
             - Space complexity: $O(N \times \text{dim})$ for population and velocities
-            - BBOB budget usage: _Typically uses 70-90% of dim×10000 budget for convergence_
+            - BBOB budget usage: _Typically uses 70-90% of dim $\times$ 10000 budget for convergence_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Continuous, Moderately multimodal functions
