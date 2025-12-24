@@ -145,6 +145,8 @@ class TeachingLearningOptimizer(AbstractOptimizer):
             BBOB recommendation: 10*dim for population-based methods. Defaults to 50.
         max_iter (int, optional): Maximum iterations (teaching sessions). BBOB
             recommendation: 10000 for complete evaluation. Defaults to 500.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
@@ -153,6 +155,7 @@ class TeachingLearningOptimizer(AbstractOptimizer):
         dim (int): Problem dimensionality.
         population_size (int): Number of learners in the classroom.
         max_iter (int): Maximum number of teaching iterations.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -251,6 +254,7 @@ class TeachingLearningOptimizer(AbstractOptimizer):
         dim: int,
         population_size: int = 50,
         max_iter: int = 500,
+        seed: int | None = None,
     ) -> None:
         """Initialize the TLBO optimizer.
 
@@ -261,10 +265,10 @@ class TeachingLearningOptimizer(AbstractOptimizer):
             dim: Number of dimensions.
             population_size: Number of learners.
             max_iter: Maximum iterations.
+            seed: Random seed for reproducibility.
         """
-        super().__init__(func, lower_bound, upper_bound, dim)
+        super().__init__(func, lower_bound, upper_bound, dim, max_iter, seed)
         self.population_size = population_size
-        self.max_iter = max_iter
 
     def search(self) -> tuple[np.ndarray, float]:
         """Execute the optimization algorithm.

@@ -170,6 +170,8 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
             10000 for complete evaluation. Defaults to 100.
         num_teams (int, optional): Number of teams (deprecated, clamped to
             min(num_teams, population_size)). Defaults to 10.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
@@ -179,6 +181,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         population_size (int): Total number of teams in the league.
         max_iter (int): Maximum number of seasons (iterations).
         num_teams (int): Teams per league (clamped to population_size).
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -280,6 +283,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         population_size: int = 30,
         max_iter: int = 100,
         num_teams: int = 10,
+        seed: int | None = None,
     ) -> None:
         """Initialize Soccer League Competition Optimizer.
 
@@ -291,8 +295,9 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
             population_size: Total number of teams. Defaults to 30.
             max_iter: Maximum iterations. Defaults to 100.
             num_teams: Teams per league. Defaults to 10.
+            seed: Random seed for reproducibility.
         """
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter)
+        super().__init__(func, lower_bound, upper_bound, dim, max_iter, seed)
         self.population_size = population_size
         self.num_teams = min(num_teams, population_size)
 

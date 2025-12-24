@@ -163,6 +163,8 @@ class PoliticalOptimizer(AbstractOptimizer):
             recommendation: 10000 for complete evaluation. Defaults to 100.
         num_parties (int, optional): Number of political parties (clusters). Affects
             diversity and exploration. Defaults to 5.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
@@ -172,6 +174,7 @@ class PoliticalOptimizer(AbstractOptimizer):
         population_size (int): Number of politicians in the election.
         max_iter (int): Maximum number of election iterations.
         num_parties (int): Number of political parties (clusters).
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -271,6 +274,7 @@ class PoliticalOptimizer(AbstractOptimizer):
         population_size: int = 30,
         max_iter: int = 100,
         num_parties: int = 5,
+        seed: int | None = None,
     ) -> None:
         """Initialize Political Optimizer.
 
@@ -282,8 +286,9 @@ class PoliticalOptimizer(AbstractOptimizer):
             population_size: Number of politicians. Defaults to 30.
             max_iter: Maximum iterations. Defaults to 100.
             num_parties: Number of parties. Defaults to 5.
+            seed: Random seed for reproducibility.
         """
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter)
+        super().__init__(func, lower_bound, upper_bound, dim, max_iter, seed)
         self.population_size = population_size
         self.num_parties = min(num_parties, population_size)
 

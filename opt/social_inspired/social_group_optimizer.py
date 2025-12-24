@@ -186,6 +186,8 @@ class SocialGroupOptimizer(AbstractOptimizer):
         patience (int, optional): Iterations without improvement before early stopping.
             Defaults to 10.
         verbose (bool, optional): Print optimization progress. Defaults to False.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
@@ -202,6 +204,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
         tolerance (float): Minimum improvement threshold.
         patience (int): Early stopping patience counter.
         verbose (bool): Whether to print progress.
+        seed (int): **REQUIRED** Random seed for reproducibility (BBOB compliance).
 
     Methods:
         search() -> tuple[np.ndarray, float]:
@@ -308,6 +311,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
         tolerance: float = 1e-6,
         patience: int = 10,
         verbose: bool = False,
+        seed: int | None = None,
     ) -> None:
         """Initialize Social Group Optimizer.
 
@@ -324,8 +328,9 @@ class SocialGroupOptimizer(AbstractOptimizer):
             tolerance: Minimum improvement threshold. Defaults to 1e-6.
             patience: Iterations without improvement before stopping. Defaults to 10.
             verbose: Print progress during optimization. Defaults to False.
+            seed: Random seed for reproducibility.
         """
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter)
+        super().__init__(func, lower_bound, upper_bound, dim, max_iter, seed)
         self.population_size = population_size
         self.c = c
         self.track_convergence = track_convergence
