@@ -55,7 +55,7 @@ class HillClimbing(AbstractOptimizer):
         | Authors           | Various (classic heuristic method)       |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O(n \times \text{candidates} \times \text{iterations})$           |
-        | Properties        | Local search, Greedy, Derivative-free, Adaptive step |
+        | Properties        | Single-solution, Deterministic       |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

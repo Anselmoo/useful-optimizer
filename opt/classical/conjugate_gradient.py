@@ -61,7 +61,7 @@ class ConjugateGradient(AbstractOptimizer):
         | Authors           | Hestenes, Magnus; Stiefel, Eduard        |
         | Algorithm Class   | Classical                                |
         | Complexity        | O(n²) per iteration                      |
-        | Properties        | Gradient-based, Conjugate directions, Deterministic |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

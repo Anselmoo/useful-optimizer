@@ -54,7 +54,7 @@ class ADAGrad(AbstractOptimizer):
         | Authors           | Duchi, John; Hazan, Elad; Singer, Yoram  |
         | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Parameter-wise  |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

@@ -61,7 +61,7 @@ class CulturalAlgorithm(AbstractOptimizer):
         | Authors           | Reynolds, Robert G.                      |
         | Algorithm Class   | Evolutionary                             |
         | Complexity        | O(NP * dim) per iteration                |
-        | Properties        | Population-based, Knowledge-driven, Dual inheritance, Adaptive |
+        | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

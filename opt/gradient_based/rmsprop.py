@@ -64,7 +64,7 @@ class RMSprop(AbstractOptimizer):
         | Authors           | Hinton, Geoffrey; Srivastava, Nitish    |
         | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Moving average   |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

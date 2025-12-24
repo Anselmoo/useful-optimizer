@@ -95,7 +95,7 @@ class StochasticDiffusionSearch(AbstractOptimizer):
         | Authors           | Bishop, John Mark                        |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Swarm intelligence, Agent-based |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

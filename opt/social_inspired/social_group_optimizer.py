@@ -51,7 +51,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
         | Authors           | Satapathy, S. C.; Naik, A.               |
         | Algorithm Class   | Social-Inspired                          |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Derivative-free, Three-phase |
+        | Properties        | Population-based, Derivative-free    |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

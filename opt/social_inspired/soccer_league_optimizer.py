@@ -51,7 +51,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         | Authors           | Moosavian, N.; Roodsari, B. K.           |
         | Algorithm Class   | Social-Inspired                          |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Derivative-free, Competitive |
+        | Properties        | Population-based, Derivative-free    |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

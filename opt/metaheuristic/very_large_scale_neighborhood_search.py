@@ -68,7 +68,7 @@ class VeryLargeScaleNeighborhood(AbstractOptimizer):
         | Authors           | Ahuja, Ravindra K.; Orlin, James B.; Sharma, Dushyant |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ neighborhood_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Large neighborhood, Local search-based |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

@@ -72,7 +72,7 @@ class Nadam(AbstractOptimizer):
         | Authors           | Dozat, Timothy                           |
         | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Nesterov momentum |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

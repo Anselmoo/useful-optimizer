@@ -67,7 +67,7 @@ class VariableDepthSearch(AbstractOptimizer):
         | Authors           | Lin, Shen; Kernighan, Brian W.           |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ max_depth $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Local search, Adaptive neighborhood |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

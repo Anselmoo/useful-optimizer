@@ -51,7 +51,7 @@ class CMAESAlgorithm(AbstractOptimizer):
         | Authors           | Hansen, Nikolaus; Ostermeier, Andreas    |
         | Algorithm Class   | Evolutionary                             |
         | Complexity        | O(n³) per iteration                      |
-        | Properties        | Population-based, Derivative-free, Self-adaptive, Stochastic |
+        | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

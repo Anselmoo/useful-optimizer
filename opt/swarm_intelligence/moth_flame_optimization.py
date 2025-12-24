@@ -60,7 +60,7 @@ class MothFlameOptimizer(AbstractOptimizer):
         | Authors           | Mirjalili, Seyedali                      |
         | Algorithm Class   | Swarm Intelligence |
         | Complexity        | O(population_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Spiral movement, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

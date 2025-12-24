@@ -34,7 +34,7 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
         | Authors           | Chou, Jui-Sheng; Nguyen, Ngoc-Mai        |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Human-inspired, Parameter-free, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

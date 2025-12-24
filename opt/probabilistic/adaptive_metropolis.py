@@ -45,7 +45,7 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
         | Authors           | Haario, Heikki; Saksman, Eero; Tamminen, Johanna |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(dim²) per iteration                    |
-        | Properties        | MCMC-based, Single-chain, Adaptive       |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

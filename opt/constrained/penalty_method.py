@@ -54,7 +54,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
         | Authors           | Courant, Richard                         |
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per iteration                      |
-        | Properties        | Exterior penalty, Gradient-based         |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

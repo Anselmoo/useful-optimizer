@@ -78,7 +78,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         | Authors           | Deb, Kalyanmoy; Pratap, Amrit; Agarwal, Sameer; Meyarivan, T |
         | Algorithm Class   | Multi-Objective                          |
         | Complexity        | O(mN²) per generation                    |
-        | Properties        | Population-based, Elitist, Derivative-free|
+        | Properties        | Population-based, Derivative-free         |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

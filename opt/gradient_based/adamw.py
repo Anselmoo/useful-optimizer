@@ -73,7 +73,7 @@ class AdamW(AbstractOptimizer):
         | Authors           | Loshchilov, Ilya; Hutter, Frank          |
         | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Weight decay     |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

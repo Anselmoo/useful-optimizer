@@ -18,11 +18,13 @@ if TYPE_CHECKING:
 
 class Dimension(RootModel[int]):
     """Dimension constraint model for benchmark data."""
+
     root: int = Field(..., ge=2)
 
 
 class Metadata(BaseModel):
     """Metadata for benchmark execution."""
+
     max_iterations: int = Field(..., ge=1)
     n_runs: int = Field(..., ge=1)
     dimensions: list[Dimension]
@@ -33,12 +35,14 @@ class Metadata(BaseModel):
 
 class History(BaseModel):
     """History tracking data for optimization runs."""
+
     best_fitness: list[float] | None = None
     mean_fitness: list[float] | None = None
 
 
 class Run(BaseModel):
     """Individual optimization run results."""
+
     best_fitness: float
     best_solution: list[float]
     n_evaluations: int
@@ -47,6 +51,7 @@ class Run(BaseModel):
 
 class Statistics(BaseModel):
     """Statistical summary of benchmark results."""
+
     mean_fitness: float
     std_fitness: float
     min_fitness: float
@@ -58,6 +63,7 @@ class Statistics(BaseModel):
 
 class Benchmarks(BaseModel):
     """Benchmark results container."""
+
     runs: list[Run]
     statistics: Statistics
     success_rate: float = Field(..., ge=0.0, le=1.0)
@@ -65,5 +71,6 @@ class Benchmarks(BaseModel):
 
 class BenchmarkDataSchema(BaseModel):
     """Complete benchmark data schema."""
+
     metadata: Metadata
     benchmarks: dict[str, dict[str, dict[str, Benchmarks]]]

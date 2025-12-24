@@ -62,7 +62,7 @@ class AdaMax(AbstractOptimizer):
         | Authors           | Kingma, Diederik P.; Ba, Jimmy Lei       |
         | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Infinity norm    |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

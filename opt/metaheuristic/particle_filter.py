@@ -54,7 +54,7 @@ class ParticleFilter(AbstractOptimizer):
         | Authors           | Gordon, Neil J.; Salmond, David J.; Smith, Adrian F. M. |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Sampling-based, Derivative-free, Bayesian-inspired |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

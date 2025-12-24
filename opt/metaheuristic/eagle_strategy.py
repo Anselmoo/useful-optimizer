@@ -49,7 +49,7 @@ class EagleStrategy(AbstractOptimizer):
         | Authors           | Yang, Xin-She; Deb, Suash                |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Hybrid, Lévy walk-based |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

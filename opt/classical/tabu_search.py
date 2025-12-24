@@ -81,7 +81,7 @@ class TabuSearch(AbstractOptimizer):
         | Authors           | Glover, Fred                             |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O(\text{population} \times \text{neighbors} \times \text{iterations})$   |
-        | Properties        | Memory-based, Local search, Metaheuristic |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

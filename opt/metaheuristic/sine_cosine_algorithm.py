@@ -66,7 +66,7 @@ class SineCosineAlgorithm(AbstractOptimizer):
         | Authors           | Mirjalili, Seyedali                      |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Math-inspired, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

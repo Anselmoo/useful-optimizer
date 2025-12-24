@@ -59,7 +59,7 @@ class AugmentedLagrangian(AbstractOptimizer):
         | Authors           | Hestenes, Magnus R.; Powell, Michael J.D.|
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per inner iteration                |
-        | Properties        | Gradient-based, Constraint handling      |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

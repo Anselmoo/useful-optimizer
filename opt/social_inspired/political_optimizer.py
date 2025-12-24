@@ -51,7 +51,7 @@ class PoliticalOptimizer(AbstractOptimizer):
         | Authors           | Askari, Q.; Younas, I.; Saeed, M.        |
         | Algorithm Class   | Social-Inspired                          |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Derivative-free, Multi-party |
+        | Properties        | Population-based, Derivative-free    |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

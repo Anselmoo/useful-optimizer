@@ -51,7 +51,7 @@ class GreyWolfOptimizer(AbstractOptimizer):
         | Authors           | Mirjalili, Seyedali; Mirjalili, Seyed Mohammad; Lewis, Andrew |
         | Algorithm Class   | Swarm Intelligence                       |
         | Complexity        | O(pack_size * dim * max_iter)            |
-        | Properties        | Population-based, Hierarchy-based, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

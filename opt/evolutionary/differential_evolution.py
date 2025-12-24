@@ -58,7 +58,7 @@ class DifferentialEvolution(AbstractOptimizer):
         | Authors           | Storn, Rainer; Price, Kenneth            |
         | Algorithm Class   | Evolutionary                             |
         | Complexity        | O(NP * dim) per iteration                |
-        | Properties        | Population-based, Derivative-free, Stochastic, Simple |
+        | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

@@ -62,7 +62,7 @@ class NesterovAcceleratedGradient(AbstractOptimizer):
         | Authors           | Nesterov, Yurii                          |
         | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Momentum-based, Lookahead gradient       |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

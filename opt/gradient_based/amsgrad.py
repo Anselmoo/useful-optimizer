@@ -67,7 +67,7 @@ class AMSGrad(AbstractOptimizer):
         | Authors           | Reddi, Sashank J.; Kale, Satyen; Kumar, Sanjiv |
         | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Non-decreasing second moment |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

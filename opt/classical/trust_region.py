@@ -60,7 +60,7 @@ class TrustRegion(AbstractOptimizer):
         | Authors           | Powell, M. J. D.; Conn, A. R.; et al.   |
         | Algorithm Class   | Classical                                |
         | Complexity        | O(n³) per iteration (subproblem solve)   |
-        | Properties        | Model-based, Gradient-based, Adaptive radius |
+        | Properties        | Adaptive, Gradient-based             |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

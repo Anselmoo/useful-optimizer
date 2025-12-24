@@ -57,7 +57,7 @@ class LDAnalysis(AbstractOptimizer):
         | Authors           | Fisher, Ronald A. (LDA); Implementation adapted |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(N*dim² + dim³) per iteration          |
-        | Properties        | Model-based, Population, Discriminative  |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

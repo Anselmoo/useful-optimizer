@@ -4,8 +4,8 @@
 Fixed pre-commit issues in a systematic, hierarchical approach based on severity and scope.
 
 ## Tier 1: Ruff Linting Issues ✅ (100% Complete)
-**Scope**: 6 files modified by this PR  
-**Issues**: 20 Ruff linting errors  
+**Scope**: 6 files modified by this PR
+**Issues**: 20 Ruff linting errors
 **Commit**: 3e28f73
 
 ### Fixed Files:
@@ -86,7 +86,7 @@ All: "Social Inspired" → "Social-Inspired"
 ## Tier 3: Schema Validator - Invalid Properties ⚠️ (Requires Discussion)
 
 ### Status: NOT FIXED
-**Scope**: 101 files (NOT part of original PR changes)  
+**Scope**: 101 files (NOT part of original PR changes)
 **Issues**: 138 invalid property errors
 
 ### Why Not Fixed:

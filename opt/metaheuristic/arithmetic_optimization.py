@@ -39,7 +39,7 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
         | Authors           | Abualigah, Laith; Diabat, Ali; Mirjalili, Seyedali; Abd Elaziz, Mohamed; Gandomi, Amir H. |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Math-inspired, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

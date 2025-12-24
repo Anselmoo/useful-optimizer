@@ -57,7 +57,7 @@ class SGD(AbstractOptimizer):
         | Authors           | Robbins, Herbert; Monro, Sutton          |
         | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | First-order, Stochastic                  |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

@@ -61,7 +61,7 @@ class CuckooSearch(AbstractOptimizer):
         | Authors           | Yang, Xin-She; Deb, Suash                |
         | Algorithm Class   | Swarm Intelligence                       |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Lévy flights, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

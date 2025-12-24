@@ -48,7 +48,7 @@ class ParzenTreeEstimator(AbstractOptimizer):
         | Authors           | Bergstra, James; Bardenet, Rémi; Bengio, Yoshua; Kégl, Balázs |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(N*dim) per iteration with N samples    |
-        | Properties        | Model-based, Sequential, Kernel density estimation |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

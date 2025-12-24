@@ -59,7 +59,7 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
         | Authors           | Griffith, R. E.; Stewart, R. A.          |
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per LP subproblem                  |
-        | Properties        | Gradient-based, Linear subproblems       |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

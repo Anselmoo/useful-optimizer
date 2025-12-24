@@ -45,7 +45,7 @@ class SimulatedAnnealing(AbstractOptimizer):
         | Authors           | Kirkpatrick, Scott; Gelatt, C. Daniel; Vecchi, Mario |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O(\text{iterations} \times \text{evaluations})$              |
-        | Properties        | Metaheuristic, Probabilistic, Global search |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

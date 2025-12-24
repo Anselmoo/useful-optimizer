@@ -60,7 +60,7 @@ class Powell(AbstractOptimizer):
         | Authors           | Powell, Michael J. D.                    |
         | Algorithm Class   | Classical                                |
         | Complexity        | O(n²) per iteration                      |
-        | Properties        | Derivative-free, Conjugate directions, Deterministic |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

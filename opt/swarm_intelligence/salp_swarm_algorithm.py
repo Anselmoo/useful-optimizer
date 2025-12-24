@@ -63,7 +63,7 @@ class SalpSwarmOptimizer(AbstractOptimizer):
         | Authors           | Mirjalili, Seyedali; et al.              |
         | Algorithm Class   | Swarm Intelligence                       |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Chain formation, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
