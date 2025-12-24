@@ -15,6 +15,10 @@ import sys
 
 from pathlib import Path
 
+
+# Add repository root to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from pydantic import ValidationError
 
 from scripts.docstring_parser import DocstringParser

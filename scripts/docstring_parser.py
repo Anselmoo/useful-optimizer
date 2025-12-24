@@ -10,8 +10,13 @@ from __future__ import annotations
 import ast
 import contextlib
 import re
+import sys
 
 from pathlib import Path
+
+
+# Add repository root to path for imports
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from scripts.docstring_models import CocoBbobOptimizerDocstringSchema
 
