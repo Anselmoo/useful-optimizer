@@ -31,7 +31,13 @@ build-backend = "hatchling.build"
 packages = ["opt"]
 
 [dependency-groups]
-dev = ["ruff>=0.9.0", "pytest>=8.0.0", "pre-commit>=4.0.0", "pydocstyle>=6.3.0"]
+dev = [
+    "ruff>=0.9.0",
+ "pytest>=8.0.0",
+ "pre-commit>=4.0.0",
+ "pydocstyle>=6.3.0",
+ "datamodel-code-generator>=0.48.0",
+]
 
 [tool.pytest.ini_options]
 addopts = [
