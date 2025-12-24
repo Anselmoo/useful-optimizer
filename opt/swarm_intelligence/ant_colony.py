@@ -294,6 +294,7 @@ class AntColony(AbstractOptimizer):
         beta: float = 1,
         rho: float = 0.5,
         q: float = 1,
+        track_history: bool = False,
     ) -> None:
         """Initialize the Ant Colony Optimization algorithm."""
         super().__init__(
@@ -304,6 +305,7 @@ class AntColony(AbstractOptimizer):
             max_iter=max_iter,
             seed=seed,
             population_size=population_size,
+            track_history=track_history,
         )
 
         self.alpha = alpha
@@ -326,6 +328,11 @@ class AntColony(AbstractOptimizer):
         best_solution = None
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history and best_solution is not None:
+                self.history["best_fitness"].append(float(best_fitness))
+                self.history["best_solution"].append(best_solution.copy())
+
             for i in range(self.population_size):
                 solution = self.ants[i]
                 fitness = self.func(solution)
@@ -345,6 +352,11 @@ class AntColony(AbstractOptimizer):
                 if local_fitness < best_fitness:
                     best_fitness = local_fitness
                     best_solution = local_best
+
+        # Track final state
+        if self.track_history and best_solution is not None:
+            self.history["best_fitness"].append(float(best_fitness))
+            self.history["best_solution"].append(best_solution.copy())
 
         return best_solution, best_fitness
 
