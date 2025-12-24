@@ -6,6 +6,8 @@ from pathlib import Path
 
 import pytest
 
+from pydantic import ValidationError
+
 from scripts.docstring_parser import DocstringParser
 
 
@@ -79,7 +81,7 @@ class TestDocstringParser:
 
         params = parser.parse_args_section(args_content)
         assert params is not None
-        assert len(params) == 5  # noqa: PLR2004
+        assert len(params) == 5
 
         # Check first parameter
         assert params[0]["name"] == "func"
@@ -119,7 +121,7 @@ class TestDocstringParser:
         if sa_path.exists():
             # This should raise ValidationError if docstring doesn't match schema
             # We expect it to fail with current files that have non-compliant properties
-            with pytest.raises(Exception):  # Could be ValidationError or ValueError
+            with pytest.raises((ValidationError, ValueError)):
                 parser.parse_file(sa_path)
 
     def test_parse_file_no_docstring(self) -> None:

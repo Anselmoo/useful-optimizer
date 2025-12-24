@@ -37,7 +37,7 @@ class TestAlgorithmMetadata:
         )
         assert metadata.acronym == "PSO"
         assert metadata.year_introduced == 1995
-        assert len(metadata.properties) == 2  # noqa: PLR2004
+        assert len(metadata.properties) == 2
 
     def test_invalid_acronym(self) -> None:
         """Test that invalid acronym raises error."""
