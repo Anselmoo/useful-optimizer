@@ -238,8 +238,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
                       (num_pareto_solutions, num_objectives)
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
                 - Returns first Pareto front (rank 0) solutions
@@ -373,7 +372,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             rng: Random number generator.
 
         Returns:
-            Initial population array.
+        Initial population array.
         """
         return rng.uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
@@ -395,7 +394,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             crowding: Crowding distances for each individual.
 
         Returns:
-            Selected parent.
+        Selected parent.
         """
         candidates = rng.choice(len(population), self.tournament_size, replace=False)
 
@@ -420,7 +419,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             parent2: Second parent.
 
         Returns:
-            Tuple of two offspring.
+        Tuple of two offspring.
         """
         child1 = parent1.copy()
         child2 = parent2.copy()
@@ -471,7 +470,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             individual: Individual to mutate.
 
         Returns:
-            Mutated individual.
+        Mutated individual.
         """
         mutant = individual.copy()
 
@@ -507,7 +506,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             fitness: Fitness values for all individuals.
 
         Returns:
-            Tuple of (ranks, crowding_distances) arrays.
+        Tuple of (ranks, crowding_distances) arrays.
         """
         fronts = self.fast_non_dominated_sort(fitness)
         n = len(fitness)
@@ -527,9 +526,9 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         """Execute the NSGA-II algorithm.
 
         Returns:
-            Tuple containing:
-                - pareto_solutions: 2D array of Pareto-optimal solutions.
-                - pareto_fitness: 2D array of objective values.
+        Tuple containing:
+        - pareto_solutions: 2D array of Pareto-optimal solutions.
+        - pareto_fitness: 2D array of objective values.
         """
         rng = np.random.default_rng(self.seed)
 

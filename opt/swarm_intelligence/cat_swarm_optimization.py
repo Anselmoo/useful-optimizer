@@ -178,22 +178,21 @@ class CatSwarmOptimization(AbstractOptimizer):
             Execute optimization algorithm.
 
     Returns:
-                tuple[np.ndarray, float]:
-                    Best solution found and its fitness value
+        tuple[np.ndarray, float]:
+        Best solution found and its fitness value
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
-                - Modifies self.history if track_history=True
-                - Uses self.seed for all random number generation
-                - BBOB: Returns final best solution after max_iter or convergence
+        - Modifies self.history if track_history=True
+        - Uses self.seed for all random number generation
+        - BBOB: Returns final best solution after max_iter or convergence
 
     References:
         FIXME: [1] Author1, A., Author2, B. (YEAR). "Algorithm Name: Description."
-            _Journal Name_, Volume(Issue), Pages.
-            https://doi.org/10.xxxx/xxxxx
+        _Journal Name_, Volume(Issue), Pages.
+        https://doi.org/10.xxxx/xxxxx
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -226,9 +225,9 @@ class CatSwarmOptimization(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-            - Time per iteration: FIXME: $O(\text{[expression]})$
-            - Space complexity: FIXME: $O(\text{[expression]})$
-            - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
+        - Time per iteration: FIXME: $O(\text{[expression]})$
+        - Space complexity: FIXME: $O(\text{[expression]})$
+        - BBOB budget usage: FIXME: _[Typical percentage of dim*10000 budget needed]_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: FIXME: [Unimodal/Multimodal/Ill-conditioned/...]
@@ -296,7 +295,7 @@ class CatSwarmOptimization(AbstractOptimizer):
         """Initialize the population by generating random solutions within the search space.
 
         Returns:
-            np.ndarray: The initial population of cats.
+        np.ndarray: The initial population of cats.
 
         """
         return np.random.default_rng(self.seed).uniform(
@@ -310,7 +309,7 @@ class CatSwarmOptimization(AbstractOptimizer):
             population (np.ndarray): The current population of cats.
 
         Returns:
-            np.ndarray: The updated population after performing seeking mode.
+        np.ndarray: The updated population after performing seeking mode.
 
         """
         new_population = []
@@ -336,7 +335,7 @@ class CatSwarmOptimization(AbstractOptimizer):
             best_cat (np.ndarray): The best cat found so far.
 
         Returns:
-            np.ndarray: The updated population after performing tracing mode.
+        np.ndarray: The updated population after performing tracing mode.
 
         """
         return population + self.spc_probability * (best_cat - population)
@@ -345,7 +344,7 @@ class CatSwarmOptimization(AbstractOptimizer):
         """Run the Cat Swarm Optimization algorithm to find the optimal solution.
 
         Returns:
-            tuple[np.ndarray, float]: A tuple containing the best cat found and its corresponding fitness value.
+        tuple[np.ndarray, float]: A tuple containing the best cat found and its corresponding fitness value.
 
         """
         population = self._initialize()
