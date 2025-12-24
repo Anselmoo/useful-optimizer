@@ -15,7 +15,6 @@ import {
   LegendComponent,
   TitleComponent,
   VisualMapComponent,
-  Grid3DComponent,
   ToolboxComponent
 } from 'echarts/components'
 
@@ -40,7 +39,6 @@ use([
   LegendComponent,
   TitleComponent,
   VisualMapComponent,
-  Grid3DComponent,
   ToolboxComponent
 ])
 
