@@ -199,7 +199,7 @@ class ReptileSearchAlgorithm(AbstractOptimizer):
         **Computational Complexity**:
         - Time per iteration: $O(\text{population\_size} \times \text{dim})$
         - Space complexity: $O(\text{population\_size} \times \text{dim})$
-        - BBOB budget usage: _Typically uses 60-80% of dim $	imes$ 10000 budget_
+        - BBOB budget usage: _Typically uses 60-80% of dim $\times$ 10000 budget_
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: Multimodal, Moderately ill-conditioned

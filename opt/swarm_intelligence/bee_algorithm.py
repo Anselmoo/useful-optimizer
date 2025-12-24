@@ -56,7 +56,7 @@ class BeeAlgorithm(AbstractOptimizer):
         | Year Introduced   | 2005                            |
         | Authors           | Pham, D.T.; Ghanbarzadeh, A.                |
         | Algorithm Class   | Swarm Intelligence |
-        | Complexity        | O(population_size $	imes$ dim $	imes$ max_iter)                   |
+        | Complexity        | O(population_size $\times$ dim $\times$ max_iter)                   |
         | Properties        | Population-based, Neighborhood search, Derivative-free           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
@@ -205,9 +205,9 @@ class BeeAlgorithm(AbstractOptimizer):
 
     Notes:
         **Computational Complexity**:
-        - Time per iteration: $O(	ext{population\_size} 	imes 	ext{dim})$})$
-        - Space complexity: $O(	ext{population\_size} 	imes 	ext{dim})$})$
-        - BBOB budget usage: _Typically uses 50-70% of dim $	imes$ 10000 budget__
+        - Time per iteration: $O(	ext{population\_size} \times 	ext{dim})$})$
+        - Space complexity: $O(	ext{population\_size} \times 	ext{dim})$})$
+        - BBOB budget usage: _Typically uses 50-70% of dim $\times$ 10000 budget__
 
         **BBOB Performance Characteristics**:
             - **Best function classes**: General optimization problems
