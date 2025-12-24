@@ -348,7 +348,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
         """
         # Initialize population (social group)
         population = np.random.uniform(
-            self.lower_bound, self.upper_bound, (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
@@ -424,7 +424,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
             if self.verbose and (iteration + 1) % 10 == 0:
                 print(
                     f"Iteration {iteration + 1}/{self.max_iter}: "
-                    f"Best fitness = {best_fitness:.6f}",
+                    f"Best fitness = {best_fitness:.6f}"
                 )
 
             # Early stopping check
@@ -437,7 +437,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
                         if self.verbose:
                             print(
                                 f"Early stopping at iteration {iteration + 1}: "
-                                f"No improvement for {self.patience} iterations",
+                                f"No improvement for {self.patience} iterations"
                             )
                         break
                 elif improvement >= self.tolerance:

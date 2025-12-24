@@ -309,7 +309,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         """
         # Initialize teams (positions)
         teams = np.random.uniform(
-            self.lower_bound, self.upper_bound, (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(team) for team in teams])
 

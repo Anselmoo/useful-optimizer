@@ -278,7 +278,7 @@ class TeachingLearningOptimizer(AbstractOptimizer):
         """
         # Initialize population (students)
         population = np.random.uniform(
-            self.lower_bound, self.upper_bound, (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
 
         # Evaluate initial fitness
@@ -298,7 +298,7 @@ class TeachingLearningOptimizer(AbstractOptimizer):
 
             # Teaching factor (randomly 1 or 2)
             teaching_factor = np.random.randint(
-                _TEACHING_FACTOR_MIN, _TEACHING_FACTOR_MAX + 1,
+                _TEACHING_FACTOR_MIN, _TEACHING_FACTOR_MAX + 1
             )
 
             # ===== Teacher Phase =====

@@ -300,7 +300,7 @@ class PoliticalOptimizer(AbstractOptimizer):
         """
         # Initialize population (politicians)
         population = np.random.uniform(
-            self.lower_bound, self.upper_bound, (self.population_size, self.dim),
+            self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         fitness = np.array([self.func(ind) for ind in population])
 
