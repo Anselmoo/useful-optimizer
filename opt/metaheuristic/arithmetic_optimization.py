@@ -134,6 +134,8 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
             complete evaluation.
         population_size (int, optional): Number of candidate solutions. BBOB recommendation:
             10*dim. Defaults to 30.
+        seed (int | None, optional): Random seed for reproducibility. BBOB requires
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
@@ -249,6 +251,7 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
         dim: int,
         max_iter: int,
         population_size: int = 30,
+        seed: int | None = None,
     ) -> None:
         """Initialize the Arithmetic Optimization Algorithm.
 
@@ -259,8 +262,9 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
             dim: Dimensionality of the problem.
             max_iter: Maximum number of iterations.
             population_size: Number of solutions in the population.
+            seed: Random seed for reproducibility.
         """
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter)
+        super().__init__(func, lower_bound, upper_bound, dim, max_iter, seed=seed)
         self.population_size = population_size
 
     def search(self) -> tuple[np.ndarray, float]:
