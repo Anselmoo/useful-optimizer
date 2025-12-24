@@ -254,6 +254,8 @@ class AquilaOptimizer(AbstractOptimizer):
         dim: int,
         population_size: int = 50,
         max_iter: int = 500,
+        seed: int | None = None,
+        track_history: bool = False,
     ) -> None:
         """Initialize the Aquila Optimizer.
 
@@ -265,7 +267,7 @@ class AquilaOptimizer(AbstractOptimizer):
             population_size: Number of search agents.
             max_iter: Maximum iterations.
         """
-        super().__init__(func, lower_bound, upper_bound, dim)
+        super().__init__(func, lower_bound, upper_bound, dim, seed=seed, track_history=track_history)
         self.population_size = population_size
         self.max_iter = max_iter
 
