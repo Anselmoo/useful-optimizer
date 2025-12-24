@@ -50,7 +50,7 @@ class ParticleFilter(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Sequential Monte Carlo Particle Filter   |
         | Acronym           | SMC-PF                                   |
-        | Year Introduced   | 1993 (Gordon et al.)                     |
+        | Year Introduced   | 1993                                     |
         | Authors           | Gordon, Neil J.; Salmond, David J.; Smith, Adrian F. M. |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ dim $\times$ max_iter) |

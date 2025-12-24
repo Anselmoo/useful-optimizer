@@ -51,7 +51,7 @@ class HillClimbing(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Hill Climbing                            |
         | Acronym           | HC                                       |
-        | Year Introduced   | 1950s                                    |
+        | Year Introduced   | 1958                                     |
         | Authors           | Various (classic heuristic method)       |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O(n \times \text{candidates} \times \text{iterations})$           |

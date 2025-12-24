@@ -56,7 +56,7 @@ class TrustRegion(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Trust Region Method                      |
         | Acronym           | TR                                       |
-        | Year Introduced   | 1980s                                    |
+        | Year Introduced   | 1983                                     |
         | Authors           | Powell, M. J. D.; Conn, A. R.; et al.   |
         | Algorithm Class   | Classical                                |
         | Complexity        | O(n³) per iteration (subproblem solve)   |

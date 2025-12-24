@@ -63,7 +63,7 @@ class VariableDepthSearch(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Variable Depth Search                    |
         | Acronym           | VDS                                      |
-        | Year Introduced   | 1973 (Lin & Kernighan for TSP)           |
+        | Year Introduced   | 1973                                     |
         | Authors           | Lin, Shen; Kernighan, Brian W.           |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ max_depth $\times$ dim $\times$ max_iter) |

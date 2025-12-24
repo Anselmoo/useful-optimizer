@@ -52,8 +52,8 @@ class LDAnalysis(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Linear Discriminant Analysis Optimizer   |
-        | Acronym           | LDA-Opt                                  |
-        | Year Introduced   | 1936 (LDA by Fisher), adapted for optimization |
+        | Acronym           | LDA-OPT                                  |
+        | Year Introduced   | 1936                                     |
         | Authors           | Fisher, Ronald A. (LDA); Implementation adapted |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(N*dim² + dim³) per iteration          |

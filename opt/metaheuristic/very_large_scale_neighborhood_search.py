@@ -64,7 +64,7 @@ class VeryLargeScaleNeighborhood(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Very Large Scale Neighborhood Search     |
         | Acronym           | VLSN                                     |
-        | Year Introduced   | 2000 (Ahuja et al.)                      |
+        | Year Introduced   | 2000                                     |
         | Authors           | Ahuja, Ravindra K.; Orlin, James B.; Sharma, Dushyant |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ neighborhood_size $\times$ dim $\times$ max_iter) |
