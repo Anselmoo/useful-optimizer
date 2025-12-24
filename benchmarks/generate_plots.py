@@ -64,9 +64,8 @@ def plot_convergence_curves(
         if optimizer_data.get("runs"):
             # Get the first successful run with convergence history
             for run in optimizer_data["runs"]:
-                if (
-                    run["status"] == "success"
-                    and run.get("history", {}).get("best_fitness", [])
+                if run["status"] == "success" and run.get("history", {}).get(
+                    "best_fitness", []
                 ):
                     history = run.get("history", {}).get("best_fitness", [])
                     ax.plot(history, label=optimizer_name, linewidth=2, alpha=0.8)

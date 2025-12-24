@@ -11,8 +11,8 @@
       "properties": {
         "max_iterations": { "type": "integer", "minimum": 1 },
         "n_runs": { "type": "integer", "minimum": 1 },
-        "dimensions": { 
-          "type": "array", 
+        "dimensions": {
+          "type": "array",
           "items": { "type": "integer", "minimum": 2 }
         },
         "timestamp": { "type": "string", "format": "date-time" },
@@ -40,20 +40,20 @@
                   "required": ["best_fitness", "best_solution", "n_evaluations"],
                   "properties": {
                     "best_fitness": { "type": "number" },
-                    "best_solution": { 
-                      "type": "array", 
+                    "best_solution": {
+                      "type": "array",
                       "items": { "type": "number" }
                     },
                     "n_evaluations": { "type": "integer" },
                     "history": {
                       "type": "object",
                       "properties": {
-                        "best_fitness": { 
-                          "type": "array", 
+                        "best_fitness": {
+                          "type": "array",
                           "items": { "type": "number" }
                         },
-                        "mean_fitness": { 
-                          "type": "array", 
+                        "mean_fitness": {
+                          "type": "array",
                           "items": { "type": "number" }
                         }
                       }
@@ -74,10 +74,10 @@
                   "q3_fitness": { "type": "number" }
                 }
               },
-              "success_rate": { 
-                "type": "number", 
-                "minimum": 0, 
-                "maximum": 1 
+              "success_rate": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
               }
             }
           }

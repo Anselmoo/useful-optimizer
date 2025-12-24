@@ -4,7 +4,10 @@
 
 from __future__ import annotations
 
-from pydantic import AwareDatetime, BaseModel, Field, RootModel
+from pydantic import AwareDatetime
+from pydantic import BaseModel
+from pydantic import Field
+from pydantic import RootModel
 
 
 class Dimension(RootModel[int]):

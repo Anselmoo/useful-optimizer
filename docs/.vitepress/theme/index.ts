@@ -54,10 +54,10 @@ export default {
   enhanceApp({ app }) {
     // Register ECharts
     app.component('VChart', VChart)
-    
+
     // Register TresJS for 3D
     app.component('TresCanvas', TresCanvas)
-    
+
     // Register chart components
     app.component('ECDFChart', ECDFChart)
     app.component('ConvergenceChart', ConvergenceChart)
