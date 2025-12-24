@@ -50,7 +50,7 @@ class ADAMOptimization(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adaptive Moment Estimation               |
-        | Acronym           | Adam                                     |
+        | Acronym           | ADAM                                     |
         | Year Introduced   | 2014                                     |
         | Authors           | Kingma, Diederik P.; Ba, Jimmy Lei       |
         | Algorithm Class   | Gradient Based                           |

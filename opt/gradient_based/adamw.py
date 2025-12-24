@@ -68,7 +68,7 @@ class AdamW(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adam with Decoupled Weight Decay         |
-        | Acronym           | AdamW                                    |
+        | Acronym           | ADAMW                                    |
         | Year Introduced   | 2017                                     |
         | Authors           | Loshchilov, Ilya; Hutter, Frank          |
         | Algorithm Class   | Gradient Based                           |

@@ -42,7 +42,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Multi-Objective Evolutionary Algorithm based on Decomposition|
-        | Acronym           | MOEA/D                                   |
+        | Acronym           | MOEA-D                                   |
         | Year Introduced   | 2007                                     |
         | Authors           | Zhang, Qingfu; Li, Hui                   |
         | Algorithm Class   | Multi-Objective Decomposition            |

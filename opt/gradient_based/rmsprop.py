@@ -59,7 +59,7 @@ class RMSprop(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Root Mean Square Propagation             |
-        | Acronym           | RMSprop                                  |
+        | Acronym           | RMSPROP                                  |
         | Year Introduced   | 2012                                     |
         | Authors           | Hinton, Geoffrey; Srivastava, Nitish    |
         | Algorithm Class   | Gradient Based                           |

@@ -62,7 +62,7 @@ class AMSGrad(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | AMSGrad                                  |
-        | Acronym           | AMSGrad                                  |
+        | Acronym           | AMSGRAD                                  |
         | Year Introduced   | 2018                                     |
         | Authors           | Reddi, Sashank J.; Kale, Satyen; Kumar, Sanjiv |
         | Algorithm Class   | Gradient Based                           |

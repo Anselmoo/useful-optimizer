@@ -49,7 +49,7 @@ class ADAGrad(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adaptive Gradient Algorithm              |
-        | Acronym           | AdaGrad                                  |
+        | Acronym           | ADAGRAD                                  |
         | Year Introduced   | 2011                                     |
         | Authors           | Duchi, John; Hazan, Elad; Singer, Yoram  |
         | Algorithm Class   | Gradient Based                           |

@@ -33,7 +33,7 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Chimp Optimization Algorithm             |
-        | Acronym           | ChOA                           |
+        | Acronym           | CHOA                                     |
         | Year Introduced   | 2020                            |
         | Authors           | Various (see References)                |
         | Algorithm Class   | Swarm Intelligence |

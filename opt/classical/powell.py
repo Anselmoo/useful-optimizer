@@ -55,7 +55,7 @@ class Powell(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Powell's Conjugate Direction Method      |
-        | Acronym           | Powell                                   |
+        | Acronym           | POWELL                                   |
         | Year Introduced   | 1964                                     |
         | Authors           | Powell, Michael J. D.                    |
         | Algorithm Class   | Classical                                |

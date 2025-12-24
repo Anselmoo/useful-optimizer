@@ -57,7 +57,7 @@ class AdaMax(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adamax                                   |
-        | Acronym           | Adamax                                   |
+        | Acronym           | ADAMAX                                   |
         | Year Introduced   | 2014                                     |
         | Authors           | Kingma, Diederik P.; Ba, Jimmy Lei       |
         | Algorithm Class   | Gradient Based                           |

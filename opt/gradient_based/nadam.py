@@ -67,7 +67,7 @@ class Nadam(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Nesterov-accelerated Adaptive Moment     |
-        | Acronym           | Nadam                                    |
+        | Acronym           | NADAM                                    |
         | Year Introduced   | 2016                                     |
         | Authors           | Dozat, Timothy                           |
         | Algorithm Class   | Gradient Based                           |
