@@ -25,9 +25,8 @@ _DOCSTRING_PARSER_SPEC = importlib.util.spec_from_file_location(
     "scripts.docstring_parser", _DOCSTRING_PARSER_PATH
 )
 if _DOCSTRING_PARSER_SPEC is None or _DOCSTRING_PARSER_SPEC.loader is None:
-    raise ImportError(
-        f"Could not load docstring_parser module from {_DOCSTRING_PARSER_PATH}"
-    )
+    msg = f"Could not load docstring_parser module from {_DOCSTRING_PARSER_PATH}"
+    raise ImportError(msg)
 _docstring_parser_module = importlib.util.module_from_spec(_DOCSTRING_PARSER_SPEC)
 _DOCSTRING_PARSER_SPEC.loader.exec_module(_docstring_parser_module)
 DocstringParser = _docstring_parser_module.DocstringParser
