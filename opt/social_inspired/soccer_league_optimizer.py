@@ -201,8 +201,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
                     - best_fitness (float): Fitness value at best_solution
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
                 - Each iteration simulates matches between weighted opponents
@@ -312,7 +311,7 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         """Execute the Soccer League Competition algorithm.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         # Initialize teams (positions)
         teams = np.random.uniform(

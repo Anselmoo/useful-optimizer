@@ -194,8 +194,7 @@ class PoliticalOptimizer(AbstractOptimizer):
                     - best_fitness (float): Fitness value at best_solution
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
                 - Randomly alternates between constituency and campaign phases
@@ -303,7 +302,7 @@ class PoliticalOptimizer(AbstractOptimizer):
         """Execute the Political Optimizer.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         # Initialize population (politicians)
         population = np.random.uniform(

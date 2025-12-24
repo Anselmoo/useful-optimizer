@@ -173,8 +173,7 @@ class TeachingLearningOptimizer(AbstractOptimizer):
                     - best_fitness (float): Fitness value at best_solution
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
                 - Executes both teacher and learner phases in each iteration
@@ -280,7 +279,7 @@ class TeachingLearningOptimizer(AbstractOptimizer):
         """Execute the optimization algorithm.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         # Initialize population (students)
         population = np.random.uniform(

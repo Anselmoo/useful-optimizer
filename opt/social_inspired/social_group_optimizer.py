@@ -230,8 +230,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
                     - best_fitness (float): Fitness value at best_solution
 
     Raises:
-                ValueError:
-                    If search space is invalid or function evaluation fails.
+        ValueError: If search space is invalid or function evaluation fails.
 
     Notes:
                 - Executes improving, acquiring, and introspection phases per iteration
@@ -357,7 +356,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
         """Execute the Social Group Optimization algorithm.
 
         Returns:
-            Tuple of (best_solution, best_fitness).
+        Tuple of (best_solution, best_fitness).
         """
         # Initialize population (social group)
         population = np.random.uniform(
