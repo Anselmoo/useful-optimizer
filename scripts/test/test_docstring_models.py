@@ -99,9 +99,7 @@ class TestCOCOBBOBSettings:
     def test_valid_settings(self) -> None:
         """Test valid COCO/BBOB settings."""
         settings = COCOBBOBSettings(
-            search_space={
-                "dimensions_tested": [2, 3, 5, 10, 20, 40],
-            },
+            search_space={"dimensions_tested": [2, 3, 5, 10, 20, 40]}
         )
         assert settings.search_space is not None
 

@@ -49,9 +49,7 @@ class DocstringParser:
         self.section_headers_pattern = "|".join(
             re.escape(header) for header in SECTION_HEADERS
         )
-        self.section_boundary_pattern = (
-            rf"(?=\n(?:{self.section_headers_pattern}):|\Z)"
-        )
+        self.section_boundary_pattern = rf"(?=\n(?:{self.section_headers_pattern}):|\Z)"
 
     def extract_class_docstring(self, file_path: Path) -> str | None:
         """Extract the first optimizer class docstring from a Python file.
@@ -83,7 +81,10 @@ class DocstringParser:
                     elif isinstance(base, ast.Attribute):
                         base_names.append(base.attr)
 
-                if "AbstractOptimizer" in base_names or "AbstractMultiObjectiveOptimizer" in base_names:
+                if (
+                    "AbstractOptimizer" in base_names
+                    or "AbstractMultiObjectiveOptimizer" in base_names
+                ):
                     return docstring
 
             # Fallback: return first class with docstring
@@ -249,7 +250,7 @@ class DocstringParser:
 
         # Basic COCO/BBOB settings (minimal for now)
         parsed_dict["coco_bbob_benchmark_settings"] = {
-            "search_space": {"dimensions_tested": [2, 3, 5, 10, 20, 40]},
+            "search_space": {"dimensions_tested": [2, 3, 5, 10, 20, 40]}
         }
 
         # Example section
@@ -299,7 +300,6 @@ class DocstringParser:
 
 def main() -> None:
     """CLI entry point for testing the parser."""
-
     if len(sys.argv) < 2:
         print("Usage: python docstring_parser.py <path_to_python_file>")
         sys.exit(1)

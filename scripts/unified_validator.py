@@ -11,21 +11,23 @@ Pydantic models. It provides comprehensive validation including:
 from __future__ import annotations
 
 import argparse
-import sys
 import importlib.util
+import sys
+
 from pathlib import Path
 
-
 from pydantic import ValidationError
+
 
 # Load DocstringParser from sibling docstring_parser.py without modifying sys.path
 _DOCSTRING_PARSER_PATH = Path(__file__).parent / "docstring_parser.py"
 _DOCSTRING_PARSER_SPEC = importlib.util.spec_from_file_location(
-    "scripts.docstring_parser",
-    _DOCSTRING_PARSER_PATH,
+    "scripts.docstring_parser", _DOCSTRING_PARSER_PATH
 )
 if _DOCSTRING_PARSER_SPEC is None or _DOCSTRING_PARSER_SPEC.loader is None:
-    raise ImportError(f"Could not load docstring_parser module from {_DOCSTRING_PARSER_PATH}")
+    raise ImportError(
+        f"Could not load docstring_parser module from {_DOCSTRING_PARSER_PATH}"
+    )
 _docstring_parser_module = importlib.util.module_from_spec(_DOCSTRING_PARSER_SPEC)
 _DOCSTRING_PARSER_SPEC.loader.exec_module(_docstring_parser_module)
 DocstringParser = _docstring_parser_module.DocstringParser
@@ -81,22 +83,12 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Validate optimizer docstrings using Pydantic schema"
     )
+    parser.add_argument("files", nargs="+", type=Path, help="Python files to validate")
     parser.add_argument(
-        "files",
-        nargs="+",
-        type=Path,
-        help="Python files to validate",
+        "-v", "--verbose", action="store_true", help="Print detailed validation info"
     )
     parser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-        help="Print detailed validation info",
-    )
-    parser.add_argument(
-        "--all",
-        action="store_true",
-        help="Validate all optimizer files in opt/",
+        "--all", action="store_true", help="Validate all optimizer files in opt/"
     )
 
     args = parser.parse_args()
@@ -155,9 +147,9 @@ def main() -> int:
                 print(f"✗ {file_path}")
 
     # Print summary
-    print(f"\n{'='*70}")
+    print(f"\n{'=' * 70}")
     print(f"Validation Summary: {success_count} passed, {failure_count} failed")
-    print(f"{'='*70}")
+    print(f"{'=' * 70}")
 
     # Print all errors
     if all_errors:

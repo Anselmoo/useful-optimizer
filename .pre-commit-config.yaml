@@ -50,4 +50,3 @@ repos:
         additional_dependencies:
           - pydantic>=2.12.5
           - jsonschema>=4.23.0
-

@@ -81,13 +81,13 @@ jobs:
           uv run python -c "
           import json
           from jsonschema import Draft7Validator
-          
+
           # Validate docstring schema
           with open('docs/schemas/docstring-schema.json') as f:
               schema = json.load(f)
           Draft7Validator.check_schema(schema)
           print('✓ docstring-schema.json is valid JSON Schema Draft 7')
-          
+
           # Validate vitepress mapping schema
           with open('docs/schemas/vitepress-mapping-schema.json') as f:
               schema = json.load(f)

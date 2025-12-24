@@ -21,8 +21,7 @@ from pydantic import Field
 
 
 class AlgorithmClass(Enum):
-    """Category of algorithm
-    """
+    """Category of algorithm"""
 
     swarm_intelligence = "Swarm Intelligence"
     evolutionary = "Evolutionary"
@@ -52,8 +51,7 @@ class Property(Enum):
 
 
 class AlgorithmMetadata(BaseModel):
-    """Algorithm Metadata block (table format in docstring)
-    """
+    """Algorithm Metadata block (table format in docstring)"""
 
     algorithm_name: str = Field(..., description="Full algorithm name")
     acronym: str = Field(
@@ -99,8 +97,7 @@ class ConstraintHandling(BaseModel):
 
 
 class MathematicalFormulation(BaseModel):
-    """Mathematical formulation section with LaTeX equations
-    """
+    """Mathematical formulation section with LaTeX equations"""
 
     core_equation: str | None = Field(
         None, description="Main update equation in LaTeX (display math $$ ... $$)"
@@ -129,8 +126,7 @@ class SensitivityAnalysi(BaseModel):
 
 
 class Hyperparameters(BaseModel):
-    """Hyperparameters table and sensitivity analysis
-    """
+    """Hyperparameters table and sensitivity analysis"""
 
     table: list[TableItem] | None = None
     sensitivity_analysis: list[SensitivityAnalysi] | None = Field(
@@ -172,8 +168,7 @@ class PerformanceMetric(Enum):
 
 
 class COCOBBOBSettings(BaseModel):
-    """COCO/BBOB Benchmark Settings section
-    """
+    """COCO/BBOB Benchmark Settings section"""
 
     search_space: SearchSpace | None = None
     evaluation_budget: EvaluationBudget | None = None
@@ -181,8 +176,7 @@ class COCOBBOBSettings(BaseModel):
 
 
 class Example(BaseModel):
-    """Example section with doctest code
-    """
+    """Example section with doctest code"""
 
     description: str | None = Field(None, description="Introductory text before code")
     code: str | None = Field(
@@ -194,8 +188,7 @@ class Example(BaseModel):
 
 
 class Parameter(BaseModel):
-    """Single parameter definition - description MUST start on same line as name
-    """
+    """Single parameter definition - description MUST start on same line as name"""
 
     name: str = Field(..., description="Parameter name")
     type: str = Field(
@@ -213,8 +206,7 @@ class Parameter(BaseModel):
 
 
 class Attributes(BaseModel):
-    """Instance attributes section
-    """
+    """Instance attributes section"""
 
     attributes: list[Parameter]
 
@@ -228,8 +220,7 @@ class Component(BaseModel):
 
 
 class Returns(BaseModel):
-    """Returns section - type description MUST have inline summary
-    """
+    """Returns section - type description MUST have inline summary"""
 
     type: str | None = Field(None, description="Return type annotation")
     description: str | None = Field(
@@ -282,8 +273,7 @@ class Implementation(BaseModel):
 
 
 class References(BaseModel):
-    """References section with academic citations and links
-    """
+    """References section with academic citations and links"""
 
     citations: list[Citation] | None = None
     coco_data_archive: CocoDataArchive | None = None
@@ -299,8 +289,7 @@ class RelatedAlgorithm(BaseModel):
 
 
 class SeeAlso(BaseModel):
-    """See Also section linking related algorithms
-    """
+    """See Also section linking related algorithms"""
 
     related_algorithms: list[RelatedAlgorithm] | None = None
     base_classes: list[str] | None = None
@@ -308,8 +297,7 @@ class SeeAlso(BaseModel):
 
 
 class Format(Enum):
-    """Simple = bullet list, Structured = bold headers with sublists
-    """
+    """Simple = bullet list, Structured = bold headers with sublists"""
 
     simple = "simple"
     structured = "structured"
@@ -325,16 +313,14 @@ class Item(BaseModel):
 
 
 class NotesSubsection(BaseModel):
-    """A subsection within Notes (rendered with **bold header**)
-    """
+    """A subsection within Notes (rendered with **bold header**)"""
 
     header: str | None = Field(None, description="Header text (without ** markers)")
     items: list[Item] | None = None
 
 
 class Args(BaseModel):
-    """Arguments section - parameters must have inline descriptions
-    """
+    """Arguments section - parameters must have inline descriptions"""
 
     parameters: list[Parameter]
 
@@ -355,15 +341,13 @@ class Method(BaseModel):
 
 
 class Methods(BaseModel):
-    """Methods section documenting class methods
-    """
+    """Methods section documenting class methods"""
 
     methods: list[Method] | None = None
 
 
 class StructuredNotes(BaseModel):
-    """Structured notes with subsections (bold headers)
-    """
+    """Structured notes with subsections (bold headers)"""
 
     computational_complexity: NotesSubsection | None = None
     bbob_performance_characteristics: NotesSubsection | None = None
@@ -376,8 +360,7 @@ class StructuredNotes(BaseModel):
 
 
 class Notes(BaseModel):
-    """Notes section - supports two formats: simple list or structured subsections
-    """
+    """Notes section - supports two formats: simple list or structured subsections"""
 
     format: Format | None = Field(
         None,
@@ -392,8 +375,7 @@ class Notes(BaseModel):
 
 
 class CocoBbobOptimizerDocstringSchema(BaseModel):
-    """JSON Schema for validating and structuring optimizer docstrings in Google style for the useful-optimizer library
-    """
+    """JSON Schema for validating and structuring optimizer docstrings in Google style for the useful-optimizer library"""
 
     field_schema: str | None = Field(
         None, alias="$schema", description="JSON Schema reference"
