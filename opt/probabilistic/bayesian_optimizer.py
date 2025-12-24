@@ -130,7 +130,7 @@ class BayesianOptimizer(AbstractOptimizer):
         ...     dim=2,
         ...     n_initial=5,
         ...     max_iter=30,
-        ...     seed=42  # Required for reproducibility
+        ...     seed=42,  # Required for reproducibility
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float) and fitness >= 0
@@ -147,7 +147,7 @@ class BayesianOptimizer(AbstractOptimizer):
         ...     n_initial=20,
         ...     max_iter=100,
         ...     xi=0.01,
-        ...     seed=42
+        ...     seed=42,
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10

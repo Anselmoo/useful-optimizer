@@ -129,7 +129,7 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
         ...     initial_temp=5.0,
         ...     final_temp=0.01,
         ...     adaptation_start=100,
-        ...     seed=42  # Required for reproducibility
+        ...     seed=42,  # Required for reproducibility
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float) and fitness >= 0
@@ -139,12 +139,7 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AdaptiveMetropolisOptimizer(
-        ...     func=sphere,
-        ...     lower_bound=-5,
-        ...     upper_bound=5,
-        ...     dim=10,
-        ...     max_iter=5000,
-        ...     seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=5000, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
