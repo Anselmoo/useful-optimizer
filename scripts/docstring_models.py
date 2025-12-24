@@ -119,7 +119,7 @@ class Impact(Enum):
     low = "Low"
 
 
-class SensitivityAnalysi(BaseModel):
+class SensitivityAnalysis(BaseModel):
     parameter: str | None = None
     impact: Impact | None = None
     notes: str | None = None
@@ -129,7 +129,7 @@ class Hyperparameters(BaseModel):
     """Hyperparameters table and sensitivity analysis"""
 
     table: list[TableItem] | None = None
-    sensitivity_analysis: list[SensitivityAnalysi] | None = Field(
+    sensitivity_analysis: list[SensitivityAnalysis] | None = Field(
         None, description="Sensitivity notes for each parameter"
     )
 
