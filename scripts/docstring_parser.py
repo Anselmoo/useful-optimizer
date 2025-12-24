@@ -299,7 +299,6 @@ class DocstringParser:
 
 def main() -> None:
     """CLI entry point for testing the parser."""
-    import sys
 
     if len(sys.argv) < 2:
         print("Usage: python docstring_parser.py <path_to_python_file>")
