@@ -8,10 +8,14 @@ Usage:
     python scripts/add_history_tracking_to_optimizer.py <optimizer_file>
 """
 
+from __future__ import annotations
+
 import sys
+
 from pathlib import Path
 
-TEMPLATE = '''
+
+TEMPLATE = """
 # Step 1: Add track_history parameter to __init__
 # Add this parameter to the __init__ method signature:
         track_history: bool = False,
@@ -37,9 +41,10 @@ TEMPLATE = '''
 # Example: See opt/swarm_intelligence/particle_swarm.py
 # Example: See opt/swarm_intelligence/ant_colony.py
 # Example: See opt/swarm_intelligence/firefly_algorithm.py
-'''
+"""
 
-def main():
+
+def main() -> None:
     """Print instructions for adding history tracking."""
     if len(sys.argv) > 1:
         optimizer_file = Path(sys.argv[1])
@@ -49,8 +54,11 @@ def main():
         print(f"Adding history tracking to {optimizer_file}")
         print(TEMPLATE)
     else:
-        print("Usage: python scripts/add_history_tracking_to_optimizer.py <optimizer_file>")
+        print(
+            "Usage: python scripts/add_history_tracking_to_optimizer.py <optimizer_file>"
+        )
         print(TEMPLATE)
+
 
 if __name__ == "__main__":
     main()

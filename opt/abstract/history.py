@@ -19,7 +19,7 @@ if TYPE_CHECKING:
 
 @dataclass
 class HistoryConfig:
-    """Configuration for optimizer history tracking.
+    r"""Configuration for optimizer history tracking.
 
     Attributes:
         track_best_fitness (bool): Track best fitness value per iteration.
@@ -27,10 +27,10 @@ class HistoryConfig:
         track_best_solution (bool): Track best solution vector per iteration.
             Default: True.
         track_population_fitness (bool): Track all population fitness values.
-            Memory intensive: O(iterations × population_size).
+            Memory intensive: O(iterations $\times$ population_size).
             Default: False.
         track_population (bool): Track all population positions.
-            Very memory intensive: O(iterations × population_size × dim).
+            Very memory intensive: O(iterations $\times$ population_size $\times$ dim).
             Default: False.
         max_history_size (int | None): Maximum number of iterations to track.
             If None, uses max_iter from optimizer.
@@ -79,17 +79,9 @@ class OptimizationHistory:
 
     Example:
         >>> config = HistoryConfig(track_population=False)
-        >>> history = OptimizationHistory(
-        ...     max_iter=100,
-        ...     dim=10,
-        ...     population_size=30,
-        ...     config=config
-        ... )
+        >>> history = OptimizationHistory(max_iter=100, dim=10, population_size=30, config=config)
         >>> # Record iteration 0
-        >>> history.record(
-        ...     best_fitness=15.5,
-        ...     best_solution=np.random.rand(10)
-        ... )
+        >>> history.record(best_fitness=15.5, best_solution=np.random.rand(10))
         >>> # Export to dict
         >>> data = history.to_dict()
         >>> len(data["best_fitness"])
@@ -155,7 +147,11 @@ class OptimizationHistory:
             This method silently ignores recording beyond max_iter to prevent
             index errors. The iteration counter will not increment.
         """
-        if self._iteration >= len(self.best_fitness) if self.best_fitness is not None else self._max_iter:
+        if (
+            self._iteration >= len(self.best_fitness)
+            if self.best_fitness is not None
+            else self._max_iter
+        ):
             # Silently ignore recording beyond max_iter
             return
 

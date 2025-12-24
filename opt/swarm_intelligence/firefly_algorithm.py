@@ -291,7 +291,7 @@ class FireflyAlgorithm(AbstractOptimizer):
         beta_0: float = 1,
         gamma: float = 1,
         seed: int | None = None,
-        track_history: bool = False,
+        track_history: bool = False,  # noqa: FBT001, FBT002
     ) -> None:
         """Initialize the FireflyAlgorithm class."""
         super().__init__(

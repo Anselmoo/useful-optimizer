@@ -70,20 +70,20 @@ super().__init__(
 ```python
 def search(self) -> tuple[np.ndarray, float]:
     # ... initialization ...
-    
+
     for iteration in range(self.max_iter):
         # Track history at START of iteration
         if self.track_history:
             self.history["best_fitness"].append(float(best_fitness))
             self.history["best_solution"].append(best_solution.copy())
-        
+
         # ... optimization logic ...
-    
+
     # Track final state before return
     if self.track_history:
         self.history["best_fitness"].append(float(best_fitness))
         self.history["best_solution"].append(best_solution.copy())
-    
+
     return best_solution, best_fitness
 ```
 
@@ -107,11 +107,11 @@ from opt.swarm_intelligence.ant_colony import AntColony
 from opt.benchmark.functions import shifted_ackley
 
 result = run_single_benchmark(
-    AntColony, 
-    shifted_ackley, 
-    -32.768, 32.768, 
-    dim=2, 
-    max_iter=50, 
+    AntColony,
+    shifted_ackley,
+    -32.768, 32.768,
+    dim=2,
+    max_iter=50,
     seed=42
 )
 

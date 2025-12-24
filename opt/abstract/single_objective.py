@@ -103,7 +103,7 @@ class AbstractOptimizer(ABC):
         max_iter: int = DEFAULT_MAX_ITERATIONS,
         seed: int | None = None,
         population_size: int = DEFAULT_POPULATION_SIZE,
-        track_history: bool = False,
+        track_history: bool = False,  # noqa: FBT001, FBT002
     ) -> None:
         """Initialize the optimizer."""
         self.func = func

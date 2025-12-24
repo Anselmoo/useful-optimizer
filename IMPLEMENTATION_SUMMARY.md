@@ -129,7 +129,7 @@ def search(self) -> tuple[np.ndarray, float]:
             self.history["best_fitness"].append(float(best_fitness))
             self.history["best_solution"].append(best_solution.copy())
         # ... optimization logic ...
-    
+
     # Final state
     if self.track_history:
         self.history["best_fitness"].append(float(best_fitness))

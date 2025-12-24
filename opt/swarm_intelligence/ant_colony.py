@@ -294,7 +294,7 @@ class AntColony(AbstractOptimizer):
         beta: float = 1,
         rho: float = 0.5,
         q: float = 1,
-        track_history: bool = False,
+        track_history: bool = False,  # noqa: FBT001, FBT002
     ) -> None:
         """Initialize the Ant Colony Optimization algorithm."""
         super().__init__(
