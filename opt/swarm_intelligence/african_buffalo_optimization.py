@@ -251,9 +251,33 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
         population_size: int = 30,
         lp1: float = _LP1,
         lp2: float = _LP2,
+        seed: int | None = None,
+        *,
+        track_history: bool = False,
     ) -> None:
-        """Initialize the AfricanBuffaloOptimizer optimizer."""
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter)
+        """Initialize the AfricanBuffaloOptimizer optimizer.
+
+        Args:
+            func: Objective function to minimize.
+            lower_bound: Lower bound for all dimensions.
+            upper_bound: Upper bound for all dimensions.
+            dim: Number of dimensions.
+            max_iter: Maximum iterations.
+            population_size: Population size.
+            lp1: Learning parameter 1.
+            lp2: Learning parameter 2.
+            seed: Random seed for reproducibility. BBOB requires seeds 0-14.
+            track_history: Enable convergence history tracking for BBOB.
+        """
+        super().__init__(
+            func,
+            lower_bound,
+            upper_bound,
+            dim,
+            max_iter,
+            seed=seed,
+            track_history=track_history,
+        )
         self.population_size = population_size
         self.lp1 = lp1
         self.lp2 = lp2

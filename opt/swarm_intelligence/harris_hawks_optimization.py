@@ -98,10 +98,6 @@ class HarrisHawksOptimizer(AbstractOptimizer):
             - **Boundary conditions**: Clamping to [lower_bound, upper_bound]
             - **Feasibility enforcement**: Position updates maintain bounds
 
-        Constraint handling:
-            - **Boundary conditions**: FIXME: [clamping/reflection/periodic]
-            - **Feasibility enforcement**: FIXME: [description]
-
     Hyperparameters:
         | Parameter              | Default | BBOB Recommended | Description                    |
         |------------------------|---------|------------------|--------------------------------|

@@ -59,7 +59,9 @@ parameter2 (str): This is a longer definition. I need to include so much
 1. **No line breaks between parameter name and description**
 2. **Consistent 4-space indentation**
 3. **LaTeX for mathematical symbols**: `$\times$` not `×`, `$\alpha$` not `α`
-4. **Run validation**: `pre-commit run -a` before committing
+4. **Budget expressions**: `dim $\times$ 10000` NOT `dim×10000` or `dim*10000`
+5. **Dimension notation**: Use plain `dim` (NOT `\text{dim}`) for consistency
+6. **Run validation**: `pre-commit run -a` before committing
 
 ### References
 
