@@ -1,46 +1,8 @@
 // https://vitepress.dev/guide/custom-theme
-import { h } from 'vue'
+import { h, defineAsyncComponent } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
-
-// Import ECharts components
-import VChart from 'vue-echarts'
-import { use } from 'echarts/core'
-import { CanvasRenderer } from 'echarts/renderers'
-import { LineChart, ScatterChart, BoxplotChart, BarChart } from 'echarts/charts'
-import {
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-  TitleComponent,
-  VisualMapComponent,
-  ToolboxComponent
-} from 'echarts/components'
-
-// Import TresJS components
-import { TresCanvas } from '@tresjs/core'
-
-// Import chart components
-import ECDFChart from './components/ECDFChart.vue'
-import ConvergenceChart from './components/ConvergenceChart.vue'
-import ViolinPlot from './components/ViolinPlot.vue'
-import FitnessLandscape3D from './components/FitnessLandscape3D.vue'
-
-// Register ECharts components
-use([
-  CanvasRenderer,
-  LineChart,
-  ScatterChart,
-  BoxplotChart,
-  BarChart,
-  GridComponent,
-  TooltipComponent,
-  LegendComponent,
-  TitleComponent,
-  VisualMapComponent,
-  ToolboxComponent
-])
 
 export default {
   extends: DefaultTheme,
@@ -49,17 +11,55 @@ export default {
       // https://vitepress.dev/guide/extending-default-theme#layout-slots
     })
   },
-  enhanceApp({ app }) {
-    // Register ECharts
-    app.component('VChart', VChart)
+  async enhanceApp({ app }) {
+    // Only register components on client side
+    if (typeof window !== 'undefined') {
+      // Dynamically import and register ECharts
+      const { default: VChart } = await import('vue-echarts')
+      const { use } = await import('echarts/core')
+      const { CanvasRenderer } = await import('echarts/renderers')
+      const { LineChart, ScatterChart, BoxplotChart, BarChart } = await import('echarts/charts')
+      const {
+        GridComponent,
+        TooltipComponent,
+        LegendComponent,
+        TitleComponent,
+        VisualMapComponent,
+        ToolboxComponent
+      } = await import('echarts/components')
 
-    // Register TresJS for 3D
-    app.component('TresCanvas', TresCanvas)
+      // Register ECharts components
+      use([
+        CanvasRenderer,
+        LineChart,
+        ScatterChart,
+        BoxplotChart,
+        BarChart,
+        GridComponent,
+        TooltipComponent,
+        LegendComponent,
+        TitleComponent,
+        VisualMapComponent,
+        ToolboxComponent
+      ])
 
-    // Register chart components
-    app.component('ECDFChart', ECDFChart)
-    app.component('ConvergenceChart', ConvergenceChart)
-    app.component('ViolinPlot', ViolinPlot)
-    app.component('FitnessLandscape3D', FitnessLandscape3D)
+      app.component('VChart', VChart)
+
+      // Register 2D chart components as async
+      app.component('ECDFChart', defineAsyncComponent(() =>
+        import('./components/ECDFChart.vue')
+      ))
+      app.component('ConvergenceChart', defineAsyncComponent(() =>
+        import('./components/ConvergenceChart.vue')
+      ))
+      app.component('ViolinPlot', defineAsyncComponent(() =>
+        import('./components/ViolinPlot.vue')
+      ))
+
+      // Register 3D components as async (client-only)
+      app.component('FitnessLandscape3D', defineAsyncComponent(() =>
+        import('./components/FitnessLandscape3D.vue')
+      ))
+    }
   }
 } satisfies Theme
