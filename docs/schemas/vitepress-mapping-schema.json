@@ -1,0 +1,371 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://github.com/Anselmoo/useful-optimizer/schemas/vitepress-mapping-schema.json",
+    "title": "VitePress Documentation Mapping Schema",
+    "description": "Maps docstring sections to VitePress markdown elements and Vue components",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "section_mappings": {
+            "type": "object",
+            "description": "Mapping from docstring sections to VitePress rendering",
+            "additionalProperties": {
+                "$ref": "#/definitions/SectionMapping"
+            }
+        },
+        "frontmatter_template": {
+            "$ref": "#/definitions/FrontmatterTemplate"
+        },
+        "custom_containers": {
+            "$ref": "#/definitions/CustomContainers"
+        },
+        "component_registry": {
+            "$ref": "#/definitions/ComponentRegistry"
+        }
+    },
+    "definitions": {
+        "SectionMapping": {
+            "type": "object",
+            "description": "Mapping configuration for a single docstring section",
+            "properties": {
+                "docstring_header": {
+                    "type": "string",
+                    "description": "Header in docstring (e.g., 'Algorithm Metadata:', 'Args:')"
+                },
+                "vitepress_heading": {
+                    "type": "string",
+                    "description": "Markdown heading to use (e.g., '## Algorithm Metadata')"
+                },
+                "render_as": {
+                    "type": "string",
+                    "enum": [
+                        "markdown_table",
+                        "definition_list",
+                        "bullet_list",
+                        "code_block",
+                        "custom_container",
+                        "vue_component",
+                        "collapsible_details",
+                        "blockquote",
+                        "raw_markdown"
+                    ],
+                    "description": "How to render this section in VitePress"
+                },
+                "container_type": {
+                    "type": "string",
+                    "enum": [
+                        "info",
+                        "tip",
+                        "warning",
+                        "danger",
+                        "details",
+                        "code-group"
+                    ],
+                    "description": "VitePress container type (if render_as = custom_container)"
+                },
+                "component_name": {
+                    "type": "string",
+                    "description": "Vue component name (if render_as = vue_component)"
+                },
+                "css_class": {
+                    "type": "string",
+                    "description": "Additional CSS class for styling"
+                },
+                "indentation_rules": {
+                    "$ref": "#/definitions/IndentationRules"
+                },
+                "transformations": {
+                    "type": "array",
+                    "description": "Text transformations to apply",
+                    "items": {
+                        "$ref": "#/definitions/Transformation"
+                    }
+                }
+            },
+            "required": [
+                "docstring_header",
+                "render_as"
+            ]
+        },
+        "IndentationRules": {
+            "type": "object",
+            "description": "Rules for handling docstring indentation",
+            "properties": {
+                "base_indent": {
+                    "type": "integer",
+                    "description": "Expected base indentation (spaces) for section content",
+                    "default": 8
+                },
+                "list_indent": {
+                    "type": "integer",
+                    "description": "Indentation for list items within section",
+                    "default": 12
+                },
+                "continuation_indent": {
+                    "type": "integer",
+                    "description": "Indentation for continuation lines",
+                    "default": 4
+                },
+                "preserve_relative": {
+                    "type": "boolean",
+                    "description": "Preserve relative indentation in output",
+                    "default": true
+                }
+            }
+        },
+        "Transformation": {
+            "type": "object",
+            "description": "Text transformation rule",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "latex_to_katex",
+                        "bold_headers",
+                        "italic_journals",
+                        "code_backticks",
+                        "link_dois",
+                        "remove_indent",
+                        "unicode_to_latex"
+                    ]
+                },
+                "pattern": {
+                    "type": "string",
+                    "description": "Regex pattern to match"
+                },
+                "replacement": {
+                    "type": "string",
+                    "description": "Replacement string"
+                }
+            }
+        },
+        "FrontmatterTemplate": {
+            "type": "object",
+            "description": "Template for generating VitePress frontmatter from docstring",
+            "properties": {
+                "title": {
+                    "type": "string",
+                    "description": "Source field for title (e.g., 'algorithm_metadata.algorithm_name')"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Source field for description"
+                },
+                "layout": {
+                    "type": "string",
+                    "default": "doc"
+                },
+                "outline": {
+                    "type": [
+                        "boolean",
+                        "array"
+                    ],
+                    "default": [
+                        2,
+                        3
+                    ]
+                },
+                "custom_fields": {
+                    "type": "object",
+                    "description": "Additional frontmatter fields to generate",
+                    "additionalProperties": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "CustomContainers": {
+            "type": "object",
+            "description": "Custom VitePress container configurations",
+            "properties": {
+                "algorithm_info": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "default": "info"
+                        },
+                        "title": {
+                            "type": "string",
+                            "default": "Algorithm Information"
+                        },
+                        "sections": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "algorithm_metadata"
+                            ]
+                        }
+                    }
+                },
+                "bbob_settings": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "default": "tip"
+                        },
+                        "title": {
+                            "type": "string",
+                            "default": "COCO/BBOB Benchmark Configuration"
+                        }
+                    }
+                },
+                "performance_notes": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "default": "details"
+                        },
+                        "title": {
+                            "type": "string",
+                            "default": "Performance Characteristics"
+                        },
+                        "open_by_default": {
+                            "type": "boolean",
+                            "default": false
+                        }
+                    }
+                },
+                "known_limitations": {
+                    "type": "object",
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "default": "warning"
+                        },
+                        "title": {
+                            "type": "string",
+                            "default": "Known Limitations"
+                        }
+                    }
+                }
+            }
+        },
+        "ComponentRegistry": {
+            "type": "object",
+            "description": "Vue components available for rendering docstring sections",
+            "properties": {
+                "algorithm_metadata_table": {
+                    "type": "object",
+                    "properties": {
+                        "component": {
+                            "type": "string",
+                            "default": "AlgorithmMetadataTable"
+                        },
+                        "props": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "metadata",
+                                "badgeType"
+                            ]
+                        }
+                    }
+                },
+                "parameter_table": {
+                    "type": "object",
+                    "properties": {
+                        "component": {
+                            "type": "string",
+                            "default": "ParameterTable"
+                        },
+                        "props": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "parameters",
+                                "showBBOB"
+                            ]
+                        }
+                    }
+                },
+                "hyperparameter_table": {
+                    "type": "object",
+                    "properties": {
+                        "component": {
+                            "type": "string",
+                            "default": "HyperparameterTable"
+                        },
+                        "props": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "hyperparameters",
+                                "sensitivityAnalysis"
+                            ]
+                        }
+                    }
+                },
+                "reference_list": {
+                    "type": "object",
+                    "properties": {
+                        "component": {
+                            "type": "string",
+                            "default": "ReferenceList"
+                        },
+                        "props": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "citations",
+                                "cocoArchive"
+                            ]
+                        }
+                    }
+                },
+                "math_block": {
+                    "type": "object",
+                    "properties": {
+                        "component": {
+                            "type": "string",
+                            "default": "MathBlock"
+                        },
+                        "props": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "equation",
+                                "variables"
+                            ]
+                        }
+                    }
+                },
+                "convergence_chart": {
+                    "type": "object",
+                    "properties": {
+                        "component": {
+                            "type": "string",
+                            "default": "ConvergenceChart"
+                        },
+                        "props": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "default": [
+                                "algorithmName",
+                                "benchmarkFunction"
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,502 @@
+{
+    "$schema": "./vitepress-mapping-schema.json",
+    "_comment": "Default VitePress mapping configuration for useful-optimizer docstrings",
+    "section_mappings": {
+        "algorithm_metadata": {
+            "docstring_header": "Algorithm Metadata:",
+            "vitepress_heading": "## Algorithm Overview",
+            "render_as": "vue_component",
+            "component_name": "AlgorithmMetadataTable",
+            "css_class": "algorithm-metadata",
+            "indentation_rules": {
+                "base_indent": 8,
+                "preserve_relative": true
+            },
+            "transformations": [
+                {
+                    "type": "latex_to_katex"
+                },
+                {
+                    "type": "code_backticks"
+                }
+            ]
+        },
+        "mathematical_formulation": {
+            "docstring_header": "Mathematical Formulation:",
+            "vitepress_heading": "## Mathematical Formulation",
+            "render_as": "vue_component",
+            "component_name": "MathBlock",
+            "css_class": "math-formulation",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "preserve_relative": true
+            },
+            "transformations": [
+                {
+                    "type": "latex_to_katex"
+                }
+            ]
+        },
+        "hyperparameters": {
+            "docstring_header": "Hyperparameters:",
+            "vitepress_heading": "## Hyperparameters",
+            "render_as": "vue_component",
+            "component_name": "HyperparameterTable",
+            "css_class": "hyperparameters",
+            "indentation_rules": {
+                "base_indent": 8,
+                "preserve_relative": true
+            },
+            "transformations": [
+                {
+                    "type": "latex_to_katex"
+                },
+                {
+                    "type": "bold_headers"
+                }
+            ]
+        },
+        "coco_bbob_benchmark_settings": {
+            "docstring_header": "COCO/BBOB Benchmark Settings:",
+            "vitepress_heading": "## COCO/BBOB Benchmark Settings",
+            "render_as": "custom_container",
+            "container_type": "tip",
+            "css_class": "bbob-settings",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "preserve_relative": true
+            },
+            "transformations": [
+                {
+                    "type": "bold_headers"
+                },
+                {
+                    "type": "latex_to_katex"
+                },
+                {
+                    "type": "code_backticks"
+                }
+            ]
+        },
+        "example": {
+            "docstring_header": "Example:",
+            "vitepress_heading": "## Example",
+            "render_as": "code_block",
+            "css_class": "example-code",
+            "indentation_rules": {
+                "base_indent": 8,
+                "preserve_relative": false
+            },
+            "transformations": []
+        },
+        "args": {
+            "docstring_header": "Args:",
+            "vitepress_heading": "## Parameters",
+            "render_as": "vue_component",
+            "component_name": "ParameterTable",
+            "css_class": "args-table",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "continuation_indent": 4,
+                "preserve_relative": false
+            },
+            "_formatting_rules": {
+                "inline_description_required": true,
+                "type_format": "name (type): description",
+                "continuation_allowed": true
+            },
+            "transformations": [
+                {
+                    "type": "latex_to_katex"
+                },
+                {
+                    "type": "code_backticks"
+                }
+            ]
+        },
+        "attributes": {
+            "docstring_header": "Attributes:",
+            "vitepress_heading": "## Attributes",
+            "render_as": "vue_component",
+            "component_name": "ParameterTable",
+            "css_class": "attributes-table",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "continuation_indent": 4,
+                "preserve_relative": false
+            },
+            "_formatting_rules": {
+                "inline_description_required": true,
+                "type_format": "name (type): description"
+            },
+            "transformations": [
+                {
+                    "type": "latex_to_katex"
+                },
+                {
+                    "type": "code_backticks"
+                }
+            ]
+        },
+        "methods": {
+            "docstring_header": "Methods:",
+            "vitepress_heading": "## Methods",
+            "render_as": "definition_list",
+            "css_class": "methods-list",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "preserve_relative": true
+            },
+            "_formatting_rules": {
+                "signature_format": "method_name() -> return_type:",
+                "inline_description_required": true,
+                "nested_sections_allowed": [
+                    "Returns:",
+                    "Raises:",
+                    "Notes:"
+                ]
+            },
+            "transformations": [
+                {
+                    "type": "code_backticks"
+                }
+            ]
+        },
+        "returns": {
+            "docstring_header": "Returns:",
+            "vitepress_heading": "### Returns",
+            "render_as": "definition_list",
+            "css_class": "returns-section",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "continuation_indent": 4,
+                "preserve_relative": true
+            },
+            "_formatting_rules": {
+                "inline_description_required": true,
+                "type_format": "type: description",
+                "nested_components_allowed": true,
+                "nested_format": "- component_name (type): description"
+            },
+            "transformations": [
+                {
+                    "type": "code_backticks"
+                }
+            ]
+        },
+        "raises": {
+            "docstring_header": "Raises:",
+            "vitepress_heading": "### Raises",
+            "render_as": "definition_list",
+            "css_class": "raises-section",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "preserve_relative": false
+            },
+            "_formatting_rules": {
+                "inline_description_required": true,
+                "type_format": "ExceptionType: description"
+            },
+            "transformations": []
+        },
+        "references": {
+            "docstring_header": "References:",
+            "vitepress_heading": "## References",
+            "render_as": "vue_component",
+            "component_name": "ReferenceList",
+            "css_class": "references-section",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "preserve_relative": true
+            },
+            "_formatting_rules": {
+                "citation_format": "[n] Author(s) (Year). \"Title.\" _Journal_, Volume(Issue), Pages. DOI",
+                "continuation_indent": 12,
+                "subsection_headers": [
+                    "**COCO Data Archive**:",
+                    "**Implementation**:"
+                ]
+            },
+            "transformations": [
+                {
+                    "type": "italic_journals"
+                },
+                {
+                    "type": "link_dois"
+                }
+            ]
+        },
+        "see_also": {
+            "docstring_header": "See Also:",
+            "vitepress_heading": "## See Also",
+            "render_as": "definition_list",
+            "css_class": "see-also-section",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "preserve_relative": true
+            },
+            "transformations": [
+                {
+                    "type": "code_backticks"
+                }
+            ]
+        },
+        "notes_simple": {
+            "docstring_header": "Notes:",
+            "vitepress_heading": "## Notes",
+            "render_as": "bullet_list",
+            "css_class": "notes-simple",
+            "_applies_when": "content starts with '- ' (bullet list format)",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "preserve_relative": true
+            },
+            "transformations": [
+                {
+                    "type": "code_backticks"
+                },
+                {
+                    "type": "latex_to_katex"
+                }
+            ]
+        },
+        "notes_structured": {
+            "docstring_header": "Notes:",
+            "vitepress_heading": "## Notes",
+            "render_as": "collapsible_details",
+            "container_type": "details",
+            "css_class": "notes-structured",
+            "_applies_when": "content has **bold headers** (structured format)",
+            "indentation_rules": {
+                "base_indent": 8,
+                "list_indent": 12,
+                "preserve_relative": true
+            },
+            "_subsection_mappings": {
+                "**Computational Complexity**:": {
+                    "container_type": "info",
+                    "title": "Computational Complexity"
+                },
+                "**BBOB Performance Characteristics**:": {
+                    "container_type": "tip",
+                    "title": "BBOB Performance"
+                },
+                "**Convergence Properties**:": {
+                    "container_type": "info",
+                    "title": "Convergence Properties"
+                },
+                "**Reproducibility**:": {
+                    "container_type": "warning",
+                    "title": "Reproducibility Notes"
+                },
+                "**Pareto Front Characteristics**:": {
+                    "container_type": "info",
+                    "title": "Pareto Front Characteristics"
+                },
+                "**Implementation Details**:": {
+                    "container_type": "details",
+                    "title": "Implementation Details"
+                },
+                "**Known Limitations**:": {
+                    "container_type": "warning",
+                    "title": "Known Limitations"
+                },
+                "**Version History**:": {
+                    "container_type": "details",
+                    "title": "Version History"
+                }
+            },
+            "transformations": [
+                {
+                    "type": "bold_headers"
+                },
+                {
+                    "type": "latex_to_katex"
+                },
+                {
+                    "type": "code_backticks"
+                }
+            ]
+        }
+    },
+    "frontmatter_template": {
+        "title": "algorithm_metadata.algorithm_name",
+        "description": "summary",
+        "layout": "doc",
+        "outline": [
+            2,
+            3
+        ],
+        "custom_fields": {
+            "algorithm_class": "algorithm_metadata.algorithm_class",
+            "year_introduced": "algorithm_metadata.year_introduced",
+            "coco_compatible": "algorithm_metadata.coco_compatible"
+        }
+    },
+    "custom_containers": {
+        "algorithm_info": {
+            "type": "info",
+            "title": "Algorithm Information",
+            "sections": [
+                "algorithm_metadata"
+            ]
+        },
+        "bbob_settings": {
+            "type": "tip",
+            "title": "COCO/BBOB Benchmark Configuration"
+        },
+        "performance_notes": {
+            "type": "details",
+            "title": "Performance Characteristics",
+            "open_by_default": false
+        },
+        "known_limitations": {
+            "type": "warning",
+            "title": "Known Limitations"
+        }
+    },
+    "component_registry": {
+        "algorithm_metadata_table": {
+            "component": "AlgorithmMetadataTable",
+            "props": [
+                "metadata",
+                "badgeType"
+            ]
+        },
+        "parameter_table": {
+            "component": "ParameterTable",
+            "props": [
+                "parameters",
+                "showBBOB"
+            ]
+        },
+        "hyperparameter_table": {
+            "component": "HyperparameterTable",
+            "props": [
+                "hyperparameters",
+                "sensitivityAnalysis"
+            ]
+        },
+        "reference_list": {
+            "component": "ReferenceList",
+            "props": [
+                "citations",
+                "cocoArchive"
+            ]
+        },
+        "math_block": {
+            "component": "MathBlock",
+            "props": [
+                "equation",
+                "variables"
+            ]
+        },
+        "convergence_chart": {
+            "component": "ConvergenceChart",
+            "props": [
+                "algorithmName",
+                "benchmarkFunction"
+            ]
+        }
+    },
+    "_linting_rules": {
+        "ruff_ruf002_compliance": {
+            "description": "Unicode to LaTeX transformation rules for Ruff RUF002",
+            "transformations": [
+                {
+                    "from": "×",
+                    "to": "$\\times$"
+                },
+                {
+                    "from": "α",
+                    "to": "$\\alpha$"
+                },
+                {
+                    "from": "β",
+                    "to": "$\\beta$"
+                },
+                {
+                    "from": "γ",
+                    "to": "$\\gamma$"
+                },
+                {
+                    "from": "δ",
+                    "to": "$\\delta$"
+                },
+                {
+                    "from": "ε",
+                    "to": "$\\epsilon$"
+                },
+                {
+                    "from": "λ",
+                    "to": "$\\lambda$"
+                },
+                {
+                    "from": "μ",
+                    "to": "$\\mu$"
+                },
+                {
+                    "from": "σ",
+                    "to": "$\\sigma$"
+                },
+                {
+                    "from": "θ",
+                    "to": "$\\theta$"
+                },
+                {
+                    "from": "ω",
+                    "to": "$\\omega$"
+                },
+                {
+                    "from": "∞",
+                    "to": "$\\infty$"
+                },
+                {
+                    "from": "≤",
+                    "to": "$\\leq$"
+                },
+                {
+                    "from": "≥",
+                    "to": "$\\geq$"
+                },
+                {
+                    "from": "≠",
+                    "to": "$\\neq$"
+                },
+                {
+                    "from": "∈",
+                    "to": "$\\in$"
+                },
+                {
+                    "from": "∑",
+                    "to": "$\\sum$"
+                },
+                {
+                    "from": "∏",
+                    "to": "$\\prod$"
+                }
+            ]
+        },
+        "inline_description_check": {
+            "description": "Ensure Args/Attributes/Returns have inline descriptions",
+            "pattern": "^\\s{8,}[A-Za-z_]\\w*\\s*\\([^)]*\\):\\s*$",
+            "error_message": "Parameter description must start on same line as 'name (type):'"
+        },
+        "indentation_check": {
+            "base_indent": 4,
+            "section_content_indent": 8,
+            "list_item_indent": 12,
+            "continuation_indent_delta": 4
+        }
+    }
+}

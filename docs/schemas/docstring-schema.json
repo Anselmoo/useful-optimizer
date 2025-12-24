@@ -1,0 +1,721 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://github.com/Anselmoo/useful-optimizer/schemas/docstring-schema.json",
+    "title": "COCO/BBOB Optimizer Docstring Schema",
+    "description": "JSON Schema for validating and structuring optimizer docstrings in Google style for the useful-optimizer library",
+    "type": "object",
+    "required": [
+        "algorithm_metadata",
+        "coco_bbob_benchmark_settings",
+        "example",
+        "args",
+        "attributes",
+        "notes",
+        "references"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "JSON Schema reference"
+        },
+        "summary": {
+            "type": "string",
+            "description": "One-line summary of the algorithm (first line of docstring)",
+            "maxLength": 80
+        },
+        "extended_description": {
+            "type": "string",
+            "description": "Extended description after blank line following summary"
+        },
+        "algorithm_metadata": {
+            "$ref": "#/definitions/AlgorithmMetadata"
+        },
+        "mathematical_formulation": {
+            "$ref": "#/definitions/MathematicalFormulation"
+        },
+        "hyperparameters": {
+            "$ref": "#/definitions/Hyperparameters"
+        },
+        "coco_bbob_benchmark_settings": {
+            "$ref": "#/definitions/COCOBBOBSettings"
+        },
+        "example": {
+            "$ref": "#/definitions/Example"
+        },
+        "args": {
+            "$ref": "#/definitions/Args"
+        },
+        "attributes": {
+            "$ref": "#/definitions/Attributes"
+        },
+        "methods": {
+            "$ref": "#/definitions/Methods"
+        },
+        "returns": {
+            "$ref": "#/definitions/Returns"
+        },
+        "raises": {
+            "$ref": "#/definitions/Raises"
+        },
+        "references": {
+            "$ref": "#/definitions/References"
+        },
+        "see_also": {
+            "$ref": "#/definitions/SeeAlso"
+        },
+        "notes": {
+            "$ref": "#/definitions/Notes"
+        }
+    },
+    "definitions": {
+        "AlgorithmMetadata": {
+            "type": "object",
+            "description": "Algorithm Metadata block (table format in docstring)",
+            "required": [
+                "algorithm_name",
+                "acronym",
+                "year_introduced",
+                "authors",
+                "algorithm_class",
+                "complexity",
+                "properties",
+                "implementation",
+                "coco_compatible"
+            ],
+            "properties": {
+                "algorithm_name": {
+                    "type": "string",
+                    "description": "Full algorithm name"
+                },
+                "acronym": {
+                    "type": "string",
+                    "description": "Short acronym (e.g., PSO, GA, CMA-ES)",
+                    "pattern": "^[A-Z][A-Z0-9-]*$"
+                },
+                "year_introduced": {
+                    "type": "integer",
+                    "description": "Year the algorithm was first published",
+                    "minimum": 1900,
+                    "maximum": 2100
+                },
+                "authors": {
+                    "type": "string",
+                    "description": "Authors in format: Last, First; Last2, First2"
+                },
+                "algorithm_class": {
+                    "type": "string",
+                    "description": "Category of algorithm",
+                    "enum": [
+                        "Swarm Intelligence",
+                        "Evolutionary",
+                        "Gradient-Based",
+                        "Classical",
+                        "Metaheuristic",
+                        "Physics-Inspired",
+                        "Probabilistic",
+                        "Social-Inspired",
+                        "Constrained",
+                        "Multi-Objective",
+                        "Multi-Objective Decomposition"
+                    ]
+                },
+                "complexity": {
+                    "type": "string",
+                    "description": "Time complexity using LaTeX notation (e.g., 'O(n $\\times$ m)')"
+                },
+                "properties": {
+                    "type": "array",
+                    "description": "Algorithm properties",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "Population-based",
+                            "Single-solution",
+                            "Derivative-free",
+                            "Gradient-based",
+                            "Stochastic",
+                            "Deterministic",
+                            "Adaptive",
+                            "Parallel-capable",
+                            "Decomposition-based",
+                            "Neighborhood search",
+                            "Archive-based"
+                        ]
+                    }
+                },
+                "implementation": {
+                    "type": "string",
+                    "description": "Implementation language and version",
+                    "default": "Python 3.10+"
+                },
+                "coco_compatible": {
+                    "type": "boolean",
+                    "description": "Whether algorithm is COCO/BBOB compatible",
+                    "default": true
+                }
+            }
+        },
+        "MathematicalFormulation": {
+            "type": "object",
+            "description": "Mathematical formulation section with LaTeX equations",
+            "properties": {
+                "core_equation": {
+                    "type": "string",
+                    "description": "Main update equation in LaTeX (display math $$ ... $$)"
+                },
+                "variables": {
+                    "type": "array",
+                    "description": "Variable definitions",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "symbol": {
+                                "type": "string",
+                                "description": "LaTeX symbol (e.g., '$x_t$')"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "symbol",
+                            "description"
+                        ]
+                    }
+                },
+                "constraint_handling": {
+                    "type": "object",
+                    "properties": {
+                        "boundary_conditions": {
+                            "type": "string",
+                            "enum": [
+                                "clamping",
+                                "reflection",
+                                "periodic",
+                                "penalty"
+                            ]
+                        },
+                        "feasibility_enforcement": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "Hyperparameters": {
+            "type": "object",
+            "description": "Hyperparameters table and sensitivity analysis",
+            "properties": {
+                "table": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "parameter",
+                            "default",
+                            "description"
+                        ],
+                        "properties": {
+                            "parameter": {
+                                "type": "string"
+                            },
+                            "default": {
+                                "type": [
+                                    "string",
+                                    "number",
+                                    "boolean",
+                                    "null"
+                                ]
+                            },
+                            "bbob_recommended": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "sensitivity_analysis": {
+                    "type": "array",
+                    "description": "Sensitivity notes for each parameter",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "parameter": {
+                                "type": "string"
+                            },
+                            "impact": {
+                                "type": "string",
+                                "enum": [
+                                    "High",
+                                    "Medium",
+                                    "Low"
+                                ]
+                            },
+                            "notes": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "COCOBBOBSettings": {
+            "type": "object",
+            "description": "COCO/BBOB Benchmark Settings section",
+            "properties": {
+                "search_space": {
+                    "type": "object",
+                    "properties": {
+                        "dimensions_tested": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer",
+                                "enum": [
+                                    2,
+                                    3,
+                                    5,
+                                    10,
+                                    20,
+                                    40
+                                ]
+                            },
+                            "default": [
+                                2,
+                                3,
+                                5,
+                                10,
+                                20,
+                                40
+                            ]
+                        },
+                        "bounds": {
+                            "type": "string",
+                            "description": "Typical bounds description"
+                        },
+                        "instances": {
+                            "type": "integer",
+                            "description": "Number of instances per function",
+                            "default": 15
+                        }
+                    }
+                },
+                "evaluation_budget": {
+                    "type": "object",
+                    "properties": {
+                        "budget_formula": {
+                            "type": "string",
+                            "description": "Budget formula (e.g., 'dim * 10000')"
+                        },
+                        "independent_runs": {
+                            "type": "integer",
+                            "default": 15
+                        },
+                        "seeds": {
+                            "type": "string",
+                            "description": "Seed range description",
+                            "default": "0-14"
+                        }
+                    }
+                },
+                "performance_metrics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "target_precision",
+                            "success_rate",
+                            "expected_running_time",
+                            "hypervolume",
+                            "inverted_generational_distance",
+                            "spread",
+                            "epsilon_indicator"
+                        ]
+                    }
+                }
+            }
+        },
+        "Example": {
+            "type": "object",
+            "description": "Example section with doctest code",
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "description": "Introductory text before code"
+                },
+                "code": {
+                    "type": "string",
+                    "description": "Doctest code block (>>> prefixed lines)"
+                },
+                "requires_seed": {
+                    "type": "boolean",
+                    "description": "Whether example must include seed=42",
+                    "default": true
+                }
+            }
+        },
+        "Args": {
+            "type": "object",
+            "description": "Arguments section - parameters must have inline descriptions",
+            "required": [
+                "parameters"
+            ],
+            "properties": {
+                "parameters": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Parameter"
+                    }
+                }
+            }
+        },
+        "Parameter": {
+            "type": "object",
+            "description": "Single parameter definition - description MUST start on same line as name",
+            "required": [
+                "name",
+                "type",
+                "description"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "description": "Parameter name"
+                },
+                "type": {
+                    "type": "string",
+                    "description": "Type annotation (e.g., 'int', 'float', 'Callable[[ndarray], float]')"
+                },
+                "optional": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "default": {
+                    "type": [
+                        "string",
+                        "number",
+                        "boolean",
+                        "null"
+                    ],
+                    "description": "Default value if optional"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description - MUST be on same line as 'name (type):'"
+                },
+                "bbob_guidance": {
+                    "type": "string",
+                    "description": "BBOB-specific recommendations"
+                }
+            }
+        },
+        "Attributes": {
+            "type": "object",
+            "description": "Instance attributes section",
+            "required": [
+                "attributes"
+            ],
+            "properties": {
+                "attributes": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Parameter"
+                    }
+                }
+            }
+        },
+        "Methods": {
+            "type": "object",
+            "description": "Methods section documenting class methods",
+            "properties": {
+                "methods": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "signature",
+                            "description"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "signature": {
+                                "type": "string",
+                                "description": "Method signature (e.g., 'search() -> tuple[ndarray, float]')"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "Description - MUST be on same line after signature"
+                            },
+                            "returns": {
+                                "$ref": "#/definitions/Returns"
+                            },
+                            "raises": {
+                                "$ref": "#/definitions/Raises"
+                            },
+                            "notes": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "Returns": {
+            "type": "object",
+            "description": "Returns section - type description MUST have inline summary",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "Return type annotation"
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description - MUST be on same line as type"
+                },
+                "components": {
+                    "type": "array",
+                    "description": "Sub-components for tuple returns (indented list)",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "type": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "Raises": {
+            "type": "object",
+            "description": "Raises section",
+            "properties": {
+                "exceptions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "type",
+                            "description"
+                        ],
+                        "properties": {
+                            "type": {
+                                "type": "string",
+                                "description": "Exception type name"
+                            },
+                            "description": {
+                                "type": "string",
+                                "description": "When this exception is raised"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "References": {
+            "type": "object",
+            "description": "References section with academic citations and links",
+            "properties": {
+                "citations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "number",
+                            "authors",
+                            "year",
+                            "title"
+                        ],
+                        "properties": {
+                            "number": {
+                                "type": "integer",
+                                "description": "Citation number [1], [2], etc."
+                            },
+                            "authors": {
+                                "type": "string"
+                            },
+                            "year": {
+                                "type": "integer"
+                            },
+                            "title": {
+                                "type": "string"
+                            },
+                            "journal": {
+                                "type": "string",
+                                "description": "Journal name (italic in docstring)"
+                            },
+                            "volume": {
+                                "type": "string"
+                            },
+                            "pages": {
+                                "type": "string"
+                            },
+                            "doi": {
+                                "type": "string",
+                                "pattern": "^https?://doi\\.org/"
+                            }
+                        }
+                    }
+                },
+                "coco_data_archive": {
+                    "type": "object",
+                    "properties": {
+                        "benchmark_results_url": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "algorithm_data_url": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "code_repository_url": {
+                            "type": "string",
+                            "format": "uri"
+                        }
+                    }
+                },
+                "implementation": {
+                    "type": "object",
+                    "properties": {
+                        "original_paper_code_url": {
+                            "type": "string",
+                            "format": "uri"
+                        },
+                        "notes": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "SeeAlso": {
+            "type": "object",
+            "description": "See Also section linking related algorithms",
+            "properties": {
+                "related_algorithms": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "name",
+                            "description"
+                        ],
+                        "properties": {
+                            "name": {
+                                "type": "string"
+                            },
+                            "description": {
+                                "type": "string"
+                            },
+                            "bbob_comparison": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "base_classes": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "related_modules": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "Notes": {
+            "type": "object",
+            "description": "Notes section - supports two formats: simple list or structured subsections",
+            "properties": {
+                "format": {
+                    "type": "string",
+                    "enum": [
+                        "simple",
+                        "structured"
+                    ],
+                    "description": "Simple = bullet list, Structured = bold headers with sublists"
+                },
+                "simple_notes": {
+                    "type": "array",
+                    "description": "Simple bullet point notes",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "structured_notes": {
+                    "type": "object",
+                    "description": "Structured notes with subsections (bold headers)",
+                    "properties": {
+                        "computational_complexity": {
+                            "$ref": "#/definitions/NotesSubsection"
+                        },
+                        "bbob_performance_characteristics": {
+                            "$ref": "#/definitions/NotesSubsection"
+                        },
+                        "convergence_properties": {
+                            "$ref": "#/definitions/NotesSubsection"
+                        },
+                        "reproducibility": {
+                            "$ref": "#/definitions/NotesSubsection"
+                        },
+                        "pareto_front_characteristics": {
+                            "$ref": "#/definitions/NotesSubsection"
+                        },
+                        "implementation_details": {
+                            "$ref": "#/definitions/NotesSubsection"
+                        },
+                        "known_limitations": {
+                            "$ref": "#/definitions/NotesSubsection"
+                        },
+                        "version_history": {
+                            "$ref": "#/definitions/NotesSubsection"
+                        }
+                    }
+                }
+            }
+        },
+        "NotesSubsection": {
+            "type": "object",
+            "description": "A subsection within Notes (rendered with **bold header**)",
+            "properties": {
+                "header": {
+                    "type": "string",
+                    "description": "Header text (without ** markers)"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "label": {
+                                "type": "string",
+                                "description": "Item label (rendered as **bold** if present)"
+                            },
+                            "value": {
+                                "type": "string",
+                                "description": "Item value/description"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
