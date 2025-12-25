@@ -41,7 +41,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from 
+from
 
 if TYPE_CHECKING:
     from collections.abc import Callable
