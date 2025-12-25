@@ -33,7 +33,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -49,12 +49,12 @@ class ADAGrad(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adaptive Gradient Algorithm              |
-        | Acronym           | AdaGrad                                  |
+        | Acronym           | ADAGRAD                                  |
         | Year Introduced   | 2011                                     |
         | Authors           | Duchi, John; Hazan, Elad; Singer, Yoram  |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Parameter-wise  |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

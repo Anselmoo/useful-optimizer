@@ -18,7 +18,7 @@ from pathlib import Path
 # Add repository root to path for imports
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
-from scripts.docstring_models import CocoBbobOptimizerDocstringSchema
+from scripts.docstring_models import COCOBBOBOptimizerDocstringSchema
 
 
 # Section headers that define boundaries in docstrings
@@ -209,7 +209,7 @@ class DocstringParser:
 
         return parameters if parameters else None
 
-    def parse_file(self, file_path: Path) -> CocoBbobOptimizerDocstringSchema:
+    def parse_file(self, file_path: Path) -> COCOBBOBOptimizerDocstringSchema:
         """Extract and validate class docstring from file.
 
         Args:
@@ -295,7 +295,7 @@ class DocstringParser:
         parsed_dict["references"] = {"citations": []}
 
         # Validate with Pydantic
-        return CocoBbobOptimizerDocstringSchema.model_validate(parsed_dict)
+        return COCOBBOBOptimizerDocstringSchema.model_validate(parsed_dict)
 
 
 def main() -> None:

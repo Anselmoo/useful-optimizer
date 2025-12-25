@@ -44,7 +44,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -70,7 +70,7 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
         | Authors           | Faramarzi, Afshin; Heidarinejad, Mohammad; Mirjalili, Seyedali; Gandomi, Amir H. |
         | Algorithm Class   | Swarm Intelligence |
         | Complexity        | O(population_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Lévy flights, Brownian motion, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

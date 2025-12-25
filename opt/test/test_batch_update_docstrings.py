@@ -38,7 +38,7 @@ def temp_optimizer_file() -> Generator[Path, None, None]:
 from __future__ import annotations
 from typing import TYPE_CHECKING
 import numpy as np
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 if TYPE_CHECKING:
     from collections.abc import Callable

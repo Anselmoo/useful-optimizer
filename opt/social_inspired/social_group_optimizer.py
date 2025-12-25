@@ -32,7 +32,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -49,9 +49,9 @@ class SocialGroupOptimizer(AbstractOptimizer):
         | Acronym           | SGO                                      |
         | Year Introduced   | 2016                                     |
         | Authors           | Satapathy, S. C.; Naik, A.               |
-        | Algorithm Class   | Social Inspired                          |
+        | Algorithm Class   | Social-Inspired                          |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Derivative-free, Three-phase |
+        | Properties        | Population-based, Derivative-free    |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

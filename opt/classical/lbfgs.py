@@ -34,7 +34,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -55,7 +55,7 @@ class LBFGS(AbstractOptimizer):
         | Authors           | Nocedal, Jorge                           |
         | Algorithm Class   | Classical                                |
         | Complexity        | O(mn) per iteration (m corrections)      |
-        | Properties        | Gradient-based, Quasi-Newton, Limited memory, Deterministic |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

@@ -41,7 +41,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -60,9 +60,9 @@ class NesterovAcceleratedGradient(AbstractOptimizer):
         | Acronym           | NAG                                      |
         | Year Introduced   | 1983                                     |
         | Authors           | Nesterov, Yurii                          |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Momentum-based, Lookahead gradient       |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

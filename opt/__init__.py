@@ -16,8 +16,10 @@ All optimizers are re-exported at the package level for backward compatibility.
 
 from __future__ import annotations
 
+from opt.abstract import AbstractMultiObjectiveOptimizer
+
 # Base class
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 # Classical algorithms
 from opt.classical import BFGS

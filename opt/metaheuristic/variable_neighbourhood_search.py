@@ -38,7 +38,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -59,7 +59,7 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
         | Authors           | Mladenović, Nenad; Hansen, Pierre        |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(neighborhood_size * dim * max_iter)    |
-        | Properties        | Local search, Neighborhood-based, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

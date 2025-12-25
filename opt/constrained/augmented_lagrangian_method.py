@@ -37,7 +37,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 from opt.benchmark.functions import shifted_ackley
 
 
@@ -59,7 +59,7 @@ class AugmentedLagrangian(AbstractOptimizer):
         | Authors           | Hestenes, Magnus R.; Powell, Michael J.D.|
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per inner iteration                |
-        | Properties        | Gradient-based, Constraint handling      |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

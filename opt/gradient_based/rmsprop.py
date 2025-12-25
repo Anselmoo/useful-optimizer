@@ -43,7 +43,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -59,12 +59,12 @@ class RMSprop(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Root Mean Square Propagation             |
-        | Acronym           | RMSprop                                  |
+        | Acronym           | RMSPROP                                  |
         | Year Introduced   | 2012                                     |
         | Authors           | Hinton, Geoffrey; Srivastava, Nitish    |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Moving average   |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

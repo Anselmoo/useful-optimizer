@@ -46,7 +46,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -63,11 +63,11 @@ class VariableDepthSearch(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Variable Depth Search                    |
         | Acronym           | VDS                                      |
-        | Year Introduced   | 1973 (Lin & Kernighan for TSP)           |
+        | Year Introduced   | 1973                                     |
         | Authors           | Lin, Shen; Kernighan, Brian W.           |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ max_depth $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Local search, Adaptive neighborhood |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

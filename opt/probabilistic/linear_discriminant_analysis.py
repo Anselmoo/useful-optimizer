@@ -36,7 +36,7 @@ from scipy.optimize import minimize
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.preprocessing import KBinsDiscretizer
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -52,12 +52,12 @@ class LDAnalysis(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Linear Discriminant Analysis Optimizer   |
-        | Acronym           | LDA-Opt                                  |
-        | Year Introduced   | 1936 (LDA by Fisher), adapted for optimization |
+        | Acronym           | LDA-OPT                                  |
+        | Year Introduced   | 1936                                     |
         | Authors           | Fisher, Ronald A. (LDA); Implementation adapted |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(N*dim² + dim³) per iteration          |
-        | Properties        | Model-based, Population, Discriminative  |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

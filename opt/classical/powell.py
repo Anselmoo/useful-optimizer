@@ -39,7 +39,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -55,12 +55,12 @@ class Powell(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Powell's Conjugate Direction Method      |
-        | Acronym           | Powell                                   |
+        | Acronym           | POWELL                                   |
         | Year Introduced   | 1964                                     |
         | Authors           | Powell, Michael J. D.                    |
         | Algorithm Class   | Classical                                |
         | Complexity        | O(n²) per iteration                      |
-        | Properties        | Derivative-free, Conjugate directions, Deterministic |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

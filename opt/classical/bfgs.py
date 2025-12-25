@@ -34,7 +34,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -55,7 +55,7 @@ class BFGS(AbstractOptimizer):
         | Authors           | Broyden, Charles; Fletcher, Roger; Goldfarb, Donald; Shanno, David |
         | Algorithm Class   | Classical                                |
         | Complexity        | O(n²) per iteration                      |
-        | Properties        | Gradient-based, Quasi-Newton, Deterministic |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

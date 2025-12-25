@@ -46,7 +46,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 from opt.constants import ADAMW_LEARNING_RATE
 from opt.constants import ADAMW_WEIGHT_DECAY
 from opt.constants import ADAM_BETA1
@@ -68,12 +68,12 @@ class AdamW(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adam with Decoupled Weight Decay         |
-        | Acronym           | AdamW                                    |
+        | Acronym           | ADAMW                                    |
         | Year Introduced   | 2017                                     |
         | Authors           | Loshchilov, Ilya; Hutter, Frank          |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Weight decay     |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

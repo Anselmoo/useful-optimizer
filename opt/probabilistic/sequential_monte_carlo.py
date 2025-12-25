@@ -31,7 +31,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -50,7 +50,7 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         | Authors           | Del Moral, Pierre; Doucet, Arnaud; Jasra, Ajay |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(N*dim) per iteration with N particles  |
-        | Properties        | Population-based, Particle filtering, Adaptive |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

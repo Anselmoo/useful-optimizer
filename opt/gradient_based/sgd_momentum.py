@@ -41,7 +41,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -60,9 +60,9 @@ class SGDMomentum(AbstractOptimizer):
         | Acronym           | SGD-M                                    |
         | Year Introduced   | 1964                                     |
         | Authors           | Polyak, Boris T.                         |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | First-order, Momentum-based              |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

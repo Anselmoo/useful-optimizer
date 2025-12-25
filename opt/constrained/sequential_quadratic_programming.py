@@ -35,7 +35,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -54,7 +54,7 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
         | Authors           | Wilson, R. B.; Han, S. P.; Powell, M. J. D.|
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per QP subproblem                  |
-        | Properties        | Gradient-based, Quadratic subproblems    |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

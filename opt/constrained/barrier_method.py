@@ -35,7 +35,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -50,11 +50,11 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Barrier Method (Interior Point)          |
         | Acronym           | IPM                                      |
-        | Year Introduced   | 1955 (Frisch), 1968 (Fiacco-McCormick)  |
+        | Year Introduced   | 1968                                     |
         | Authors           | Fiacco, Anthony V.; McCormick, Garth P.  |
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per iteration                      |
-        | Properties        | Interior-point, Gradient-based           |
+        | Properties        | Gradient-based, Deterministic            |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

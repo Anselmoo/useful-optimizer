@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -39,7 +39,7 @@ class AtomSearchOptimizer(AbstractOptimizer):
         | Acronym           | ASO                                      |
         | Year Introduced   | 2019                                     |
         | Authors           | Zhao, Weiguo; Wang, Liying; Zhang, Zhenxing |
-        | Algorithm Class   | Physics Inspired                         |
+        | Algorithm Class   | Physics-Inspired                         |
         | Complexity        | O(N² $\times$ dim $\times$ max_iter)     |
         | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |

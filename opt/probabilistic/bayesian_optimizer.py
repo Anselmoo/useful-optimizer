@@ -33,7 +33,7 @@ import numpy as np
 from scipy.optimize import minimize
 from scipy.stats import norm
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -52,7 +52,7 @@ class BayesianOptimizer(AbstractOptimizer):
         | Authors           | Snoek, Jasper; Larochelle, Hugo; Adams, Ryan P. |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(n³) per iteration (GP regression)      |
-        | Properties        | Model-based, Sequential, Global search   |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

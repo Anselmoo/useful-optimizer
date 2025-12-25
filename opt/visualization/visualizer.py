@@ -15,7 +15,7 @@ if TYPE_CHECKING:
     from matplotlib.axes import Axes
     from matplotlib.figure import Figure
 
-    from opt.abstract_optimizer import AbstractOptimizer
+    from opt.abstract import AbstractOptimizer
 
 
 class Visualizer:

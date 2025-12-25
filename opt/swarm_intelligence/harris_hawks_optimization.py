@@ -42,7 +42,7 @@ import math
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 # Algorithm-specific constants (from original paper)
@@ -63,7 +63,7 @@ class HarrisHawksOptimizer(AbstractOptimizer):
         | Authors           | Heidari, Ali Asghar; Mirjalili, Seyedali; et al. |
         | Algorithm Class   | Swarm Intelligence                       |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Cooperative hunting, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

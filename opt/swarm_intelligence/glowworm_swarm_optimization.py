@@ -37,7 +37,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -58,7 +58,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
         | Authors           | Krishnanand, Kaipa N.; Ghose, Debasish   |
         | Algorithm Class   | Swarm Intelligence |
         | Complexity        | O(population_size $\times$ population_size $\times$ dim) |
-        | Properties        | Population-based, Multimodal optimization, Luciferin-based, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

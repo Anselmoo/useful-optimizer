@@ -34,7 +34,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -51,11 +51,11 @@ class HillClimbing(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Hill Climbing                            |
         | Acronym           | HC                                       |
-        | Year Introduced   | 1950s                                    |
+        | Year Introduced   | 1958                                     |
         | Authors           | Various (classic heuristic method)       |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O(n \times \text{candidates} \times \text{iterations})$           |
-        | Properties        | Local search, Greedy, Derivative-free, Adaptive step |
+        | Properties        | Single-solution, Deterministic       |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

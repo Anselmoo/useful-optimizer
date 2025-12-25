@@ -47,7 +47,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -64,11 +64,11 @@ class VeryLargeScaleNeighborhood(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Very Large Scale Neighborhood Search     |
         | Acronym           | VLSN                                     |
-        | Year Introduced   | 2000 (Ahuja et al.)                      |
+        | Year Introduced   | 2000                                     |
         | Authors           | Ahuja, Ravindra K.; Orlin, James B.; Sharma, Dushyant |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ neighborhood_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Large neighborhood, Local search-based |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

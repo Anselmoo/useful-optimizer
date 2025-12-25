@@ -37,7 +37,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -58,7 +58,7 @@ class NelderMead(AbstractOptimizer):
         | Authors           | Nelder, John; Mead, Roger                |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O((n+1) \times \text{evals})$ per iteration           |
-        | Properties        | Derivative-free, Simplex-based, Deterministic |
+        | Properties        | Derivative-free, Deterministic       |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

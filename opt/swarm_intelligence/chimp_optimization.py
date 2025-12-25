@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -33,7 +33,7 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Chimp Optimization Algorithm             |
-        | Acronym           | ChOA                           |
+        | Acronym           | CHOA                                     |
         | Year Introduced   | 2020                            |
         | Authors           | Various (see References)                |
         | Algorithm Class   | Swarm Intelligence |

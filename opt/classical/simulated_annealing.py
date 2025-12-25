@@ -24,7 +24,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -45,7 +45,7 @@ class SimulatedAnnealing(AbstractOptimizer):
         | Authors           | Kirkpatrick, Scott; Gelatt, C. Daniel; Vecchi, Mario |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O(\text{iterations} \times \text{evaluations})$              |
-        | Properties        | Metaheuristic, Probabilistic, Global search |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

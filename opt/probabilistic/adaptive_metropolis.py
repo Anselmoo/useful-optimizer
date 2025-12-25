@@ -26,7 +26,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -45,7 +45,7 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
         | Authors           | Haario, Heikki; Saksman, Eero; Tamminen, Johanna |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(dim²) per iteration                    |
-        | Properties        | MCMC-based, Single-chain, Adaptive       |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

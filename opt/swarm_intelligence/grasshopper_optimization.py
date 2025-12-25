@@ -41,7 +41,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -67,7 +67,7 @@ class GrasshopperOptimizer(AbstractOptimizer):
         | Authors           | Saremi, Shahrzad; Mirjalili, Seyedali; Lewis, Andrew |
         | Algorithm Class   | Swarm Intelligence |
         | Complexity        | O(population_size $\times$ population_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Social forces, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 

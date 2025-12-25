@@ -41,8 +41,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
-
+from
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -291,6 +290,7 @@ class FireflyAlgorithm(AbstractOptimizer):
         beta_0: float = 1,
         gamma: float = 1,
         seed: int | None = None,
+        track_history: bool = False,  # noqa: FBT001, FBT002
     ) -> None:
         """Initialize the FireflyAlgorithm class."""
         super().__init__(
@@ -301,6 +301,7 @@ class FireflyAlgorithm(AbstractOptimizer):
             max_iter=max_iter,
             seed=seed,
             population_size=population_size,
+            track_history=track_history,
         )
         self.alpha = alpha
         self.beta_0 = beta_0
@@ -319,7 +320,20 @@ class FireflyAlgorithm(AbstractOptimizer):
         )
         fitness = np.apply_along_axis(self.func, 1, population)
 
+        best_index = int(fitness.argmin())
+        best_solution = population[best_index].copy()
+        best_fitness = float(fitness[best_index])
+
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                    population_fitness=fitness.copy(),
+                    population=population.copy(),
+                )
+
             for i in range(self.population_size):
                 for j in range(self.population_size):
                     if fitness[i] < fitness[j]:
@@ -335,9 +349,20 @@ class FireflyAlgorithm(AbstractOptimizer):
                         )
                         fitness[j] = self.func(population[j])
 
-        best_index = fitness.argmin()
-        best_solution = population[best_index]
-        best_fitness = fitness[best_index]
+            best_index = int(fitness.argmin())
+            best_solution = population[best_index]
+            best_fitness = float(fitness[best_index])
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+                population_fitness=fitness.copy(),
+                population=population.copy(),
+            )
+            self._finalize_history()
+
         return best_solution, best_fitness
 
 

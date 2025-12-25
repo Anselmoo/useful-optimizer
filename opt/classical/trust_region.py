@@ -39,7 +39,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -56,11 +56,11 @@ class TrustRegion(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Trust Region Method                      |
         | Acronym           | TR                                       |
-        | Year Introduced   | 1980s                                    |
+        | Year Introduced   | 1983                                     |
         | Authors           | Powell, M. J. D.; Conn, A. R.; et al.   |
         | Algorithm Class   | Classical                                |
         | Complexity        | O(n³) per iteration (subproblem solve)   |
-        | Properties        | Model-based, Gradient-based, Adaptive radius |
+        | Properties        | Adaptive, Gradient-based             |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
