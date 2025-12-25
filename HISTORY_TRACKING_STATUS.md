@@ -11,6 +11,7 @@ This document tracks the implementation of history tracking across all optimizer
 - [x] `docs/schemas/docstring-schema.json` updated with new property enums
 - [x] `.pre-commit-config.yaml` updated to exclude `__init__.py` files
 - [x] `benchmarks/generate_plots.py` fixed to use correct history access pattern
+- [x] `benchmarks/models.py` updated to include `convergence_history` on `Run` model and validate exports (2025-12-25)
 
 ### 2. Abstract Base Classes
 - [x] `opt/abstract/single_objective.py` (copy of `abstract_optimizer.py`)
@@ -22,7 +23,7 @@ This document tracks the implementation of history tracking across all optimizer
 
 ## Optimizers with History Tracking ✅ (3/120+)
 
-### Benchmark Suite Optimizers (13 total, 3 implemented)
+### Benchmark Suite Optimizers (120+ total; 10 required for suite)
 - [x] **ParticleSwarm** (`opt/swarm_intelligence/particle_swarm.py`) - COMPLETE
 - [x] **AntColony** (`opt/swarm_intelligence/ant_colony.py`) - COMPLETE
 - [x] **FireflyAlgorithm** (`opt/swarm_intelligence/firefly_algorithm.py`) - COMPLETE
@@ -36,6 +37,109 @@ This document tracks the implementation of history tracking across all optimizer
 - [ ] NelderMead (`opt/classical/nelder_mead.py`)
 - [ ] AdamW (`opt/gradient_based/adamw.py`)
 - [ ] SGDMomentum (`opt/gradient_based/sgd_momentum.py`)
+"""
+Collection of optimizers and related utilities included in the opt package.
+
+Structure and brief descriptions:
+
+Abstract utilities
+- abstract.history: History tracking utilities (memory-efficient trackers for runs and evaluations).
+- abstract.single_objective: Base classes and interfaces for single-objective optimizers.
+- abstract.multi_objective: Base classes and interfaces for multi-objective optimizers.
+
+Benchmark tools
+- benchmark.functions: Standard benchmark/test functions used for experiments (e.g., BBOB/COCO style).
+
+Classical optimization methods
+- bfgs: Quasi-Newton BFGS method for smooth unconstrained optimization.
+- conjugate_gradient: Conjugate gradient methods for large-scale smooth problems.
+- hill_climbing: Simple local search by iterative improvement (hill climbing).
+- lbfgs: Limited-memory BFGS variant for large-scale problems.
+- nelder_mead: Nelder–Mead simplex method for derivative-free optimization.
+- powell: Powell's conjugate-direction derivative-free method.
+- simulated_annealing: Global optimization via simulated annealing.
+- tabu_search: Local search enhanced with tabu memory to escape cycles.
+- trust_region: Trust-region framework for robust local optimization.
+
+Constrained optimization
+- augmented_lagrangian_method: Augmented Lagrangian approach for constrained problems.
+- barrier_method: Interior-point style barrier methods for inequality constraints.
+- penalty_method: Penalty function methods for handling constraints.
+- sequential_quadratic_programming: SQP methods for nonlinear constrained optimization.
+- successive_linear_programming: Linearization-based constrained solver (SLSQP-like approach).
+
+Evolutionary algorithms
+- cma_es: Covariance Matrix Adaptation Evolution Strategy.
+- cultural_algorithm: Cultural Algorithm (population + belief space).
+- differential_evolution: Differential Evolution (DE) population-based optimizer.
+- estimation_of_distribution_algorithm: EDAs that build and sample probabilistic models.
+- genetic_algorithm: Classic genetic algorithm with selection, crossover, mutation.
+- imperialist_competitive_algorithm: ICA inspired by imperialistic competition.
+
+Gradient-based optimizers (stochastic and adaptive)
+- adadelta: ADADELTA adaptive learning-rate method.
+- adagrad: Adagrad adaptive gradients.
+- adamax: Adamax variant of Adam using infinity norm.
+- adamw: Adam with decoupled weight decay regularization.
+- adaptive_moment_estimation: Adam (adaptive moment estimation) optimizer.
+- amsgrad: AMSGrad variant ensuring non-increasing second moment.
+- nadam: Nesterov-accelerated Adam (Nadam).
+- nesterov_accelerated_gradient: Nesterov accelerated gradient (momentum with lookahead).
+- rmsprop: RMSProp adaptive gradient method.
+- sgd_momentum: SGD with classical momentum.
+- stochastic_gradient_descent: Plain SGD implementation.
+
+Metaheuristic algorithms
+- arithmetic_optimization: Arithmetic Optimization Algorithm.
+- colliding_bodies_optimization: Colliding Bodies Optimization metaheuristic.
+- cross_entropy_method: Cross-Entropy Method for rare-event and optimization.
+- eagle_strategy: Eagle Strategy (hybrid global-local mechanism).
+- forensic_based: Forensic-based optimization heuristic.
+- harmony_search: Harmony Search metaheuristic.
+- particle_filter: Particle filtering used for optimization/inference tasks.
+- shuffled_frog_leaping_algorithm: SFLA memetic metaheuristic.
+- sine_cosine_algorithm: Sine Cosine Algorithm (SCA) population-based method.
+- stochastic_diffusion_search: Stochastic Diffusion Search (SDS).
+- stochastic_fractal_search: Stochastic Fractal Search (SFS).
+- variable_depth_search: Variable Depth Search strategy.
+- variable_neighbourhood_search: VNS for systematic neighborhood changes.
+- very_large_scale_neighborhood_search: VLSN search heuristics for large neighborhoods.
+
+Multi-objective optimization
+- abstract_multi_objective: Base classes/utilities for multi-objective optimizers and problems.
+- moead: Multiobjective Evolutionary Algorithm based on Decomposition (MOEA/D).
+- nsga_ii: Non-dominated Sorting Genetic Algorithm II (NSGA-II).
+- spea2: Strength Pareto Evolutionary Algorithm 2 (SPEA2).
+
+Physics-inspired algorithms
+- atom_search: Atom Search Optimization inspired by atomic motion.
+- equilibrium_optimizer: Equilibrium Optimizer algorithm.
+- gravitational_search: Gravitational Search Algorithm (GSA).
+- rime_optimizer: RIME-inspired optimization heuristic.
+
+Probabilistic and sampling-based methods
+- adaptive_metropolis: Adaptive Metropolis MCMC sampler.
+- bayesian_optimizer: Bayesian optimization framework (model-based global optimization).
+- linear_discriminant_analysis: LDA utilities (used for probabilistic/dimensionality tools).
+- parzen_tree_stimator: Parzen-window / density-estimation-based optimizer utilities.
+- sequential_monte_carlo: SMC methods for sampling and optimization.
+
+Social-inspired algorithms
+- political_optimizer: Political optimizer inspired metaheuristic.
+- soccer_league_optimizer: Soccer League Optimization metaheuristic.
+- social_group_optimizer: Social Group Optimization algorithm.
+
+Swarm intelligence
+- (Directory present for swarm intelligence methods; specific implementations provided in its module files.)
+
+Testing and visualization
+- test: Test suites for algorithms and utilities.
+- visualization: Visualization helpers for optimizer runs and results.
+
+Notes:
+- File names reflect the canonical algorithms implemented in their respective modules.
+- For detailed API, parameters, and examples, refer to each module's docstring and implementation.
+"""
 
 ## Implementation Pattern
 

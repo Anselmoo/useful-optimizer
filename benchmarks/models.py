@@ -47,6 +47,8 @@ class Run(BaseModel):
     best_solution: list[float]
     n_evaluations: int
     history: History | None = None
+    # IOH/COCO compatibility: list of best-fitness values per iteration (len = max_iter + 1)
+    convergence_history: list[float] | None = None
 
 
 class Statistics(BaseModel):
