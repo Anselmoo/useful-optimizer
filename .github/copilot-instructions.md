@@ -61,6 +61,11 @@ Useful Optimizer is a Python optimization library containing **120 optimization 
   uv sync
   ```
   **NEVER CANCEL: Takes 2-3 minutes to complete. Set timeout to 5+ minutes.**
+  - If you add new development dependencies or extras, run:
+    ```fish
+    uv sync --all-groups --all-extras
+    ```
+    to install all groups and extras and update the lockfile.
 
 ### Core Development Commands
 - Run any Python command in the project environment:

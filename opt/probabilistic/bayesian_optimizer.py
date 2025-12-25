@@ -135,22 +135,28 @@ class BayesianOptimizer(AbstractOptimizer):
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float) and fitness >= 0
         True
-
         COCO benchmark example:
 
         >>> from opt.benchmark.functions import sphere
+        >>> import tempfile, os
+        >>> from benchmarks import save_run_history
         >>> optimizer = BayesianOptimizer(
         ...     func=sphere,
         ...     lower_bound=-5,
         ...     upper_bound=5,
         ...     dim=10,
-        ...     n_initial=20,
-        ...     max_iter=100,
-        ...     xi=0.01,
+        ...     max_iter=10000,
         ...     seed=42,
+        ...     track_history=True,
         ... )
         >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
+        >>> isinstance(fitness, float) and fitness >= 0
+        True
+        >>> len(optimizer.history.get("best_fitness", [])) > 0
+        True
+        >>> out = tempfile.NamedTemporaryFile(delete=False).name
+        >>> save_run_history(optimizer, out)
+        >>> os.path.exists(out)
         True
 
     Args:

@@ -187,11 +187,25 @@ class GravitationalSearchOptimizer(AbstractOptimizer):
         COCO benchmark example:
 
         >>> from opt.benchmark.functions import sphere
-        >>> optimizer = GravitationalSearchOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        >>> import tempfile, os
+        >>> from benchmarks import save_run_history
+        >>> optimizer = GravitationalSearch(
+        ...     func=sphere,
+        ...     lower_bound=-5,
+        ...     upper_bound=5,
+        ...     dim=10,
+        ...     max_iter=10000,
+        ...     seed=42,
+        ...     track_history=True,
         ... )
         >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
+        >>> isinstance(fitness, float) and fitness >= 0
+        True
+        >>> len(optimizer.history.get("best_fitness", [])) > 0
+        True
+        >>> out = tempfile.NamedTemporaryFile(delete=False).name
+        >>> save_run_history(optimizer, out)
+        >>> os.path.exists(out)
         True
 
     Args:

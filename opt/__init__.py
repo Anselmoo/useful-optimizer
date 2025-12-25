@@ -82,8 +82,8 @@ from opt.multi_objective import NSGAII
 from opt.multi_objective import SPEA2
 
 # Multi-objective algorithms
-from opt.multi_objective import AbstractMultiObjectiveOptimizer
-
+# AbstractMultiObjectiveOptimizer is exported from opt.abstract to preserve
+# a single authoritative import path.
 # Physics-inspired algorithms (additional)
 from opt.physics_inspired import AtomSearchOptimizer
 

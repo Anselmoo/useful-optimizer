@@ -167,15 +167,28 @@ class BatAlgorithm(AbstractOptimizer):
         >>> solution, fitness = optimizer.search()
         >>> bool(isinstance(fitness, (float, np.floating)) and fitness >= 0)
         True
-
         COCO benchmark example:
 
         >>> from opt.benchmark.functions import sphere
+        >>> import tempfile, os
+        >>> from benchmarks import save_run_history
         >>> optimizer = BatAlgorithm(
-        ...     func=sphere, dim=10, lower_bound=-5, upper_bound=5, n_bats=20, max_iter=100, seed=42
+        ...     func=sphere,
+        ...     lower_bound=-5,
+        ...     upper_bound=5,
+        ...     dim=10,
+        ...     max_iter=10000,
+        ...     seed=42,
+        ...     track_history=True,
         ... )
         >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
+        >>> isinstance(fitness, float) and fitness >= 0
+        True
+        >>> len(optimizer.history.get("best_fitness", [])) > 0
+        True
+        >>> out = tempfile.NamedTemporaryFile(delete=False).name
+        >>> save_run_history(optimizer, out)
+        >>> os.path.exists(out)
         True
 
     Args:
