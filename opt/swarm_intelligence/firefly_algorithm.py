@@ -41,7 +41,8 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from
+from opt.abstract import AbstractOptimizer
+
 
 if TYPE_CHECKING:
     from collections.abc import Callable
