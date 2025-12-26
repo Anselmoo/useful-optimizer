@@ -50,3 +50,11 @@ repos:
         additional_dependencies:
           - pydantic>=2.12.5
           - jsonschema>=4.23.0
+
+      - id: check-trivial-doctests
+        name: Detect trivial doctest examples
+        entry: python scripts/check_trivial_doctests.py
+        language: python
+        pass_filenames: false
+        files: ^opt/.*\.py$
+        exclude: ^opt/(benchmark|test|__pycache__|visualization|__init__|.*/__init__\.py).*

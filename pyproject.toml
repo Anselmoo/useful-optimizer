@@ -8,8 +8,10 @@ readme = "README.md"
 requires-python = ">=3.10,<3.13"
 dependencies = [
     "numpy>=1.26.4",
- "scipy>=1.12.0",
- "scikit-learn>=1.5.1",
+    "scipy>=1.12.0",
+    "scikit-learn>=1.5.1",
+    "pydantic>=2.12.5",
+    "jsonschema>=4.25.1",
 ]
 
 [project.optional-dependencies]
@@ -53,7 +55,7 @@ addopts = [
     "--doctest-glob=*.md",
     "-v",
 ]
-testpaths = ["opt"]
+testpaths = ["opt", "tests"]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -144,6 +146,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.lint.per-file-ignores]
 "opt/test/*" = ["S101", "PLR2004", "PLC0415", "ANN001", "ANN201", "ICN001", "S108"]
+"tests/*" = ["S101", "D100", "ANN201", "ANN001", "PT006", "INP001"]
 "opt/visualization/*" = ["FBT001", "FBT002", "FBT003", "PLC0415", "PLR2004", "ANN003", "S101", "B905"]
 "opt/abstract_optimizer.py" = ["FBT001", "FBT002"]
 "opt/swarm_intelligence/particle_swarm.py" = ["FBT001", "FBT002"]

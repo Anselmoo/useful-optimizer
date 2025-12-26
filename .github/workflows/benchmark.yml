@@ -1,0 +1,72 @@
+name: Benchmarks
+
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'  # daily at 02:00 UTC
+
+jobs:
+  quick:
+    name: Quick checks (PR)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+          pip install git+https://github.com/github/spec-kit.git@main
+      - name: Initialize specify
+        run: |
+          specify init . --force
+          specify check
+      - name: Run quick benchmark tests
+        run: uv run pytest -q -k benchmark_quick
+      - name: Lint
+        run: uv run ruff check opt/
+
+  full:
+    name: Full nightly benchmarks
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+          pip install jsonschema
+      - name: Run full benchmark tests
+        run: |
+          uv run pytest -q -m benchmark_full || true
+      - name: Collect artifacts
+        run: |
+          mkdir -p artifacts || true
+          # Example: collect any generated history.json.gz files
+          find . -name "history.json.gz" -print -exec mv {} artifacts/ \; || true
+      - name: Validate and upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-history
+          path: artifacts/
+      - name: Validate schema for artifacts
+        run: |
+          python -c "import json, jsonschema, gzip, sys, glob; schema=json.load(open('docs/schemas/benchmark-data-schema.json')); files=glob.glob('artifacts/*.json.gz'); exec('\n'.join([f'print(\"validating {f}\"); jsonschema.validate(json.load(gzip.open(\"{f}\", \"rt\")), schema)' for f in files]))"
+      - name: On failure, open issue
+        if: failure()
+        uses: repo-sync/pull-request@v2
+        with:
+          title: 'Nightly benchmark failure — Please triage'
+          body: 'Nightly full-run detected a regression or artifact validation failure. Artifacts attached to workflow run.'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: 'infra/benchmark-failure'
