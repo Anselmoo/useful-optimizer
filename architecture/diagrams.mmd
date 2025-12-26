@@ -1,0 +1,30 @@
+%% Architecture: useful-optimizer benchmarks
+%% High-level system and CI choreography
+
+```mermaid
+%%{init: {'theme':'default'}}%%
+flowchart LR
+  Dev[Developer] --> PR[GitHub Pull Request]
+  PR --> CIQ[CI Quick Job]
+  CIQ --> RunQ[run benchmark_quick]
+  RunQ --> Bench[AbstractOptimizer.benchmark()]
+  Bench --> Export[export_benchmark_json]
+  Export --> Out[benchmarks/output/<algorithm>-<timestamp>-s<seed>.json]
+  Out --> Validate[validate_benchmark_json]
+  Validate --> CIQResult[pass/fail]
+
+  Scheduler[Scheduler] --> CIN[CI Nightly Job]
+  CIN --> RunFull[run benchmark_full]
+  RunFull --> ExportFull[export_benchmark_json (full)]
+  ExportFull --> Compress[compress & upload]
+  Compress --> Archive[artifact store (nightly archive)]
+
+  subgraph Ops
+    PreCommit[pre-commit hooks]
+    Serena[Serena memory logging of MCP calls]
+  end
+  PR --> PreCommit
+  PR --> Serena
+  CIN --> Serena
+```
+```

@@ -1,0 +1,16 @@
+[
+  {"path": "opt/evolutionary/cma_es.py", "line": 136, "snippet": "max_iter=10000"},
+  {"path": "opt/evolutionary/genetic_algorithm.py", "line": 139, "snippet": "max_iter=10000"},
+  {"path": "opt/evolutionary/cultural_algorithm.py", "line": 151, "snippet": "max_iter=10000"},
+  {"path": "opt/evolutionary/differential_evolution.py", "line": 152, "snippet": "max_iter=10000"},
+  {"path": "opt/evolutionary/estimation_of_distribution_algorithm.py", "line": 146, "snippet": "max_iter=10000"},
+  {"path": "opt/evolutionary/imperialist_competitive_algorithm.py", "line": 153, "snippet": "max_iter=10000"},
+  {"path": "opt/physics_inspired/atom_search.py", "line": 164, "snippet": "max_iter=10000"},
+  {"path": "opt/physics_inspired/equilibrium_optimizer.py", "line": 193, "snippet": "max_iter=10000"},
+  {"path": "opt/probabilistic/parzen_tree_stimator.py", "line": 140, "snippet": "max_iter=10000"},
+  {"path": "opt/probabilistic/sequential_monte_carlo.py", "line": 149, "snippet": "max_iter=10000"},
+  {"path": "opt/probabilistic/linear_discriminant_analysis.py", "line": 143, "snippet": "max_iter=10000"},
+  {"path": "opt/physics_inspired/equilibrium_optimizer.py", "line": 193, "snippet": "max_iter=10000"},
+  {"path": "scripts/batch_update_docstrings.py", "line": 298, "snippet": "max_iter=10000"},
+  {"path": ".github/prompts/optimizer-docs-template.prompt.md", "line": 177, "snippet": "max_iter=10000"}
+]
