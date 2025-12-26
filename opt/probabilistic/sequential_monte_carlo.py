@@ -168,7 +168,9 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         final_temp (float, optional): Final temperature for importance weighting.
             Lower values improve final convergence. BBOB tuning: 0.01-0.5. Defaults to 0.1.
         seed (int | None, optional): Random seed for reproducibility. BBOB requires
-            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.
+            seeds 0-14 for 15 runs. If None, generates random seed. Defaults to None.            Defaults to None.
+        track_history (bool, optional): Whether to track optimization history. When
+            enabled, history is stored and can be exported. Defaults to False.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function being optimized.
@@ -291,6 +293,8 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         max_iter: int = 100,
         initial_temp: float = 10.0,
         final_temp: float = 0.1,
+        seed: int | None = None,
+        track_history: bool = False,
     ) -> None:
         """Initialize Sequential Monte Carlo Optimizer.
 
@@ -303,8 +307,19 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
             max_iter: Maximum iterations. Defaults to 100.
             initial_temp: Starting temperature. Defaults to 10.0.
             final_temp: Final temperature. Defaults to 0.1.
+            seed: Random seed for reproducibility. Defaults to None.
+            track_history: Whether to record optimization history. Defaults to False.
         """
-        super().__init__(func, lower_bound, upper_bound, dim, max_iter)
+        super().__init__(
+            func,
+            lower_bound,
+            upper_bound,
+            dim,
+            max_iter,
+            seed=seed,
+            population_size=population_size,
+            track_history=track_history,
+        )
         self.population_size = population_size
         self.initial_temp = initial_temp
         self.final_temp = final_temp

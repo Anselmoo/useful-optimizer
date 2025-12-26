@@ -55,6 +55,10 @@ addopts = [
     "--doctest-glob=*.md",
     "-v",
 ]
+markers = [
+    "benchmark_quick: quick sanity checks used on PRs",
+    "benchmark_full: full benchmarks used on nightly runs",
+]
 testpaths = ["opt", "tests"]
 
 [tool.ruff]
