@@ -1,10 +1,11 @@
 <!--
 Sync Impact Report:
-- Version change: TEMPLATE → 0.1.0
-- Modified/Added principles: Added I. Test-First (TDD); II. Spec-Driven Development; III. Reproducible Benchmarks; IV. CI-Enforced Spec Checks; V. Observability & Memory-Efficient History Tracking
-- Added sections: Additional Constraints (Performance & Storage); Development Workflow
-- Templates requiring updates: .specify/templates/spec-template.md (✅ updated), .specify/templates/plan-template.md (⚠ pending), .specify/templates/tasks-template.md (⚠ pending), .github/prompts/spec-kit.prompt.md (✅ updated)
-- Follow-up TODOs: Run `mcp_ai-agent-guid_guidelines-validator` (performed); run `specify check` in CI; add checklist entries for benchmark tests; confirm RATIFICATION_DATE and gather maintainer approval.
+- Version change: 0.1.0 → 0.2.0
+- Modified/Added principles: Added Performance Best Practices (early_stop, conservative max_iter guidance); clarified CI-Enforced Spec Checks; reinforced MCP logging and auditability
+- Added sections: Performance Best Practices (explicit early-stop guidance and auditing)
+- Templates requiring updates: .specify/templates/spec-template.md (✅ updated), .specify/templates/plan-template.md (⚠ pending), .specify/templates/tasks-template.md (⚠ pending), .github/prompts/spec-kit.prompt.md (✅ updated), .github/CONSTITUTION.md (✅ to be created/committed)
+- Follow-up TODOs: Add pre-commit check to flag unexplained `max_iter>=5000` literals (T002.2); add early-stop unit tests (T002.1); run `specify check` in CI; gather maintainer approval and ratify v0.2.0 on merge.
+- Last Amended: 2025-12-26
 -->
 
 # Useful Optimizer Constitution
@@ -42,8 +43,10 @@ Rationale: Observability and compact histories make it possible to analyze trend
 
 ## Additional Constraints (Performance, Storage, and Reproducibility)
 
-- **Quick Tests**: Target <1 second execution per quick benchmark test when run on typical development machines.
-- **Full Runs**: Nightly full-runs may be lengthy; CI artifacts MUST be uploaded and retained for at least 30 days.
+- **Quick Tests**: Target <1 second execution per quick benchmark test when run on typical development machines. Quick tests MUST prefer early stopping (`early_stop` or `stop_threshold`) over relying on large `max_iter` values.
+- **Early Stopping & max_iter guidance**: All optimizer implementations and benchmark helpers MUST support early stopping via an `early_stop` (or `stop_threshold`) parameter and expose benchmark metadata fields `iterations` (int), `stopped_early` (bool), and `stopping_reason` (str). Quick benchmarks MUST use conservative `max_iter` defaults (e.g., `<= 500`) suitable for PR feedback; **do not use** `max_iter=10000` as a default in benchmark comparisons without documented justification. Any PR that modifies default `max_iter` behavior MUST include a performance rationale and comparative evidence.
+- **Audit & Pre-commit enforcement**: The repository MUST include a pre-commit script that flags unexplained `max_iter>=5000` literals in code, tests, and docs; discovery scripts (part of the plan) will scan the repo for `max_iter=10000` occurrences and require either replacement with conservative defaults or explicit justification in the PR.
+- **Full Runs**: Nightly full-runs may be lengthy; CI artifacts MUST be uploaded and retained for at least 30 days. Full runs MUST also support early stopping so long-running jobs terminate when acceptance thresholds are met.
 - **Memory**: A typical full-run history artifact SHOULD not exceed 200MB compressed; any exception MUST be documented in the plan and approved.
 - **Schemas**: Use explicit JSON schemas for all artifacts; link to schema files in the plan and the docs.
 
@@ -68,7 +71,7 @@ Rationale: Observability and compact histories make it possible to analyze trend
   - MINOR: New principle or material expansion of guidance
   - PATCH: Clarifications, wording fixes, templates-only changes
 
-**Version**: 0.1.0 | **Ratified**: 2025-12-25 | **Last Amended**: 2025-12-25
+**Version**: 0.2.0 | **Ratified**: 2025-12-25 | **Last Amended**: 2025-12-26
 
 ```
 
