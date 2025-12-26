@@ -5,6 +5,11 @@
 **Status**: Draft
 **Input**: "Replace trivial doctest examples (for example, `len(solution) == dim`) with Spec Kit feature specs and test harness that provide reproducible benchmarks, fast sanity checks for PR feedback, and nightly full-run validation with history artifacts conforming to repository schemas."
 
+## Clarifications
+
+### Session 2025-12-26
+- Q: Preferred default `max_iter` for quick benchmarks? → A: 500
+
 ## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 — Replace trivial doctests in optimizer docstrings (Priority: P1)
@@ -62,7 +67,7 @@ Scheduled CI jobs must run `@pytest.mark.benchmark_full` tests nightly, upload c
 - **FR-002**: Add `benchmark_quick` pytest tests for each optimizer example (fast, deterministic, <1s), using `seed` and `track_history` where applicable.
 - **FR-003**: Add `@pytest.mark.benchmark_full` integration tests for nightly CI runs that run longer budgets and assert numeric performance goals (e.g., fitness < threshold for sphere with conservative thresholds).
 - **FR-004**: Validate that history artifacts are produced in memory-efficient format and conform to `docs/schemas/benchmark-data-schema.json`.
-- **FR-005**: Add GitHub Actions workflow with two jobs: `quick` (PR checks) and `full` (nightly), including artifact upload and `specify check` enforcement.- **FR-010**: Add explicit early stopping support to all optimizers and benchmark helpers: expose `early_stop` (or `stop_threshold`) parameter and ensure benchmark outputs include `iterations` (int), `stopped_early` (bool), and `stopping_reason` (str). Benchmarks used for quick PR checks MUST use conservative `max_iter` defaults (e.g., `<= 500`) and prefer early stopping; **do not use** `max_iter=10000` as a default in benchmark comparisons without documented justification.
+- **FR-005**: Add GitHub Actions workflow with two jobs: `quick` (PR checks) and `full` (nightly), including artifact upload and `specify check` enforcement.- **FR-010**: Add explicit early stopping support to all optimizers and benchmark helpers: expose `early_stop` (or `stop_threshold`) parameter and ensure benchmark outputs include `iterations` (int), `stopped_early` (bool), and `stopping_reason` (str). Quick benchmarks MUST default to `max_iter=500` and prefer early stopping; **do not use** `max_iter=10000` as a default in benchmark comparisons without documented justification.
 - **FR-011**: Add an audit script and a pre-commit check that flags unexplained `max_iter>=5000` literals in code, tests, and docs; audit results must be included in the PR when changing default `max_iter` behavior.- **FR-006**: Update docs (optimizer docstrings, `docs/algorithms/*`, and README) with example outputs and instructions to validate locally.
 - **FR-007**: Perform changes in a single, comprehensive PR targeting branch `feat/benchmarks-specs-ci` unless maintainers instruct otherwise.
 - **FR-008**: Expose a `benchmark(..., store=True, out_path: str|None)` method on `AbstractOptimizer` and `AbstractMultiObjectiveOptimizer` that runs a short internal benchmark, returns `{'path': str, 'metadata': dict}` and, when `store=True`, writes validated JSON artifacts to `benchmarks/output/`.
