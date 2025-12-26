@@ -55,6 +55,6 @@ repos:
         name: Detect trivial doctest examples
         entry: python scripts/check_trivial_doctests.py
         language: python
-        pass_filenames: false
+        pass_filenames: true
         files: ^opt/.*\.py$
         exclude: ^opt/(benchmark|test|__pycache__|visualization|__init__|.*/__init__\.py).*

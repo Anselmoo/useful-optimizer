@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 2 * * *'  # daily at 02:00 UTC
+    - cron: "0 2 * * *" # daily at 02:00 UTC
 
 jobs:
   quick:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: "3.12"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -40,7 +40,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.12'
+          python-version: "3.12"
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -66,7 +66,7 @@ jobs:
         if: failure()
         uses: repo-sync/pull-request@v2
         with:
-          title: 'Nightly benchmark failure — Please triage'
-          body: 'Nightly full-run detected a regression or artifact validation failure. Artifacts attached to workflow run.'
+          title: "Nightly benchmark failure — Please triage"
+          body: "Nightly full-run detected a regression or artifact validation failure. Artifacts attached to workflow run."
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: 'infra/benchmark-failure'
+          branch: "infra/benchmark-failure"
