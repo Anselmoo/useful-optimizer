@@ -88,8 +88,21 @@ def export_benchmark_json(
         if not path.parent.exists():
             path.parent.mkdir(parents=True, exist_ok=True)
 
+    def _to_serializable(o: object) -> object:
+        import numpy as np
+
+        if isinstance(o, np.ndarray):
+            return o.tolist()
+        if isinstance(o, np.generic):
+            return o.item()
+        if isinstance(o, dict):
+            return {k: _to_serializable(v) for k, v in o.items()}
+        if isinstance(o, (list, tuple)):
+            return [_to_serializable(v) for v in o]
+        return o
+
     with path.open("w", encoding="utf-8") as fh:
-        json.dump(data, fh, indent=2, ensure_ascii=False)
+        json.dump(_to_serializable(data), fh, indent=2, ensure_ascii=False)
 
     # Validate after writing
     validate_benchmark_json(path, schema_path=schema_path)

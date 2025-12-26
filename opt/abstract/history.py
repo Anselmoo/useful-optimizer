@@ -163,12 +163,60 @@ class OptimizationHistory:
         if self._config.track_best_solution and self.best_solution is not None:
             self.best_solution[i] = best_solution
 
-        if (
-            self._config.track_population_fitness
-            and population_fitness is not None
-            and self.population_fitness is not None
-        ):
-            self.population_fitness[i] = population_fitness
+        if self._config.track_population_fitness and population_fitness is not None:
+            val = np.asarray(population_fitness)
+
+            # Handle scalar per-individual fitness (1D) and multi-objective (2D)
+            if self.population_fitness is None:
+                # Allocate to match incoming shape
+                if val.ndim == 1:
+                    self.population_fitness = np.zeros(
+                        (self._max_iter, val.shape[0]), dtype=np.float64
+                    )
+                elif val.ndim == 2:
+                    self.population_fitness = np.full(
+                        (self._max_iter, val.shape[0], val.shape[1]),
+                        np.nan,
+                        dtype=np.float64,
+                    )
+            # Upgrade storage if dimensionality changes
+            elif val.ndim == 2 and self.population_fitness.ndim == 2:
+                # upgrade to 3D, preserving existing scalar data in [:,:,0]
+                existing = self.population_fitness
+                new = np.full(
+                    (existing.shape[0], existing.shape[1], val.shape[1]),
+                    np.nan,
+                    dtype=np.float64,
+                )
+                new[:, :, 0] = existing
+                self.population_fitness = new
+            elif val.ndim == 1 and self.population_fitness.ndim == 3:
+                # incoming scalar fitness, store in [:,:,0]
+                pass
+            elif (
+                val.ndim == 2
+                and self.population_fitness.ndim == 3
+                and self.population_fitness.shape[2] != val.shape[1]
+            ):
+                # Resize third axis if needed, preserving existing data
+                old = self.population_fitness
+                new = np.full(
+                    (old.shape[0], old.shape[1], val.shape[1]), np.nan, dtype=np.float64
+                )
+                min_k = min(old.shape[2], val.shape[1])
+                new[:, :, :min_k] = old[:, :, :min_k]
+                self.population_fitness = new
+
+            # Now assign into the correct storage shape
+            if (self.population_fitness.ndim == 2 and val.ndim == 1) or (
+                self.population_fitness.ndim == 3 and val.ndim == 2
+            ):
+                self.population_fitness[i] = val
+            elif self.population_fitness.ndim == 3 and val.ndim == 1:
+                self.population_fitness[i, :, 0] = val
+            else:
+                # Fallback: attempt assignment and let numpy raise if incompatible
+                self.population_fitness[i] = val
 
         if (
             self._config.track_population

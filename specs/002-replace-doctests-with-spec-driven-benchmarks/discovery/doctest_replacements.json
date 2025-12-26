@@ -1,0 +1,686 @@
+[
+  {
+    "path": "opt/social_inspired/teaching_learning.py",
+    "line": 132,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/social_inspired/political_optimizer.py",
+    "line": 148,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/social_inspired/social_group_optimizer.py",
+    "line": 162,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/social_inspired/soccer_league_optimizer.py",
+    "line": 155,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/probabilistic/linear_discriminant_analysis.py",
+    "line": 146,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/probabilistic/bayesian_optimizer.py",
+    "line": 153,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/probabilistic/sequential_monte_carlo.py",
+    "line": 152,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/probabilistic/adaptive_metropolis.py",
+    "line": 145,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/probabilistic/parzen_tree_stimator.py",
+    "line": 143,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/rmsprop.py",
+    "line": 147,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/sgd_momentum.py",
+    "line": 143,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/nesterov_accelerated_gradient.py",
+    "line": 143,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/adaptive_moment_estimation.py",
+    "line": 152,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/adamax.py",
+    "line": 155,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/stochastic_gradient_descent.py",
+    "line": 130,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/adagrad.py",
+    "line": 135,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/adamw.py",
+    "line": 171,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/nadam.py",
+    "line": 173,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/amsgrad.py",
+    "line": 161,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/gradient_based/adadelta.py",
+    "line": 160,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/classical/conjugate_gradient.py",
+    "line": 142,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/classical/simulated_annealing.py",
+    "line": 125,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/classical/hill_climbing.py",
+    "line": 141,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/classical/powell.py",
+    "line": 138,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/classical/lbfgs.py",
+    "line": 133,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/classical/tabu_search.py",
+    "line": 161,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/classical/trust_region.py",
+    "line": 143,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/classical/bfgs.py",
+    "line": 137,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/classical/nelder_mead.py",
+    "line": 147,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/constrained/sequential_quadratic_programming.py",
+    "line": 144,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/constrained/augmented_lagrangian_method.py",
+    "line": 154,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/constrained/successive_linear_programming.py",
+    "line": 144,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/constrained/barrier_method.py",
+    "line": 137,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/constrained/penalty_method.py",
+    "line": 137,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/chimp_optimization.py",
+    "line": 112,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/reptile_search.py",
+    "line": 112,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/giant_trevally.py",
+    "line": 125,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/ant_lion_optimizer.py",
+    "line": 131,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/pelican_optimizer.py",
+    "line": 125,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/artificial_hummingbird.py",
+    "line": 109,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/glowworm_swarm_optimization.py",
+    "line": 142,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/orca_predator.py",
+    "line": 109,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/pathfinder.py",
+    "line": 112,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/dragonfly_algorithm.py",
+    "line": 147,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/honey_badger.py",
+    "line": 112,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/ant_colony.py",
+    "line": 149,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/tunicate_swarm.py",
+    "line": 114,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/mayfly_optimizer.py",
+    "line": 118,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/bee_algorithm.py",
+    "line": 130,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/snow_geese.py",
+    "line": 125,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/squirrel_search.py",
+    "line": 98,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/dandelion_optimizer.py",
+    "line": 126,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/barnacles_mating.py",
+    "line": 112,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/osprey_optimizer.py",
+    "line": 126,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/harris_hawks_optimization.py",
+    "line": 152,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/cuckoo_search.py",
+    "line": 147,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/salp_swarm_algorithm.py",
+    "line": 150,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/aquila_optimizer.py",
+    "line": 118,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/flower_pollination.py",
+    "line": 115,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/artificial_gorilla_troops.py",
+    "line": 120,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/bat_algorithm.py",
+    "line": 178,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/moth_flame_optimization.py",
+    "line": 143,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/zebra_optimizer.py",
+    "line": 125,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/mountain_gazelle.py",
+    "line": 109,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/grey_wolf_optimizer.py",
+    "line": 138,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/dingo_optimizer.py",
+    "line": 114,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/seagull_optimization.py",
+    "line": 114,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/golden_eagle.py",
+    "line": 114,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/cat_swarm_optimization.py",
+    "line": 127,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/black_widow.py",
+    "line": 114,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/moth_search.py",
+    "line": 112,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/starling_murmuration.py",
+    "line": 125,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/african_vultures_optimizer.py",
+    "line": 120,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/emperor_penguin.py",
+    "line": 113,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/coati_optimizer.py",
+    "line": 109,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/slime_mould.py",
+    "line": 112,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/particle_swarm.py",
+    "line": 142,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/manta_ray.py",
+    "line": 111,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/african_buffalo_optimization.py",
+    "line": 124,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/wild_horse.py",
+    "line": 113,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/brown_bear.py",
+    "line": 109,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/marine_predators_algorithm.py",
+    "line": 164,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/spotted_hyena.py",
+    "line": 113,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/firefly_algorithm.py",
+    "line": 152,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/sand_cat.py",
+    "line": 113,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/fennec_fox.py",
+    "line": 124,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/artificial_fish_swarm_algorithm.py",
+    "line": 129,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/whale_optimization_algorithm.py",
+    "line": 141,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/grasshopper_optimization.py",
+    "line": 156,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/swarm_intelligence/artificial_rabbits.py",
+    "line": 125,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/harmony_search.py",
+    "line": 142,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/shuffled_frog_leaping_algorithm.py",
+    "line": 148,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/eagle_strategy.py",
+    "line": 130,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/very_large_scale_neighborhood_search.py",
+    "line": 156,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/arithmetic_optimization.py",
+    "line": 121,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/colliding_bodies_optimization.py",
+    "line": 118,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/particle_filter.py",
+    "line": 147,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/stochastic_diffusion_search.py",
+    "line": 170,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/cross_entropy_method.py",
+    "line": 129,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/variable_neighbourhood_search.py",
+    "line": 134,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/stochastic_fractal_search.py",
+    "line": 139,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/variable_depth_search.py",
+    "line": 151,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/forensic_based.py",
+    "line": 118,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/metaheuristic/sine_cosine_algorithm.py",
+    "line": 148,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/physics_inspired/rime_optimizer.py",
+    "line": 176,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/physics_inspired/atom_search.py",
+    "line": 167,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/physics_inspired/gravitational_search.py",
+    "line": 194,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/physics_inspired/equilibrium_optimizer.py",
+    "line": 196,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/evolutionary/cultural_algorithm.py",
+    "line": 154,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/evolutionary/differential_evolution.py",
+    "line": 155,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/evolutionary/cma_es.py",
+    "line": 139,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/evolutionary/estimation_of_distribution_algorithm.py",
+    "line": 149,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/evolutionary/genetic_algorithm.py",
+    "line": 142,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  },
+  {
+    "path": "opt/evolutionary/imperialist_competitive_algorithm.py",
+    "line": 156,
+    "original": "        >>> len(solution) == 10",
+    "suggested": "        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark \u2014 please review.\n        >>> # Suggested mini-benchmark (seeded, quick):\n        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)\n        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None\n"
+  }
+]

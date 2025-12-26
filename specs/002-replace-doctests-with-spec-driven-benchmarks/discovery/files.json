@@ -1,16 +1,1058 @@
 [
-  {"path": "opt/evolutionary/cma_es.py", "line": 136, "snippet": "max_iter=10000"},
-  {"path": "opt/evolutionary/genetic_algorithm.py", "line": 139, "snippet": "max_iter=10000"},
-  {"path": "opt/evolutionary/cultural_algorithm.py", "line": 151, "snippet": "max_iter=10000"},
-  {"path": "opt/evolutionary/differential_evolution.py", "line": 152, "snippet": "max_iter=10000"},
-  {"path": "opt/evolutionary/estimation_of_distribution_algorithm.py", "line": 146, "snippet": "max_iter=10000"},
-  {"path": "opt/evolutionary/imperialist_competitive_algorithm.py", "line": 153, "snippet": "max_iter=10000"},
-  {"path": "opt/physics_inspired/atom_search.py", "line": 164, "snippet": "max_iter=10000"},
-  {"path": "opt/physics_inspired/equilibrium_optimizer.py", "line": 193, "snippet": "max_iter=10000"},
-  {"path": "opt/probabilistic/parzen_tree_stimator.py", "line": 140, "snippet": "max_iter=10000"},
-  {"path": "opt/probabilistic/sequential_monte_carlo.py", "line": 149, "snippet": "max_iter=10000"},
-  {"path": "opt/probabilistic/linear_discriminant_analysis.py", "line": 143, "snippet": "max_iter=10000"},
-  {"path": "opt/physics_inspired/equilibrium_optimizer.py", "line": 193, "snippet": "max_iter=10000"},
-  {"path": "scripts/batch_update_docstrings.py", "line": 298, "snippet": "max_iter=10000"},
-  {"path": ".github/prompts/optimizer-docs-template.prompt.md", "line": 177, "snippet": "max_iter=10000"}
+  {
+    "path": "tests/test_benchmarks_quick.py",
+    "line": 80,
+    "value": 2000,
+    "snippet": "max_iter=2000,"
+  },
+  {
+    "path": "tests/test_benchmarks_quick.py",
+    "line": 93,
+    "value": 2000,
+    "snippet": "max_iter=2000,"
+  },
+  {
+    "path": "tests/test_benchmarks_full.py",
+    "line": 20,
+    "value": 2000,
+    "snippet": "max_iter=2000,"
+  },
+  {
+    "path": "scripts/batch_update_docstrings.py",
+    "line": 298,
+    "value": 10000,
+    "snippet": "...     max_iter=10000,"
+  },
+  {
+    "path": "opt/social_inspired/teaching_learning.py",
+    "line": 129,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/social_inspired/political_optimizer.py",
+    "line": 145,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/social_inspired/social_group_optimizer.py",
+    "line": 159,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/social_inspired/soccer_league_optimizer.py",
+    "line": 152,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/probabilistic/linear_discriminant_analysis.py",
+    "line": 143,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/probabilistic/sequential_monte_carlo.py",
+    "line": 149,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/probabilistic/adaptive_metropolis.py",
+    "line": 18,
+    "value": 1000,
+    "snippet": "...     func=shifted_ackley, lower_bound=-2.768, upper_bound=2.768, dim=2, max_iter=1000"
+  },
+  {
+    "path": "opt/probabilistic/adaptive_metropolis.py",
+    "line": 142,
+    "value": 5000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=5000, seed=42"
+  },
+  {
+    "path": "opt/probabilistic/parzen_tree_stimator.py",
+    "line": 140,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/rmsprop.py",
+    "line": 144,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/sgd_momentum.py",
+    "line": 140,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/nesterov_accelerated_gradient.py",
+    "line": 140,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/adaptive_moment_estimation.py",
+    "line": 149,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/adamax.py",
+    "line": 152,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/stochastic_gradient_descent.py",
+    "line": 127,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/adagrad.py",
+    "line": 132,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/adamw.py",
+    "line": 168,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/nadam.py",
+    "line": 170,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/amsgrad.py",
+    "line": 158,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/gradient_based/adadelta.py",
+    "line": 157,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/classical/conjugate_gradient.py",
+    "line": 139,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/classical/simulated_annealing.py",
+    "line": 122,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/classical/hill_climbing.py",
+    "line": 17,
+    "value": 5000,
+    "snippet": "max_iter=5000,"
+  },
+  {
+    "path": "opt/classical/hill_climbing.py",
+    "line": 138,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/classical/powell.py",
+    "line": 135,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/classical/lbfgs.py",
+    "line": 130,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/classical/tabu_search.py",
+    "line": 34,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/classical/tabu_search.py",
+    "line": 158,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/classical/trust_region.py",
+    "line": 140,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/classical/bfgs.py",
+    "line": 134,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/classical/nelder_mead.py",
+    "line": 144,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/constrained/sequential_quadratic_programming.py",
+    "line": 141,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/constrained/augmented_lagrangian_method.py",
+    "line": 19,
+    "value": 8000,
+    "snippet": "max_iter=8000,"
+  },
+  {
+    "path": "opt/constrained/augmented_lagrangian_method.py",
+    "line": 151,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/constrained/successive_linear_programming.py",
+    "line": 33,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/constrained/successive_linear_programming.py",
+    "line": 141,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/constrained/barrier_method.py",
+    "line": 134,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/constrained/penalty_method.py",
+    "line": 134,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/chimp_optimization.py",
+    "line": 109,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/reptile_search.py",
+    "line": 109,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/giant_trevally.py",
+    "line": 122,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/ant_lion_optimizer.py",
+    "line": 128,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/pelican_optimizer.py",
+    "line": 122,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/artificial_hummingbird.py",
+    "line": 106,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/glowworm_swarm_optimization.py",
+    "line": 139,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/orca_predator.py",
+    "line": 106,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/pathfinder.py",
+    "line": 109,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/dragonfly_algorithm.py",
+    "line": 144,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/honey_badger.py",
+    "line": 109,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/ant_colony.py",
+    "line": 21,
+    "value": 1000,
+    "snippet": "dim=2, n_ants=50, max_iter=1000)"
+  },
+  {
+    "path": "opt/swarm_intelligence/ant_colony.py",
+    "line": 146,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/tunicate_swarm.py",
+    "line": 111,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/mayfly_optimizer.py",
+    "line": 115,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/bee_algorithm.py",
+    "line": 19,
+    "value": 4000,
+    "snippet": "max_iter=4000,"
+  },
+  {
+    "path": "opt/swarm_intelligence/bee_algorithm.py",
+    "line": 127,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/snow_geese.py",
+    "line": 122,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/squirrel_search.py",
+    "line": 95,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/dandelion_optimizer.py",
+    "line": 123,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/barnacles_mating.py",
+    "line": 109,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/osprey_optimizer.py",
+    "line": 123,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/harris_hawks_optimization.py",
+    "line": 149,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/cuckoo_search.py",
+    "line": 22,
+    "value": 1000,
+    "snippet": "dim=2, n_nests=25, max_iter=1000)"
+  },
+  {
+    "path": "opt/swarm_intelligence/cuckoo_search.py",
+    "line": 144,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/salp_swarm_algorithm.py",
+    "line": 147,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/aquila_optimizer.py",
+    "line": 115,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/flower_pollination.py",
+    "line": 112,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/artificial_gorilla_troops.py",
+    "line": 117,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/bat_algorithm.py",
+    "line": 29,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/swarm_intelligence/moth_flame_optimization.py",
+    "line": 140,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/zebra_optimizer.py",
+    "line": 122,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/mountain_gazelle.py",
+    "line": 106,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/grey_wolf_optimizer.py",
+    "line": 18,
+    "value": 1000,
+    "snippet": "upper_bound=10, dim=2, pack_size=20, max_iter=1000)"
+  },
+  {
+    "path": "opt/swarm_intelligence/grey_wolf_optimizer.py",
+    "line": 135,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/dingo_optimizer.py",
+    "line": 111,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/seagull_optimization.py",
+    "line": 111,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/golden_eagle.py",
+    "line": 111,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/cat_swarm_optimization.py",
+    "line": 20,
+    "value": 2000,
+    "snippet": "max_iter=2000,"
+  },
+  {
+    "path": "opt/swarm_intelligence/cat_swarm_optimization.py",
+    "line": 124,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/black_widow.py",
+    "line": 111,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/moth_search.py",
+    "line": 109,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/starling_murmuration.py",
+    "line": 122,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/african_vultures_optimizer.py",
+    "line": 117,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/emperor_penguin.py",
+    "line": 110,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/coati_optimizer.py",
+    "line": 106,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/slime_mould.py",
+    "line": 109,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/particle_swarm.py",
+    "line": 15,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/swarm_intelligence/particle_swarm.py",
+    "line": 139,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/manta_ray.py",
+    "line": 108,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/african_buffalo_optimization.py",
+    "line": 121,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/wild_horse.py",
+    "line": 110,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/brown_bear.py",
+    "line": 106,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/marine_predators_algorithm.py",
+    "line": 161,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/spotted_hyena.py",
+    "line": 110,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/firefly_algorithm.py",
+    "line": 27,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/swarm_intelligence/firefly_algorithm.py",
+    "line": 149,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/sand_cat.py",
+    "line": 110,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/fennec_fox.py",
+    "line": 121,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/artificial_fish_swarm_algorithm.py",
+    "line": 19,
+    "value": 1000,
+    "snippet": "upper_bound=10, dim=2, n_fish=50, max_iter=1000)"
+  },
+  {
+    "path": "opt/swarm_intelligence/artificial_fish_swarm_algorithm.py",
+    "line": 126,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/whale_optimization_algorithm.py",
+    "line": 18,
+    "value": 1000,
+    "snippet": "upper_bound=10, dim=2, n_whales=50, max_iter=1000)"
+  },
+  {
+    "path": "opt/swarm_intelligence/whale_optimization_algorithm.py",
+    "line": 138,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/grasshopper_optimization.py",
+    "line": 153,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/swarm_intelligence/artificial_rabbits.py",
+    "line": 122,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/harmony_search.py",
+    "line": 19,
+    "value": 5000,
+    "snippet": "max_iter=5000,"
+  },
+  {
+    "path": "opt/metaheuristic/harmony_search.py",
+    "line": 139,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/shuffled_frog_leaping_algorithm.py",
+    "line": 32,
+    "value": 1000,
+    "snippet": "max_iter=1000, cut=2, seed=None)"
+  },
+  {
+    "path": "opt/metaheuristic/shuffled_frog_leaping_algorithm.py",
+    "line": 145,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/eagle_strategy.py",
+    "line": 16,
+    "value": 1000,
+    "snippet": "dim=2, n_eagles=50, max_iter=1000)"
+  },
+  {
+    "path": "opt/metaheuristic/eagle_strategy.py",
+    "line": 127,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/very_large_scale_neighborhood_search.py",
+    "line": 23,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/metaheuristic/very_large_scale_neighborhood_search.py",
+    "line": 153,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/arithmetic_optimization.py",
+    "line": 118,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/colliding_bodies_optimization.py",
+    "line": 13,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/metaheuristic/colliding_bodies_optimization.py",
+    "line": 115,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/particle_filter.py",
+    "line": 144,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/stochastic_diffusion_search.py",
+    "line": 25,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/metaheuristic/stochastic_diffusion_search.py",
+    "line": 167,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/cross_entropy_method.py",
+    "line": 126,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/variable_neighbourhood_search.py",
+    "line": 21,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/metaheuristic/variable_neighbourhood_search.py",
+    "line": 131,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/stochastic_fractal_search.py",
+    "line": 23,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/metaheuristic/stochastic_fractal_search.py",
+    "line": 136,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/variable_depth_search.py",
+    "line": 22,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/metaheuristic/variable_depth_search.py",
+    "line": 148,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/forensic_based.py",
+    "line": 115,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/metaheuristic/sine_cosine_algorithm.py",
+    "line": 23,
+    "value": 2000,
+    "snippet": "max_iter=2000,"
+  },
+  {
+    "path": "opt/metaheuristic/sine_cosine_algorithm.py",
+    "line": 145,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/physics_inspired/rime_optimizer.py",
+    "line": 173,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/physics_inspired/atom_search.py",
+    "line": 164,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/physics_inspired/gravitational_search.py",
+    "line": 191,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/physics_inspired/equilibrium_optimizer.py",
+    "line": 193,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/evolutionary/cultural_algorithm.py",
+    "line": 151,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/evolutionary/differential_evolution.py",
+    "line": 19,
+    "value": 1000,
+    "snippet": "upper_bound=10, dim=2, population_size=50, max_iter=1000)"
+  },
+  {
+    "path": "opt/evolutionary/differential_evolution.py",
+    "line": 152,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/evolutionary/cma_es.py",
+    "line": 136,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/evolutionary/estimation_of_distribution_algorithm.py",
+    "line": 25,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/evolutionary/estimation_of_distribution_algorithm.py",
+    "line": 146,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/evolutionary/genetic_algorithm.py",
+    "line": 139,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "opt/evolutionary/imperialist_competitive_algorithm.py",
+    "line": 28,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "opt/evolutionary/imperialist_competitive_algorithm.py",
+    "line": 153,
+    "value": 10000,
+    "snippet": "...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42"
+  },
+  {
+    "path": "README.md",
+    "line": 47,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "specs/002-replace-doctests-with-spec-driven-benchmarks/benchmarks-gap-report.md",
+    "line": 30,
+    "value": 10000,
+    "snippet": "- T002.2: Audit and fix `max_iter=10000` occurrences (high)"
+  },
+  {
+    "path": "specs/002-replace-doctests-with-spec-driven-benchmarks/plan.md",
+    "line": 21,
+    "value": 2000,
+    "snippet": "- Confirm `benchmark_full` parameters: `max_iter=2000` (adjust per algorithm), seeds range 0-14 for statistical runs"
+  },
+  {
+    "path": "specs/002-replace-doctests-with-spec-driven-benchmarks/spec.md",
+    "line": 95,
+    "value": 10000,
+    "snippet": "- **IT-006**: Implement `scripts/audit_max_iter.py` which scans the repo for occurrences of `max_iter` literals (e.g., `max_iter=10000`) and emits a report; add `pre-commit` hook `scripts/check_max_iter_precommit.py` to flag unexplained `max_iter>=5000` occurrences."
+  },
+  {
+    "path": "specs/002-replace-doctests-with-spec-driven-benchmarks/spec.md",
+    "line": 227,
+    "value": 2000,
+    "snippet": "optimizer = SequentialMonteCarloOptimizer(func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=2000, seed=0, track_history=True)"
+  },
+  {
+    "path": "specs/002-replace-doctests-with-spec-driven-benchmarks/discovery/discovery.md",
+    "line": 8,
+    "value": 10000,
+    "snippet": "- We scanned the repository for long `max_iter` literals (e.g., `max_iter=10000`) and occurrences of `early_stop` usage."
+  },
+  {
+    "path": "specs/002-replace-doctests-with-spec-driven-benchmarks/discovery/discovery.md",
+    "line": 10,
+    "value": 10000,
+    "snippet": "- Multiple docstrings and examples across `opt/` use `max_iter=10000` (see `discovery/files.json` for details)."
+  },
+  {
+    "path": "specs/002-replace-doctests-with-spec-driven-benchmarks/discovery/discovery.md",
+    "line": 32,
+    "value": 10000,
+    "snippet": "- `mcp_ai-agent-guid_code-analysis-prompt-builder({analysisType: 'performance', content: 'scan for missing early-stop and inefficient loop bounds like max_iter=10000', codebase: '/Users/hahn/LocalDocuments/GitHub_Forks/useful-optimizer'})`"
+  },
+  {
+    "path": "docs/guide/advanced.md",
+    "line": 83,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "docs/algorithms/gradient-based/index.md",
+    "line": 34,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "docs/algorithms/swarm-intelligence/cat-swarm.md",
+    "line": 26,
+    "value": 2000,
+    "snippet": "max_iter=2000,"
+  },
+  {
+    "path": "docs/algorithms/swarm-intelligence/bee.md",
+    "line": 25,
+    "value": 4000,
+    "snippet": "max_iter=4000,"
+  },
+  {
+    "path": "docs/algorithms/swarm-intelligence/firefly.md",
+    "line": 33,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "docs/algorithms/swarm-intelligence/particle-swarm.md",
+    "line": 21,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "docs/algorithms/classical/hill-climbing.md",
+    "line": 23,
+    "value": 5000,
+    "snippet": "max_iter=5000,"
+  },
+  {
+    "path": "docs/algorithms/classical/index.md",
+    "line": 30,
+    "value": 1000,
+    "snippet": "max_iter=1000"
+  },
+  {
+    "path": "docs/algorithms/constrained/augmented-lagrangian.md",
+    "line": 25,
+    "value": 8000,
+    "snippet": "max_iter=8000,"
+  },
+  {
+    "path": "docs/algorithms/metaheuristic/colliding-bodies.md",
+    "line": 19,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "docs/algorithms/metaheuristic/stochastic-diffusion.md",
+    "line": 31,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "docs/api/classical.md",
+    "line": 58,
+    "value": 1000,
+    "snippet": "max_iter=1000"
+  },
+  {
+    "path": "docs/api/classical.md",
+    "line": 68,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "docs/api/gradient-based.md",
+    "line": 63,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": "docs/api/gradient-based.md",
+    "line": 76,
+    "value": 1000,
+    "snippet": "max_iter=1000,"
+  },
+  {
+    "path": ".github/CONSTITUTION.md",
+    "line": 23,
+    "value": 10000,
+    "snippet": "- **Performance Best Practices:** Benchmarks and optimizer implementations MUST support early stopping (`early_stop` or `stop_threshold`) and include `metadata.iterations`, `metadata.stopped_early` (bool), and `metadata.stopping_reason` (str). Quick benchmarking defaults MUST be conservative (e.g., `max_iter <= 500`); **do not use** `max_iter=10000` as a default in benchmark comparisons without documented justification. Add audit scripts and pre-commit checks as required."
+  },
+  {
+    "path": ".github/prompts/optimizer-docs-template.prompt.md",
+    "line": 177,
+    "value": 10000,
+    "snippet": "...     max_iter=10000,"
+  },
+  {
+    "path": ".github/prompts/spec-kit.prompt.md",
+    "line": 35,
+    "value": 10000,
+    "snippet": "- Quick sanity benchmark (`benchmark_quick`) that runs < 1s on CI (small `dim`, explicit `early_stop`/`stop_threshold` usage, and a conservative `max_iter` such as `<= 500`) and _writes_ an artifact in JSON that conforms to `docs/schemas/benchmark-data-schema.json`. Benchmarks MUST prefer early stopping over relying on very large `max_iter` values; **do not use** `max_iter=10000` as a default in benchmark comparisons without a documented justification."
+  },
+  {
+    "path": ".github/prompts/spec-kit.prompt.md",
+    "line": 45,
+    "value": 10000,
+    "snippet": "- Audit the codebase for usages of very large `max_iter` (e.g., `max_iter=10000`) and replace with conservative defaults or add documented justification where long runs are required for research; add pre-commit checks that flag unexplained `max_iter>=5000` literals in tests or docs."
+  },
+  {
+    "path": ".github/prompts/spec-kit.prompt.md",
+    "line": 85,
+    "value": 10000,
+    "snippet": "- Goals: collect existing specs, docstrings, doctests, benchmark artifacts and CI configurations. Scan the repository for long `max_iter` usages (e.g., `max_iter=10000`) and for optimizers lacking early-stop/stop-threshold support; produce `discovery.md` summarizing current baseline and a file index of doctests and candidates for early-stop improvements."
+  },
+  {
+    "path": ".github/prompts/spec-kit.prompt.md",
+    "line": 136,
+    "value": 10000,
+    "snippet": "- Performance & code analysis: `mcp_ai-agent-guid_code-analysis-prompt-builder({analysisType: 'performance', content: 'scan for missing early-stop and inefficient loop bounds like max_iter=10000'})`"
+  },
+  {
+    "path": ".github/prompts/spec-kit.prompt.md",
+    "line": 156,
+    "value": 10000,
+    "snippet": "- [ ] [T002.2] [ ] [Foundational] Audit codebase for `max_iter=10000` occurrences and replace with conservative defaults or add documented justification; add pre-commit check to flag unexplained `max_iter>=5000` literals \u2014 Owner: @you \u2014 Est: 2 pts \u2014 Files: repo-wide \u2014 Acceptance: grep for `max_iter=10000` returns 0 results or has PR-level justification comments."
+  },
+  {
+    "path": ".specify/memory/constitution.md",
+    "line": 47,
+    "value": 10000,
+    "snippet": "- **Early Stopping & max_iter guidance**: All optimizer implementations and benchmark helpers MUST support early stopping via an `early_stop` (or `stop_threshold`) parameter and expose benchmark metadata fields `iterations` (int), `stopped_early` (bool), and `stopping_reason` (str). Quick benchmarks MUST use conservative `max_iter` defaults (e.g., `<= 500`) suitable for PR feedback; **do not use** `max_iter=10000` as a default in benchmark comparisons without documented justification. Any PR that modifies default `max_iter` behavior MUST include a performance rationale and comparative evidence."
+  },
+  {
+    "path": ".specify/memory/constitution.md",
+    "line": 48,
+    "value": 10000,
+    "snippet": "- **Audit & Pre-commit enforcement**: The repository MUST include a pre-commit script that flags unexplained `max_iter>=5000` literals in code, tests, and docs; discovery scripts (part of the plan) will scan the repo for `max_iter=10000` occurrences and require either replacement with conservative defaults or explicit justification in the PR."
+  }
 ]

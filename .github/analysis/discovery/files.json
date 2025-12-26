@@ -1,0 +1,10 @@
+[
+  {"path": "opt/constrained/penalty_method.py", "sample_line": ">>> solution, fitness = optimizer.search()", "note": "trivial shape and simple assertions (len(solution) == 10)"},
+  {"path": "opt/swarm_intelligence/manta_ray.py", "sample_line": ">>> solution, fitness = optimizer.search()", "note": "trivial assertions (len(solution) == 10)"},
+  {"path": "opt/gradient_based/adadelta.py", "sample_line": ">>> solution, fitness = optimizer.search()", "note": "trivial shape assertions"},
+  {"path": "opt/metaheuristic/variable_depth_search.py", "sample_line": ">>> solution, fitness = optimizer.search()", "note": "trivial assertions"},
+  {"path": "opt/benchmark/functions.py", "sample_line": ">>> result = shifted_ackley(np.array([1.0, 0.5]))", "note": "doctest examples for benchmark functions"},
+  {"path": "opt/abstract/multi_objective.py", "sample_line": ">>> pareto_front, pareto_fitness = optimizer.search()", "note": "multi-objective examples"},
+  {"path": "specs/002-replace-doctests-with-spec-driven-benchmarks/spec.md", "sample_line": ">>> result = opt.benchmark(store=True)", "note": "spec includes in-spec example already"},
+  {"path": "docs/.github/prompts/optimizer-docs-template.prompt.md", "sample_line": ">>> res = optimizer.benchmark(store=True)", "note": "template includes benchmark-export example"}
+]

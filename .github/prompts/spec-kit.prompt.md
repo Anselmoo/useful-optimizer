@@ -32,15 +32,17 @@
 
   - **Acceptance criteria (must be verifiable by CI):**
 
-    - Quick sanity benchmark (`benchmark_quick`) that runs < 1s on CI (small `dim` and `max_iter`) and _writes_ an artifact in JSON that conforms to `docs/schemas/benchmark-data-schema.json`.
+    - Quick sanity benchmark (`benchmark_quick`) that runs < 1s on CI (small `dim`, explicit `early_stop`/`stop_threshold` usage, and a conservative `max_iter` such as `<= 500`) and _writes_ an artifact in JSON that conforms to `docs/schemas/benchmark-data-schema.json`. Benchmarks MUST prefer early stopping over relying on very large `max_iter` values; **do not use** `max_iter=10000` as a default in benchmark comparisons without a documented justification.
     - Deterministic runs with `seed` documented and checked (e.g., `metadata.seed == 42`).
-    - Full nightly benchmark (`benchmark_full`) that reproduces longer runs and archives artifacts.
+    - Full nightly benchmark (`benchmark_full`) that reproduces longer runs and archives artifacts; full runs MUST also include early-stop support so long-running jobs terminate once the solver converges to the threshold.
     - Tests assert that the generated JSON validates against the project's schema (no manual inspection).
 
   - **Implementation targets:**
 
     - Update `AbstractOptimizer` and `AbstractMultiObjectiveOptimizer` to expose a `benchmark(..., store=True, out_path: str|None)` method that runs an internal short benchmark, saves artifacts and returns a dict with `path` and `metadata`.
     - Add `export_benchmark_json(path, schema='docs/schemas/benchmark-data-schema.json')` helper for explicit export and validation.
+    - Add an `early_stop` (or `stop_threshold`) parameter to `AbstractOptimizer`/`AbstractMultiObjectiveOptimizer` and ensure all optimizer implementations support early stopping based on improvement thresholds or plateau detection. Benchmark metadata MUST include `iterations` (int), `stopped_early` (bool), and `stopping_reason` (str).
+    - Audit the codebase for usages of very large `max_iter` (e.g., `max_iter=10000`) and replace with conservative defaults or add documented justification where long runs are required for research; add pre-commit checks that flag unexplained `max_iter>=5000` literals in tests or docs.
     - Replace trivial doctest examples in docstrings with _mini benchmark examples_ demonstrating `optimizer.benchmark(store=True)` and a small JSON validation check.
 
   - **Example prompt (use verbatim for spec generation):**
@@ -51,11 +53,13 @@
 
     ```py
     >>> from opt.benchmark.functions import sphere
-    >>> opt = SimulatedAnnealing(func=sphere, lower_bound=-5, upper_bound=5, dim=2, max_iter=10, seed=42)
+    >>> opt = SimulatedAnnealing(func=sphere, lower_bound=-5, upper_bound=5, dim=2, max_iter=100, early_stop=1e-6, seed=42)
     >>> result = opt.benchmark(store=True)
     >>> import jsonschema, json
     >>> with open(result['path']) as f: data = json.load(f)
     >>> jsonschema.validate(instance=data, schema_path='docs/schemas/benchmark-data-schema.json')  # should not raise
+    >>> assert data['metadata']['iterations'] <= 100
+    >>> assert isinstance(data['metadata'].get('stopped_early'), bool)
     True
     ```
 
@@ -76,10 +80,10 @@
 
   Required multi-step workflow (detailed):
 
-  1. Discovery & Context Capture (MCPs: `mcp_context7_get-library-docs`, `mcp_serena_find_file`, `mcp_serena_search_for_pattern`)
+  1. Discovery & Context Capture (MCPs: `mcp_context7_get-library-docs`, `mcp_serena_find_file`, `mcp_serena_search_for_pattern`, `vscode-websearchforcopilot_webSearch`, `mcp_ai-agent-guid_code-analysis-prompt-builder`)
 
-     - Goals: collect existing specs, docstrings, doctests, benchmark artifacts and CI configurations. Produce `discovery.md` summarizing current baseline and a file index of doctests to replace.
-     - Deliverables: `discovery.md`, `discovery/files.json` (paths and line ranges), and a short list of candidate doctests.
+     - Goals: collect existing specs, docstrings, doctests, benchmark artifacts and CI configurations. Scan the repository for long `max_iter` usages (e.g., `max_iter=10000`) and for optimizers lacking early-stop/stop-threshold support; produce `discovery.md` summarizing current baseline and a file index of doctests and candidates for early-stop improvements.
+     - Deliverables: `discovery.md`, `discovery/files.json` (paths and line ranges), and a short list of candidate doctests and optimizer implementations needing early-stop support.
      - MCP logging: record each call with `mcp_serena_write_memory` including parameters and a 1-sentence result summary.
 
   2. Gap & Dependency Analysis (MCPs: `mcp_ai-agent-guid_gap-frameworks-analyzers`, `mcp_ai-agent-guid_dependency-auditor`, `mcp_ai-agent-guid_iterative-coverage-enhancer`)
@@ -129,8 +133,10 @@
 
   - Discovery: `mcp_context7_get-library-docs({context7CompatibleLibraryID: '/github/spec-kit', mode: 'code', topic: 'spec-template'})`
   - Gap analysis: `mcp_ai-agent-guid_gap-frameworks-analyzers({currentState: 'repo snapshot', desiredState: 'spec-driven benchmarks', frameworks: ['testing','performance','process']})`
+  - Performance & code analysis: `mcp_ai-agent-guid_code-analysis-prompt-builder({analysisType: 'performance', content: 'scan for missing early-stop and inefficient loop bounds like max_iter=10000'})`
+  - Web research for early-stop best practices: `vscode-websearchforcopilot_webSearch({query: 'early stopping thresholds optimizer max_iter best practices'})`
   - Dependency audit: `mcp_ai-agent-guid_dependency-auditor({dependencyContent: 'contents of pyproject.toml', checkVulnerabilities: true})`
-  - Architecture sketch: `mcp_ai-agent-guid_architecture-design-prompt-builder({systemRequirements: 'benchmark runner, export helper, CI jobs', scale: 'small', technologyStack: 'python', includeMermaid: true})`
+  - Architecture sketch: `mcp_ai-agent-guid_architecture-design-prompt-builder({systemRequirements: 'benchmark runner, export helper, CI jobs, performance gates', scale: 'small', technologyStack: 'python', includeMermaid: true})`
   - Plan validation loop: `mcp_ai-agent-guid_guidelines-validator({practiceDescription: 'Candidate plan content', category: 'workflow'})`
 
   Output: a machine-parseable `plan.md` (with YAML frontmatter), `architecture.md` (with diagrams), `discovery.md`, `benchmarks-gap-report.md`, `tasks.md`, `tasks.json`, `runbook.md`, and a `plan-validation.md` file logging validator scores and MCP calls. Ensure every file lists the MCP calls used and stores the same short call summary in Serena memory for auditability.
@@ -146,6 +152,8 @@
 
     - [ ] [T001] [ ] [Setup] Create `opt/benchmark/utils.py` and implement `export_benchmark_json` — Owner: @you — Est: 2 pts — Files: `opt/benchmark/utils.py` — Acceptance: `python -c "from opt.benchmark.utils import export_benchmark_json"` and unit tests in `tests/test_benchmark_export.py` pass.
     - [ ] [T002] [ ] [Foundational] Add `benchmark()` to `opt/abstract_optimizer.py` (and mirror in multi-objective) — Owner: @you — Est: 4 pts — Files: `opt/abstract_optimizer.py`, `opt/multi_objective/abstract_multi_objective.py` — Acceptance: `uv run pytest -q tests/test_benchmark_export.py -q`.
+    - [ ] [T002.1] [ ] [Foundational] Add early stopping support: add `early_stop`/`stop_threshold` parameter to `AbstractOptimizer` and implement in concrete optimizers; ensure benchmark metadata includes `iterations`, `stopped_early`, and `stopping_reason` — Owner: @you — Est: 4 pts — Files: `opt/abstract/*`, `opt/**` — Acceptance: `uv run pytest -q -k early_stop` (new tests pass and `metadata['stopped_early']` is present).
+    - [ ] [T002.2] [ ] [Foundational] Audit codebase for `max_iter=10000` occurrences and replace with conservative defaults or add documented justification; add pre-commit check to flag unexplained `max_iter>=5000` literals — Owner: @you — Est: 2 pts — Files: repo-wide — Acceptance: grep for `max_iter=10000` returns 0 results or has PR-level justification comments.
     - [ ] [T003] [P] [US1] Implement `scripts/replace_trivial_doctests.py` with `--dry-run` and `--apply` flags — Owner: @you — Est: 6 pts — Acceptance: dry-run outputs a report; unit test `tests/test_doctest_replacements.py` passes.
     - [ ] [T004] [ ] [CI] Add `.github/workflows/benchmarks-quick.yml` that runs `uv run pytest -q -k benchmark_quick` on PRs — Owner: @you — Est: 2 pts — Acceptance: CI job appears and passes in a test branch.
     - [ ] [T005] [ ] [CI] Add nightly `.github/workflows/benchmarks-full.yml` to run `@pytest.mark.benchmark_full` and upload artifacts to `benchmarks/output/` — Owner: @you — Est: 3 pts — Acceptance: artifacts are uploaded and validated against schema.

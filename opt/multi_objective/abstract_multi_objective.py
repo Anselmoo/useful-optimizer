@@ -1,4 +1,15 @@
-"""Abstract base class for multi-objective optimizers.
+r"""Abstract base class for multi-objective optimizers.
+
+Algorithm Metadata:
+    | Property        | Value                                |
+    |-----------------|--------------------------------------|
+    | Algorithm Name  | Abstract Multi-Objective Optimizer   |
+    | Acronym         | AMOO                                 |
+    | Year Introduced | 2025                                 |
+    | Authors         | Useful Optimizer contributors        |
+    | Algorithm Class | Multi-Objective                      |
+    | Complexity      | O(max_iter \times population_size \times dim) |
+    | Properties      | Population-based, Stochastic, Archive-based |
 
 This module defines the base class for multi-objective optimization algorithms
 that return Pareto-optimal solution sets instead of a single optimal solution.
@@ -39,7 +50,18 @@ if TYPE_CHECKING:
 
 
 class AbstractMultiObjectiveOptimizer(ABC):
-    """Abstract base class for multi-objective optimizers with COCO/BBOB compliance support.
+    r"""Abstract base class for multi-objective optimizers.
+
+    Algorithm Metadata:
+        | Property        | Value                              |
+        |-----------------|------------------------------------|
+        | Algorithm Name  | Abstract Multi-Objective Optimizer |
+        | Acronym         | AMOO                               |
+        | Year Introduced | 2025                               |
+        | Authors         | Useful Optimizer contributors      |
+        | Algorithm Class | Multi-Objective                    |
+        | Complexity      | O(max_iter \times population_size \times dim) |
+        | Properties      | Population-based, Stochastic, Archive-based |
 
     Multi-objective optimizers find a set of Pareto-optimal solutions that
     represent trade-offs between multiple competing objectives. This base class
@@ -78,6 +100,7 @@ class AbstractMultiObjectiveOptimizer(ABC):
         seed (int): **REQUIRED for BBOB compliance.** Random seed for reproducibility.
             Used for all random operations to ensure deterministic Pareto fronts.
         population_size (int): The number of individuals in the population.
+        algorithm_metadata (dict): Algorithm metadata. Required keys: name (str), version (str), authors (list[str]), year (int).
         track_history (bool): Whether to record optimization history for analysis.
         history (dict[str, list]): Optimization history if track_history is True.
             Contains keys:
@@ -340,6 +363,170 @@ class AbstractMultiObjectiveOptimizer(ABC):
             buffer_dict["pareto_solutions"] = self.history["pareto_solutions"]
 
         self.history = buffer_dict
+
+    def benchmark(
+        self,
+        *,
+        store: bool = False,
+        out_path: str | None = None,
+        schema_path: str | None = "docs/schemas/benchmark-data-schema.json",
+        quick: bool = True,
+        quick_max_iter: int = 10,
+        quick_population_size: int | None = None,
+        **kwargs: object,
+    ) -> dict:
+        """Run a short benchmark of this multi-objective optimizer and optionally store results.
+
+        This method produces a schema-compliant artifact when `store=True`.
+        """
+        import time
+
+        # Save state
+        orig_track = self.track_history
+        orig_history = self.history.copy() if isinstance(self.history, dict) else {}
+        orig_history_buffer = self._history_buffer
+        orig_max_iter = self.max_iter
+        orig_population = self.population_size
+
+        try:
+            # Adjust for quick run
+            if quick:
+                self.max_iter = min(self.max_iter, quick_max_iter)
+                if quick_population_size is not None:
+                    self.population_size = quick_population_size
+
+            # Ensure history is enabled for benchmark
+            if not self.track_history or self._history_buffer is None:
+                self.track_history = True
+                self._history_buffer = OptimizationHistory(
+                    max_iter=self.max_iter + 1,
+                    dim=self.dim,
+                    population_size=self.population_size,
+                    config=HistoryConfig(
+                        track_population=True,
+                        track_population_fitness=True,
+                        max_history_size=self.max_iter + 1,
+                    ),
+                )
+                self.history = {
+                    "best_fitness": [],
+                    "best_solution": [],
+                    "pareto_fitness": [],
+                    "pareto_solutions": [],
+                    "population_fitness": [],
+                    "population": [],
+                }
+
+            # Run the optimizer's search implementation
+            pareto_solutions, pareto_fitness = self.search(**kwargs)
+
+            # Finalize history
+            self._finalize_history()
+
+            result: dict = {
+                "algorithm": self.__class__.__name__,
+                "seed": int(self.seed),
+                "timestamp": int(time.time()),
+                "params": {
+                    "dim": int(self.dim),
+                    "max_iter": int(self.max_iter),
+                    "population_size": int(self.population_size),
+                },
+                "pareto_solutions": (
+                    pareto_solutions.tolist()
+                    if hasattr(pareto_solutions, "tolist")
+                    else pareto_solutions
+                ),
+                "pareto_fitness": (
+                    pareto_fitness.tolist()
+                    if hasattr(pareto_fitness, "tolist")
+                    else pareto_fitness
+                ),
+                "history": self.history,
+            }
+
+            if store:
+                import datetime
+                import sys
+
+                import numpy as np
+
+                from opt.benchmark.utils import export_benchmark_json as export_helper
+
+                metadata = {
+                    "max_iterations": int(self.max_iter),
+                    "n_runs": 1,
+                    "dimensions": [int(self.dim)],
+                    "timestamp": datetime.datetime.now(
+                        datetime.timezone.utc
+                    ).isoformat(),
+                    "python_version": sys.version.split()[0],
+                    "numpy_version": np.__version__,
+                }
+
+                func_name = "multi_objective"
+                artifact = {
+                    "metadata": metadata,
+                    "benchmarks": {
+                        func_name: {
+                            str(self.dim): {
+                                self.__class__.__name__: {
+                                    "runs": [
+                                        {
+                                            "pareto_solutions": result.get(
+                                                "pareto_solutions"
+                                            ),
+                                            "pareto_fitness": result.get(
+                                                "pareto_fitness"
+                                            ),
+                                            "n_evaluations": int(self.max_iter),
+                                            "history": result.get("history", {}),
+                                            # For schema compatibility (single-objective schema), provide a scalarized best
+                                            # fitness and corresponding solution derived from the Pareto front.
+                                            "best_fitness": (
+                                                float(
+                                                    __import__("numpy").sum(
+                                                        result.get(
+                                                            "pareto_fitness", [[0.0]]
+                                                        )[0]
+                                                    )
+                                                )
+                                                if result.get("pareto_fitness")
+                                                else 0.0
+                                            ),
+                                            "best_solution": (
+                                                result.get("pareto_solutions", [[0.0]])[
+                                                    0
+                                                ]
+                                                if result.get("pareto_solutions")
+                                                else [0.0]
+                                            ),
+                                        }
+                                    ],
+                                    "statistics": {
+                                        "mean_fitness": 0.0,
+                                        "std_fitness": 0.0,
+                                        "min_fitness": 0.0,
+                                        "max_fitness": 0.0,
+                                        "median_fitness": 0.0,
+                                    },
+                                    "success_rate": 1.0,
+                                }
+                            }
+                        }
+                    },
+                }
+
+                path = export_helper(artifact, out_path, schema_path=schema_path)
+                return {"path": path, "metadata": metadata}
+            return result
+        finally:
+            # Restore state
+            self.track_history = orig_track
+            self.history = orig_history
+            self._history_buffer = orig_history_buffer
+            self.max_iter = orig_max_iter
+            self.population_size = orig_population
 
     @abstractmethod
     def search(self) -> tuple[ndarray, ndarray]:

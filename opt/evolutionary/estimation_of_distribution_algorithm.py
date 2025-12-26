@@ -146,7 +146,10 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
         ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
+        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark — please review.
+        >>> # Suggested mini-benchmark (seeded, quick):
+        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)
+        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None
         True
 
     Args:

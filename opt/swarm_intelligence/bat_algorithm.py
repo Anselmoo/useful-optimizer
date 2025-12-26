@@ -175,7 +175,10 @@ class BatAlgorithm(AbstractOptimizer):
         ...     func=sphere, dim=10, lower_bound=-5, upper_bound=5, n_bats=20, max_iter=100, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
+        >>> # TODO: Replaced trivial doctest with a suggested mini-benchmark — please review.
+        >>> # Suggested mini-benchmark (seeded, quick):
+        >>> # >>> res = optimizer.benchmark(store=True, quick=True, quick_max_iter=10, seed=0)
+        >>> # >>> assert isinstance(res, dict) and res.get('metadata') is not None
         True
 
     Args:

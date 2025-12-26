@@ -169,6 +169,222 @@ class AbstractOptimizer(ABC):
             return
         self.history = self._history_buffer.to_dict()
 
+    def export_benchmark_json(
+        self,
+        result: dict,
+        path: str | None = None,
+        schema_path: str | None = "docs/schemas/benchmark-data-schema.json",
+    ) -> str:
+        """Export benchmark result dict to JSON and optionally validate against a schema.
+
+        Args:
+            result (dict): The benchmark result dictionary to export.
+            path (str | None): Path to write JSON file. If None, a default path is chosen.
+            schema_path (str | None): Optional path to a JSON Schema for validation.
+
+        Returns:
+            str: Path to written JSON file.
+        """
+        import json
+
+        from pathlib import Path
+
+        try:
+            out_dir = Path(path).parent if path else Path("benchmarks/output")
+        except TypeError:
+            out_dir = Path("benchmarks/output")
+        out_dir.mkdir(parents=True, exist_ok=True)
+
+        if path is None:
+            import time
+
+            timestamp = int(time.time())
+            filename = f"{self.__class__.__name__}-{timestamp}-s{self.seed}.json"
+            file_path = out_dir / filename
+        else:
+            file_path = Path(path)
+
+        with file_path.open("w", encoding="utf-8") as fh:
+            json.dump(result, fh, indent=2, ensure_ascii=False)
+
+        # If schema validation is requested, try to validate using jsonschema if available
+        if schema_path:
+            import warnings
+
+            from importlib import util as importlib_util
+            from pathlib import Path
+
+            if importlib_util.find_spec("jsonschema") is None:
+                warnings.warn(
+                    "jsonschema not installed; skipping benchmark JSON validation",
+                    stacklevel=2,
+                )
+            else:
+                from jsonschema import Draft7Validator
+
+                with Path(schema_path).open(encoding="utf-8") as s:
+                    schema = json.load(s)
+                Draft7Validator(schema).validate(result)
+
+        return str(file_path)
+
+    def benchmark(
+        self,
+        *,
+        store: bool = False,
+        out_path: str | None = None,
+        schema_path: str | None = "docs/schemas/benchmark-data-schema.json",
+        quick: bool = True,
+        quick_max_iter: int = 10,
+        quick_population_size: int | None = None,
+        **kwargs: object,
+    ) -> dict:
+        """Run a short benchmark of this optimizer and optionally store results.
+
+        The method temporarily enables history tracking to collect full iteration data
+        and restores the optimizer's previous configuration after execution.
+
+        Args:
+            store (bool): If True, write the result JSON to disk and return path metadata.
+            out_path (str | None): Explicit output path for JSON export.
+            schema_path (str | None): Path to JSON schema used to validate the output.
+            quick (bool): When True, run a short internal benchmark (smaller max_iter).
+            quick_max_iter (int): Maximum iterations to use in quick mode.
+            quick_population_size (int | None): Override population size in quick mode.
+            **kwargs: Extra keyword arguments forwarded to `search` where applicable.
+
+        Returns:
+            dict: Result dictionary containing metadata, params, best_solution, best_fitness and history (if available).
+        """
+        import time
+
+        # Save state
+        orig_track = self.track_history
+        orig_history = self.history.copy() if isinstance(self.history, dict) else {}
+        orig_history_buffer = self._history_buffer
+        orig_max_iter = self.max_iter
+        orig_population = self.population_size
+
+        try:
+            # Adjust for quick run
+            if quick:
+                self.max_iter = min(self.max_iter, quick_max_iter)
+                if quick_population_size is not None:
+                    self.population_size = quick_population_size
+
+            # Ensure history is enabled for benchmark
+            if not self.track_history or self._history_buffer is None:
+                self.track_history = True
+                self._history_buffer = OptimizationHistory(
+                    max_iter=self.max_iter + 1,
+                    dim=self.dim,
+                    population_size=self.population_size,
+                    config=HistoryConfig(
+                        track_population=True,
+                        track_population_fitness=True,
+                        max_history_size=self.max_iter + 1,
+                    ),
+                )
+                self.history = {
+                    "best_fitness": [],
+                    "best_solution": [],
+                    "population_fitness": [],
+                    "population": [],
+                }
+
+            # Run the optimizer's search implementation
+            solution, fitness = self.search(**kwargs)
+
+            # Finalize history
+            self._finalize_history()
+
+            result: dict = {
+                "algorithm": self.__class__.__name__,
+                "seed": int(self.seed),
+                "timestamp": int(time.time()),
+                "params": {
+                    "dim": int(self.dim),
+                    "max_iter": int(self.max_iter),
+                    "population_size": int(self.population_size),
+                },
+                "best_solution": (
+                    solution.tolist() if hasattr(solution, "tolist") else solution
+                ),
+                "best_fitness": float(fitness),
+                "history": self.history,
+            }
+
+            if store:
+                # Build schema-compliant artifact
+                import datetime
+                import sys
+
+                import numpy as np
+
+                from opt.benchmark.utils import export_benchmark_json as export_helper
+
+                metadata = {
+                    "max_iterations": int(self.max_iter),
+                    "n_runs": 1,
+                    "dimensions": [int(self.dim)],
+                    "timestamp": datetime.datetime.now(
+                        datetime.timezone.utc
+                    ).isoformat(),
+                    "python_version": sys.version.split()[0],
+                    "numpy_version": np.__version__,
+                }
+
+                func_name = getattr(self.func, "__name__", "function")
+                artifact = {
+                    "metadata": metadata,
+                    "benchmarks": {
+                        func_name: {
+                            str(self.dim): {
+                                self.__class__.__name__: {
+                                    "runs": [
+                                        {
+                                            "best_fitness": result.get("best_fitness"),
+                                            "best_solution": result.get(
+                                                "best_solution"
+                                            ),
+                                            "n_evaluations": int(self.max_iter),
+                                            "history": result.get("history", {}),
+                                        }
+                                    ],
+                                    "statistics": {
+                                        "mean_fitness": float(
+                                            result.get("best_fitness")
+                                        ),
+                                        "std_fitness": 0.0,
+                                        "min_fitness": float(
+                                            result.get("best_fitness")
+                                        ),
+                                        "max_fitness": float(
+                                            result.get("best_fitness")
+                                        ),
+                                        "median_fitness": float(
+                                            result.get("best_fitness")
+                                        ),
+                                    },
+                                    "success_rate": 1.0,
+                                }
+                            }
+                        }
+                    },
+                }
+
+                path = export_helper(artifact, out_path, schema_path=schema_path)
+                return {"path": path, "metadata": metadata}
+            return result
+        finally:
+            # Restore state
+            self.max_iter = orig_max_iter
+            self.population_size = orig_population
+            self.track_history = orig_track
+            self._history_buffer = orig_history_buffer
+            if orig_track:
+                self.history = orig_history
+
     @abstractmethod
     def search(self) -> tuple[ndarray, float]:
         """Perform the optimization search.

@@ -32,3 +32,15 @@
 ## Notes
 
 - Items marked incomplete require spec updates before `/speckit.clarify` or `/speckit.plan`
+
+## Validation Summary
+
+- Validator: `mcp_ai-agent-guid_guidelines-validator`
+  - Score: **55/100** (Fair)
+  - Issues: requests more data-driven timeline estimates and explicit feedback/iteration cycles.
+
+## Next actions
+
+- [ ] Run a short planning session to finalize story points and thresholds (capture results in spec).
+- [ ] Optionally add a small Mermaid timeline diagram to the spec (visual aid for reviewers).
+- [ ] Re-run `mcp_ai-agent-guid_guidelines-validator` after planning and update checklist as needed.
