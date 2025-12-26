@@ -8,7 +8,7 @@
 
 ## Phase: Setup
 
-- [ ] [T001] [ ] [Setup] Implement `opt/benchmark/utils.py` with `export_benchmark_json` and `validate_benchmark_json` — Owner: @you — Est: 2 pts — Files: `opt/benchmark/utils.py`, `tests/test_benchmark_export.py` — Acceptance: `pytest tests/test_benchmark_export.py` passes. (Artifact: `benchmarks/output/` writer + schema validator)
+- [x] [T001] [ ] [Setup] Implement `opt/benchmark/utils.py` with `export_benchmark_json` and `validate_benchmark_json` — Owner: @you — Est: 2 pts — Files: `opt/benchmark/utils.py`, `tests/test_benchmark_export.py` — Acceptance: `pytest tests/test_benchmark_export.py` passes. (Artifact: `benchmarks/output/` writer + schema validator)
 
 ## Phase: Foundational
 
