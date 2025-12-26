@@ -1,0 +1,83 @@
+{
+  "generated_at": "2025-12-26T00:00:00Z",
+  "summary": "Gaps discovered for replace-doctests-with-spec-driven-benchmarks",
+  "items": [
+    {
+      "category": "testing",
+      "gaps": [
+        "~200 trivial doctest occurrences across `opt/` modules (shape checks, isinstance, short assertions)",
+        "Majority of optimizers lack `benchmark_quick` tests that export and validate artifacts",
+        "No per-module spec fragment exists for most doctest replacements"
+      ],
+      "impact": "high",
+      "actionable_tasks": [
+        "T009 Add `benchmark_quick` tests for representative optimizers (MantaRay, SMC, PSO, CMA-ES)",
+        "T027 Add targeted quick tests for top discovered modules (MantaRay, penalty_method, SineCosine, ParticleFilter)",
+        "T003 Implement `scripts/replace_trivial_doctests.py` (dry-run + apply)"
+      ]
+    },
+    {
+      "category": "performance",
+      "gaps": [
+        "No performance measurement gating for quick vs full runs and no configured thresholds",
+        "Artifacts size and compression guidelines not enforced in CI",
+        "No nightly archival job currently implemented"
+      ],
+      "impact": "medium",
+      "actionable_tasks": [
+        "T005 Add nightly `benchmark_full` workflow with artifact upload & schema validation",
+        "T010 Add runbook & archival docs and retention policy (30 days)",
+        "T029 Tune thresholds and archival settings in runbook"
+      ]
+    },
+    {
+      "category": "docs",
+      "gaps": [
+        "Many docstrings still use trivial doctest assertions and lack mini-benchmark examples",
+        "Documentation lacks 'How to validate locally' snippets in multiple optimizer docs",
+        "Spec fragments (per-module) are missing for many replacements"
+      ],
+      "impact": "medium",
+      "actionable_tasks": [
+        "T006 Update docs & docstrings with in-spec minimal example and 'How to validate locally' snippets",
+        "T012 Add per-module spec fragments for replaced docstrings"
+      ]
+    },
+    {
+      "category": "process",
+      "gaps": [
+        "No enforced pre-commit hook for `validate-benchmark-json` or for trivial doctest detection",
+        "PR verification to assert spec updates and MCP logging is not yet implemented (T024 not implemented)",
+        "MCP usage logging is partially present in tasks.json but not enforced in CI/PR checks"
+      ],
+      "impact": "high",
+      "actionable_tasks": [
+        "T007 Implement `validate-benchmark-json` pre-commit hook and ensure it runs on commits",
+        "T024 Implement PR verification job (enforce spec fragment & MCP calls in PR body)",
+        "T008 Ensure `check_forbidden_mcp_calls.py` runs in pre-commit and CI to prevent runtime MCP calls"
+      ]
+    },
+    {
+      "category": "coverage",
+      "gaps": [
+        "Overall test coverage low (statements ~42%), with functions coverage ~27%; key functions uncovered",
+        "Dead code candidates identified (needs manual review)"
+      ],
+      "impact": "medium",
+      "actionable_tasks": [
+        "T028 Add CI coverage-analysis job and adaptive thresholds",
+        "Add tests for high-priority uncovered functions (as per iterative coverage enhancer suggestions)"
+      ]
+    }
+  ],
+  "prioritized": [
+    {"task": "T009 Add benchmark_quick tests for representative optimizers", "impact": "high", "estimate": "3 pts"},
+    {"task": "T001 Implement export/validate helpers", "impact": "high", "estimate": "2 pts"},
+    {"task": "T002 Add benchmark() to AbstractOptimizer", "impact": "high", "estimate": "4 pts"},
+    {"task": "T024 Implement PR verification job (spec & MCP check)", "impact": "high", "estimate": "2 pts"},
+    {"task": "T005 Add nightly benchmark_full workflow", "impact": "medium", "estimate": "3 pts"},
+    {"task": "T027 Add targeted quick tests for top discovered modules", "impact": "high", "estimate": "3 pts"},
+    {"task": "T028 Add CI coverage analysis & thresholds", "impact": "medium", "estimate": "2 pts"},
+    {"task": "T029 Tune archival and runbook settings", "impact": "medium", "estimate": "1 pt"}
+  ]
+}

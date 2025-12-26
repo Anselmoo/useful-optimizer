@@ -86,6 +86,14 @@
 
 - [ ] T025 [ ] [Tests] Add tests for tasks parity and duplication detection (`tests/test_tasks_consistency.py`) and MCP logging expectations (`tests/test_mcp_logging.py`) — Owner: @you — Est: 1 pt — Files: `tests/test_tasks_consistency.py`, `tests/test_mcp_logging.py` — Acceptance: `pytest tests/test_tasks_consistency.py tests/test_mcp_logging.py` pass locally.
 
+- [ ] T026 [ ] [Refactor] Remove or flag dead/unused code found during coverage analysis — Owner: @you — Est: 1 pt — Files: `opt/*` — Acceptance: Deprecated code removed or flagged, tests pass, and PR includes justification for removals.
+
+- [ ] T027 [P] [Testing] Add targeted quick tests for top discovered modules (MantaRay, `penalty_method`, SineCosine, ParticleFilter) — Owner: @you — Est: 3 pts — Files: `tests/benchmark_quick/test_manta_ray.py`, `tests/benchmark_quick/test_penalty_method.py` — Dependencies: T001, T002 — Acceptance: tests complete <1s and validate artifacts.
+
+- [ ] T028 [ ] [CI] Add CI coverage-analysis job and adaptive thresholds — Owner: @you — Est: 2 pts — Files: `.github/workflows/coverage-analysis.yml` — Acceptance: coverage job runs weekly and suggests threshold updates.
+
+- [ ] T029 [ ] [Release] Tune archival retention policy and update runbook (`ci/archiving.md`, `runbook.md`) — Owner: @you — Est: 1 pt — Files: `ci/archiving.md`, `runbook.md` — Acceptance: runbook contains archival verification steps and retention is enforced in nightly job.
+
 
 ---
 
