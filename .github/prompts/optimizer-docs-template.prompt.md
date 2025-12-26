@@ -1,9 +1,35 @@
 ---
-agent: 'agent'
+agent: "agent"
 model: Auto (copilot)
-tools: ['read', 'edit', 'search', 'web', 'ai-agent-guidelines/code-analysis-prompt-builder', 'ai-agent-guidelines/digital-enterprise-architect-prompt-builder', 'ai-agent-guidelines/documentation-generator-prompt-builder', 'ai-agent-guidelines/guidelines-validator', 'ai-agent-guidelines/hierarchical-prompt-builder', 'ai-agent-guidelines/hierarchy-level-selector', 'ai-agent-guidelines/l9-distinguished-engineer-prompt-builder', 'ai-agent-guidelines/semantic-code-analyzer', 'ai-agent-guidelines/strategy-frameworks-builder', 'context7/*', 'github/*', 'serena/*', 'agent', 'ms-python.python/getPythonEnvironmentInfo', 'ms-python.python/getPythonExecutableCommand', 'ms-python.python/installPythonPackage', 'ms-python.python/configurePythonEnvironment', 'ms-vscode.vscode-websearchforcopilot/websearch', 'todo']
-description: 'Generate a comprehensive COCO/BBOB compliant optimizer docstring template for the useful-optimizer library, ensuring all required sections and formatting conventions are included for scientific reproducibility and benchmark compliance.'
+tools:
+  [
+    "read",
+    "edit",
+    "search",
+    "web",
+    "ai-agent-guidelines/code-analysis-prompt-builder",
+    "ai-agent-guidelines/digital-enterprise-architect-prompt-builder",
+    "ai-agent-guidelines/documentation-generator-prompt-builder",
+    "ai-agent-guidelines/guidelines-validator",
+    "ai-agent-guidelines/hierarchical-prompt-builder",
+    "ai-agent-guidelines/hierarchy-level-selector",
+    "ai-agent-guidelines/l9-distinguished-engineer-prompt-builder",
+    "ai-agent-guidelines/semantic-code-analyzer",
+    "ai-agent-guidelines/strategy-frameworks-builder",
+    "context7/*",
+    "github/*",
+    "serena/*",
+    "agent",
+    "ms-python.python/getPythonEnvironmentInfo",
+    "ms-python.python/getPythonExecutableCommand",
+    "ms-python.python/installPythonPackage",
+    "ms-python.python/configurePythonEnvironment",
+    "ms-vscode.vscode-websearchforcopilot/websearch",
+    "todo",
+  ]
+description: "Generate a comprehensive COCO/BBOB compliant optimizer docstring template for the useful-optimizer library, ensuring all required sections and formatting conventions are included for scientific reproducibility and benchmark compliance."
 ---
+
 # COCO/BBOB Compliant Optimizer Docstring Template
 
 This template provides a standardized format for documenting optimization algorithms in the `useful-optimizer` library to ensure COCO/BBOB benchmark compliance and scientific reproducibility.
@@ -120,11 +146,11 @@ COCO/BBOB Benchmark Settings:
 
 ### 5. Example
 
-Provide working doctest example with `seed=42`:
+Provide working doctest example with `seed=42` and a _machine-checkable_ mini-benchmark that writes JSON conforming to the repository schema:
 
 ```python
 Example:
-    Basic usage with BBOB benchmark function:
+    Basic usage with BBOB benchmark function (quick search):
 
     >>> from opt.[category].[module] import [AlgorithmClass]
     >>> from opt.benchmark.functions import shifted_ackley
@@ -136,11 +162,11 @@ Example:
     ...     max_iter=100,
     ...     seed=42  # Required for reproducibility
     ... )
-    >>> solution, fitness = optimizer.search()
-    >>> isinstance(fitness, float) and fitness >= 0
+    >>> result = optimizer.benchmark(store=False)
+    >>> isinstance(result.get('best_fitness'), float)
     True
 
-    COCO benchmark example:
+    COCO benchmark example (sanity, **do not** run full 10k iterations in doctest):
 
     >>> from opt.benchmark.functions import sphere
     >>> optimizer = [AlgorithmClass](
@@ -152,10 +178,15 @@ Example:
     ...     population_size=100,
     ...     seed=42
     ... )
-    >>> solution, fitness = optimizer.search()
-    >>> len(solution) == 10
-    True
+    >>> # Quick in-doc benchmark that stores artifacts and validates JSON schema
+    >>> res = optimizer.benchmark(store=True)
+    >>> import jsonschema, json
+    >>> with open(res['path'], 'r') as fh: data = json.load(fh)
+    >>> jsonschema.Draft7Validator(json.load(open('docs/schemas/benchmark-data-schema.json'))).validate(data)
+    >>> True
 ```
+
+**Note:** Docstring examples used in `Example:` must be fast and deterministic. Replace long-running examples with `benchmark(store=True)` mini-examples or point to integration tests in `tests/benchmark_quick/` and `tests/benchmark_full/` for full runs.
 
 ### 6. Args
 
@@ -184,6 +215,12 @@ Args:
     track_history (bool, optional):
         Enable convergence history tracking for BBOB post-processing.
         Defaults to False.
+    benchmark (method):
+        `benchmark(store=False, out_path=None, schema_path="docs/schemas/benchmark-data-schema.json", quick=True, quick_max_iter=10)`
+        Convenience method that runs a short, deterministic benchmark, collects history (temporarily enabling it if necessary), and optionally exports a JSON artifact conforming to `docs/schemas/benchmark-data-schema.json` when `store=True`.
+    export_benchmark_json (method):
+        `export_benchmark_json(result: dict, path: str | None = None, schema_path: str | None = "docs/schemas/benchmark-data-schema.json") -> str`
+        Helper to write a benchmark result dict to disk and validate it against the project's JSON schema.
     [algorithm_specific_params] ([type], optional):
         [Description with BBOB tuning guidance]
         Defaults to [value].
@@ -463,20 +500,24 @@ class [AlgorithmName](AbstractOptimizer):
 To ensure full BBOB reproducibility compliance:
 
 1. **Seed Management**:
+
    - Accept `seed` parameter in `__init__`
    - Use `np.random.default_rng(self.seed)` for all random operations
    - Document seed range for BBOB (0-14 for 15 runs)
 
 2. **History Tracking**:
+
    - Implement `track_history` flag
    - Populate `self.history` dict with keys: `best_fitness`, `best_solution`, `population_fitness`, `population`
    - Update history each iteration when enabled
 
 3. **Deterministic Execution**:
+
    - Same seed must produce identical results across runs
    - Document any non-deterministic elements (if unavoidable)
 
 4. **Standard Output**:
+
    - Return `tuple[np.ndarray, float]` from `search()`
    - First element: best solution (shape: (dim,))
    - Second element: best fitness value (scalar float)
