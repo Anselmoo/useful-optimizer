@@ -58,3 +58,19 @@ repos:
         pass_filenames: true
         files: ^opt/.*\.py$
         exclude: ^opt/(benchmark|test|__pycache__|visualization|__init__|.*/__init__\.py).*
+
+      - id: validate-benchmark-json
+        name: Validate benchmark JSON artifacts against schema
+        entry: python scripts/validate_benchmark_json.py
+        language: python
+        pass_filenames: true
+        # Only run on files that look like benchmark output
+        files: ^benchmarks/output/.*\.json$
+        args: ["--schema", "docs/schemas/benchmark-data-schema.json"]
+
+      - id: check-forbidden-mcp-calls
+        name: Detect forbidden MCP/agent calls in library code
+        entry: python scripts/check_forbidden_mcp_calls.py
+        language: python
+        pass_filenames: true
+        files: ^opt/.*\.py$

@@ -18,7 +18,9 @@
 
 - /speckit.implement Execute all tasks to build the feature according to the plan
 
-  Answer: Use the prompt chain from `mcp_ai-agent-guid_prompt-chaining-builder` to implement: create branch, write specs, add `benchmark_quick` tests, add `@pytest.mark.benchmark_full` tests, validate history tracking (PR #119), add CI workflows, and prepare a single comprehensive PR. Local dev steps: `uv sync`, run quick tests, lint/format, run full integration locally if needed, then push branch and open PR (one big update).
+  Answer: Use the prompt chain from `mcp_ai-agent-guid_prompt-chaining-builder` to implement: create branch, write specs, add `benchmark_quick` tests, add `@pytest.mark.benchmark_full` tests, validate history tracking (PR #119), add CI workflows, and prepare a single comprehensive PR. Local dev steps: `uv sync`, run quick tests, lint/format, run full integration locally if needed, then push branch and open PR (one big update). Use `mcp_context7_get-resolve-library-id`, `mcp_context7_get-library-docs`, `mcp_serena_find-file` and `mcp_serena_search-for-pattern,  to assist with code navigation and consistency checks. You can cross-check yourself via `mcp_ai-agent-guid_gap-frameworks-analyzers` to ensure all aspects are covered. Furthermore, use `mcp_ai-agent-guid_hier_hierarchy-level-selector` to break down complex tasks into manageable subtasks and evaulate progress effectively` via `mcp_serena_think_about_task_adherence`
+
+
 
 ## Additional commands for enhanced quality and validation:
 
@@ -34,4 +36,4 @@
 
 - /speckit.checklist Generate custom quality checklists that validate requirements completeness, clarity, and consistency (like "unit tests for English")
 
-  Answer: Use `mcp_ai-agent-guid_quick-developer-prompts-builder` or `mcp_ai-agent-guid_checklist` to produce a reviewers' checklist that enforces: Spec exists for each removed doctest, `benchmark_quick` tests present and pass, reproducibility verified (seeds documented), memory-efficient history validated, CI jobs added, and `specify check` included in CI. Include short commands for local validation (e.g., `uv run pytest -q -k benchmark_quick`, `specify check`).
+  Answer: Use `mcp_ai-agent-guid_quick_guidelines-validator` and `mcp_ai-agent-guid_quick-developer-prompts-builder` or `mcp_ai-agent-guid_checklist` to produce a reviewers' checklist that enforces: Spec exists for each removed doctest, `benchmark_quick` tests present and pass, reproducibility verified (seeds documented), memory-efficient history validated, CI jobs added, and `specify check` included in CI. Include short commands for local validation (e.g., `uv run pytest -q -k benchmark_quick`, `specify check`). To support you further use `mcp_context7_get-resolve-library-id`, `mcp_serena_find_file` and `mcp_serena_search_for_pattern`

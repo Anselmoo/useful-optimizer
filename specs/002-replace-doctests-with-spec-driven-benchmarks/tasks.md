@@ -6,22 +6,45 @@
 
 ---
 
-## Phase 1 — Setup ✅
+## Phase: Setup
 
-- [ ] T001 [P] Create feature branch `feat/benchmarks-specs-ci` and prepare environment (repo root): `git checkout -b feat/benchmarks-specs-ci` && `uv sync`
-- [ ] T002 [P] Ensure Spec Kit is initialized and global spec is present (`specs/002-replace-doctests-with-spec-driven-benchmarks/spec.md`) — verify `specify init . --force` and `specify check` pass
-- [ ] T003 [P] Add trivial doctest checker script and pre-commit entry (`scripts/check_trivial_doctests.py`, `.pre-commit-config.yaml`)
-- [ ] T004 [P] Add benchmark runner CLI scaffolding (`scripts/run_benchmark.py`) to execute small/full runs and emit compressed history artifacts (`artifacts/*.json.gz`)
+- [ ] [T001] [ ] [Setup] Implement `opt/benchmark/utils.py` with `export_benchmark_json` and `validate_benchmark_json` — Owner: @you — Est: 2 pts — Files: `opt/benchmark/utils.py`, `tests/test_benchmark_export.py` — Acceptance: `pytest tests/test_benchmark_export.py` passes. (Artifact: `benchmarks/output/` writer + schema validator)
 
----
+## Phase: Foundational
 
-## Phase 2 — Foundational tasks (blocking for stories) 🔧
+- [ ] [T002] [ ] [Foundational] Add `benchmark()` to `opt/abstract_optimizer.py` and `opt/multi_objective/abstract_multi_objective.py` — Owner: @you — Est: 4 pts — Files: `opt/abstract_optimizer.py`, `opt/multi_objective/abstract_multi_objective.py` — Dependencies: T001 — Acceptance: `uv run pytest -q -k benchmark_quick` passes for exported artifacts and returns `{'path','metadata'}`.
 
-- [ ] T005 [P] Implement `benchmark_quick` tests (`tests/test_benchmarks_quick.py`) with parameterized seedable runs for representative optimizers (SMC, PSO, CMA-ES) — file: `tests/test_benchmarks_quick.py`
-- [ ] T006 [P] Implement `@pytest.mark.benchmark_full` scaffolds for nightly runs (`tests/test_benchmarks_full.py`) — file: `tests/test_benchmarks_full.py`
-- [ ] T007 [P] Add history artifact validation tests (`tests/test_history_artifacts.py`) that validate schema and compressed size (<= 200MB guideline) — file: `tests/test_history_artifacts.py`
-- [ ] T008 [P] Add/verify unified docstring validator & dependencies (pre-commit: `unified-docstring-validator`, `pyproject.toml` entries) — files: `.pre-commit-config.yaml`, `pyproject.toml`
-- [ ] T009 Add `scripts/replace_trivial_doctests.py` to locate trivial patterns and produce replacement report (manual review required) — file: `scripts/replace_trivial_doctests.py`
+- [ ] [T009] [P] [Testing] Add `tests/test_benchmarks_quick.py` and parameterize representative optimizers (seeded, shape & reproducibility checks) — Owner: @you — Est: 3 pts — Files: `tests/test_benchmarks_quick.py` — Dependencies: T001, T002 — Acceptance: quick suite completes <1s and passes on CI; reproducibility asserted with `np.allclose(..., atol=1e-12)`.
+
+## Phase: User Stories (P1 first)
+
+- [ ] [T003] [P] [US1] Implement `scripts/replace_trivial_doctests.py` (dry-run & apply) to produce suggested docstring replacements using `optimizer.benchmark(store=True)` examples — Owner: @you — Est: 6 pts — Files: `scripts/replace_trivial_doctests.py` — Dependencies: T001, T002 — Acceptance: `tests/test_doctest_replacements.py` passes; dry-run produces a replacement report. MCPs: run `mcp_ai-agent-guid_gap-frameworks-analyzers` to prioritize replacements and log via `mcp_serena_write_memory`.
+
+- [ ] [T006] [P] [US1] Update docstrings and `docs/` with the in-spec minimal example and 'How to validate locally' snippets — Owner: @docs — Est: 2 pts — Files: `opt/*`, `docs/*` — Dependencies: T003 — Acceptance: `grep -R "benchmark(store=True)" docs/` finds examples; docs build passes.
+
+## Phase: CI & Pre-commit
+
+- [ ] [T007] [ ] [Pre-commit] Add `validate-benchmark-json` hook and `scripts/validate_benchmark_json.py` (used by pre-commit & CI) — Owner: @you — Est: 1 pt — Files: `scripts/validate_benchmark_json.py`, `.pre-commit-config.yaml` — Dependencies: T001 — Acceptance: `pre-commit run validate-benchmark-json --files benchmarks/output/*.json` passes locally.
+
+- [ ] [T008] [ ] [Security] Add `scripts/check_forbidden_mcp_calls.py` and pre-commit hook to block `mcp_` patterns in runtime `opt/` code — Owner: @you — Est: 1 pt — Files: `scripts/check_forbidden_mcp_calls.py`, `.pre-commit-config.yaml` — Acceptance: `python scripts/check_forbidden_mcp_calls.py opt/` exits non-zero if forbidden patterns found.
+
+- [ ] [T004] [ ] [CI] Add `.github/workflows/benchmarks-quick.yml` that runs `uv run pytest -q -k benchmark_quick` on PRs and runs `python scripts/validate_benchmark_json.py` on produced artifacts — Owner: @you — Est: 2 pts — Files: `.github/workflows/benchmarks-quick.yml` — Dependencies: T009, T007 — Acceptance: CI job appears and a test branch shows passing checks.
+
+- [ ] [T005] [ ] [CI] Add nightly `.github/workflows/benchmarks-full.yml` to run `@pytest.mark.benchmark_full`, compress & upload artifacts to `benchmarks/output/`, then validate and archive — Owner: @you — Est: 3 pts — Files: `.github/workflows/benchmarks-full.yml` — Dependencies: T007, T004 — Acceptance: artifacts are uploaded to Actions and validated against schema; archival step recorded.
+
+## Phase: Docs, Polish & Release
+
+- [ ] [T010] [ ] [Release] Add runbook, rollback commands and nightly archiving docs `ci/archiving.md` and `runbook.md` — Owner: @you — Est: 2 pts — Files: `runbook.md`, `rollback-commands.md`, `ci/archiving.md` — Dependencies: T005 — Acceptance: runbook contains smoke test commands and rollback steps.
+
+- [ ] [T011] [ ] [Polish] Add CI smoke job that executes the checklist commands (non-invasive) on PRs — Owner: @you — Est: 1 pt — Files: `.github/workflows/benchmarks-checklist-smoke.yml` — Dependencies: T004 — Acceptance: smoke job runs and reports pass/fail (non-blocking).
+
+## Cross-cutting & Automation
+
+- Each task that executes an MCP MUST record its call with `mcp_serena_write_memory` (for example, T003 should record `mcp_ai-agent-guid_gap-frameworks-analyzers` summary). Include MCP call info (MCP name, args summary, timestamp, memory path) in task descriptions where relevant.
+
+- Export machine-readable `tasks.json` with fields: `id`, `title`, `owner`, `est`, `files`, `acceptance`, `dependencies`, `parallelizable`, `story` and place it at `specs/002-replace-doctests-with-spec-driven-benchmarks/tasks.json`.
+
+
 
 ---
 
@@ -54,6 +77,15 @@
 - [ ] T021 [P] Add reviewer checklist to PR template and ensure reviewers run through `specs/.../checklists/reviewers.md` — file: `.github/PULL_REQUEST_TEMPLATE.md` or PR description
 - [ ] T022 Prepare & open single PR `feat/benchmarks-specs-ci` including spec files, tests, scripts, CI changes, and docs; fill PR body with checklist and validation steps — action: open PR on GitHub
 - [ ] T023 Post-merge: Monitor first 3 nightly runs, triage regressions (issues opened, assign maintainers), and finalize thresholds after data collected — action: maintainers + CI alerts
+
+---
+
+## Cross-cutting tasks added
+
+- [ ] T024 [ ] [Process] Add PR verification job that enforces: changes to `opt/` must include a spec fragment under `specs/` and at least one `benchmark_quick` test; PR body must include an `MCP calls:` section or structured JSON block. — Owner: @you — Est: 2 pts — Files: `.github/workflows/pr-verify.yml`, scripts: `scripts/check_pr_mcp_and_spec.py` — Acceptance: test branch PR without spec update fails the verification job.
+
+- [ ] T025 [ ] [Tests] Add tests for tasks parity and duplication detection (`tests/test_tasks_consistency.py`) and MCP logging expectations (`tests/test_mcp_logging.py`) — Owner: @you — Est: 1 pt — Files: `tests/test_tasks_consistency.py`, `tests/test_mcp_logging.py` — Acceptance: `pytest tests/test_tasks_consistency.py tests/test_mcp_logging.py` pass locally.
+
 
 ---
 
