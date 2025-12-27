@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.multi_objective.abstract_multi_objective import AbstractMultiObjectiveOptimizer
+from opt.abstract import AbstractMultiObjectiveOptimizer
 
 
 if TYPE_CHECKING:
