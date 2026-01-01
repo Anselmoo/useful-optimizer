@@ -7,7 +7,7 @@ This page demonstrates the ECharts and TresJS visualization components.
 ### ECDF Chart
 
 <ClientOnly>
-<ECDFChart 
+<ECDFChart
   :data="[
     {
       algorithm: 'PSO',
@@ -27,7 +27,7 @@ This page demonstrates the ECharts and TresJS visualization components.
 ### Convergence Chart
 
 <ClientOnly>
-<ConvergenceChart 
+<ConvergenceChart
   :data="[
     {
       algorithm: 'PSO',
@@ -49,7 +49,7 @@ This page demonstrates the ECharts and TresJS visualization components.
 ### Violin Plot
 
 <ClientOnly>
-<ViolinPlot 
+<ViolinPlot
   :data="[
     {
       algorithm: 'PSO',
@@ -69,7 +69,7 @@ This page demonstrates the ECharts and TresJS visualization components.
 ### Fitness Landscape
 
 <ClientOnly>
-<FitnessLandscape3D 
+<FitnessLandscape3D
   functionName="ackley"
   :xRange="[-5, 5]"
   :yRange="[-5, 5]"

@@ -141,7 +141,7 @@ const ecdfData = computed(() => {
       const threshold = 0.01 / (budget / 2000)
       return fitnessValues.filter(f => f <= threshold).length / fitnessValues.length
     })
-    
+
     return {
       algorithm: opt,
       budget: budgets,
@@ -171,7 +171,7 @@ const metadata = computed(() => mockData.value.metadata)
 Comparison of **{{ optimizers.join(' vs ') }}** on the **Shifted Ackley** function (dimension 2):
 
 <ClientOnly>
-<ConvergenceChart 
+<ConvergenceChart
   :data="convergenceData"
   title="Convergence: Shifted Ackley (2D)"
   xAxisLabel="Iteration"
@@ -188,7 +188,7 @@ Comparison of **{{ optimizers.join(' vs ') }}** on the **Shifted Ackley** functi
 Statistical distribution of final fitness values across multiple runs:
 
 <ClientOnly>
-<ViolinPlot 
+<ViolinPlot
   :data="violinData"
   title="Final Fitness Distribution: Shifted Ackley (2D)"
   yAxisLabel="Best Fitness"
@@ -205,7 +205,7 @@ Statistical distribution of final fitness values across multiple runs:
 Empirical Cumulative Distribution Function showing the proportion of targets reached:
 
 <ClientOnly>
-<ECDFChart 
+<ECDFChart
   :data="ecdfData"
   title="ECDF: Shifted Ackley (2D)"
   xAxisLabel="Budget (function evaluations)"
@@ -221,7 +221,7 @@ Empirical Cumulative Distribution Function showing the proportion of targets rea
 Interactive 3D visualization of the Ackley function:
 
 <ClientOnly>
-<FitnessLandscape3D 
+<FitnessLandscape3D
   functionName="ackley"
   :xRange="[-5, 5]"
   :yRange="[-5, 5]"
