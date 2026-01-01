@@ -276,6 +276,13 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
         population = np.random.default_rng(self.seed).uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
+        
+        # Initialize best solution from population
+        fitness_values = [self.func(individual) for individual in population]
+        best_index = np.argmin(fitness_values)
+        best_solution = population[best_index]
+        best_fitness = fitness_values[best_index]
+        
         for _ in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
@@ -288,12 +295,14 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
                 result = linprog(c=gradient, bounds=bounds, method="highs")
                 if result.success:
                     population[i] = result.x
-        best_index = np.argmin([self.func(individual) for individual in population])
-        return population[best_index], self.func(population[best_index])
-
-    def gradient(self, x: np.ndarray) -> np.ndarray:
-        """Computes the gradient of the objective function at a given point.
-
+            
+            # Update best solution
+            fitness_values = [self.func(individual) for individual in population]
+            best_index = np.argmin(fitness_values)
+            if fitness_values[best_index] < best_fitness:
+                best_solution = population[best_index]
+                best_fitness = fitness_values[best_index]
+        
         # Track final state
         if self.track_history:
             self._record_history(
@@ -301,6 +310,11 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
                 best_solution=best_solution,
             )
             self._finalize_history()
+        
+        return best_solution, best_fitness
+
+    def gradient(self, x: np.ndarray) -> np.ndarray:
+        """Computes the gradient of the objective function at a given point.
 
         Args:
             x (np.ndarray): The point at which to compute the gradient.
