@@ -7,12 +7,18 @@ functions and outputs structured results for visualization.
 from __future__ import annotations
 
 import json
+import sys
 import time
 
+from datetime import datetime
+from datetime import timezone
 from pathlib import Path
 from typing import TYPE_CHECKING
 
 import numpy as np
+
+from pydantic import BaseModel
+from pydantic import Field
 
 from opt.benchmark.functions import ackley
 from opt.benchmark.functions import griewank
@@ -21,6 +27,21 @@ from opt.benchmark.functions import rosenbrock
 from opt.benchmark.functions import shifted_ackley
 from opt.benchmark.functions import sphere
 
+# Optimizers
+from opt.classical.hill_climbing import HillClimbing
+from opt.classical.nelder_mead import NelderMead
+from opt.classical.simulated_annealing import SimulatedAnnealing
+from opt.evolutionary.differential_evolution import DifferentialEvolution
+from opt.evolutionary.genetic_algorithm import GeneticAlgorithm
+from opt.gradient_based.adamw import AdamW
+from opt.gradient_based.sgd_momentum import SGDMomentum
+from opt.metaheuristic.harmony_search import HarmonySearch
+from opt.swarm_intelligence.ant_colony import AntColony
+from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
+from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
+from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
+from opt.swarm_intelligence.particle_swarm import ParticleSwarm
+
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -28,28 +49,62 @@ if TYPE_CHECKING:
     from numpy import ndarray
 
 
-# Import optimizers from different categories
-# Swarm Intelligence
-# Classical
-from opt.classical.hill_climbing import HillClimbing
-from opt.classical.nelder_mead import NelderMead
-from opt.classical.simulated_annealing import SimulatedAnnealing
-from opt.evolutionary.differential_evolution import DifferentialEvolution
+# Pydantic models for structured results
+class BenchmarkMetadata(BaseModel):
+    """Metadata for benchmark execution."""
 
-# Evolutionary
-from opt.evolutionary.genetic_algorithm import GeneticAlgorithm
+    max_iterations: int = Field(ge=1)
+    n_runs: int = Field(ge=1)
+    dimensions: list[int]
+    timestamp: str
+    target_precision: float = Field(gt=0)
+    subset: bool
+    python_version: str | None = None
+    numpy_version: str | None = None
 
-# Gradient-based (for comparison)
-from opt.gradient_based.adamw import AdamW
-from opt.gradient_based.sgd_momentum import SGDMomentum
 
-# Metaheuristic
-from opt.metaheuristic.harmony_search import HarmonySearch
-from opt.swarm_intelligence.ant_colony import AntColony
-from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
-from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
-from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
-from opt.swarm_intelligence.particle_swarm import ParticleSwarm
+class RunResult(BaseModel):
+    """Individual run result."""
+
+    optimizer: str
+    best_fitness: float
+    best_solution: list[float]
+    elapsed_time: float
+    n_evaluations: int
+    converged: bool
+    evaluations_to_target: int | None = None
+    convergence_history: list[float] | None = None
+    status: str
+    error: str | None = None
+
+
+class OptimizerStatistics(BaseModel):
+    """Statistics for an optimizer on a function."""
+
+    mean_fitness: float
+    std_fitness: float
+    min_fitness: float
+    max_fitness: float
+    median_fitness: float
+    mean_time: float
+    std_time: float
+    mean_evaluations: float
+    std_evaluations: float
+
+
+class OptimizerResults(BaseModel):
+    """Results for an optimizer on a specific function and dimension."""
+
+    runs: list[RunResult]
+    statistics: OptimizerStatistics | None = None
+    success_rate: float = Field(ge=0.0, le=1.0)
+
+
+class BenchmarkResults(BaseModel):
+    """Complete benchmark results."""
+
+    metadata: BenchmarkMetadata
+    benchmarks: dict[str, dict[str, dict[str, OptimizerResults]]]
 
 
 # Configuration
@@ -67,19 +122,24 @@ BENCHMARK_FUNCTIONS = {
 }
 
 OPTIMIZERS = {
-    "ParticleSwarm": ParticleSwarm,
-    "AntColony": AntColony,
-    "FireflyAlgorithm": FireflyAlgorithm,
-    "BatAlgorithm": BatAlgorithm,
-    "GreyWolfOptimizer": GreyWolfOptimizer,
-    "GeneticAlgorithm": GeneticAlgorithm,
-    "DifferentialEvolution": DifferentialEvolution,
-    "HarmonySearch": HarmonySearch,
-    "SimulatedAnnealing": SimulatedAnnealing,
+    # Classical Optimizers
     "HillClimbing": HillClimbing,
     "NelderMead": NelderMead,
+    "SimulatedAnnealing": SimulatedAnnealing,
+    # Evolutionary Algorithms
+    "DifferentialEvolution": DifferentialEvolution,
+    "GeneticAlgorithm": GeneticAlgorithm,
+    # Gradient-Based Optimizers
     "AdamW": AdamW,
     "SGDMomentum": SGDMomentum,
+    # Metaheuristic Algorithms
+    "HarmonySearch": HarmonySearch,
+    # Swarm Intelligence
+    "AntColony": AntColony,
+    "BatAlgorithm": BatAlgorithm,
+    "FireflyAlgorithm": FireflyAlgorithm,
+    "GreyWolfOptimizer": GreyWolfOptimizer,
+    "ParticleSwarm": ParticleSwarm,
 }
 
 # Showcase subset for CI (fast, representative algorithms)
@@ -188,8 +248,9 @@ def run_single_benchmark(
 
 
 def run_benchmark_suite(
-    output_dir: str | Path = "benchmarks/output", subset: bool = False  # noqa: FBT001, FBT002
-) -> dict:
+    output_dir: str | Path = "benchmarks/output",
+    subset: bool = False,  # noqa: FBT001, FBT002
+) -> BenchmarkResults:
     """Run complete benchmark suite.
 
     Args:
@@ -197,7 +258,7 @@ def run_benchmark_suite(
         subset: If True, run only showcase optimizers for faster execution
 
     Returns:
-        dict: Complete benchmark results
+        BenchmarkResults: Pydantic model with complete benchmark results
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -205,26 +266,28 @@ def run_benchmark_suite(
     # Select optimizer set
     optimizers = SHOWCASE_OPTIMIZERS if subset else OPTIMIZERS
 
-    results = {
-        "metadata": {
-            "max_iterations": MAX_ITERATIONS,
-            "n_runs": N_RUNS,
-            "dimensions": DIMENSIONS,
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "target_precision": TARGET_PRECISION,
-            "subset": subset,
-        },
-        "benchmarks": {},
-    }
+    # Create metadata
+    metadata = BenchmarkMetadata(
+        max_iterations=MAX_ITERATIONS,
+        n_runs=N_RUNS,
+        dimensions=DIMENSIONS,
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        target_precision=TARGET_PRECISION,
+        subset=subset,
+        python_version=sys.version.split()[0],
+        numpy_version=np.__version__,
+    )
+
+    benchmarks_dict: dict[str, dict[str, dict[str, OptimizerResults]]] = {}
 
     total_tests = len(BENCHMARK_FUNCTIONS) * len(optimizers) * len(DIMENSIONS) * N_RUNS
     test_count = 0
 
     for func_name, func_config in BENCHMARK_FUNCTIONS.items():
-        results["benchmarks"][func_name] = {}
+        benchmarks_dict[func_name] = {}
 
         for dim in DIMENSIONS:
-            results["benchmarks"][func_name][f"{dim}D"] = {}
+            benchmarks_dict[func_name][f"{dim}D"] = {}
 
             for optimizer_name, optimizer_class in optimizers.items():
                 print(
@@ -234,7 +297,7 @@ def run_benchmark_suite(
 
                 run_results = []
                 for run_idx in range(N_RUNS):
-                    result = run_single_benchmark(
+                    result_dict = run_single_benchmark(
                         optimizer_class=optimizer_class,
                         func=func_config["func"],
                         lower_bound=func_config["bounds"][0],
@@ -245,43 +308,50 @@ def run_benchmark_suite(
                         f_opt=func_config.get("f_opt", 0.0),
                         target_precision=TARGET_PRECISION,
                     )
-                    run_results.append(result)
+                    # Convert dict to Pydantic model
+                    run_result = RunResult(**result_dict)
+                    run_results.append(run_result)
                     test_count += 1
 
                 # Compute statistics across runs
-                successful_runs = [r for r in run_results if r["status"] == "success"]
+                successful_runs = [r for r in run_results if r.status == "success"]
 
                 if successful_runs:
-                    fitness_values = [r["best_fitness"] for r in successful_runs]
-                    time_values = [r["elapsed_time"] for r in successful_runs]
-                    eval_values = [r["n_evaluations"] for r in successful_runs]
+                    fitness_values = [r.best_fitness for r in successful_runs]
+                    time_values = [r.elapsed_time for r in successful_runs]
+                    eval_values = [r.n_evaluations for r in successful_runs]
 
-                    results["benchmarks"][func_name][f"{dim}D"][optimizer_name] = {
-                        "runs": run_results,
-                        "statistics": {
-                            "mean_fitness": float(np.mean(fitness_values)),
-                            "std_fitness": float(np.std(fitness_values)),
-                            "min_fitness": float(np.min(fitness_values)),
-                            "max_fitness": float(np.max(fitness_values)),
-                            "median_fitness": float(np.median(fitness_values)),
-                            "mean_time": float(np.mean(time_values)),
-                            "std_time": float(np.std(time_values)),
-                            "mean_evaluations": float(np.mean(eval_values)),
-                            "std_evaluations": float(np.std(eval_values)),
-                        },
-                        "success_rate": len(successful_runs) / N_RUNS,
-                    }
+                    statistics = OptimizerStatistics(
+                        mean_fitness=float(np.mean(fitness_values)),
+                        std_fitness=float(np.std(fitness_values)),
+                        min_fitness=float(np.min(fitness_values)),
+                        max_fitness=float(np.max(fitness_values)),
+                        median_fitness=float(np.median(fitness_values)),
+                        mean_time=float(np.mean(time_values)),
+                        std_time=float(np.std(time_values)),
+                        mean_evaluations=float(np.mean(eval_values)),
+                        std_evaluations=float(np.std(eval_values)),
+                    )
+                    success_rate = len(successful_runs) / N_RUNS
                 else:
-                    results["benchmarks"][func_name][f"{dim}D"][optimizer_name] = {
-                        "runs": run_results,
-                        "statistics": None,
-                        "success_rate": 0.0,
-                    }
+                    statistics = None
+                    success_rate = 0.0
+
+                optimizer_results = OptimizerResults(
+                    runs=run_results, statistics=statistics, success_rate=success_rate
+                )
+
+                benchmarks_dict[func_name][f"{dim}D"][optimizer_name] = (
+                    optimizer_results
+                )
+
+    # Create final Pydantic model
+    results = BenchmarkResults(metadata=metadata, benchmarks=benchmarks_dict)
 
     # Save results to JSON
     output_file = output_dir / "results.json"
     with output_file.open("w") as f:
-        json.dump(results, f, indent=2)
+        json.dump(results.model_dump(), f, indent=2)
 
     print(f"\nBenchmark suite completed. Results saved to {output_file}")
     return results
@@ -308,6 +378,6 @@ if __name__ == "__main__":
 
     optimizer_count = len(SHOWCASE_OPTIMIZERS) if args.subset else len(OPTIMIZERS)
     print(
-        f"\nCompleted {len(results['benchmarks'])} functions x "
+        f"\nCompleted {len(results.benchmarks)} functions x "
         f"{optimizer_count} optimizers x {len(DIMENSIONS)} dimensions x {N_RUNS} runs"
     )

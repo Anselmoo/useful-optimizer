@@ -297,7 +297,8 @@ class FireflyAlgorithm(AbstractOptimizer):
             seed=seed,
             population_size=population_size,
             track_history=track_history,
-            **kwargs,  # Pass through additional parameters
+            target_precision=target_precision,
+            f_opt=f_opt,
         )
         self.alpha = alpha
         self.beta_0 = beta_0

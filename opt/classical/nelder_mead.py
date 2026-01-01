@@ -266,6 +266,8 @@ class NelderMead(AbstractOptimizer):
         max_iter: int = 1000,
         num_restarts: int = 25,
         seed: int | None = None,
+        target_precision: float = 1e-8,
+        f_opt: float | None = None,
     ) -> None:
         """Initialize the Nelder-Mead optimizer."""
         super().__init__(
@@ -275,7 +277,8 @@ class NelderMead(AbstractOptimizer):
             dim=dim,
             max_iter=max_iter,
             seed=seed,
-            **kwargs,  # Pass through additional parameters
+            target_precision=target_precision,
+            f_opt=f_opt,
         )
         self.num_restarts = num_restarts
 

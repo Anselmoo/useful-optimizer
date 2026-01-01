@@ -325,7 +325,8 @@ class BatAlgorithm(AbstractOptimizer):
         freq_min: float = 0,
         freq_max: float = 2,
         seed: int | None = None,
-        **kwargs,  # Accept additional parameters (target_precision, f_opt)
+        target_precision: float = 1e-8,
+        f_opt: float | None = None,
     ) -> None:
         """Initialize the BatAlgorithm class."""
         super().__init__(

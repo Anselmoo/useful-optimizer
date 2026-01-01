@@ -117,12 +117,12 @@ class AbstractOptimizer(ABC):
         seed: int | None = None,
         population_size: int = DEFAULT_POPULATION_SIZE,
         track_history: bool = False,  # noqa: FBT001, FBT002
-        **kwargs,  # Accept additional parameters like target_precision, f_opt
+        target_precision: float = 1e-8,
+        f_opt: float | None = None,
     ) -> None:
         """Initialize the optimizer."""
-        # Extract COCO/BBOB parameters from kwargs
-        self.target_precision = kwargs.get("target_precision", 1e-8)
-        self.f_opt = kwargs.get("f_opt")
+        self.target_precision = target_precision
+        self.f_opt = f_opt
 
         self.func = func
         self._original_func = func  # Keep original for direct calls
