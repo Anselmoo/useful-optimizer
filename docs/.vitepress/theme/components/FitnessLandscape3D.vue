@@ -2,13 +2,16 @@
 /**
  * FitnessLandscape3D.vue
  *
- * Interactive 3D fitness landscape visualization using ECharts-GL.
- * Allows orbit controls, zoom, and trajectory overlay.
+ * Interactive 3D fitness landscape visualization using TresJS (Vue wrapper for Three.js).
+ * Replaces deprecated ECharts-GL with modern, maintained library.
+ * Uses PlaneGeometry for surface plots with D3 color scales.
  */
-import { ref, computed, onMounted, onUnmounted, watch, shallowRef } from 'vue'
-import * as echarts from 'echarts'
-import 'echarts-gl'
-import { catppuccinMochaTheme, catppuccinColors, getGradientColors } from '../../themes/catppuccin'
+import { computed, ref, watch } from 'vue'
+import { TresCanvas } from '@tresjs/core'
+import { OrbitControls } from '@tresjs/cientos'
+import * as THREE from 'three'
+import * as d3 from 'd3'
+import { catppuccinColors } from '../../themes/catppuccin'
 
 interface TrajectoryPoint {
   x: number
@@ -19,28 +22,25 @@ interface TrajectoryPoint {
 
 interface Props {
   functionName: string
-  bounds?: [number, number]
+  xRange?: [number, number]
+  yRange?: [number, number]
   resolution?: number
   trajectory?: TrajectoryPoint[]
-  showContour?: boolean
-  colormap?: 'catppuccin' | 'viridis' | 'plasma'
+  colorScale?: 'viridis' | 'turbo' | 'plasma' | 'inferno' | 'catppuccin'
   height?: string | number
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  bounds: () => [-5, 5],
-  resolution: 50,
-  showContour: false,
-  colormap: 'catppuccin',
+  xRange: () => [-5, 5],
+  yRange: () => [-5, 5],
+  resolution: 100,
+  colorScale: 'viridis',
   height: 500
 })
 
 const emit = defineEmits<{
   'update:functionName': [value: string]
 }>()
-
-const chartRef = ref<HTMLElement | null>(null)
-const chart = shallowRef<echarts.ECharts | null>(null)
 
 const chartHeight = computed(() => {
   return typeof props.height === 'number' ? `${props.height}px` : props.height
@@ -82,220 +82,126 @@ const benchmarkFunctions: Record<string, (x: number, y: number) => number> = {
   }
 }
 
-// Generate landscape data
-const generateLandscape = () => {
-  const func = benchmarkFunctions[props.functionName] || benchmarkFunctions.sphere
-  const [min, max] = props.bounds
-  const step = (max - min) / props.resolution
+// Evaluate function at (x, y)
+const evaluateFunction = (x: number, y: number, functionName: string): number => {
+  const func = benchmarkFunctions[functionName] || benchmarkFunctions.sphere
+  return func(x, y)
+}
 
-  const data: number[][] = []
-  let minZ = Infinity
-  let maxZ = -Infinity
+// Generate surface geometry with colors
+const surfaceGeometry = computed(() => {
+  const [xMin, xMax] = props.xRange
+  const [yMin, yMax] = props.yRange
+  const res = props.resolution
 
-  for (let i = 0; i <= props.resolution; i++) {
-    for (let j = 0; j <= props.resolution; j++) {
-      const x = min + i * step
-      const y = min + j * step
-      const z = func(x, y)
+  const geometry = new THREE.PlaneGeometry(2, 2, res - 1, res - 1)
+  const positions = geometry.attributes.position
+  const colors = new Float32Array(positions.count * 3)
 
-      minZ = Math.min(minZ, z)
-      maxZ = Math.max(maxZ, z)
+  let zMin = Infinity
+  let zMax = -Infinity
 
-      data.push([x, y, z])
+  // First pass: compute Z values and find min/max
+  for (let i = 0; i < positions.count; i++) {
+    const u = positions.getX(i) // [-1, 1]
+    const v = positions.getY(i) // [-1, 1]
+    
+    const x = xMin + (u + 1) / 2 * (xMax - xMin)
+    const y = yMin + (v + 1) / 2 * (yMax - yMin)
+    const z = evaluateFunction(x, y, props.functionName)
+    
+    positions.setZ(i, z)
+    zMin = Math.min(zMin, z)
+    zMax = Math.max(zMax, z)
+  }
+
+  // Second pass: apply colors based on Z values
+  const colorScale = getColorScale(props.colorScale, zMin, zMax)
+  
+  for (let i = 0; i < positions.count; i++) {
+    const z = positions.getZ(i)
+    const colorValue = d3.color(colorScale(z))
+    if (colorValue) {
+      const rgb = colorValue.rgb()
+      colors[i * 3] = rgb.r / 255
+      colors[i * 3 + 1] = rgb.g / 255
+      colors[i * 3 + 2] = rgb.b / 255
     }
   }
 
-  return { data, minZ, maxZ }
-}
+  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+  geometry.computeVertexNormals()
 
-const getColors = () => {
-  switch (props.colormap) {
+  return geometry
+})
+
+// Get D3 color scale
+const getColorScale = (scaleType: string, zMin: number, zMax: number) => {
+  switch (scaleType) {
     case 'viridis':
-      return getGradientColors('viridis')
+      return d3.scaleSequential(d3.interpolateViridis).domain([zMin, zMax])
+    case 'turbo':
+      return d3.scaleSequential(d3.interpolateTurbo).domain([zMin, zMax])
+    case 'plasma':
+      return d3.scaleSequential(d3.interpolatePlasma).domain([zMin, zMax])
+    case 'inferno':
+      return d3.scaleSequential(d3.interpolateInferno).domain([zMin, zMax])
     case 'catppuccin':
+      return d3.scaleSequential(
+        d3.interpolateRgbBasis([
+          catppuccinColors.green,
+          catppuccinColors.teal,
+          catppuccinColors.blue,
+          catppuccinColors.mauve,
+          catppuccinColors.red
+        ])
+      ).domain([zMin, zMax])
     default:
-      return [
-        catppuccinColors.green,
-        catppuccinColors.teal,
-        catppuccinColors.blue,
-        catppuccinColors.mauve,
-        catppuccinColors.red
-      ]
+      return d3.scaleSequential(d3.interpolateViridis).domain([zMin, zMax])
   }
 }
 
-const chartOption = computed(() => {
-  const { data, minZ, maxZ } = generateLandscape()
-  const colors = getColors()
+// Generate trajectory line geometry
+const trajectoryGeometry = computed(() => {
+  if (!props.trajectory || props.trajectory.length === 0) return null
 
-  const series: echarts.SeriesOption[] = [
-    {
-      type: 'surface',
-      wireframe: {
-        show: false
-      },
-      shading: 'realistic',
-      realisticMaterial: {
-        roughness: 0.5,
-        metalness: 0.1
-      },
-      data: data,
-      itemStyle: {
-        opacity: 0.95
-      }
-    } as any
-  ]
+  const points = props.trajectory.map(p => {
+    const [xMin, xMax] = props.xRange
+    const [yMin, yMax] = props.yRange
+    
+    // Map world coordinates to [-1, 1] range
+    const u = -1 + (p.x - xMin) / (xMax - xMin) * 2
+    const v = -1 + (p.y - yMin) / (yMax - yMin) * 2
+    
+    return new THREE.Vector3(u, v, p.z)
+  })
 
-  // Add trajectory if provided
-  if (props.trajectory && props.trajectory.length > 0) {
-    series.push({
-      type: 'line3D',
-      data: props.trajectory.map(p => [p.x, p.y, p.z + (maxZ - minZ) * 0.01]),
-      lineStyle: {
-        color: catppuccinColors.yellow,
-        width: 3
-      }
-    } as any)
-
-    // Add start point
-    series.push({
-      type: 'scatter3D',
-      data: [[props.trajectory[0].x, props.trajectory[0].y, props.trajectory[0].z]],
-      symbolSize: 12,
-      itemStyle: {
-        color: catppuccinColors.green
-      }
-    } as any)
-
-    // Add end point
-    const last = props.trajectory[props.trajectory.length - 1]
-    series.push({
-      type: 'scatter3D',
-      data: [[last.x, last.y, last.z]],
-      symbolSize: 12,
-      itemStyle: {
-        color: catppuccinColors.red
-      }
-    } as any)
-  }
-
-  return {
-    backgroundColor: catppuccinColors.base,
-    title: {
-      text: `${props.functionName.charAt(0).toUpperCase() + props.functionName.slice(1)} Function`,
-      left: 'center',
-      top: 10,
-      textStyle: {
-        color: catppuccinColors.text,
-        fontSize: 16,
-        fontWeight: 600
-      }
-    },
-    tooltip: {
-      backgroundColor: catppuccinColors.mantle,
-      borderColor: catppuccinColors.surface1,
-      textStyle: {
-        color: catppuccinColors.text
-      },
-      formatter: (params: any) => {
-        const [x, y, z] = params.value
-        return `x: ${x.toFixed(3)}<br>y: ${y.toFixed(3)}<br>f(x,y): ${z.toExponential(3)}`
-      }
-    },
-    visualMap: {
-      show: true,
-      min: minZ,
-      max: maxZ,
-      dimension: 2,
-      inRange: {
-        color: colors
-      },
-      textStyle: {
-        color: catppuccinColors.text
-      },
-      left: 10,
-      bottom: 60
-    },
-    xAxis3D: {
-      type: 'value',
-      name: 'x',
-      nameTextStyle: { color: catppuccinColors.text },
-      axisLine: { lineStyle: { color: catppuccinColors.surface2 } },
-      axisLabel: { color: catppuccinColors.subtext0 },
-      splitLine: { lineStyle: { color: catppuccinColors.surface0 } }
-    },
-    yAxis3D: {
-      type: 'value',
-      name: 'y',
-      nameTextStyle: { color: catppuccinColors.text },
-      axisLine: { lineStyle: { color: catppuccinColors.surface2 } },
-      axisLabel: { color: catppuccinColors.subtext0 },
-      splitLine: { lineStyle: { color: catppuccinColors.surface0 } }
-    },
-    zAxis3D: {
-      type: 'value',
-      name: 'f(x,y)',
-      nameTextStyle: { color: catppuccinColors.text },
-      axisLine: { lineStyle: { color: catppuccinColors.surface2 } },
-      axisLabel: {
-        color: catppuccinColors.subtext0,
-        formatter: (value: number) => value.toExponential(0)
-      },
-      splitLine: { lineStyle: { color: catppuccinColors.surface0 } }
-    },
-    grid3D: {
-      viewControl: {
-        projection: 'perspective',
-        autoRotate: false,
-        rotateSensitivity: 2,
-        zoomSensitivity: 1,
-        panSensitivity: 1,
-        distance: 200,
-        alpha: 30,
-        beta: 40
-      },
-      light: {
-        main: {
-          intensity: 1.2,
-          shadow: true
-        },
-        ambient: {
-          intensity: 0.3
-        }
-      },
-      boxWidth: 100,
-      boxHeight: 60,
-      boxDepth: 100,
-      environment: catppuccinColors.base
-    },
-    series
-  }
+  return new THREE.BufferGeometry().setFromPoints(points)
 })
 
-const initChart = () => {
-  if (!chartRef.value) return
-
-  echarts.registerTheme('catppuccin-mocha', catppuccinMochaTheme)
-  chart.value = echarts.init(chartRef.value, 'catppuccin-mocha')
-  chart.value.setOption(chartOption.value)
-}
-
-const resizeChart = () => {
-  chart.value?.resize()
-}
-
-watch(() => [props.functionName, props.bounds, props.resolution, props.trajectory], () => {
-  chart.value?.setOption(chartOption.value, true)
-}, { deep: true })
-
-onMounted(() => {
-  initChart()
-  window.addEventListener('resize', resizeChart)
+// Start and end points for trajectory
+const startPoint = computed(() => {
+  if (!props.trajectory || props.trajectory.length === 0) return null
+  const p = props.trajectory[0]
+  const [xMin, xMax] = props.xRange
+  const [yMin, yMax] = props.yRange
+  
+  const u = -1 + (p.x - xMin) / (xMax - xMin) * 2
+  const v = -1 + (p.y - yMin) / (yMax - yMin) * 2
+  
+  return new THREE.Vector3(u, v, p.z)
 })
 
-onUnmounted(() => {
-  window.removeEventListener('resize', resizeChart)
-  chart.value?.dispose()
+const endPoint = computed(() => {
+  if (!props.trajectory || props.trajectory.length === 0) return null
+  const p = props.trajectory[props.trajectory.length - 1]
+  const [xMin, xMax] = props.xRange
+  const [yMin, yMax] = props.yRange
+  
+  const u = -1 + (p.x - xMin) / (xMax - xMin) * 2
+  const v = -1 + (p.y - yMin) / (yMax - yMin) * 2
+  
+  return new THREE.Vector3(u, v, p.z)
 })
 </script>
 
@@ -321,11 +227,52 @@ onUnmounted(() => {
         <span class="hint">🖱️ Drag to rotate • Scroll to zoom • Right-click to pan</span>
       </div>
     </div>
-    <div
-      ref="chartRef"
-      class="chart"
-      :style="{ height: chartHeight }"
-    />
+    
+    <div class="chart" :style="{ height: chartHeight }">
+      <TresCanvas>
+        <TresPerspectiveCamera :position="[3, 3, 5]" :fov="45" />
+        <OrbitControls />
+        
+        <!-- Surface mesh with vertex colors -->
+        <TresMesh :geometry="surfaceGeometry">
+          <TresMeshPhongMaterial 
+            :vertex-colors="true"
+            :side="THREE.DoubleSide"
+            :shininess="100"
+            :specular="0x111111"
+          />
+        </TresMesh>
+
+        <!-- Trajectory line -->
+        <TresLine 
+          v-if="trajectoryGeometry"
+          :geometry="trajectoryGeometry"
+        >
+          <TresLineBasicMaterial :color="catppuccinColors.yellow" :linewidth="3" />
+        </TresLine>
+
+        <!-- Start point marker -->
+        <TresMesh v-if="startPoint" :position="startPoint">
+          <TresSphereGeometry :args="[0.05, 16, 16]" />
+          <TresMeshBasicMaterial :color="catppuccinColors.green" />
+        </TresMesh>
+
+        <!-- End point marker -->
+        <TresMesh v-if="endPoint" :position="endPoint">
+          <TresSphereGeometry :args="[0.05, 16, 16]" />
+          <TresMeshBasicMaterial :color="catppuccinColors.red" />
+        </TresMesh>
+
+        <!-- Lighting -->
+        <TresPointLight :position="[5, 5, 10]" :intensity="0.8" />
+        <TresPointLight :position="[-5, -5, -10]" :intensity="0.5" />
+        <TresAmbientLight :intensity="0.3" />
+
+        <!-- Grid helper (optional) -->
+        <TresGridHelper :args="[10, 10]" />
+      </TresCanvas>
+    </div>
+
     <div v-if="trajectory && trajectory.length" class="trajectory-info">
       <span class="legend-item">
         <span class="dot green"></span> Start
@@ -395,6 +342,7 @@ onUnmounted(() => {
   width: 100%;
   min-height: 400px;
   border-radius: 4px;
+  background-color: var(--ctp-mocha-base, #1e1e2e);
 }
 
 .trajectory-info {
