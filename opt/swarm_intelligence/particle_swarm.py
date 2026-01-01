@@ -289,6 +289,7 @@ class ParticleSwarm(AbstractOptimizer):
         w: float = PSO_INERTIA_WEIGHT,
         seed: int | None = None,
         track_history: bool = False,
+        **kwargs,  # Accept additional parameters (target_precision, f_opt)
     ) -> None:
         """Initialize the ParticleSwarm class.
 
@@ -304,6 +305,7 @@ class ParticleSwarm(AbstractOptimizer):
             w (float, optional): The inertia weight (default: 0.5).
             seed (int | None, optional): The seed for the random number generator (default: None).
             track_history (bool, optional): Whether to track optimization history for visualization (default: False).
+            **kwargs: Additional parameters (e.g., target_precision, f_opt for COCO/BBOB).
         """
         super().__init__(
             func=func,
@@ -314,6 +316,7 @@ class ParticleSwarm(AbstractOptimizer):
             seed=seed,
             population_size=population_size,
             track_history=track_history,
+            **kwargs,  # Pass through additional parameters
         )
         self.c1 = c1
         self.c2 = c2

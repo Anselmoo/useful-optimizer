@@ -63,6 +63,12 @@ class AbstractOptimizer(ABC):
         track_history (bool, optional): Whether to track optimization history.
             When enabled, stores convergence data for visualization and COCO postprocessing.
             Defaults to False.
+        target_precision (float, optional): Target precision for early stopping.
+            Optimization stops when |f(x) - f_opt| < target_precision.
+            BBOB standard: 1e-8. Defaults to 1e-8.
+        f_opt (float | None, optional): Known optimal value for the function.
+            Used for convergence checking and ERT calculation.
+            If None, early stopping is disabled. Defaults to None.
 
     Attributes:
         func (Callable[[ndarray], float]): The objective function to be optimized.
@@ -74,6 +80,11 @@ class AbstractOptimizer(ABC):
             Used for all random operations to ensure reproducibility.
         population_size (int): The number of individuals in the population.
         track_history (bool): Whether to track optimization history.
+        target_precision (float): Target precision for early stopping.
+        f_opt (float | None): Known optimal value for the function.
+        n_evaluations (int): Number of function evaluations performed.
+        converged (bool): Whether optimization has converged to target precision.
+        evaluations_to_target (int | None): Number of evaluations to reach target precision.
         history (dict[str, list]): Dictionary containing optimization history if track_history is True.
             Contains keys: 'best_fitness', 'best_solution', 'population_fitness', 'population'.
 
@@ -106,9 +117,15 @@ class AbstractOptimizer(ABC):
         seed: int | None = None,
         population_size: int = DEFAULT_POPULATION_SIZE,
         track_history: bool = False,  # noqa: FBT001, FBT002
+        **kwargs,  # Accept additional parameters like target_precision, f_opt
     ) -> None:
         """Initialize the optimizer."""
+        # Extract COCO/BBOB parameters from kwargs
+        self.target_precision = kwargs.get("target_precision", 1e-8)
+        self.f_opt = kwargs.get("f_opt", None)
+        
         self.func = func
+        self._original_func = func  # Keep original for direct calls
         self.lower_bound = lower_bound
         self.upper_bound = upper_bound
         self.dim = dim
@@ -121,6 +138,15 @@ class AbstractOptimizer(ABC):
             self.seed = seed
         self.population_size = population_size
         self.track_history = track_history
+
+        # Evaluation tracking
+        self.n_evaluations = 0
+        self.converged = False
+        self.evaluations_to_target: int | None = None
+
+        # Wrap function to count evaluations
+        self.func = self._wrap_func(func)
+
         self._history_buffer = (
             OptimizationHistory(
                 max_iter=self.max_iter + 1,  # include final state
@@ -145,6 +171,46 @@ class AbstractOptimizer(ABC):
             if track_history
             else {}
         )
+
+    def _wrap_func(
+        self, func: Callable[[ndarray], float]
+    ) -> Callable[[ndarray], float]:
+        """Wrap the objective function to count evaluations.
+
+        Args:
+            func: The original objective function.
+
+        Returns:
+            Wrapped function that increments evaluation counter.
+        """
+
+        def wrapped(x: ndarray) -> float:
+            self.n_evaluations += 1
+            return func(x)
+
+        return wrapped
+
+    def _check_convergence(self, best_fitness: float) -> bool:
+        """Check if optimization has converged to target precision.
+
+        Args:
+            best_fitness: Current best fitness value.
+
+        Returns:
+            True if converged, False otherwise.
+
+        Notes:
+            Sets self.converged and self.evaluations_to_target on first convergence.
+        """
+        if self.f_opt is None or self.converged:
+            return self.converged
+
+        if abs(best_fitness - self.f_opt) < self.target_precision:
+            if not self.converged:
+                self.converged = True
+                self.evaluations_to_target = self.n_evaluations
+            return True
+        return False
 
     def _record_history(
         self,

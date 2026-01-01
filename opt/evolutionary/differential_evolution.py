@@ -277,6 +277,7 @@ class DifferentialEvolution(AbstractOptimizer):
         F: float = 0.5,
         CR: float = 0.7,
         seed: int | None = None,
+        **kwargs,  # Accept additional parameters (target_precision, f_opt)
     ) -> None:
         """Initialize the DifferentialEvolution class."""
         super().__init__(
@@ -287,6 +288,7 @@ class DifferentialEvolution(AbstractOptimizer):
             max_iter=max_iter,
             seed=seed,
             population_size=population_size,
+            **kwargs,  # Pass through additional parameters
         )
         self.F = F
         self.CR = CR

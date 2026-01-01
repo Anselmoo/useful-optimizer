@@ -300,6 +300,7 @@ class AntColony(AbstractOptimizer):
             seed=seed,
             population_size=population_size,
             track_history=track_history,
+            **kwargs,  # Pass through additional parameters
         )
 
         self.alpha = alpha
