@@ -97,7 +97,7 @@ jobs:
 
       - name: Verify Pydantic models match schema
         run: |
-          uv run python -c "from scripts.docstring_models import CocoBbobOptimizerDocstringSchema; print('✓ Pydantic models imported successfully')"
+          uv run python -c "from scripts.docstring_models import COCOBBOBOptimizerDocstringSchema; print('✓ Pydantic models imported successfully')"
 
   generate-docs-dry-run:
     name: Generate Docs (Dry Run)
