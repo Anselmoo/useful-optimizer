@@ -1,7 +1,26 @@
-"""Benchmark suite runner for optimization algorithms.
+r"""Benchmark suite runner for optimization algorithms.
 
-This script runs all available optimization algorithms on standard benchmark
-functions and outputs structured results for visualization.
+This script runs optimization algorithms on standard benchmark functions with
+tiered optimizer selection for different use cases:
+
+- SHOWCASE (4 optimizers): Fast PR validation, ~15-30 min
+- STANDARD (13 optimizers): Comprehensive testing, ~6-8 hours
+- COMPREHENSIVE (120+ optimizers): Deep analysis, ~55-70 hours [future work]
+
+Why not all 120+ optimizers by default?
+- 43,200+ benchmark runs (120 $\times$ 6 functions $\times$ 4 dims $\times$ 15 runs)
+- 55-70 hour runtime makes CI impractical
+- 500MB-1GB artifact size exceeds GitHub limits
+- The 13-optimizer standard tier provides representative coverage
+  across all algorithm families (classical, evolutionary, gradient-based,
+  metaheuristic, swarm intelligence)
+
+Usage:
+    # Quick PR check
+    python benchmarks/run_benchmark_suite.py --tier showcase
+
+    # Daily comprehensive testing
+    python benchmarks/run_benchmark_suite.py --tier standard
 """
 
 from __future__ import annotations
@@ -121,34 +140,53 @@ BENCHMARK_FUNCTIONS = {
     "griewank": {"func": griewank, "bounds": (-600.0, 600.0), "f_opt": 0.0},
 }
 
-OPTIMIZERS = {
-    # Classical Optimizers
-    "HillClimbing": HillClimbing,
-    "NelderMead": NelderMead,
-    "SimulatedAnnealing": SimulatedAnnealing,
-    # Evolutionary Algorithms
-    "DifferentialEvolution": DifferentialEvolution,
-    "GeneticAlgorithm": GeneticAlgorithm,
-    # Gradient-Based Optimizers
-    "AdamW": AdamW,
-    "SGDMomentum": SGDMomentum,
-    # Metaheuristic Algorithms
-    "HarmonySearch": HarmonySearch,
-    # Swarm Intelligence
-    "AntColony": AntColony,
-    "BatAlgorithm": BatAlgorithm,
-    "FireflyAlgorithm": FireflyAlgorithm,
-    "GreyWolfOptimizer": GreyWolfOptimizer,
-    "ParticleSwarm": ParticleSwarm,
+# Tiered optimizer configuration for different benchmark scenarios
+# Tiers balance computation time vs comprehensive coverage
+OPTIMIZER_TIERS = {
+    # SHOWCASE: 4 algorithms, ~15-30 min runtime
+    # Purpose: Fast PR validation, CI checks
+    # Coverage: One representative from each major category
+    "showcase": {
+        "ParticleSwarm": ParticleSwarm,  # Swarm Intelligence
+        "DifferentialEvolution": DifferentialEvolution,  # Evolutionary
+        "AdamW": AdamW,  # Gradient-based
+        "HarmonySearch": HarmonySearch,  # Metaheuristic
+    },
+    # STANDARD: 13 algorithms, ~6-8 hours runtime
+    # Purpose: Daily validation, comprehensive testing
+    # Coverage: Representative sample across all algorithm families
+    "standard": {
+        "ParticleSwarm": ParticleSwarm,
+        "AntColony": AntColony,
+        "FireflyAlgorithm": FireflyAlgorithm,
+        "BatAlgorithm": BatAlgorithm,
+        "GreyWolfOptimizer": GreyWolfOptimizer,
+        "GeneticAlgorithm": GeneticAlgorithm,
+        "DifferentialEvolution": DifferentialEvolution,
+        "HarmonySearch": HarmonySearch,
+        "SimulatedAnnealing": SimulatedAnnealing,
+        "HillClimbing": HillClimbing,
+        "NelderMead": NelderMead,
+        "AdamW": AdamW,
+        "SGDMomentum": SGDMomentum,
+    },
+    # COMPREHENSIVE: All 120+ algorithms, ~55-70 hours runtime
+    # Purpose: Monthly/quarterly deep analysis
+    # Coverage: Complete algorithm library
+    # Note: Requires dynamic import of all optimizer classes
+    "comprehensive": "all",  # Placeholder - requires dynamic loading
 }
 
-# Showcase subset for CI (fast, representative algorithms)
-SHOWCASE_OPTIMIZERS = {
-    "ParticleSwarm": ParticleSwarm,
-    "DifferentialEvolution": DifferentialEvolution,
-    "AdamW": AdamW,
-    "HarmonySearch": HarmonySearch,
+# Runtime estimates (6 functions $\times$ [2,5,10,20] dims $\times$ 15 runs)
+TIER_RUNTIMES = {
+    "showcase": "15-30 minutes (4 optimizers, 1,440 runs)",
+    "standard": "6-8 hours (13 optimizers, 4,680 runs)",
+    "comprehensive": "55-70 hours (120+ optimizers, 43,200+ runs)",
 }
+
+# Legacy aliases for backward compatibility
+OPTIMIZERS = OPTIMIZER_TIERS["standard"]  # Default to standard tier
+SHOWCASE_OPTIMIZERS = OPTIMIZER_TIERS["showcase"]  # Deprecated
 
 DIMENSIONS = [2, 5, 10, 20]  # BBOB standard dimensions
 MAX_ITERATIONS = 1000  # Increased for better convergence
@@ -249,34 +287,66 @@ def run_single_benchmark(
 
 def run_benchmark_suite(
     output_dir: str | Path = "benchmarks/output",
-    subset: bool = False,  # noqa: FBT001, FBT002
-) -> BenchmarkResults:
-    """Run complete benchmark suite.
+    tier: str = "standard",
+    subset: bool | None = None,  # Deprecated - use tier instead  # noqa: FBT001
+) -> dict:
+    """Run complete benchmark suite with tiered optimizer selection.
 
     Args:
         output_dir: Directory to save results
-        subset: If True, run only showcase optimizers for faster execution
+        tier: Optimizer tier - 'showcase' (4 algos, ~30min), 'standard' (13 algos, ~6h),
+              or 'comprehensive' (120+ algos, ~60h). See TIER_RUNTIMES for details.
+        subset: Deprecated - use tier='showcase' instead. Kept for backward compatibility.
 
     Returns:
-        BenchmarkResults: Pydantic model with complete benchmark results
+        dict: Complete benchmark results with metadata about tier used
+
+    Raises:
+        ValueError: If tier is invalid or 'comprehensive' tier not yet implemented
     """
     output_dir = Path(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
-    # Select optimizer set
-    optimizers = SHOWCASE_OPTIMIZERS if subset else OPTIMIZERS
+    # Handle backward compatibility with deprecated --subset flag
+    if subset is not None:
+        tier = "showcase" if subset else "standard"
+        print(
+            "Warning: --subset flag is deprecated. Use --tier showcase/standard/comprehensive instead."
+        )
 
-    # Create metadata
-    metadata = BenchmarkMetadata(
-        max_iterations=MAX_ITERATIONS,
-        n_runs=N_RUNS,
-        dimensions=DIMENSIONS,
-        timestamp=datetime.now(timezone.utc).isoformat(),
-        target_precision=TARGET_PRECISION,
-        subset=subset,
-        python_version=sys.version.split()[0],
-        numpy_version=np.__version__,
-    )
+    # Validate and select optimizer set
+    if tier not in OPTIMIZER_TIERS:
+        msg = (
+            f"Invalid tier '{tier}'. "
+            f"Must be one of: {', '.join(OPTIMIZER_TIERS.keys())}"
+        )
+        raise ValueError(msg)
+
+    if tier == "comprehensive":
+        msg = (
+            "Comprehensive tier (120+ optimizers) not yet implemented.\n"
+            "This requires dynamic loading of all optimizer classes.\n"
+            "Use 'standard' tier for now (13 representative optimizers)."
+        )
+        raise NotImplementedError(msg)
+
+    optimizers = OPTIMIZER_TIERS[tier]
+    print(f"\nRunning {tier.upper()} tier: {len(optimizers)} optimizers")
+    print(f"Estimated runtime: {TIER_RUNTIMES[tier]}\n")
+
+    results = {
+        "metadata": {
+            "max_iterations": MAX_ITERATIONS,
+            "n_runs": N_RUNS,
+            "dimensions": DIMENSIONS,
+            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
+            "target_precision": TARGET_PRECISION,
+            "tier": tier,
+            "n_optimizers": len(optimizers),
+            "estimated_runtime": TIER_RUNTIMES[tier],
+        },
+        "benchmarks": {},
+    }
 
     benchmarks_dict: dict[str, dict[str, dict[str, OptimizerResults]]] = {}
 
@@ -360,24 +430,55 @@ def run_benchmark_suite(
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(description="Run optimization benchmark suite")
+    parser = argparse.ArgumentParser(
+        description="Run optimization benchmark suite with tiered optimizer selection",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Tier Details:
+  showcase      : 4 optimizers, ~15-30 min   (PR checks, quick validation)
+  standard      : 13 optimizers, ~6-8 hours  (daily/weekly comprehensive testing)
+  comprehensive : 120+ optimizers, ~55-70h   (monthly deep analysis) [NOT YET IMPLEMENTED]
+
+Examples:
+  # Quick PR validation
+  python benchmarks/run_benchmark_suite.py --tier showcase
+
+  # Daily comprehensive testing
+  python benchmarks/run_benchmark_suite.py --tier standard
+
+  # Custom output directory
+  python benchmarks/run_benchmark_suite.py --tier showcase --output-dir /tmp/bench
+        """,
+    )
     parser.add_argument(
         "--output-dir",
         type=str,
         default="benchmarks/output",
-        help="Output directory for results",
+        help="Output directory for results (default: benchmarks/output)",
     )
     parser.add_argument(
-        "--subset",
-        action="store_true",
-        help="Run only showcase optimizers (PSO, DE, AdamW, HS) for faster execution",
+        "--tier",
+        type=str,
+        choices=["showcase", "standard", "comprehensive"],
+        default="standard",
+        help="Optimizer tier selection (default: standard)",
+    )
+    # Deprecated - kept for backward compatibility
+    parser.add_argument(
+        "--subset", action="store_true", help="[DEPRECATED] Use --tier showcase instead"
     )
     args = parser.parse_args()
 
-    results = run_benchmark_suite(output_dir=args.output_dir, subset=args.subset)
-
-    optimizer_count = len(SHOWCASE_OPTIMIZERS) if args.subset else len(OPTIMIZERS)
-    print(
-        f"\nCompleted {len(results.benchmarks)} functions x "
-        f"{optimizer_count} optimizers x {len(DIMENSIONS)} dimensions x {N_RUNS} runs"
+    results = run_benchmark_suite(
+        output_dir=args.output_dir,
+        tier=args.tier,
+        subset=args.subset if args.subset else None,
     )
+
+    print(
+        f"\nCompleted {len(results['benchmarks'])} functions x "
+        f"{results['metadata']['n_optimizers']} optimizers x "
+        f"{len(DIMENSIONS)} dimensions x {N_RUNS} runs"
+    )
+    print(f"Tier: {results['metadata']['tier'].upper()}")
+    print(f"Estimated runtime: {results['metadata']['estimated_runtime']}")
