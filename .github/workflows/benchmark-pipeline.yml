@@ -59,7 +59,7 @@ jobs:
 
       - name: Upload benchmark artifact
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: benchmark-summary-${{ github.sha }}
           path: benchmarks/output/processed/
@@ -68,7 +68,7 @@ jobs:
 
       - name: Upload raw results
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: benchmark-raw-${{ github.sha }}
           path: benchmarks/output/results.json
