@@ -118,30 +118,24 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
             - Expected Running Time (ERT) tracking
 
     Example:
-        Basic usage with BBOB benchmark function:
+        COCO/BBOB compliant benchmark test:
 
+        >>> from benchmarks.run_benchmark_suite import run_single_benchmark
         >>> from opt.constrained.successive_linear_programming import SuccessiveLinearProgramming
         >>> from opt.benchmark.functions import shifted_ackley
-        >>> optimizer = SuccessiveLinearProgramming(
-        ...     func=shifted_ackley,
-        ...     lower_bound=-2.768,
-        ...     upper_bound=2.768,
-        ...     dim=2,
-        ...     max_iter=100,
-        ...     seed=42,  # Required for reproducibility
+        >>> result = run_single_benchmark(
+        ...     SuccessiveLinearProgramming, shifted_ackley, -32.768, 32.768,
+        ...     dim=2, max_iter=50, seed=42
         ... )
-        >>> solution, fitness = optimizer.search()
-        >>> isinstance(fitness, float) and fitness >= 0
+        >>> result["status"] == "success"
+        True
+        >>> "convergence_history" in result
         True
 
-        COCO benchmark example:
+        Metadata validation:
 
-        >>> from opt.benchmark.functions import sphere
-        >>> optimizer = SuccessiveLinearProgramming(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
-        ... )
-        >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
+        >>> required_keys = {"optimizer", "best_fitness", "best_solution", "status"}
+        >>> required_keys.issubset(result.keys())
         True
 
     Args:
@@ -282,6 +276,13 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
         population = np.random.default_rng(self.seed).uniform(
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
+
+        # Initialize best solution from population
+        fitness_values = [self.func(individual) for individual in population]
+        best_index = np.argmin(fitness_values)
+        best_solution = population[best_index]
+        best_fitness = fitness_values[best_index]
+
         for _ in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
@@ -294,11 +295,13 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
                 result = linprog(c=gradient, bounds=bounds, method="highs")
                 if result.success:
                     population[i] = result.x
-        best_index = np.argmin([self.func(individual) for individual in population])
-        return population[best_index], self.func(population[best_index])
 
-    def gradient(self, x: np.ndarray) -> np.ndarray:
-        """Computes the gradient of the objective function at a given point.
+            # Update best solution
+            fitness_values = [self.func(individual) for individual in population]
+            best_index = np.argmin(fitness_values)
+            if fitness_values[best_index] < best_fitness:
+                best_solution = population[best_index]
+                best_fitness = fitness_values[best_index]
 
         # Track final state
         if self.track_history:
@@ -307,6 +310,11 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
                 best_solution=best_solution,
             )
             self._finalize_history()
+
+        return best_solution, best_fitness
+
+    def gradient(self, x: np.ndarray) -> np.ndarray:
+        """Computes the gradient of the objective function at a given point.
 
         Args:
             x (np.ndarray): The point at which to compute the gradient.

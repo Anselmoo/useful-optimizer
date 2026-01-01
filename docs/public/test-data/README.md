@@ -89,7 +89,7 @@ const convergenceData = computed(() => {
       algorithm: opt,
       iterations: Array.from({length: 10}, (_, i) => i * 10),
       mean: firstRun.history.best_fitness,
-      std: firstRun.history.mean_fitness.map((m, i) => 
+      std: firstRun.history.mean_fitness.map((m, i) =>
         Math.abs(m - firstRun.history.best_fitness[i])
       )
     }
@@ -139,7 +139,7 @@ const ecdfData = computed(() => {
       // Your proportion calculation logic
       return 0.5 // Example
     })
-    
+
     return {
       algorithm: opt,
       budget: budgets,

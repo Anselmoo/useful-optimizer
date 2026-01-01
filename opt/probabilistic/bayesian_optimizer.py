@@ -119,38 +119,24 @@ class BayesianOptimizer(AbstractOptimizer):
             - Expected Running Time (ERT) tracking
 
     Example:
-        Basic usage with BBOB benchmark function:
+        COCO/BBOB compliant benchmark test:
 
+        >>> from benchmarks.run_benchmark_suite import run_single_benchmark
         >>> from opt.probabilistic.bayesian_optimizer import BayesianOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
-        >>> optimizer = BayesianOptimizer(
-        ...     func=shifted_ackley,
-        ...     lower_bound=-2.768,
-        ...     upper_bound=2.768,
-        ...     dim=2,
-        ...     n_initial=5,
-        ...     max_iter=30,
-        ...     seed=42,  # Required for reproducibility
+        >>> result = run_single_benchmark(
+        ...     BayesianOptimizer, shifted_ackley, -32.768, 32.768,
+        ...     dim=2, max_iter=50, seed=42
         ... )
-        >>> solution, fitness = optimizer.search()
-        >>> isinstance(fitness, float) and fitness >= 0
+        >>> result["status"] == "success"
+        True
+        >>> "convergence_history" in result
         True
 
-        COCO benchmark example:
+        Metadata validation:
 
-        >>> from opt.benchmark.functions import sphere
-        >>> optimizer = BayesianOptimizer(
-        ...     func=sphere,
-        ...     lower_bound=-5,
-        ...     upper_bound=5,
-        ...     dim=10,
-        ...     n_initial=20,
-        ...     max_iter=100,
-        ...     xi=0.01,
-        ...     seed=42,
-        ... )
-        >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
+        >>> required_keys = {"optimizer", "best_fitness", "best_solution", "status"}
+        >>> required_keys.issubset(result.keys())
         True
 
     Args:

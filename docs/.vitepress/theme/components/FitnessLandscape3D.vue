@@ -105,11 +105,11 @@ const surfaceGeometry = computed(() => {
   for (let i = 0; i < positions.count; i++) {
     const u = positions.getX(i) // [-1, 1]
     const v = positions.getY(i) // [-1, 1]
-    
+
     const x = xMin + (u + 1) / 2 * (xMax - xMin)
     const y = yMin + (v + 1) / 2 * (yMax - yMin)
     const z = evaluateFunction(x, y, props.functionName)
-    
+
     positions.setZ(i, z)
     zMin = Math.min(zMin, z)
     zMax = Math.max(zMax, z)
@@ -117,7 +117,7 @@ const surfaceGeometry = computed(() => {
 
   // Second pass: apply colors based on Z values
   const colorScale = getColorScale(props.colorScale, zMin, zMax)
-  
+
   for (let i = 0; i < positions.count; i++) {
     const z = positions.getZ(i)
     const colorValue = d3.color(colorScale(z))
@@ -168,11 +168,11 @@ const trajectoryGeometry = computed(() => {
   const points = props.trajectory.map(p => {
     const [xMin, xMax] = props.xRange
     const [yMin, yMax] = props.yRange
-    
+
     // Map world coordinates to [-1, 1] range
     const u = -1 + (p.x - xMin) / (xMax - xMin) * 2
     const v = -1 + (p.y - yMin) / (yMax - yMin) * 2
-    
+
     return new THREE.Vector3(u, v, p.z)
   })
 
@@ -185,10 +185,10 @@ const startPoint = computed(() => {
   const p = props.trajectory[0]
   const [xMin, xMax] = props.xRange
   const [yMin, yMax] = props.yRange
-  
+
   const u = -1 + (p.x - xMin) / (xMax - xMin) * 2
   const v = -1 + (p.y - yMin) / (yMax - yMin) * 2
-  
+
   return new THREE.Vector3(u, v, p.z)
 })
 
@@ -197,10 +197,10 @@ const endPoint = computed(() => {
   const p = props.trajectory[props.trajectory.length - 1]
   const [xMin, xMax] = props.xRange
   const [yMin, yMax] = props.yRange
-  
+
   const u = -1 + (p.x - xMin) / (xMax - xMin) * 2
   const v = -1 + (p.y - yMin) / (yMax - yMin) * 2
-  
+
   return new THREE.Vector3(u, v, p.z)
 })
 </script>
@@ -227,15 +227,15 @@ const endPoint = computed(() => {
         <span class="hint">🖱️ Drag to rotate • Scroll to zoom • Right-click to pan</span>
       </div>
     </div>
-    
+
     <div class="chart" :style="{ height: chartHeight }">
       <TresCanvas>
         <TresPerspectiveCamera :position="[3, 3, 5]" :fov="45" />
         <OrbitControls />
-        
+
         <!-- Surface mesh with vertex colors -->
         <TresMesh :geometry="surfaceGeometry">
-          <TresMeshPhongMaterial 
+          <TresMeshPhongMaterial
             :vertex-colors="true"
             :side="THREE.DoubleSide"
             :shininess="100"
@@ -244,7 +244,7 @@ const endPoint = computed(() => {
         </TresMesh>
 
         <!-- Trajectory line -->
-        <TresLine 
+        <TresLine
           v-if="trajectoryGeometry"
           :geometry="trajectoryGeometry"
         >

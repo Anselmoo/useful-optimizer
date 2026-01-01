@@ -88,30 +88,24 @@ class DingoOptimizer(AbstractOptimizer):
             - Expected Running Time (ERT) tracking
 
     Example:
-        Basic usage with BBOB benchmark function:
+        COCO/BBOB compliant benchmark test:
 
+        >>> from benchmarks.run_benchmark_suite import run_single_benchmark
         >>> from opt.swarm_intelligence.dingo_optimizer import DingoOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
-        >>> optimizer = DingoOptimizer(
-        ...     func=shifted_ackley,
-        ...     lower_bound=-2.768,
-        ...     upper_bound=2.768,
-        ...     dim=2,
-        ...     max_iter=100,
-        ...     seed=42,  # Required for reproducibility
+        >>> result = run_single_benchmark(
+        ...     DingoOptimizer, shifted_ackley, -32.768, 32.768,
+        ...     dim=2, max_iter=50, seed=42
         ... )
-        >>> solution, fitness = optimizer.search()
-        >>> isinstance(fitness, float) and fitness >= 0
+        >>> result["status"] == "success"
+        True
+        >>> "convergence_history" in result
         True
 
-        COCO benchmark example:
+        Metadata validation:
 
-        >>> from opt.benchmark.functions import sphere
-        >>> optimizer = DingoOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
-        ... )
-        >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
+        >>> required_keys = {"optimizer", "best_fitness", "best_solution", "status"}
+        >>> required_keys.issubset(result.keys())
         True
 
     Args:
