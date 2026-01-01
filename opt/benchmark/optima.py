@@ -11,7 +11,6 @@ All values are for minimization problems.
 
 from __future__ import annotations
 
-import numpy as np
 
 # Global optima for benchmark functions
 # Format: "function_name": optimal_value

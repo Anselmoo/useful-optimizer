@@ -188,7 +188,7 @@ def run_single_benchmark(
 
 
 def run_benchmark_suite(
-    output_dir: str | Path = "benchmarks/output", subset: bool = False
+    output_dir: str | Path = "benchmarks/output", subset: bool = False  # noqa: FBT001, FBT002
 ) -> dict:
     """Run complete benchmark suite.
 

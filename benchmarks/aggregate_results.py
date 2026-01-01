@@ -19,17 +19,12 @@ import sys
 from datetime import datetime
 from datetime import timezone
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 import numpy as np
 
 from pydantic import ValidationError
 
 from opt.benchmark.optima import get_optimum_safe
-
-
-if TYPE_CHECKING:
-    from benchmarks.models import BenchmarkDataSchema
 
 
 def downsample_convergence(
@@ -94,9 +89,12 @@ def calculate_ert(
         best_fitness = run.get("best_fitness")
         n_evaluations = run.get("n_evaluations")
 
-        if best_fitness is not None and n_evaluations is not None:
-            if abs(best_fitness - f_opt) < target_precision:
-                successful_runs.append(n_evaluations)
+        if (
+            best_fitness is not None
+            and n_evaluations is not None
+            and abs(best_fitness - f_opt) < target_precision
+        ):
+            successful_runs.append(n_evaluations)
 
     if not successful_runs:
         return None
@@ -146,7 +144,7 @@ def compute_statistics(runs: list[dict]) -> dict:
     }
 
 
-def aggregate_results(input_file: Path, output_dir: Path) -> dict:
+def aggregate_results(input_file: Path, _output_dir: Path | None = None) -> dict:
     """Aggregate raw benchmark results into summary statistics.
 
     Args:
@@ -215,7 +213,7 @@ def aggregate_results(input_file: Path, output_dir: Path) -> dict:
                     }
 
                     # Downsample convergence history if available
-                    if "convergence_history" in run and run["convergence_history"]:
+                    if run.get("convergence_history"):
                         downsampled = downsample_convergence(
                             run["convergence_history"], target_points=100
                         )
@@ -250,7 +248,6 @@ def validate_schema(data: dict) -> bool:
         from benchmarks.models import BenchmarkDataSchema
 
         BenchmarkDataSchema(**data)
-        return True
     except ValidationError as e:
         print(f"Schema validation failed: {e}", file=sys.stderr)
         return False
@@ -259,7 +256,7 @@ def validate_schema(data: dict) -> bool:
             "Warning: Could not import BenchmarkDataSchema for validation",
             file=sys.stderr,
         )
-        return True  # Skip validation if schema not available
+    return True  # Success or skipped validation
 
 
 def main():
@@ -320,7 +317,7 @@ def main():
         for dim_data in func_data.values()
     )
 
-    print(f"\nSummary:")
+    print("\nSummary:")
     print(f"  Functions: {n_functions}")
     print(f"  Optimizer-dimension combinations: {n_optimizers}")
     print(f"  Runs per combination: {processed_data['metadata']['n_runs']}")

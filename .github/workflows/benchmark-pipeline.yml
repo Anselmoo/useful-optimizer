@@ -1,0 +1,99 @@
+name: Benchmark Pipeline
+
+on:
+  schedule:
+    # Run every Sunday at 2:00 AM UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      subset:
+        description: 'Run subset only (faster)'
+        required: false
+        default: 'true'
+        type: choice
+        options:
+          - 'true'
+          - 'false'
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install dependencies
+        run: uv sync
+
+      - name: Run benchmarks
+        run: |
+          if [ "${{ github.event.inputs.subset }}" = "false" ] || [ -z "${{ github.event.inputs.subset }}" ]; then
+            # Full benchmark suite (for scheduled runs)
+            uv run python benchmarks/run_benchmark_suite.py
+          else
+            # Subset for faster execution (for manual runs)
+            uv run python benchmarks/run_benchmark_suite.py --subset
+          fi
+        timeout-minutes: 90
+
+      - name: Aggregate results
+        if: always()
+        run: |
+          uv run python benchmarks/aggregate_results.py \
+            --input benchmarks/output/results.json \
+            --output-dir benchmarks/output/processed \
+            --validate
+
+      - name: Upload benchmark artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-summary-${{ github.sha }}
+          path: benchmarks/output/processed/
+          retention-days: 90
+          compression-level: 9
+
+      - name: Upload raw results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-raw-${{ github.sha }}
+          path: benchmarks/output/results.json
+          retention-days: 30
+          compression-level: 9
+
+      - name: Generate summary
+        if: always()
+        run: |
+          echo "## Benchmark Results Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          if [ -f benchmarks/output/processed/benchmark-summary.json ]; then
+            echo "✅ Benchmark completed successfully" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            
+            # Extract summary statistics
+            FUNCTIONS=$(jq '.benchmarks | keys | length' benchmarks/output/processed/benchmark-summary.json)
+            RUNS=$(jq '.metadata.n_runs' benchmarks/output/processed/benchmark-summary.json)
+            DIMS=$(jq '.metadata.dimensions | length' benchmarks/output/processed/benchmark-summary.json)
+            
+            echo "- **Functions tested:** $FUNCTIONS" >> $GITHUB_STEP_SUMMARY
+            echo "- **Dimensions:** $(jq -r '.metadata.dimensions | @csv' benchmarks/output/processed/benchmark-summary.json)" >> $GITHUB_STEP_SUMMARY
+            echo "- **Runs per configuration:** $RUNS" >> $GITHUB_STEP_SUMMARY
+            echo "- **Timestamp:** $(jq -r '.metadata.timestamp' benchmarks/output/processed/benchmark-summary.json)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "❌ Benchmark failed or incomplete" >> $GITHUB_STEP_SUMMARY
+          fi
