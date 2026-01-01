@@ -402,7 +402,7 @@ class SineCosineAlgorithm(AbstractOptimizer):
                 if fitness[i] < fitness[best_index]:
                     best_index = i
                     best_solution = population[i]
-                     best_fitness = float(fitness[i])
+                    best_fitness = float(fitness[i])
             best_fitness = float(fitness[best_index])
 
         # Track final state

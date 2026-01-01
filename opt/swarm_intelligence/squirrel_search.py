@@ -247,6 +247,12 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
 
         # Main loop
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             for i in range(self.population_size):
                 self.seed += 1
@@ -286,6 +292,14 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
                         np.random.default_rng(self.seed).random(self.dim)
                     )
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_squirrel,
+            )
+            self._finalize_history()
         return best_squirrel, best_fitness
 
 

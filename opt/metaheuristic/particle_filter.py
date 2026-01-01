@@ -324,6 +324,12 @@ class ParticleFilter(AbstractOptimizer):
         global_best_score = np.inf
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             # Evaluate particles
             scores = np.apply_along_axis(self.func, 1, particles)
@@ -356,6 +362,14 @@ class ParticleFilter(AbstractOptimizer):
             # Ensure particles are within bounds
             particles = np.clip(particles, self.lower_bound, self.upper_bound)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=global_best_score,
+                best_solution=global_best_position,
+            )
+            self._finalize_history()
         return global_best_position, global_best_score
 
 

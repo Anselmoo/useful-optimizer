@@ -276,6 +276,12 @@ class SimulatedAnnealing(AbstractOptimizer):
             temperature = self.init_temperature
 
             for _ in range(self.max_iter):
+                # Track history if enabled
+                if self.track_history:
+                    self._record_history(
+                        best_fitness=best_fitness,
+                        best_solution=best_solution,
+                    )
                 new_solution = current_solution + np.random.default_rng(
                     self.seed
                 ).uniform(-1, 1, self.dim)
@@ -301,6 +307,14 @@ class SimulatedAnnealing(AbstractOptimizer):
                 if temperature < self.stopping_temperature:
                     break
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_cost,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_cost
 
 

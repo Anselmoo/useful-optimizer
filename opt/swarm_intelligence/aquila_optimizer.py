@@ -326,6 +326,12 @@ class AquilaOptimizer(AbstractOptimizer):
         mean_position = np.mean(population, axis=0)
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Update quality function
             qf = self._quality_function(iteration, self.max_iter)
 
@@ -403,6 +409,14 @@ class AquilaOptimizer(AbstractOptimizer):
             # Update mean position
             mean_position = np.mean(population, axis=0)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

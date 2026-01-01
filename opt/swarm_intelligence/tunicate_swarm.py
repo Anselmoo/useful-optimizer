@@ -277,6 +277,12 @@ class TunicateSwarmAlgorithm(AbstractOptimizer):
 
         # Main loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Calculate c values for social forces
             c1 = 2 - iteration * (2 / self.max_iter)  # Decreases from 2 to 0
 
@@ -320,6 +326,14 @@ class TunicateSwarmAlgorithm(AbstractOptimizer):
                         food_source = new_position.copy()
                         food_fitness = new_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=food_fitness,
+                best_solution=food_source,
+            )
+            self._finalize_history()
         return food_source, food_fitness
 
 

@@ -312,6 +312,12 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
         """
         self.initialize_population()
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             for i in range(self.population_size):
                 x = self.population[i]
                 x = self.shaking(x)
@@ -321,6 +327,14 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
         best_index = np.argmin(
             [self.func(individual) for individual in self.population]
         )
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.func(self.population[best_index]),
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.func(self.population[best_index])
 
 

@@ -348,10 +348,12 @@ class ParticleSwarm(AbstractOptimizer):
         for _ in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
-                self.history["best_fitness"].append(float(best_fitness))
-                self.history["best_solution"].append(best_position.copy())
-                self.history["population_fitness"].append(fitness.copy())
-                self.history["population"].append(population.copy())
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_position,
+                    population_fitness=fitness,
+                    population=population,
+                )
 
             self.seed += 1
             # Update velocity
@@ -384,10 +386,13 @@ class ParticleSwarm(AbstractOptimizer):
 
         # Track final state
         if self.track_history:
-            self.history["best_fitness"].append(float(best_fitness))
-            self.history["best_solution"].append(best_position.copy())
-            self.history["population_fitness"].append(fitness.copy())
-            self.history["population"].append(population.copy())
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_position,
+                population_fitness=fitness,
+                population=population,
+            )
+            self._finalize_history()
 
         return best_position, best_fitness
 

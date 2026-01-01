@@ -375,6 +375,12 @@ class ParzenTreeEstimator(AbstractOptimizer):
         """
         self.initialize_population()
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             l_kde, g_kde = self.segment_distributions()
             hps = self.choose_next_hps(l_kde, g_kde)
@@ -383,6 +389,14 @@ class ParzenTreeEstimator(AbstractOptimizer):
             self.population[worst_index] = hps
             self.scores[worst_index] = score
         best_index = np.argmin(self.scores)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.scores[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.scores[best_index]
 
 

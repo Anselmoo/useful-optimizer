@@ -303,6 +303,12 @@ class CulturalAlgorithm(AbstractOptimizer):
         )
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             # Evaluate fitness of population
             fitness = np.apply_along_axis(self.func, 1, population)
@@ -343,6 +349,14 @@ class CulturalAlgorithm(AbstractOptimizer):
         best_index = fitness.argmin()
         best_solution = population[best_index]
         best_fitness = fitness[best_index]
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

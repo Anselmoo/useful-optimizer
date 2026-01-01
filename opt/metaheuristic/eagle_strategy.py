@@ -268,6 +268,12 @@ class EagleStrategy(AbstractOptimizer):
 
         # Main loop
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             for i in range(self.population_size):
                 self.seed += 1
@@ -295,6 +301,14 @@ class EagleStrategy(AbstractOptimizer):
                 if fitness[i] < self.func(best_solution):
                     best_solution = population[i]
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.func(best_solution),
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, self.func(best_solution)
 
 

@@ -277,6 +277,12 @@ class BeeAlgorithm(AbstractOptimizer):
 
         """
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             # Employed Bee Phase
             for i in range(self.population_size):
@@ -327,6 +333,14 @@ class BeeAlgorithm(AbstractOptimizer):
                 )
 
         best_index = np.argmin(self.fitness)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.fitness[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.fitness[best_index]
 
 

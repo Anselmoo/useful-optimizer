@@ -324,6 +324,12 @@ class TabuSearch(AbstractOptimizer):
         """
         self.initialize_population()
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             best_index = np.argmin(self.scores)
             if len(self.tabu_list) >= self.tabu_list_size:
                 self.tabu_list.pop(0)
@@ -340,6 +346,14 @@ class TabuSearch(AbstractOptimizer):
                 self.population[best_index] = neighborhood[best_neighbor_index]
                 self.scores[best_index] = neighborhood_scores[best_neighbor_index]
         best_index = np.argmin(self.scores)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.scores[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.scores[best_index]
 
 

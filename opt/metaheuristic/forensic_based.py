@@ -273,6 +273,12 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
         mean_position = np.mean(positions, axis=0)
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Probability of investigation (decreases over time)
             p_investigation = 0.5 * (1 - iteration / self.max_iter)
 
@@ -344,6 +350,14 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
             # Update mean position (investigation center)
             mean_position = np.mean(positions, axis=0)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

@@ -297,6 +297,12 @@ class CrossEntropyMethod(AbstractOptimizer):
         std = np.ones(self.dim)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             samples = np.random.default_rng(self.seed).normal(
                 mean, std, (self.population_size, self.dim)
@@ -310,6 +316,14 @@ class CrossEntropyMethod(AbstractOptimizer):
 
         best_sample = mean
         best_fitness = self.func(best_sample)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_sample,
+            )
+            self._finalize_history()
         return best_sample, best_fitness
 
 

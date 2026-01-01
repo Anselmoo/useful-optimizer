@@ -315,6 +315,12 @@ class HarrisHawksOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Update escaping energy E (decreases from 2 to 0)
             e0 = 2 * rng.random() - 1  # Initial energy in [-1, 1]
             escaping_energy = 2 * e0 * (1 - iteration / self.max_iter)
@@ -393,6 +399,14 @@ class HarrisHawksOptimizer(AbstractOptimizer):
                     prey = hawks[i].copy()
                     prey_fitness = fitness[i]
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=prey_fitness,
+                best_solution=prey,
+            )
+            self._finalize_history()
         return prey, prey_fitness
 
 

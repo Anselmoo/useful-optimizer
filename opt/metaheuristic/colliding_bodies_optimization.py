@@ -291,6 +291,14 @@ class CollidingBodiesOptimization(AbstractOptimizer):
         self.update_population()
         # Return the best solution
         best_index = np.argmin(self.fitness)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.fitness[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.fitness[best_index]
 
 

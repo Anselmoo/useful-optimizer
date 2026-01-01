@@ -275,6 +275,12 @@ class SlimeMouldAlgorithm(AbstractOptimizer):
 
         # Main loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Sort by fitness
             sorted_indices = np.argsort(fitness)
             worst_fitness = fitness[sorted_indices[-1]]
@@ -338,6 +344,14 @@ class SlimeMouldAlgorithm(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

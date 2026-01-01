@@ -311,6 +311,12 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
             empires.append(empire)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             # Assimilation
             for empire in empires:
@@ -366,6 +372,14 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
             empires, key=lambda empire: self.func(population[empire["imperialist"]])
         )
         best_fitness = self.func(population[best_solution["imperialist"]])
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=population[best_solution["imperialist"]],
+            )
+            self._finalize_history()
         return population[best_solution["imperialist"]], best_fitness
 
 

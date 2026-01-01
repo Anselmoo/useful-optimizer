@@ -265,6 +265,12 @@ class MountainGazelleOptimizer(AbstractOptimizer):
         n_elite = max(3, self.population_size // 5)
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Coefficients update
             a = 2 * (1 - (iteration / self.max_iter) ** 2)  # Decreases from 2 to 0
 
@@ -335,6 +341,14 @@ class MountainGazelleOptimizer(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

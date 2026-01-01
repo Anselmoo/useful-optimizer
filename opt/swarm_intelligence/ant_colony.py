@@ -330,8 +330,10 @@ class AntColony(AbstractOptimizer):
         for _ in range(self.max_iter):
             # Track history if enabled
             if self.track_history and best_solution is not None:
-                self.history["best_fitness"].append(float(best_fitness))
-                self.history["best_solution"].append(best_solution.copy())
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
 
             for i in range(self.population_size):
                 solution = self.ants[i]
@@ -355,8 +357,11 @@ class AntColony(AbstractOptimizer):
 
         # Track final state
         if self.track_history and best_solution is not None:
-            self.history["best_fitness"].append(float(best_fitness))
-            self.history["best_solution"].append(best_solution.copy())
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         return best_solution, best_fitness
 

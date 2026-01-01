@@ -358,6 +358,12 @@ class HarmonySearch(AbstractOptimizer):
         best_fitness = fitness[best_idx]
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             new_solution = self._generate_new_solution(harmony_memory)
             new_fitness = self.func(new_solution)
             worst_idx = np.argmax(fitness)
@@ -368,6 +374,14 @@ class HarmonySearch(AbstractOptimizer):
                     best_solution = new_solution
                     best_fitness = new_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

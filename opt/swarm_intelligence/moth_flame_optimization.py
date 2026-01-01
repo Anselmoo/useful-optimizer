@@ -320,6 +320,12 @@ class MothFlameOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Number of flames decreases over iterations
             flame_count = round(
                 self.population_size
@@ -367,6 +373,14 @@ class MothFlameOptimizer(AbstractOptimizer):
                 best_solution = flames[0].copy()
                 best_fitness = flame_fitness[0]
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

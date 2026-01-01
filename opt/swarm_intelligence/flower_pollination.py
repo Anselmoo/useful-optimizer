@@ -309,6 +309,12 @@ class FlowerPollinationAlgorithm(AbstractOptimizer):
 
         # Main loop
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             for i in range(self.population_size):
                 if np.random.rand() < self.switch_probability:
                     # Global pollination via Lévy flights
@@ -346,6 +352,14 @@ class FlowerPollinationAlgorithm(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

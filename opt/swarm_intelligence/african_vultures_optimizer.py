@@ -336,6 +336,12 @@ class AfricanVulturesOptimizer(AbstractOptimizer):
         best_fitness_2 = fitness[1]
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Calculate satiation rate
             satiation = self._calculate_satiation(iteration)
             abs_sat = np.abs(satiation)
@@ -425,6 +431,14 @@ class AfricanVulturesOptimizer(AbstractOptimizer):
                 best_vulture_2 = population[0].copy()
                 best_fitness_2 = fitness[0]
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness_1,
+                best_solution=best_vulture_1,
+            )
+            self._finalize_history()
         return best_vulture_1, best_fitness_1
 
 

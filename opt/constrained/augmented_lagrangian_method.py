@@ -363,6 +363,12 @@ class AugmentedLagrangian(AbstractOptimizer):
             self.lower_bound, self.upper_bound, self.dim
         )
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             res = minimize(
                 self.augmented_lagrangian_func,
                 x0,
@@ -386,6 +392,7 @@ class AugmentedLagrangian(AbstractOptimizer):
 
 if __name__ == "__main__":
     optimizer = AugmentedLagrangian(
+
         func=shifted_ackley, lower_bound=-2.768, upper_bound=+2.768, dim=2
     )
     best_solution, best_fitness = optimizer.search()

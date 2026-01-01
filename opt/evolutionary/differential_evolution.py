@@ -311,6 +311,12 @@ class DifferentialEvolution(AbstractOptimizer):
 
         # Main loop
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             for i in range(self.population_size):
                 self.seed += 1
@@ -345,6 +351,14 @@ class DifferentialEvolution(AbstractOptimizer):
         best_solution = population[best_index]
         best_fitness = fitness[best_index]
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

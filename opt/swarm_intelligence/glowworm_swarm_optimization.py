@@ -364,6 +364,12 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
         best_solution = None
         best_fitness = np.inf
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             fitness = self._compute_fitness(population)
             luciferin = self._update_luciferin(population, fitness)
             population = self._move_glowworms(population, luciferin)
@@ -371,6 +377,14 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
             if fitness[min_fitness_idx] < best_fitness:
                 best_fitness = fitness[min_fitness_idx]
                 best_solution = population[min_fitness_idx]
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

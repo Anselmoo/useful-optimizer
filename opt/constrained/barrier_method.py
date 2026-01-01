@@ -379,6 +379,12 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         best_fitness = self.func(current)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Minimize barrier objective
             try:
                 result = minimize(
@@ -413,6 +419,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
 
 if __name__ == "__main__":
     from opt.benchmark.functions import sphere
+
 
     # Constraint: x[0] <= 1 (i.e., x[0] - 1 <= 0)
     def constraint(x: np.ndarray) -> float:

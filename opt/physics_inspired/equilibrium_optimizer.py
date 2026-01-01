@@ -402,6 +402,12 @@ class EquilibriumOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Time parameter (decreases from 1 to 0)
             t = (1 - iteration / self.max_iter) ** (self.a2 * iteration / self.max_iter)
 
@@ -467,6 +473,14 @@ class EquilibriumOptimizer(AbstractOptimizer):
                 best_solution = c_eq1.copy()
                 best_fitness = current_best_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

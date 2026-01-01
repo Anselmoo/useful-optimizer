@@ -313,6 +313,12 @@ class CMAESAlgorithm(AbstractOptimizer):
         regularization = 1e-8  # Small regularization for numerical stability
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Sample new solutions
             try:
                 # Add regularization to ensure positive definite covariance
@@ -378,6 +384,14 @@ class CMAESAlgorithm(AbstractOptimizer):
 
         best_solution = mean
         best_fitness = self.func(best_solution)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

@@ -312,6 +312,12 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
         best_solution: np.ndarray = np.empty(self.dim)
         best_fitness = np.inf
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             fitness = np.apply_along_axis(self.func, 1, population)
             min_fitness_idx = np.argmin(fitness)
             if fitness[min_fitness_idx] < best_fitness:
@@ -320,6 +326,14 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
             population = self._select(population, fitness)
             mean, std = self._model(population)
             population = self._sample(mean, std)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

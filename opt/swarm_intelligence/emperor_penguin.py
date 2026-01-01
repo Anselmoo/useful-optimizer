@@ -276,6 +276,12 @@ class EmperorPenguinOptimizer(AbstractOptimizer):
 
         # Main loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Update temperature-related parameters
             t = iteration / self.max_iter
 
@@ -316,6 +322,14 @@ class EmperorPenguinOptimizer(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

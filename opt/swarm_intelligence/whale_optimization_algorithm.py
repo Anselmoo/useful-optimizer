@@ -279,6 +279,12 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
 
         # Whale Optimization Algorithm
         for iter_count in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             for i in range(self.population_size):
                 fitness[i] = self.func(whales[i])
@@ -333,6 +339,14 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
 
                 whales[i] = np.clip(whales[i], self.lower_bound, self.upper_bound)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_whale,
+            )
+            self._finalize_history()
         return best_whale, best_fitness
 
 

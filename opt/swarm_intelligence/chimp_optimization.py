@@ -282,6 +282,12 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
 
         # Main loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Update parameter a (decreases from A_MAX to 0)
             a = _A_MAX - iteration * (_A_MAX / self.max_iter)
 
@@ -339,6 +345,14 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
                 best_solution = attacker.copy()
                 best_fitness = fitness[sorted_indices[0]]
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

@@ -277,6 +277,12 @@ class GreyWolfOptimizer(AbstractOptimizer):
 
         # Main loop
         for iter_count in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             a = 2 - iter_count * (2 / self.max_iter)  # Linearly decreasing a
 
             for i in range(self.population_size):
@@ -324,6 +330,14 @@ class GreyWolfOptimizer(AbstractOptimizer):
         best_solution = alpha
         best_fitness = self.func(best_solution)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

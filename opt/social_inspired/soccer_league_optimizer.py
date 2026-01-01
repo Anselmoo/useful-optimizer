@@ -321,6 +321,12 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         sorted_indices = np.argsort(fitness)
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             t = iteration / self.max_iter
 
             for i in range(self.population_size):
@@ -369,6 +375,14 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
             # Update rankings
             sorted_indices = np.argsort(fitness)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

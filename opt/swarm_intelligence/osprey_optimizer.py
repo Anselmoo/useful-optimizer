@@ -285,6 +285,12 @@ class OspreyOptimizer(AbstractOptimizer):
         best_fitness = fitness[best_idx]
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             for i in range(self.population_size):
                 # Phase 1: Position identification (exploration)
                 # Select random fish position
@@ -342,6 +348,14 @@ class OspreyOptimizer(AbstractOptimizer):
                     best_solution = population[i].copy()
                     best_fitness = fitness[i]
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

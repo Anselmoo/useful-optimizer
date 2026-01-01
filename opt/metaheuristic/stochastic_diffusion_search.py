@@ -301,6 +301,12 @@ class StochasticDiffusionSearch(AbstractOptimizer):
         ]
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             for agent in self.population:
                 # Test phase
@@ -325,6 +331,14 @@ class StochasticDiffusionSearch(AbstractOptimizer):
                     agent.score = self.func(agent.position)
 
         best_agent = min(self.population, key=lambda agent: agent.score)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_agent.score,
+                best_solution=best_agent.position,
+            )
+            self._finalize_history()
         return best_agent.position, best_agent.score
 
 

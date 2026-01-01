@@ -344,6 +344,12 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
         best_violation = self._compute_violation(current)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Minimize penalized objective
             result = minimize(
                 lambda x: self._penalized_objective(x, penalty),
@@ -377,6 +383,14 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
     def _compute_violation(self, x: np.ndarray) -> float:
         """Compute total constraint violation.
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         Args:
             x: Point to evaluate.
 

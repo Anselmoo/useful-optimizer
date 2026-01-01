@@ -345,6 +345,12 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         weights = np.ones(self.population_size) / self.population_size
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Compute current temperature
             t = iteration / self.max_iter
             temperature = self.initial_temp * (self.final_temp / self.initial_temp) ** t
@@ -384,6 +390,14 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
                         best_solution = proposal.copy()
                         best_fitness = proposal_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

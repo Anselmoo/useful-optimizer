@@ -280,6 +280,12 @@ class SGD(AbstractOptimizer):
         current_solution = best_solution.copy()
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Compute gradient at current position
             gradient = self._compute_gradient(current_solution)
 
@@ -304,6 +310,14 @@ class SGD(AbstractOptimizer):
     def _compute_gradient(self, x: np.ndarray) -> np.ndarray:
         """Compute the gradient of the objective function at a given point.
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         Args:
             x (np.ndarray): The point at which to compute the gradient.
 

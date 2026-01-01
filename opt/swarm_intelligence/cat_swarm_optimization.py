@@ -331,6 +331,12 @@ class CatSwarmOptimization(AbstractOptimizer):
         best_cat: np.ndarray = np.array([])
         best_fitness = np.inf
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             fitness = np.apply_along_axis(self.func, 1, population)
             if np.min(fitness) < best_fitness:
@@ -340,6 +346,14 @@ class CatSwarmOptimization(AbstractOptimizer):
                 population = self._tracing_mode(population, best_cat)
             else:
                 population = self._seeking_mode(population)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_cat,
+            )
+            self._finalize_history()
         return best_cat, best_fitness
 
 

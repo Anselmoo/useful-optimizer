@@ -341,6 +341,12 @@ class RIMEOptimizer(AbstractOptimizer):
         best_fitness = fitness[best_idx]
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Rime-ice factor decreases over iterations
             rime_factor = (1 - iteration / self.max_iter) ** 5
 
@@ -392,6 +398,14 @@ class RIMEOptimizer(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

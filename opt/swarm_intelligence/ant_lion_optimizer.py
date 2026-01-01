@@ -325,6 +325,12 @@ class AntLionOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Decrease trap boundary (intensification)
             # I ratio decreases from 1 to 10^-6 based on iteration
             w = 2 if iteration > 0.1 * self.max_iter else 1
@@ -392,6 +398,14 @@ class AntLionOptimizer(AbstractOptimizer):
                 elite_antlion = antlions[current_best_idx].copy()
                 elite_fitness = antlion_fitness[current_best_idx]
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=elite_fitness,
+                best_solution=elite_antlion,
+            )
+            self._finalize_history()
         return elite_antlion, elite_fitness
 
 

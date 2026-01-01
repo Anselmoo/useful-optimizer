@@ -388,6 +388,14 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
             )
             best_fitness = self.func(best_solution)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

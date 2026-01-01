@@ -273,6 +273,12 @@ class BlackWidowOptimizer(AbstractOptimizer):
         best_fitness = fitness[best_idx]
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Sort population by fitness
             sorted_indices = np.argsort(fitness)
             population = population[sorted_indices]
@@ -375,6 +381,14 @@ class BlackWidowOptimizer(AbstractOptimizer):
                 best_solution = population[current_best_idx].copy()
                 best_fitness = fitness[current_best_idx]
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

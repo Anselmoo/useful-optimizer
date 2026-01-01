@@ -313,6 +313,12 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
         exploration_memory = np.zeros((self.population_size, self.dim))
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             for i in range(self.population_size):
                 # Update exploration memory (maaa equation)
                 r1, r2 = np.random.rand(2)
@@ -353,6 +359,14 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
                         )
                         exploration_memory[i] = np.zeros(self.dim)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=global_best_fitness,
+                best_solution=global_best,
+            )
+            self._finalize_history()
         return global_best, global_best_fitness
 
 

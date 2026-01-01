@@ -352,6 +352,12 @@ class LDAnalysis(AbstractOptimizer):
         ).ravel()
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             x, y = self.vectorize(self.population, self.fitness)
             x, y = np.nan_to_num(x), np.nan_to_num(y)
 
@@ -394,6 +400,14 @@ class LDAnalysis(AbstractOptimizer):
             self.fitness = np.append(self.fitness, new_fitness)
 
         best_index = np.argmin(self.fitness)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.fitness[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.fitness[best_index]
 
 

@@ -283,6 +283,12 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             for i in range(self.population_size):
                 gradient = self.gradient(population[i])
                 bounds = [(self.lower_bound, self.upper_bound) for _ in range(self.dim)]
@@ -295,6 +301,14 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
     def gradient(self, x: np.ndarray) -> np.ndarray:
         """Computes the gradient of the objective function at a given point.
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         Args:
             x (np.ndarray): The point at which to compute the gradient.
 

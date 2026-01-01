@@ -333,6 +333,12 @@ class DragonflyOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Update weights (decrease exploration, increase exploitation)
             w = 0.9 - iteration * ((0.9 - 0.4) / self.max_iter)
             # Update radius (decreases over iterations)
@@ -408,6 +414,14 @@ class DragonflyOptimizer(AbstractOptimizer):
     def _levy_flight(self, rng: np.random.Generator) -> np.ndarray:
         """Generate Levy flight step.
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         Args:
             rng: Random number generator.
 

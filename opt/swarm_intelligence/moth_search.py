@@ -272,6 +272,12 @@ class MothSearchAlgorithm(AbstractOptimizer):
         best_fitness = fitness[0]
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Update pathfinders using Lévy flight
             for i in range(self.n_pathfinders):
                 # Lévy flight
@@ -326,6 +332,14 @@ class MothSearchAlgorithm(AbstractOptimizer):
     def _levy_flight(self) -> np.ndarray:
         """Generate Lévy flight step using Mantegna's algorithm.
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         Returns:
         Step vector following Lévy distribution.
         """

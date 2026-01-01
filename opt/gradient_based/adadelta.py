@@ -330,6 +330,12 @@ class AdaDelta(AbstractOptimizer):
 
         # Main loop
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             x = self._update(x)
             x = np.clip(x, self.lower_bound, self.upper_bound)
             fitness = self.func(x)
@@ -337,6 +343,14 @@ class AdaDelta(AbstractOptimizer):
                 best_fitness = fitness
                 best_solution = x
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

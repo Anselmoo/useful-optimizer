@@ -290,6 +290,12 @@ class TeachingLearningOptimizer(AbstractOptimizer):
         best_fitness = fitness[best_idx]
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Calculate mean of population
             mean_population = np.mean(population, axis=0)
 
@@ -358,6 +364,14 @@ class TeachingLearningOptimizer(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

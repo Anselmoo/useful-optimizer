@@ -280,6 +280,12 @@ class GoldenEagleOptimizer(AbstractOptimizer):
 
         # Main loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Update propensity parameters
             t_ratio = iteration / self.max_iter
 
@@ -332,6 +338,14 @@ class GoldenEagleOptimizer(AbstractOptimizer):
                         prey = new_position.copy()
                         prey_fitness = new_fitness
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=prey_fitness,
+                best_solution=prey,
+            )
+            self._finalize_history()
         return prey, prey_fitness
 
 

@@ -310,6 +310,12 @@ class StochasticFractalSearch(AbstractOptimizer):
         """
         self.initialize_population()
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             best_index = np.argmin(self.scores)
             for i in range(self.population_size):
@@ -330,6 +336,14 @@ class StochasticFractalSearch(AbstractOptimizer):
     def fractal_dimension(self, x: np.ndarray) -> float:
         """Calculate the fractal dimension.
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         This method calculates the fractal dimension of an individual.
 
         Args:

@@ -317,6 +317,12 @@ class ADAMOptimization(AbstractOptimizer):
         best_fitness = self.func(best_solution)
 
         for t in range(1, self.max_iter + 1):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             grad = self._compute_gradient(best_solution)
             m = self.beta1 * m + (1 - self.beta1) * grad
             v = self.beta2 * v + (1 - self.beta2) * np.square(grad)
@@ -336,6 +342,14 @@ class ADAMOptimization(AbstractOptimizer):
     def _compute_gradient(self, x: np.ndarray) -> np.ndarray:
         """Compute the gradient of the objective function at a given point.
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         Args:
             x (np.ndarray): The point at which to compute the gradient.
 

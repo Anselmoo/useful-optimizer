@@ -307,6 +307,12 @@ class HillClimbing(AbstractOptimizer):
         best_score = self.func(solution)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_score,
+                    best_solution=solution,
+                )
             before_score = best_score
             for i in range(self.dim):
                 before_point = solution[i]
@@ -329,8 +335,15 @@ class HillClimbing(AbstractOptimizer):
             if abs(best_score - before_score) < self.epsilon:
                 break
 
-        return solution, best_score
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_score,
+                best_solution=solution,
+            )
+            self._finalize_history()
 
+        return solution, best_score
 
 if __name__ == "__main__":
     from opt.demo import run_demo

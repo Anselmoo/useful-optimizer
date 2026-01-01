@@ -367,6 +367,12 @@ class GeneticAlgorithm(AbstractOptimizer):
         best_fitness = np.inf
 
         for i in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             fitness = np.apply_along_axis(self.func, 1, population)
 
             # Track best solution (elitism)
@@ -392,6 +398,14 @@ class GeneticAlgorithm(AbstractOptimizer):
 
             population = np.array(new_population)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

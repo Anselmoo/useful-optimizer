@@ -368,6 +368,12 @@ class SocialGroupOptimizer(AbstractOptimizer):
             print(f"Initial best fitness: {best_fitness:.6f}")
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Update self-introspection coefficient
             c_current = self.c * (1 - iteration / self.max_iter)
 
@@ -448,6 +454,14 @@ class SocialGroupOptimizer(AbstractOptimizer):
         if self.verbose:
             print(f"Final best fitness: {best_fitness:.6f}")
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

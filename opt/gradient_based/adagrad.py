@@ -288,6 +288,12 @@ class ADAGrad(AbstractOptimizer):
         grad_accumulator = np.zeros(self.dim)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             grad = approx_fprime(x, self.func, np.sqrt(np.finfo(float).eps))
             grad_accumulator += grad**2
             adjusted_grad = grad / (np.sqrt(grad_accumulator) + self.eps)
@@ -295,6 +301,14 @@ class ADAGrad(AbstractOptimizer):
 
         best_solution = x
         best_fitness = self.func(best_solution)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

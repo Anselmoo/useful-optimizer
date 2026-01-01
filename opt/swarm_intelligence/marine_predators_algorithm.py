@@ -378,6 +378,12 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Calculate CF (control factor)
             cf = (1 - iteration / self.max_iter) ** (2 * iteration / self.max_iter)
 
@@ -467,6 +473,14 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
                 elite_fitness = fitness[best_idx]
                 elite_matrix = np.tile(elite, (self.population_size, 1))
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=elite_fitness,
+                best_solution=elite,
+            )
+            self._finalize_history()
         return elite, elite_fitness
 
 

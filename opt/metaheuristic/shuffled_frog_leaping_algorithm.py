@@ -310,6 +310,12 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
 
         # Shuffled Frog Leaping Algorithm
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             self.seed += 1
             for i in range(self.population_size):
                 self.seed += 1
@@ -334,6 +340,14 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
             # Ensure the frog positions stay within the bounds
             frogs = np.clip(frogs, self.lower_bound, self.upper_bound)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_frog,
+            )
+            self._finalize_history()
         return best_frog, best_fitness
 
 

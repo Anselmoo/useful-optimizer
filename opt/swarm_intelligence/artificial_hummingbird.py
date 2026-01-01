@@ -266,6 +266,12 @@ class ArtificialHummingbirdAlgorithm(AbstractOptimizer):
         best_fitness = fitness[best_idx]
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                )
             # Calculate direction switch parameter
             dir_switch = 2 * np.random.rand() * (1 - iteration / self.max_iter)
 
@@ -332,6 +338,14 @@ class ArtificialHummingbirdAlgorithm(AbstractOptimizer):
                 visit_table = np.ones((self.population_size, self.population_size))
                 np.fill_diagonal(visit_table, 0)
 
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
         return best_solution, best_fitness
 
 

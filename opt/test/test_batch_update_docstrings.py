@@ -73,6 +73,14 @@ class TestOptimizer(AbstractOptimizer):
 
     def search(self) -> tuple[np.ndarray, float]:
         """Execute optimization."""
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=0.0,
+                best_solution=np.zeros(self.dim),
+            )
+            self._finalize_history()
         return np.zeros(self.dim), 0.0
 '''
         )
