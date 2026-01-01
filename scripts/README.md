@@ -37,7 +37,7 @@ The project uses a **unified, schema-driven documentation pipeline** with Pydant
 2. **Pydantic Models** (`scripts/docstring_models.py`)
    - Generated from JSON schema using `datamodel-code-generator`
    - Type-safe Python models for validation
-   - Includes: `CocoBbobOptimizerDocstringSchema`, `AlgorithmMetadata`, etc.
+   - Includes: `COCOBBOBOptimizerDocstringSchema`, `AlgorithmMetadata`, etc.
    - **Note**: Pydantic and jsonschema are optional dependencies in `[dependency-groups]` validate group
 
 3. **DocstringParser** (`scripts/docstring_parser.py`)
@@ -81,6 +81,106 @@ uv run pytest scripts/test/test_docstring_models.py -v
 
 # Run parser tests
 uv run pytest scripts/test/test_docstring_parser.py -v
+
+# Run all script tests
+uv run pytest scripts/test/ -v
+```
+
+### Pre-Commit Hooks
+
+The schema-driven validation is integrated with pre-commit hooks:
+
+```bash
+# Install pre-commit hooks
+uv run pre-commit install
+
+# Run unified validator hook
+uv run pre-commit run unified-docstring-validator --all-files
+
+# Run Google docstring inline summaries hook
+uv run pre-commit run google-docstring-inline-summaries --all-files
+
+# Run all hooks
+uv run pre-commit run --all-files
+```
+
+### CI/CD Integration
+
+The `.github/workflows/docs-validation.yml` workflow automatically validates:
+- All optimizer docstrings against Pydantic schema
+- JSON schema files are valid JSON
+- JSON schemas are valid JSON Schema Draft 7
+- Pydantic models can be imported successfully
+
+### Extending the Schema
+
+To add new fields or modify the schema:
+
+1. **Update JSON Schema** (`docs/schemas/docstring-schema.json`):
+   ```json
+   {
+     "properties": {
+       "new_field": {
+         "type": "string",
+         "description": "Description of the new field"
+       }
+     }
+   }
+   ```
+
+2. **Regenerate Pydantic Models** (if using datamodel-code-generator):
+   ```bash
+   uv run datamodel-codegen \
+     --input docs/schemas/docstring-schema.json \
+     --output scripts/docstring_models.py \
+     --output-model-type pydantic_v2.BaseModel
+   ```
+   
+   **Note**: Current models were manually created for better control. Consider manual updates for small changes.
+
+3. **Update DocstringParser** if needed:
+   - Add parsing logic for new sections in `scripts/docstring_parser.py`
+   - Update the `parse_file()` method to extract the new field
+
+4. **Update Tests**:
+   - Add test cases in `scripts/test/test_docstring_models.py`
+   - Verify parsing in `scripts/test/test_docstring_parser.py`
+
+5. **Validate Changes**:
+   ```bash
+   # Validate schema is valid JSON Schema Draft 7
+   uv run python -c "
+   import json
+   from jsonschema import Draft7Validator
+   with open('docs/schemas/docstring-schema.json') as f:
+       schema = json.load(f)
+   Draft7Validator.check_schema(schema)
+   print('✓ Schema is valid')
+   "
+   
+   # Test updated models
+   uv run pytest scripts/test/ -v
+   
+   # Test on real files
+   uv run python scripts/unified_validator.py opt/classical/simulated_annealing.py -v
+   ```
+
+### Schema Validation Workflow
+
+```mermaid
+graph TD
+    A[Developer modifies docstring] --> B[Pre-commit hook runs]
+    B --> C{Unified Validator}
+    C -->|Valid| D[Commit succeeds]
+    C -->|Invalid| E[Show Pydantic errors]
+    E --> F[Developer fixes issues]
+    F --> B
+    D --> G[Push to GitHub]
+    G --> H[CI runs docs-validation.yml]
+    H --> I{All checks pass?}
+    I -->|Yes| J[Merge allowed]
+    I -->|No| K[Fix in new commit]
+    K --> G
 ```
 
 ## Available Scripts

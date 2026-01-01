@@ -82,7 +82,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(
         description="Validate optimizer docstrings using Pydantic schema"
     )
-    parser.add_argument("files", nargs="+", type=Path, help="Python files to validate")
+    parser.add_argument("files", nargs="*", type=Path, help="Python files to validate")
     parser.add_argument(
         "-v", "--verbose", action="store_true", help="Print detailed validation info"
     )
@@ -115,6 +115,9 @@ def main() -> int:
                 files.extend(category_path.glob("*.py"))
         # Filter out __init__.py
         files = [f for f in files if f.name != "__init__.py"]
+    elif not args.files:
+        print("Error: No files specified. Use --all or provide file paths.")
+        return 1
     else:
         files = args.files
 
