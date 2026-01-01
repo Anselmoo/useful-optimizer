@@ -57,9 +57,9 @@ def get_optimum(func_name: str) -> float:
 
     Example:
         >>> from opt.benchmark.optima import get_optimum
-        >>> get_optimum('sphere')
+        >>> get_optimum("sphere")
         0.0
-        >>> get_optimum('eggholder')
+        >>> get_optimum("eggholder")
         -959.6407
     """
     if func_name not in FUNCTION_OPTIMA:
@@ -83,20 +83,18 @@ def get_optimum_safe(func_name: str, default: float | None = None) -> float | No
 
     Example:
         >>> from opt.benchmark.optima import get_optimum_safe
-        >>> get_optimum_safe('sphere')
+        >>> get_optimum_safe("sphere")
         0.0
-        >>> get_optimum_safe('unknown_function', default=0.0)
+        >>> get_optimum_safe("unknown_function", default=0.0)
         0.0
-        >>> get_optimum_safe('unknown_function') is None
+        >>> get_optimum_safe("unknown_function") is None
         True
     """
     return FUNCTION_OPTIMA.get(func_name, default)
 
 
 def is_converged(
-    current_fitness: float,
-    func_name: str,
-    target_precision: float = 1e-8,
+    current_fitness: float, func_name: str, target_precision: float = 1e-8
 ) -> bool:
     """Check if optimization has converged to target precision.
 
@@ -110,11 +108,11 @@ def is_converged(
 
     Example:
         >>> from opt.benchmark.optima import is_converged
-        >>> is_converged(0.0, 'sphere', target_precision=1e-8)
+        >>> is_converged(0.0, "sphere", target_precision=1e-8)
         True
-        >>> is_converged(1e-6, 'sphere', target_precision=1e-8)
+        >>> is_converged(1e-6, "sphere", target_precision=1e-8)
         False
-        >>> is_converged(1e-10, 'rosenbrock', target_precision=1e-8)
+        >>> is_converged(1e-10, "rosenbrock", target_precision=1e-8)
         True
     """
     f_opt = get_optimum_safe(func_name)

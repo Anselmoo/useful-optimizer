@@ -263,6 +263,7 @@ class SGDMomentum(AbstractOptimizer):
         learning_rate: float = 0.01,
         momentum: float = 0.9,
         seed: int | None = None,
+        **kwargs,  # Accept additional parameters (target_precision, f_opt)
     ) -> None:
         """Initialize the SGD with Momentum optimizer."""
         super().__init__(
@@ -272,6 +273,7 @@ class SGDMomentum(AbstractOptimizer):
             dim=dim,
             max_iter=max_iter,
             seed=seed,
+            **kwargs,  # Pass through additional parameters
         )
         self.learning_rate = learning_rate
         self.momentum = momentum

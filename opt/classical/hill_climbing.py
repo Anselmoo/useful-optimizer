@@ -278,6 +278,7 @@ class HillClimbing(AbstractOptimizer):
             dim=dim,
             max_iter=max_iter,
             seed=seed,
+            **kwargs,  # Pass through additional parameters
         )
         self.step_sizes = np.full(dim, initial_step_sizes)
         self.acceleration = acceleration

@@ -123,7 +123,7 @@ class AbstractOptimizer(ABC):
         # Extract COCO/BBOB parameters from kwargs
         self.target_precision = kwargs.get("target_precision", 1e-8)
         self.f_opt = kwargs.get("f_opt", None)
-        
+
         self.func = func
         self._original_func = func  # Keep original for direct calls
         self.lower_bound = lower_bound

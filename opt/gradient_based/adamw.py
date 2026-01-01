@@ -302,6 +302,7 @@ class AdamW(AbstractOptimizer):
         epsilon: float = ADAM_EPSILON,
         weight_decay: float = ADAMW_WEIGHT_DECAY,
         seed: int | None = None,
+        **kwargs,  # Accept additional parameters (target_precision, f_opt)
     ) -> None:
         """Initialize the AdamW optimizer."""
         super().__init__(
@@ -311,6 +312,7 @@ class AdamW(AbstractOptimizer):
             dim=dim,
             max_iter=max_iter,
             seed=seed,
+            **kwargs,  # Pass through additional parameters
         )
         self.learning_rate = learning_rate
         self.beta1 = beta1

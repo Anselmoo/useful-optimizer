@@ -275,6 +275,7 @@ class NelderMead(AbstractOptimizer):
             dim=dim,
             max_iter=max_iter,
             seed=seed,
+            **kwargs,  # Pass through additional parameters
         )
         self.num_restarts = num_restarts
 

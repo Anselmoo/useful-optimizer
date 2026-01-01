@@ -257,6 +257,7 @@ class GeneticAlgorithm(AbstractOptimizer):
         tournament_size: int = 3,
         crossover_rate: float = 0.7,
         seed: int | None = None,
+        **kwargs,  # Accept additional parameters (target_precision, f_opt)
     ) -> None:
         """Initialize the GeneticAlgorithm class."""
         super().__init__(
