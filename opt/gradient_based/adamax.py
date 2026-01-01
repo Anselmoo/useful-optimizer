@@ -149,7 +149,7 @@ class AdaMax(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AdaMax(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -323,8 +323,7 @@ class AdaMax(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Compute gradient at current position
             gradient = self._compute_gradient(current_solution)
@@ -361,7 +360,6 @@ class AdaMax(AbstractOptimizer):
     def _compute_gradient(self, x: np.ndarray) -> np.ndarray:
         """Compute the gradient of the objective function at a given point.
 
-
         # Track final state
         if self.track_history:
             self._record_history(
@@ -369,6 +367,7 @@ class AdaMax(AbstractOptimizer):
                 best_solution=best_solution,
             )
             self._finalize_history()
+
         Args:
             x (np.ndarray): The point at which to compute the gradient.
 

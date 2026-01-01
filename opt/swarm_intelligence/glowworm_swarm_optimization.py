@@ -136,7 +136,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = GlowwormSwarmOptimization(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -367,8 +367,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             fitness = self._compute_fitness(population)
             luciferin = self._update_luciferin(population, fitness)
@@ -380,10 +379,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
 
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

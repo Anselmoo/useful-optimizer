@@ -112,7 +112,7 @@ class AquilaOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AquilaOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -329,8 +329,7 @@ class AquilaOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Update quality function
             qf = self._quality_function(iteration, self.max_iter)
@@ -409,13 +408,9 @@ class AquilaOptimizer(AbstractOptimizer):
             # Update mean position
             mean_position = np.mean(population, axis=0)
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

@@ -333,8 +333,7 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Compute temperature
             t = iteration / self.max_iter
@@ -381,13 +380,9 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
                     + 1 / (n - 1) * np.outer(current, current)
                 )
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

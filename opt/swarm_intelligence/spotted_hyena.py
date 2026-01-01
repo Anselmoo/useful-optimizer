@@ -107,7 +107,7 @@ class SpottedHyenaOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SpottedHyenaOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -279,8 +279,7 @@ class SpottedHyenaOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Update h parameter (decreases linearly from 5 to 0)
             h = _H_PARAM - iteration * (_H_PARAM / self.max_iter)
@@ -335,13 +334,9 @@ class SpottedHyenaOptimizer(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

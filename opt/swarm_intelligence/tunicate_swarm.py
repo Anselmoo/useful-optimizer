@@ -108,7 +108,7 @@ class TunicateSwarmAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = TunicateSwarmAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -280,8 +280,7 @@ class TunicateSwarmAlgorithm(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=food_fitness, best_solution=food_source
                 )
             # Calculate c values for social forces
             c1 = 2 - iteration * (2 / self.max_iter)  # Decreases from 2 to 0
@@ -326,13 +325,9 @@ class TunicateSwarmAlgorithm(AbstractOptimizer):
                         food_source = new_position.copy()
                         food_fitness = new_fitness
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=food_fitness,
-                best_solution=food_source,
-            )
+            self._record_history(best_fitness=food_fitness, best_solution=food_source)
             self._finalize_history()
         return food_source, food_fitness
 

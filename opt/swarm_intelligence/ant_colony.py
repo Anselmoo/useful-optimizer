@@ -143,7 +143,7 @@ class AntColony(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AntColony(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -331,8 +331,7 @@ class AntColony(AbstractOptimizer):
             # Track history if enabled
             if self.track_history and best_solution is not None:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
 
             for i in range(self.population_size):
@@ -357,10 +356,7 @@ class AntColony(AbstractOptimizer):
 
         # Track final state
         if self.track_history and best_solution is not None:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
 
         return best_solution, best_fitness

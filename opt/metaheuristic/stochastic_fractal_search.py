@@ -133,7 +133,7 @@ class StochasticFractalSearch(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = StochasticFractalSearch(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -310,12 +310,6 @@ class StochasticFractalSearch(AbstractOptimizer):
         """
         self.initialize_population()
         for _ in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             self.seed += 1
             best_index = np.argmin(self.scores)
             for i in range(self.population_size):
@@ -330,20 +324,29 @@ class StochasticFractalSearch(AbstractOptimizer):
                         self.population[i], self.lower_bound, self.upper_bound
                     )
                     self.scores[i] = self.func(self.population[i])
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(self.scores)
+                self._record_history(
+                    best_fitness=self.scores[best_idx],
+                    best_solution=self.population[best_idx],
+                )
+
         best_index = np.argmin(self.scores)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.scores[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.scores[best_index]
 
     def fractal_dimension(self, x: np.ndarray) -> float:
         """Calculate the fractal dimension.
 
-
-        # Track final state
-        if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
-            self._finalize_history()
         This method calculates the fractal dimension of an individual.
 
         Args:

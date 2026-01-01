@@ -133,7 +133,7 @@ class CMAESAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = CMAESAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -313,12 +313,6 @@ class CMAESAlgorithm(AbstractOptimizer):
         regularization = 1e-8  # Small regularization for numerical stability
 
         for iteration in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             # Sample new solutions
             try:
                 # Add regularization to ensure positive definite covariance
@@ -382,15 +376,20 @@ class CMAESAlgorithm(AbstractOptimizer):
             # Prevent sigma from becoming too small
             self.sigma = max(self.sigma, self.epsilon)
 
+            # Track history if enabled
+            if self.track_history:
+                indices = np.argsort(fitness)
+                self._record_history(
+                    best_fitness=fitness[indices[0]],
+                    best_solution=solutions[indices[0]],
+                )
+
         best_solution = mean
         best_fitness = self.func(best_solution)
 
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

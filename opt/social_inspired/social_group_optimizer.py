@@ -156,7 +156,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SocialGroupOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -371,8 +371,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Update self-introspection coefficient
             c_current = self.c * (1 - iteration / self.max_iter)
@@ -454,13 +453,9 @@ class SocialGroupOptimizer(AbstractOptimizer):
         if self.verbose:
             print(f"Final best fitness: {best_fitness:.6f}")
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

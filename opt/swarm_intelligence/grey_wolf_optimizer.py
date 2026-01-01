@@ -132,7 +132,7 @@ class GreyWolfOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = GreyWolfOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -277,12 +277,6 @@ class GreyWolfOptimizer(AbstractOptimizer):
 
         # Main loop
         for iter_count in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             a = 2 - iter_count * (2 / self.max_iter)  # Linearly decreasing a
 
             for i in range(self.population_size):
@@ -326,17 +320,19 @@ class GreyWolfOptimizer(AbstractOptimizer):
             beta = population[sorted_indices[1]].copy()
             delta = population[sorted_indices[2]].copy()
 
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=fitness[sorted_indices[0]], best_solution=alpha
+                )
+
         # Get best solution
         best_solution = alpha
         best_fitness = self.func(best_solution)
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

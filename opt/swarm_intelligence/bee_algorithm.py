@@ -124,7 +124,7 @@ class BeeAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = BeeAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -277,12 +277,6 @@ class BeeAlgorithm(AbstractOptimizer):
 
         """
         for _ in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             self.seed += 1
             # Employed Bee Phase
             for i in range(self.population_size):
@@ -330,6 +324,14 @@ class BeeAlgorithm(AbstractOptimizer):
                 ).uniform(self.lower_bound, self.upper_bound, self.dim)
                 self.fitness[max_fitness_index] = self.func(
                     self.population[max_fitness_index]
+                )
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(self.fitness)
+                self._record_history(
+                    best_fitness=self.fitness[best_idx],
+                    best_solution=self.population[best_idx],
                 )
 
         best_index = np.argmin(self.fitness)

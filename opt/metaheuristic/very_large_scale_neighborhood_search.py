@@ -150,7 +150,7 @@ class VeryLargeScaleNeighborhood(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = VeryLargeScaleNeighborhood(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -318,12 +318,6 @@ class VeryLargeScaleNeighborhood(AbstractOptimizer):
         """
         self.initialize_population()
         for _ in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             for i in range(self.population_size):
                 best_neighbor = None
                 best_fitness = np.inf
@@ -337,6 +331,17 @@ class VeryLargeScaleNeighborhood(AbstractOptimizer):
                         best_fitness = fitness
                         best_neighbor = neighbor
                 self.population[i] = best_neighbor
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(
+                    [self.func(individual) for individual in self.population]
+                )
+                self._record_history(
+                    best_fitness=self.func(self.population[best_idx]),
+                    best_solution=self.population[best_idx],
+                )
+
         best_index = np.argmin(
             [self.func(individual) for individual in self.population]
         )

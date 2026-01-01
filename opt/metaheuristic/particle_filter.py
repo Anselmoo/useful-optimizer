@@ -141,7 +141,7 @@ class ParticleFilter(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ParticleFilter(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -327,8 +327,7 @@ class ParticleFilter(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=global_best_score, best_solution=global_best_position
                 )
             self.seed += 1
             # Evaluate particles
@@ -362,12 +361,10 @@ class ParticleFilter(AbstractOptimizer):
             # Ensure particles are within bounds
             particles = np.clip(particles, self.lower_bound, self.upper_bound)
 
-
         # Track final state
         if self.track_history:
             self._record_history(
-                best_fitness=global_best_score,
-                best_solution=global_best_position,
+                best_fitness=global_best_score, best_solution=global_best_position
             )
             self._finalize_history()
         return global_best_position, global_best_score

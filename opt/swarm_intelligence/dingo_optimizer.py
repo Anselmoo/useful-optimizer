@@ -108,7 +108,7 @@ class DingoOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = DingoOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -272,8 +272,7 @@ class DingoOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Adaptive parameters
             a = 2 * (1 - iteration / self.max_iter)  # Decreasing from 2 to 0
@@ -354,13 +353,9 @@ class DingoOptimizer(AbstractOptimizer):
                     best_solution = positions[idx].copy()
                     best_fitness = fitness[idx]
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

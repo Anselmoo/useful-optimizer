@@ -164,7 +164,7 @@ class StochasticDiffusionSearch(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = StochasticDiffusionSearch(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -301,12 +301,6 @@ class StochasticDiffusionSearch(AbstractOptimizer):
         ]
 
         for _ in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             self.seed += 1
             for agent in self.population:
                 # Test phase
@@ -330,13 +324,19 @@ class StochasticDiffusionSearch(AbstractOptimizer):
                         )
                     agent.score = self.func(agent.position)
 
+            # Track history if enabled
+            if self.track_history:
+                current_best = min(self.population, key=lambda agent: agent.score)
+                self._record_history(
+                    best_fitness=current_best.score, best_solution=current_best.position
+                )
+
         best_agent = min(self.population, key=lambda agent: agent.score)
 
         # Track final state
         if self.track_history:
             self._record_history(
-                best_fitness=best_agent.score,
-                best_solution=best_agent.position,
+                best_fitness=best_agent.score, best_solution=best_agent.position
             )
             self._finalize_history()
         return best_agent.position, best_agent.score

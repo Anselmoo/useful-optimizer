@@ -155,7 +155,7 @@ class TabuSearch(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = TabuSearch(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -324,12 +324,6 @@ class TabuSearch(AbstractOptimizer):
         """
         self.initialize_population()
         for _ in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             best_index = np.argmin(self.scores)
             if len(self.tabu_list) >= self.tabu_list_size:
                 self.tabu_list.pop(0)
@@ -345,6 +339,14 @@ class TabuSearch(AbstractOptimizer):
             ):
                 self.population[best_index] = neighborhood[best_neighbor_index]
                 self.scores[best_index] = neighborhood_scores[best_neighbor_index]
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(self.scores)
+                self._record_history(
+                    best_fitness=self.scores[best_idx],
+                    best_solution=self.population[best_idx],
+                )
         best_index = np.argmin(self.scores)
 
         # Track final state

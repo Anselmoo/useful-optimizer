@@ -131,7 +131,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = PenaltyMethodOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -347,8 +347,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Minimize penalized objective
             result = minimize(
@@ -383,7 +382,6 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
     def _compute_violation(self, x: np.ndarray) -> float:
         """Compute total constraint violation.
 
-
         # Track final state
         if self.track_history:
             self._record_history(
@@ -391,6 +389,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
                 best_solution=best_solution,
             )
             self._finalize_history()
+
         Args:
             x: Point to evaluate.
 

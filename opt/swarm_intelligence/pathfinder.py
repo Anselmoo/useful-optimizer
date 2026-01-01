@@ -106,7 +106,7 @@ class PathfinderAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = PathfinderAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -278,8 +278,7 @@ class PathfinderAlgorithm(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=pathfinder_fitness, best_solution=pathfinder
                 )
             # Update parameters
             r1 = np.random.rand()
@@ -335,12 +334,10 @@ class PathfinderAlgorithm(AbstractOptimizer):
                         pathfinder_fitness = new_fitness
                         best_idx = i
 
-
         # Track final state
         if self.track_history:
             self._record_history(
-                best_fitness=pathfinder_fitness,
-                best_solution=pathfinder,
+                best_fitness=pathfinder_fitness, best_solution=pathfinder
             )
             self._finalize_history()
         return pathfinder, pathfinder_fitness

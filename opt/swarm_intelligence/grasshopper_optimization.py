@@ -150,7 +150,7 @@ class GrasshopperOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = GrasshopperOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -363,10 +363,7 @@ class GrasshopperOptimizer(AbstractOptimizer):
         for iteration in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
+                self._record_history(best_fitness=target_fitness, best_solution=target)
             # Update coefficient c (decreases from c_max to c_min)
             c = self.c_max - iteration * ((self.c_max - self.c_min) / self.max_iter)
 
@@ -420,13 +417,9 @@ class GrasshopperOptimizer(AbstractOptimizer):
                 target = grasshoppers[best_idx].copy()
                 target_fitness = fitness[best_idx]
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=target_fitness,
-                best_solution=target,
-            )
+            self._record_history(best_fitness=target_fitness, best_solution=target)
             self._finalize_history()
         return target, target_fitness
 

@@ -103,7 +103,7 @@ class ArtificialHummingbirdAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ArtificialHummingbirdAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -269,8 +269,7 @@ class ArtificialHummingbirdAlgorithm(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Calculate direction switch parameter
             dir_switch = 2 * np.random.rand() * (1 - iteration / self.max_iter)
@@ -338,13 +337,9 @@ class ArtificialHummingbirdAlgorithm(AbstractOptimizer):
                 visit_table = np.ones((self.population_size, self.population_size))
                 np.fill_diagonal(visit_table, 0)
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

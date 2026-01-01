@@ -131,7 +131,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = BarrierMethodOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -382,8 +382,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Minimize barrier objective
             try:
@@ -419,7 +418,6 @@ class BarrierMethodOptimizer(AbstractOptimizer):
 
 if __name__ == "__main__":
     from opt.benchmark.functions import sphere
-
 
     # Constraint: x[0] <= 1 (i.e., x[0] - 1 <= 0)
     def constraint(x: np.ndarray) -> float:

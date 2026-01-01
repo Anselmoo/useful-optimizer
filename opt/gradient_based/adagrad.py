@@ -129,7 +129,7 @@ class ADAGrad(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ADAGrad(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -288,26 +288,21 @@ class ADAGrad(AbstractOptimizer):
         grad_accumulator = np.zeros(self.dim)
 
         for _ in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             grad = approx_fprime(x, self.func, np.sqrt(np.finfo(float).eps))
             grad_accumulator += grad**2
             adjusted_grad = grad / (np.sqrt(grad_accumulator) + self.eps)
             x = x - self.lr * adjusted_grad
+
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(best_fitness=self.func(x), best_solution=x)
 
         best_solution = x
         best_fitness = self.func(best_solution)
 
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

@@ -125,7 +125,7 @@ class AntLionOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AntLionOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -328,8 +328,7 @@ class AntLionOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=elite_fitness, best_solution=elite_antlion
                 )
             # Decrease trap boundary (intensification)
             # I ratio decreases from 1 to 10^-6 based on iteration
@@ -398,12 +397,10 @@ class AntLionOptimizer(AbstractOptimizer):
                 elite_antlion = antlions[current_best_idx].copy()
                 elite_fitness = antlion_fitness[current_best_idx]
 
-
         # Track final state
         if self.track_history:
             self._record_history(
-                best_fitness=elite_fitness,
-                best_solution=elite_antlion,
+                best_fitness=elite_fitness, best_solution=elite_antlion
             )
             self._finalize_history()
         return elite_antlion, elite_fitness

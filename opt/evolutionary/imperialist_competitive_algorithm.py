@@ -150,7 +150,7 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ImperialistCompetitiveAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -310,12 +310,16 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
             }
             empires.append(empire)
 
+        # Initialize best tracking
+        best_empire = min(empires, key=lambda e: fitness[e["imperialist"]])
+        best_solution = population[best_empire["imperialist"]]
+        best_fitness = fitness[best_empire["imperialist"]]
+
         for _ in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             self.seed += 1
             # Assimilation
@@ -367,6 +371,14 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
 
             # Eliminate the powerless empires
             empires = [empire for empire in empires if len(empire["colonies"]) > 0]
+
+            # Update best solution
+            if empires:
+                best_empire = min(
+                    empires, key=lambda e: self.func(population[e["imperialist"]])
+                )
+                best_solution = population[best_empire["imperialist"]]
+                best_fitness = self.func(best_solution)
 
         best_solution = min(
             empires, key=lambda empire: self.func(population[empire["imperialist"]])

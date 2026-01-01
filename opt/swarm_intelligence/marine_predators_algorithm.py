@@ -158,7 +158,7 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = MarinePredatorsOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -380,10 +380,7 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
         for iteration in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
+                self._record_history(best_fitness=elite_fitness, best_solution=elite)
             # Calculate CF (control factor)
             cf = (1 - iteration / self.max_iter) ** (2 * iteration / self.max_iter)
 
@@ -473,13 +470,9 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
                 elite_fitness = fitness[best_idx]
                 elite_matrix = np.tile(elite, (self.population_size, 1))
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=elite_fitness,
-                best_solution=elite,
-            )
+            self._record_history(best_fitness=elite_fitness, best_solution=elite)
             self._finalize_history()
         return elite, elite_fitness
 

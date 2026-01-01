@@ -124,7 +124,7 @@ class EagleStrategy(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = EagleStrategy(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -268,12 +268,6 @@ class EagleStrategy(AbstractOptimizer):
 
         # Main loop
         for _ in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             self.seed += 1
             for i in range(self.population_size):
                 self.seed += 1
@@ -301,12 +295,16 @@ class EagleStrategy(AbstractOptimizer):
                 if fitness[i] < self.func(best_solution):
                     best_solution = population[i]
 
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=self.func(best_solution), best_solution=best_solution
+                )
 
         # Track final state
         if self.track_history:
             self._record_history(
-                best_fitness=self.func(best_solution),
-                best_solution=best_solution,
+                best_fitness=self.func(best_solution), best_solution=best_solution
             )
             self._finalize_history()
         return best_solution, self.func(best_solution)

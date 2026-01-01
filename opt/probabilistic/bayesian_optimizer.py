@@ -407,8 +407,7 @@ class BayesianOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Find next point by maximizing expected improvement
             best_ei = np.inf
@@ -441,13 +440,9 @@ class BayesianOptimizer(AbstractOptimizer):
                 best_solution = best_x.copy()
                 best_fitness = new_y
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

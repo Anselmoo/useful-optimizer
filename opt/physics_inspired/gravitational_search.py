@@ -188,7 +188,7 @@ class GravitationalSearchOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = GravitationalSearchOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -379,8 +379,7 @@ class GravitationalSearchOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Update gravitational constant (decreases over time)
             g = self.g0 * np.exp(-self.alpha * iteration / self.max_iter)
@@ -445,13 +444,9 @@ class GravitationalSearchOptimizer(AbstractOptimizer):
                 best_solution = agents[current_best_idx].copy()
                 best_fitness = fitness[current_best_idx]
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

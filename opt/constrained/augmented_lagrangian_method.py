@@ -148,7 +148,7 @@ class AugmentedLagrangian(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AugmentedLagrangian(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -366,8 +366,7 @@ class AugmentedLagrangian(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             res = minimize(
                 self.augmented_lagrangian_func,
@@ -392,7 +391,6 @@ class AugmentedLagrangian(AbstractOptimizer):
 
 if __name__ == "__main__":
     optimizer = AugmentedLagrangian(
-
         func=shifted_ackley, lower_bound=-2.768, upper_bound=+2.768, dim=2
     )
     best_solution, best_fitness = optimizer.search()

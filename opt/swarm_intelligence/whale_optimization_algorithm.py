@@ -135,7 +135,7 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = WhaleOptimizationAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -282,8 +282,7 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_whale
                 )
             self.seed += 1
             for i in range(self.population_size):
@@ -296,6 +295,7 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
 
             a = 2 - iter_count * ((2) / self.max_iter)  # Linearly decreasing a
 
+            b = 1  # parameters in equation (2.3)
             for i in range(self.population_size):
                 self.seed += 1
                 r1 = np.random.default_rng(
@@ -308,7 +308,6 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
                 A = 2 * a * r1 - a
                 C = 2 * r2
 
-                b = 1  # parameters in equation (2.3)
                 l = (a - 1) * np.random.default_rng(
                     self.seed + 3
                 ).random() + 1  # parameters in equation (2.3)
@@ -326,11 +325,11 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
                             whales[i][j] = X_rand[j] - A * abs(
                                 C * X_rand[j] - whales[i][j]
                             )
-                        elif abs(A) < 1:
+                        else:
                             whales[i][j] = best_whale[j] - A * abs(
                                 C * best_whale[j] - whales[i][j]
                             )
-                    elif p >= fifty:
+                    else:
                         distance2Leader = abs(best_whale[j] - whales[i][j])
                         whales[i][j] = (
                             distance2Leader * np.exp(b * l) * np.cos(l * 2 * np.pi)
@@ -339,13 +338,9 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
 
                 whales[i] = np.clip(whales[i], self.lower_bound, self.upper_bound)
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_whale,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_whale)
             self._finalize_history()
         return best_whale, best_fitness
 

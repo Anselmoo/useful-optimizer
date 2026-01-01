@@ -140,7 +140,7 @@ class LDAnalysis(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = LDAnalysis(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -352,12 +352,6 @@ class LDAnalysis(AbstractOptimizer):
         ).ravel()
 
         for _ in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             x, y = self.vectorize(self.population, self.fitness)
             x, y = np.nan_to_num(x), np.nan_to_num(y)
 
@@ -398,6 +392,14 @@ class LDAnalysis(AbstractOptimizer):
                 new_fitness.reshape(-1, 1)
             ).ravel()[0]
             self.fitness = np.append(self.fitness, new_fitness)
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(self.fitness)
+                self._record_history(
+                    best_fitness=self.fitness[best_idx],
+                    best_solution=self.population[best_idx],
+                )
 
         best_index = np.argmin(self.fitness)
 

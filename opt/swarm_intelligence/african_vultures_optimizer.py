@@ -114,7 +114,7 @@ class AfricanVulturesOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AfricanVulturesOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -339,8 +339,7 @@ class AfricanVulturesOptimizer(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness_1, best_solution=best_vulture_1
                 )
             # Calculate satiation rate
             satiation = self._calculate_satiation(iteration)
@@ -431,12 +430,10 @@ class AfricanVulturesOptimizer(AbstractOptimizer):
                 best_vulture_2 = population[0].copy()
                 best_fitness_2 = fitness[0]
 
-
         # Track final state
         if self.track_history:
             self._record_history(
-                best_fitness=best_fitness_1,
-                best_solution=best_vulture_1,
+                best_fitness=best_fitness_1, best_solution=best_vulture_1
             )
             self._finalize_history()
         return best_vulture_1, best_fitness_1

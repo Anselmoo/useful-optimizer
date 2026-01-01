@@ -108,7 +108,7 @@ class SeagullOptimizationAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SeagullOptimizationAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -280,8 +280,7 @@ class SeagullOptimizationAlgorithm(AbstractOptimizer):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
+                    best_fitness=best_fitness, best_solution=best_solution
                 )
             # Update A (decreases linearly from A_MAX to 0)
             a_coef = _A_MAX - iteration * (_A_MAX / self.max_iter)
@@ -326,13 +325,9 @@ class SeagullOptimizationAlgorithm(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
-
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
         return best_solution, best_fitness
 

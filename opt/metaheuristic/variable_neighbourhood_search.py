@@ -128,7 +128,7 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = VariableNeighborhoodSearch(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -312,18 +312,23 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
         """
         self.initialize_population()
         for _ in range(self.max_iter):
-            # Track history if enabled
-            if self.track_history:
-                self._record_history(
-                    best_fitness=best_fitness,
-                    best_solution=best_solution,
-                )
             for i in range(self.population_size):
                 x = self.population[i]
                 x = self.shaking(x)
                 x = np.clip(x, self.lower_bound, self.upper_bound)
                 if self.func(x) < self.func(self.population[i]):
                     self.population[i] = x
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(
+                    [self.func(individual) for individual in self.population]
+                )
+                self._record_history(
+                    best_fitness=self.func(self.population[best_idx]),
+                    best_solution=self.population[best_idx],
+                )
+
         best_index = np.argmin(
             [self.func(individual) for individual in self.population]
         )

@@ -135,7 +135,7 @@ class HillClimbing(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = HillClimbing(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -309,10 +309,7 @@ class HillClimbing(AbstractOptimizer):
         for _ in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
-                self._record_history(
-                    best_fitness=best_score,
-                    best_solution=solution,
-                )
+                self._record_history(best_fitness=best_score, best_solution=solution)
             before_score = best_score
             for i in range(self.dim):
                 before_point = solution[i]
@@ -337,13 +334,11 @@ class HillClimbing(AbstractOptimizer):
 
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_score,
-                best_solution=solution,
-            )
+            self._record_history(best_fitness=best_score, best_solution=solution)
             self._finalize_history()
 
         return solution, best_score
+
 
 if __name__ == "__main__":
     from opt.demo import run_demo
