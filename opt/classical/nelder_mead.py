@@ -127,8 +127,7 @@ class NelderMead(AbstractOptimizer):
         >>> from opt.classical.nelder_mead import NelderMead
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     NelderMead, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     NelderMead, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

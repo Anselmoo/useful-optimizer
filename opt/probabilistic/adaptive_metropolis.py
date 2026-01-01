@@ -122,8 +122,13 @@ class AdaptiveMetropolisOptimizer(AbstractOptimizer):
         >>> from opt.probabilistic.adaptive_metropolis import AdaptiveMetropolisOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     AdaptiveMetropolisOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     AdaptiveMetropolisOptimizer,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

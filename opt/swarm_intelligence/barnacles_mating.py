@@ -92,8 +92,13 @@ class BarnaclesMatingOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.barnacles_mating import BarnaclesMatingOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     BarnaclesMatingOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     BarnaclesMatingOptimizer,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

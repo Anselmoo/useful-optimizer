@@ -114,8 +114,13 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
         >>> from opt.metaheuristic.variable_neighbourhood_search import VariableNeighborhoodSearch
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     VariableNeighborhoodSearch, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     VariableNeighborhoodSearch,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

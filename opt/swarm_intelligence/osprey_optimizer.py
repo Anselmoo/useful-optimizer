@@ -106,8 +106,7 @@ class OspreyOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.osprey_optimizer import OspreyOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     OspreyOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     OspreyOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

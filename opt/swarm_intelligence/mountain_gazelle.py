@@ -89,8 +89,13 @@ class MountainGazelleOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.mountain_gazelle import MountainGazelleOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     MountainGazelleOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     MountainGazelleOptimizer,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

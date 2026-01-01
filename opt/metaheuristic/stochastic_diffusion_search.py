@@ -150,8 +150,13 @@ class StochasticDiffusionSearch(AbstractOptimizer):
         >>> from opt.metaheuristic.stochastic_diffusion_search import StochasticDiffusionSearch
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     StochasticDiffusionSearch, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     StochasticDiffusionSearch,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

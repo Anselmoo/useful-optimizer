@@ -105,8 +105,7 @@ class GiantTrevallyOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.giant_trevally import GiantTrevallyOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     GiantTrevallyOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     GiantTrevallyOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

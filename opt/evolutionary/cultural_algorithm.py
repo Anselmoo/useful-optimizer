@@ -134,8 +134,7 @@ class CulturalAlgorithm(AbstractOptimizer):
         >>> from opt.evolutionary.cultural_algorithm import CulturalAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     CulturalAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     CulturalAlgorithm, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

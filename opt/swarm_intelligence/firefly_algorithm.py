@@ -132,8 +132,7 @@ class FireflyAlgorithm(AbstractOptimizer):
         >>> from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     FireflyAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     FireflyAlgorithm, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True
@@ -297,8 +296,6 @@ class FireflyAlgorithm(AbstractOptimizer):
             seed=seed,
             population_size=population_size,
             track_history=track_history,
-            target_precision=target_precision,
-            f_opt=f_opt,
         )
         self.alpha = alpha
         self.beta_0 = beta_0

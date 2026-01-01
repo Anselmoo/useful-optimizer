@@ -94,8 +94,7 @@ class DingoOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.dingo_optimizer import DingoOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     DingoOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     DingoOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

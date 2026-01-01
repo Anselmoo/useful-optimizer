@@ -136,8 +136,7 @@ class GrasshopperOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.grasshopper_optimization import GrasshopperOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     GrasshopperOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     GrasshopperOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

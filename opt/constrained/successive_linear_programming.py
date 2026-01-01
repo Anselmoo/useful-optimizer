@@ -124,8 +124,13 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
         >>> from opt.constrained.successive_linear_programming import SuccessiveLinearProgramming
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     SuccessiveLinearProgramming, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     SuccessiveLinearProgramming,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True
@@ -305,10 +310,7 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
 
         # Track final state
         if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
             self._finalize_history()
 
         return best_solution, best_fitness

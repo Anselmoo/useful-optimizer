@@ -131,8 +131,7 @@ class VariableDepthSearch(AbstractOptimizer):
         >>> from opt.metaheuristic.variable_depth_search import VariableDepthSearch
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     VariableDepthSearch, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     VariableDepthSearch, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

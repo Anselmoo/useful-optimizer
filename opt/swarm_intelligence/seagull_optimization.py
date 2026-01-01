@@ -94,8 +94,13 @@ class SeagullOptimizationAlgorithm(AbstractOptimizer):
         >>> from opt.swarm_intelligence.seagull_optimization import SeagullOptimizationAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     SeagullOptimizationAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     SeagullOptimizationAlgorithm,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

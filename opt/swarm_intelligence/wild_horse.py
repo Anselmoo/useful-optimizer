@@ -93,8 +93,7 @@ class WildHorseOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.wild_horse import WildHorseOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     WildHorseOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     WildHorseOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

@@ -92,8 +92,7 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
         >>> from opt.swarm_intelligence.honey_badger import HoneyBadgerAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     HoneyBadgerAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     HoneyBadgerAlgorithm, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

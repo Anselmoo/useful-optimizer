@@ -93,8 +93,7 @@ class SpottedHyenaOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.spotted_hyena import SpottedHyenaOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     SpottedHyenaOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     SpottedHyenaOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

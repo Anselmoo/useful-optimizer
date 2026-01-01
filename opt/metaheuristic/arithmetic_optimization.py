@@ -101,8 +101,13 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
         >>> from opt.metaheuristic.arithmetic_optimization import ArithmeticOptimizationAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     ArithmeticOptimizationAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     ArithmeticOptimizationAlgorithm,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

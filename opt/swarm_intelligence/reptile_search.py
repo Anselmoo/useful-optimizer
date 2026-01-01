@@ -92,8 +92,7 @@ class ReptileSearchAlgorithm(AbstractOptimizer):
         >>> from opt.swarm_intelligence.reptile_search import ReptileSearchAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     ReptileSearchAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     ReptileSearchAlgorithm, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

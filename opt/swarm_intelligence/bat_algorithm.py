@@ -315,8 +315,8 @@ class BatAlgorithm(AbstractOptimizer):
         freq_min: float = 0,
         freq_max: float = 2,
         seed: int | None = None,
-        target_precision: float = 1e-8,
-        f_opt: float | None = None,
+        target_precision: float = 1e-8,  # noqa: ARG002
+        f_opt: float | None = None,  # noqa: ARG002
     ) -> None:
         """Initialize the BatAlgorithm class."""
         super().__init__(

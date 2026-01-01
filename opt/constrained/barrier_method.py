@@ -117,8 +117,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         >>> from opt.constrained.barrier_method import BarrierMethodOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     BarrierMethodOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     BarrierMethodOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

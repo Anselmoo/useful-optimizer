@@ -119,8 +119,7 @@ class CMAESAlgorithm(AbstractOptimizer):
         >>> from opt.evolutionary.cma_es import CMAESAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     CMAESAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     CMAESAlgorithm, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

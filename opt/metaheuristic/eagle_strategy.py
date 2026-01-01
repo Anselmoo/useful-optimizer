@@ -110,8 +110,7 @@ class EagleStrategy(AbstractOptimizer):
         >>> from opt.metaheuristic.eagle_strategy import EagleStrategy
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     EagleStrategy, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     EagleStrategy, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

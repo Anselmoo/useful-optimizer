@@ -94,8 +94,7 @@ class TunicateSwarmAlgorithm(AbstractOptimizer):
         >>> from opt.swarm_intelligence.tunicate_swarm import TunicateSwarmAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     TunicateSwarmAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     TunicateSwarmAlgorithm, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

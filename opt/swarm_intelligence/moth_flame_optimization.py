@@ -123,8 +123,7 @@ class MothFlameOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.moth_flame_optimization import MothFlameOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     MothFlameOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     MothFlameOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

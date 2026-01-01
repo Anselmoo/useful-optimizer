@@ -124,11 +124,18 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
         COCO/BBOB compliant benchmark test:
 
         >>> from benchmarks.run_benchmark_suite import run_single_benchmark
-        >>> from opt.evolutionary.estimation_of_distribution_algorithm import EstimationOfDistributionAlgorithm
+        >>> from opt.evolutionary.estimation_of_distribution_algorithm import (
+        ...     EstimationOfDistributionAlgorithm,
+        ... )
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     EstimationOfDistributionAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     EstimationOfDistributionAlgorithm,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

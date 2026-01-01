@@ -95,11 +95,18 @@ class ArtificialGorillaTroopsOptimizer(AbstractOptimizer):
         COCO/BBOB compliant benchmark test:
 
         >>> from benchmarks.run_benchmark_suite import run_single_benchmark
-        >>> from opt.swarm_intelligence.artificial_gorilla_troops import ArtificialGorillaTroopsOptimizer
+        >>> from opt.swarm_intelligence.artificial_gorilla_troops import (
+        ...     ArtificialGorillaTroopsOptimizer,
+        ... )
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     ArtificialGorillaTroopsOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     ArtificialGorillaTroopsOptimizer,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

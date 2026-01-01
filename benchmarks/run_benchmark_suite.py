@@ -413,6 +413,16 @@ def run_benchmark_suite(
                 )
 
     # Create final Pydantic model
+    metadata = BenchmarkMetadata(
+        max_iterations=MAX_ITERATIONS,
+        n_runs=N_RUNS,
+        dimensions=DIMENSIONS,
+        timestamp=time.strftime("%Y-%m-%d %H:%M:%S"),
+        target_precision=TARGET_PRECISION,
+        tier=tier,
+        n_optimizers=len(optimizers),
+        estimated_runtime=TIER_RUNTIMES[tier],
+    )
     results = BenchmarkResults(metadata=metadata, benchmarks=benchmarks_dict)
 
     # Save results to JSON

@@ -117,8 +117,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
         >>> from opt.constrained.penalty_method import PenaltyMethodOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     PenaltyMethodOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     PenaltyMethodOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

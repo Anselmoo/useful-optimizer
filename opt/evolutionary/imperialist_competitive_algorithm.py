@@ -131,11 +131,18 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
         COCO/BBOB compliant benchmark test:
 
         >>> from benchmarks.run_benchmark_suite import run_single_benchmark
-        >>> from opt.evolutionary.imperialist_competitive_algorithm import ImperialistCompetitiveAlgorithm
+        >>> from opt.evolutionary.imperialist_competitive_algorithm import (
+        ...     ImperialistCompetitiveAlgorithm,
+        ... )
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     ImperialistCompetitiveAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     ImperialistCompetitiveAlgorithm,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

@@ -25,10 +25,7 @@ def get_optimizer_class_name(file_path: Path) -> str | None:
     content = file_path.read_text()
 
     # Look for class definition that inherits from AbstractOptimizer
-    match = re.search(
-        r"class\s+(\w+)\s*\([^)]*AbstractOptimizer[^)]*\):",
-        content
-    )
+    match = re.search(r"class\s+(\w+)\s*\([^)]*AbstractOptimizer[^)]*\):", content)
 
     if match:
         return match.group(1)
@@ -104,12 +101,7 @@ def replace_doctests_in_file(file_path: Path) -> bool:
     new_doctest = create_benchmark_doctest(class_name, module_path)
 
     # Try to replace
-    new_content, count = re.subn(
-        pattern,
-        new_doctest,
-        content,
-        flags=re.DOTALL
-    )
+    new_content, count = re.subn(pattern, new_doctest, content, flags=re.DOTALL)
 
     if count > 0:
         file_path.write_text(new_content)

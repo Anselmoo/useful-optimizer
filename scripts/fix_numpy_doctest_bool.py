@@ -38,19 +38,20 @@ def fix_doctest_bool_in_file(file_path: Path) -> bool:
     modified = False
 
     for i, line in enumerate(lines):
-        # Look for the specific pattern
-        if ">>> isinstance(fitness, float) and fitness >= 0" in line:
-            # Check if next line expects True (and hasn't been fixed yet)
-            if i + 1 < len(lines) and lines[i + 1].strip() == "True":
-                # Check if not already wrapped in bool()
-                if "bool(" not in line:
-                    # Wrap the expression in bool()
-                    lines[i] = line.replace(
-                        "isinstance(fitness, float) and fitness >= 0",
-                        "bool(isinstance(fitness, float) and fitness >= 0)"
-                    )
-                    modified = True
-                    print(f"  Fixed line {i + 1}: {file_path.name}")
+        # Look for the specific pattern and combine conditions
+        if (
+            ">>> isinstance(fitness, float) and fitness >= 0" in line
+            and i + 1 < len(lines)
+            and lines[i + 1].strip() == "True"
+            and "bool(" not in line
+        ):
+            # Wrap the expression in bool()
+            lines[i] = line.replace(
+                "isinstance(fitness, float) and fitness >= 0",
+                "bool(isinstance(fitness, float) and fitness >= 0)",
+            )
+            modified = True
+            print(f"  Fixed line {i + 1}: {file_path.name}")
 
     if modified:
         file_path.write_text("\n".join(lines))
