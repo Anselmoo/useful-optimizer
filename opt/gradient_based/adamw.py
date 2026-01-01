@@ -46,7 +46,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 from opt.constants import ADAMW_LEARNING_RATE
 from opt.constants import ADAMW_WEIGHT_DECAY
 from opt.constants import ADAM_BETA1
@@ -68,12 +68,12 @@ class AdamW(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adam with Decoupled Weight Decay         |
-        | Acronym           | AdamW                                    |
+        | Acronym           | ADAMW                                    |
         | Year Introduced   | 2017                                     |
         | Authors           | Loshchilov, Ilya; Hutter, Frank          |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Weight decay     |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -165,7 +165,7 @@ class AdamW(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AdamW(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -341,6 +341,11 @@ class AdamW(AbstractOptimizer):
         v = np.zeros(self.dim)  # Second moment estimate
 
         for t in range(1, self.max_iter + 1):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Compute gradient at current position
             gradient = self._compute_gradient(current_solution)
 
@@ -379,6 +384,14 @@ class AdamW(AbstractOptimizer):
 
     def _compute_gradient(self, x: np.ndarray) -> np.ndarray:
         """Compute the gradient of the objective function at a given point.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             x (np.ndarray): The point at which to compute the gradient.

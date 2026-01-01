@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -108,7 +108,7 @@ class GoldenEagleOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = GoldenEagleOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -280,6 +280,9 @@ class GoldenEagleOptimizer(AbstractOptimizer):
 
         # Main loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(best_fitness=prey_fitness, best_solution=prey)
             # Update propensity parameters
             t_ratio = iteration / self.max_iter
 
@@ -332,6 +335,10 @@ class GoldenEagleOptimizer(AbstractOptimizer):
                         prey = new_position.copy()
                         prey_fitness = new_fitness
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=prey_fitness, best_solution=prey)
+            self._finalize_history()
         return prey, prey_fitness
 
 

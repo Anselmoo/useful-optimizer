@@ -46,7 +46,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -67,7 +67,7 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
         | Authors           | Eusuff, Muzaffar; Lansey, Kevin          |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Memetic, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -142,7 +142,7 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ShuffledFrogLeapingAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -310,6 +310,9 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
 
         # Shuffled Frog Leaping Algorithm
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(best_fitness=best_fitness, best_solution=best_frog)
             self.seed += 1
             for i in range(self.population_size):
                 self.seed += 1
@@ -334,6 +337,10 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
             # Ensure the frog positions stay within the bounds
             frogs = np.clip(frogs, self.lower_bound, self.upper_bound)
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_frog)
+            self._finalize_history()
         return best_frog, best_fitness
 
 

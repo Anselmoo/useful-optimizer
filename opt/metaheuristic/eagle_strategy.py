@@ -34,7 +34,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 class EagleStrategy(AbstractOptimizer):
@@ -49,7 +49,7 @@ class EagleStrategy(AbstractOptimizer):
         | Authors           | Yang, Xin-She; Deb, Suash                |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Hybrid, Lévy walk-based |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -124,7 +124,7 @@ class EagleStrategy(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = EagleStrategy(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -295,6 +295,18 @@ class EagleStrategy(AbstractOptimizer):
                 if fitness[i] < self.func(best_solution):
                     best_solution = population[i]
 
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=self.func(best_solution), best_solution=best_solution
+                )
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.func(best_solution), best_solution=best_solution
+            )
+            self._finalize_history()
         return best_solution, self.func(best_solution)
 
 

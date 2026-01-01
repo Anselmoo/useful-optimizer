@@ -39,7 +39,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 _RANDOM_WALK_THRESHOLD = 0.5
@@ -125,7 +125,7 @@ class AntLionOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AntLionOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -325,6 +325,11 @@ class AntLionOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=elite_fitness, best_solution=elite_antlion
+                )
             # Decrease trap boundary (intensification)
             # I ratio decreases from 1 to 10^-6 based on iteration
             w = 2 if iteration > 0.1 * self.max_iter else 1
@@ -392,6 +397,12 @@ class AntLionOptimizer(AbstractOptimizer):
                 elite_antlion = antlions[current_best_idx].copy()
                 elite_fitness = antlion_fitness[current_best_idx]
 
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=elite_fitness, best_solution=elite_antlion
+            )
+            self._finalize_history()
         return elite_antlion, elite_fitness
 
 

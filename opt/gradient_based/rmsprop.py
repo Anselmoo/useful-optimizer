@@ -43,7 +43,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -59,12 +59,12 @@ class RMSprop(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Root Mean Square Propagation             |
-        | Acronym           | RMSprop                                  |
+        | Acronym           | RMSPROP                                  |
         | Year Introduced   | 2012                                     |
         | Authors           | Hinton, Geoffrey; Srivastava, Nitish    |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Moving average   |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -141,7 +141,7 @@ class RMSprop(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = RMSprop(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -306,6 +306,11 @@ class RMSprop(AbstractOptimizer):
         v = np.zeros(self.dim)  # Initialize moving average of squared gradients
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Compute gradient at current position
             gradient = self._compute_gradient(current_solution)
 
@@ -335,6 +340,14 @@ class RMSprop(AbstractOptimizer):
 
     def _compute_gradient(self, x: np.ndarray) -> np.ndarray:
         """Compute the gradient of the objective function at a given point.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             x (np.ndarray): The point at which to compute the gradient.

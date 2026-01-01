@@ -58,7 +58,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -390,6 +390,21 @@ class BatAlgorithm(AbstractOptimizer):
                         0, 1, self.dim
                     )
             self.loudnesses *= self.gamma
+
+            # Track history if enabled
+            if self.track_history and best_solution_idx is not None:
+                self._record_history(
+                    best_fitness=self.best_fitnesses[best_solution_idx],
+                    best_solution=self.best_positions[best_solution_idx],
+                )
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.best_fitnesses[best_solution_idx],
+                best_solution=self.best_positions[best_solution_idx],
+            )
+            self._finalize_history()
         return self.best_positions[best_solution_idx], self.best_fitnesses[
             best_solution_idx
         ]

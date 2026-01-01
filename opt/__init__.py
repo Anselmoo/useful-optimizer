@@ -16,8 +16,10 @@ All optimizers are re-exported at the package level for backward compatibility.
 
 from __future__ import annotations
 
+from opt.abstract import AbstractMultiObjectiveOptimizer
+
 # Base class
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 # Classical algorithms
 from opt.classical import BFGS
@@ -78,9 +80,6 @@ from opt.metaheuristic import VeryLargeScaleNeighborhood
 from opt.multi_objective import MOEAD
 from opt.multi_objective import NSGAII
 from opt.multi_objective import SPEA2
-
-# Multi-objective algorithms
-from opt.multi_objective import AbstractMultiObjectiveOptimizer
 
 # Physics-inspired algorithms (additional)
 from opt.physics_inspired import AtomSearchOptimizer

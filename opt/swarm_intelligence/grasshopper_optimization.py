@@ -41,7 +41,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -67,7 +67,7 @@ class GrasshopperOptimizer(AbstractOptimizer):
         | Authors           | Saremi, Shahrzad; Mirjalili, Seyedali; Lewis, Andrew |
         | Algorithm Class   | Swarm Intelligence |
         | Complexity        | O(population_size $\times$ population_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Social forces, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -150,7 +150,7 @@ class GrasshopperOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = GrasshopperOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -361,6 +361,9 @@ class GrasshopperOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(best_fitness=target_fitness, best_solution=target)
             # Update coefficient c (decreases from c_max to c_min)
             c = self.c_max - iteration * ((self.c_max - self.c_min) / self.max_iter)
 
@@ -414,6 +417,10 @@ class GrasshopperOptimizer(AbstractOptimizer):
                 target = grasshoppers[best_idx].copy()
                 target_fitness = fitness[best_idx]
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=target_fitness, best_solution=target)
+            self._finalize_history()
         return target, target_fitness
 
 

@@ -31,7 +31,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -50,7 +50,7 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         | Authors           | Del Moral, Pierre; Doucet, Arnaud; Jasra, Ajay |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(N*dim) per iteration with N particles  |
-        | Properties        | Population-based, Particle filtering, Adaptive |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -146,7 +146,7 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SequentialMonteCarloOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -345,6 +345,11 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         weights = np.ones(self.population_size) / self.population_size
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Compute current temperature
             t = iteration / self.max_iter
             temperature = self.initial_temp * (self.final_temp / self.initial_temp) ** t
@@ -384,6 +389,10 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
                         best_solution = proposal.copy()
                         best_fitness = proposal_fitness
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -34,7 +34,7 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
         | Authors           | Chou, Jui-Sheng; Nguyen, Ngoc-Mai        |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Human-inspired, Parameter-free, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -112,7 +112,7 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ForensicBasedInvestigationOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -273,6 +273,11 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
         mean_position = np.mean(positions, axis=0)
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Probability of investigation (decreases over time)
             p_investigation = 0.5 * (1 - iteration / self.max_iter)
 
@@ -344,6 +349,10 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
             # Update mean position (investigation center)
             mean_position = np.mean(positions, axis=0)
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

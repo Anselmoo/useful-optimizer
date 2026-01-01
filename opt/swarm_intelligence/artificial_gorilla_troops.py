@@ -19,7 +19,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -114,7 +114,7 @@ class ArtificialGorillaTroopsOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ArtificialGorillaTroopsOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -265,7 +265,14 @@ class ArtificialGorillaTroopsOptimizer(AbstractOptimizer):
             track_history: Enable convergence history tracking for BBOB.
         """
         super().__init__(
-            func, lower_bound, upper_bound, dim, seed=seed, track_history=track_history
+            func=func,
+            lower_bound=lower_bound,
+            upper_bound=upper_bound,
+            dim=dim,
+            max_iter=max_iter,
+            seed=seed,
+            population_size=population_size,
+            track_history=track_history,
         )
         self.population_size = population_size
         self.max_iter = max_iter
@@ -309,9 +316,17 @@ class ArtificialGorillaTroopsOptimizer(AbstractOptimizer):
         # Initialize silverback (best solution)
         best_idx = np.argmin(fitness)
         silverback = population[best_idx].copy()
-        silverback_fitness = fitness[best_idx]
+        silverback_fitness = float(fitness[best_idx])
 
         for iteration in range(self.max_iter):
+            if self.track_history:
+                self._record_history(
+                    best_fitness=silverback_fitness,
+                    best_solution=silverback.copy(),
+                    population_fitness=fitness.copy(),
+                    population=population.copy(),
+                )
+
             # Update parameters
             a = (np.cos(2 * np.random.rand()) + 1) * (
                 1 - (iteration + 1) / self.max_iter
@@ -371,7 +386,16 @@ class ArtificialGorillaTroopsOptimizer(AbstractOptimizer):
                     # Update silverback if necessary
                     if new_fitness < silverback_fitness:
                         silverback = new_position.copy()
-                        silverback_fitness = new_fitness
+                        silverback_fitness = float(new_fitness)
+
+        if self.track_history:
+            self._record_history(
+                best_fitness=silverback_fitness,
+                best_solution=silverback.copy(),
+                population_fitness=fitness.copy(),
+                population=population.copy(),
+            )
+            self._finalize_history()
 
         return silverback, silverback_fitness
 

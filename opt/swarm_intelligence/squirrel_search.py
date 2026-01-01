@@ -9,7 +9,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 class SquirrelSearchAlgorithm(AbstractOptimizer):
@@ -92,7 +92,7 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SquirrelSearchAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -247,6 +247,11 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
 
         # Main loop
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_squirrel
+                )
             self.seed += 1
             for i in range(self.population_size):
                 self.seed += 1
@@ -286,6 +291,10 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
                         np.random.default_rng(self.seed).random(self.dim)
                     )
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_squirrel)
+            self._finalize_history()
         return best_squirrel, best_fitness
 
 

@@ -44,7 +44,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -70,7 +70,7 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
         | Authors           | Faramarzi, Afshin; Heidarinejad, Mohammad; Mirjalili, Seyedali; Gandomi, Amir H. |
         | Algorithm Class   | Swarm Intelligence |
         | Complexity        | O(population_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Lévy flights, Brownian motion, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -158,7 +158,7 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = MarinePredatorsOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -378,6 +378,9 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(best_fitness=elite_fitness, best_solution=elite)
             # Calculate CF (control factor)
             cf = (1 - iteration / self.max_iter) ** (2 * iteration / self.max_iter)
 
@@ -467,6 +470,10 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
                 elite_fitness = fitness[best_idx]
                 elite_matrix = np.tile(elite, (self.population_size, 1))
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=elite_fitness, best_solution=elite)
+            self._finalize_history()
         return elite, elite_fitness
 
 

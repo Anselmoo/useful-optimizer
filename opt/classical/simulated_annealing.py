@@ -24,7 +24,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -45,7 +45,7 @@ class SimulatedAnnealing(AbstractOptimizer):
         | Authors           | Kirkpatrick, Scott; Gelatt, C. Daniel; Vecchi, Mario |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O(\text{iterations} \times \text{evaluations})$              |
-        | Properties        | Metaheuristic, Probabilistic, Global search |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -119,7 +119,7 @@ class SimulatedAnnealing(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SimulatedAnnealing(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -276,6 +276,11 @@ class SimulatedAnnealing(AbstractOptimizer):
             temperature = self.init_temperature
 
             for _ in range(self.max_iter):
+                # Track history if enabled
+                if self.track_history:
+                    self._record_history(
+                        best_fitness=best_cost, best_solution=best_solution
+                    )
                 new_solution = current_solution + np.random.default_rng(
                     self.seed
                 ).uniform(-1, 1, self.dim)
@@ -301,6 +306,10 @@ class SimulatedAnnealing(AbstractOptimizer):
                 if temperature < self.stopping_temperature:
                     break
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_cost, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_cost
 
 

@@ -33,7 +33,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -50,11 +50,11 @@ class ParticleFilter(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Sequential Monte Carlo Particle Filter   |
         | Acronym           | SMC-PF                                   |
-        | Year Introduced   | 1993 (Gordon et al.)                     |
+        | Year Introduced   | 1993                                     |
         | Authors           | Gordon, Neil J.; Salmond, David J.; Smith, Adrian F. M. |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Sampling-based, Derivative-free, Bayesian-inspired |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -141,7 +141,7 @@ class ParticleFilter(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ParticleFilter(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -324,6 +324,11 @@ class ParticleFilter(AbstractOptimizer):
         global_best_score = np.inf
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=global_best_score, best_solution=global_best_position
+                )
             self.seed += 1
             # Evaluate particles
             scores = np.apply_along_axis(self.func, 1, particles)
@@ -356,6 +361,12 @@ class ParticleFilter(AbstractOptimizer):
             # Ensure particles are within bounds
             particles = np.clip(particles, self.lower_bound, self.upper_bound)
 
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=global_best_score, best_solution=global_best_position
+            )
+            self._finalize_history()
         return global_best_position, global_best_score
 
 

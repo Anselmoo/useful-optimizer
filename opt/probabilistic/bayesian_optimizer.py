@@ -33,7 +33,7 @@ import numpy as np
 from scipy.optimize import minimize
 from scipy.stats import norm
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -52,7 +52,7 @@ class BayesianOptimizer(AbstractOptimizer):
         | Authors           | Snoek, Jasper; Larochelle, Hugo; Adams, Ryan P. |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(n³) per iteration (GP regression)      |
-        | Properties        | Model-based, Sequential, Global search   |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -404,6 +404,11 @@ class BayesianOptimizer(AbstractOptimizer):
         bounds = [(self.lower_bound, self.upper_bound)] * self.dim
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Find next point by maximizing expected improvement
             best_ei = np.inf
             best_x = None
@@ -435,6 +440,10 @@ class BayesianOptimizer(AbstractOptimizer):
                 best_solution = best_x.copy()
                 best_fitness = new_y
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

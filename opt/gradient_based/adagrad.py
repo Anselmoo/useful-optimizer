@@ -33,7 +33,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -49,12 +49,12 @@ class ADAGrad(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adaptive Gradient Algorithm              |
-        | Acronym           | AdaGrad                                  |
+        | Acronym           | ADAGRAD                                  |
         | Year Introduced   | 2011                                     |
         | Authors           | Duchi, John; Hazan, Elad; Singer, Yoram  |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Parameter-wise  |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -129,7 +129,7 @@ class ADAGrad(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ADAGrad(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -293,8 +293,17 @@ class ADAGrad(AbstractOptimizer):
             adjusted_grad = grad / (np.sqrt(grad_accumulator) + self.eps)
             x = x - self.lr * adjusted_grad
 
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(best_fitness=self.func(x), best_solution=x)
+
         best_solution = x
         best_fitness = self.func(best_solution)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

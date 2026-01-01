@@ -49,7 +49,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 class EstimationOfDistributionAlgorithm(AbstractOptimizer):
@@ -64,7 +64,7 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
         | Authors           | Mühlenbein, Heinz; Paaß, Gerhard        |
         | Algorithm Class   | Evolutionary                             |
         | Complexity        | O(NP * dim) per iteration                |
-        | Properties        | Population-based, Probabilistic modeling, Model-based |
+        | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -143,7 +143,7 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = EstimationOfDistributionAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -312,6 +312,11 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
         best_solution: np.ndarray = np.empty(self.dim)
         best_fitness = np.inf
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             fitness = np.apply_along_axis(self.func, 1, population)
             min_fitness_idx = np.argmin(fitness)
             if fitness[min_fitness_idx] < best_fitness:
@@ -320,6 +325,11 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
             population = self._select(population, fitness)
             mean, std = self._model(population)
             population = self._sample(mean, std)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

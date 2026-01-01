@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -33,7 +33,7 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Chimp Optimization Algorithm             |
-        | Acronym           | ChOA                           |
+        | Acronym           | CHOA                                     |
         | Year Introduced   | 2020                            |
         | Authors           | Various (see References)                |
         | Algorithm Class   | Swarm Intelligence |
@@ -106,7 +106,7 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ChimpOptimizationAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -282,6 +282,11 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
 
         # Main loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Update parameter a (decreases from A_MAX to 0)
             a = _A_MAX - iteration * (_A_MAX / self.max_iter)
 
@@ -339,6 +344,10 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
                 best_solution = attacker.copy()
                 best_fitness = fitness[sorted_indices[0]]
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

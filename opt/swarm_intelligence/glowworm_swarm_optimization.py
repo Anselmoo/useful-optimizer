@@ -37,7 +37,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -58,7 +58,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
         | Authors           | Krishnanand, Kaipa N.; Ghose, Debasish   |
         | Algorithm Class   | Swarm Intelligence |
         | Complexity        | O(population_size $\times$ population_size $\times$ dim) |
-        | Properties        | Population-based, Multimodal optimization, Luciferin-based, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -136,7 +136,7 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = GlowwormSwarmOptimization(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -364,6 +364,11 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
         best_solution = None
         best_fitness = np.inf
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             fitness = self._compute_fitness(population)
             luciferin = self._update_luciferin(population, fitness)
             population = self._move_glowworms(population, luciferin)
@@ -371,6 +376,11 @@ class GlowwormSwarmOptimization(AbstractOptimizer):
             if fitness[min_fitness_idx] < best_fitness:
                 best_fitness = fitness[min_fitness_idx]
                 best_solution = population[min_fitness_idx]
+
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

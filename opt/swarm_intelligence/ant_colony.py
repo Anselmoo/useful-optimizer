@@ -39,7 +39,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -143,7 +143,7 @@ class AntColony(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AntColony(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -294,6 +294,7 @@ class AntColony(AbstractOptimizer):
         beta: float = 1,
         rho: float = 0.5,
         q: float = 1,
+        track_history: bool = False,  # noqa: FBT001, FBT002
     ) -> None:
         """Initialize the Ant Colony Optimization algorithm."""
         super().__init__(
@@ -304,6 +305,7 @@ class AntColony(AbstractOptimizer):
             max_iter=max_iter,
             seed=seed,
             population_size=population_size,
+            track_history=track_history,
         )
 
         self.alpha = alpha
@@ -326,6 +328,12 @@ class AntColony(AbstractOptimizer):
         best_solution = None
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history and best_solution is not None:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
+
             for i in range(self.population_size):
                 solution = self.ants[i]
                 fitness = self.func(solution)
@@ -345,6 +353,11 @@ class AntColony(AbstractOptimizer):
                 if local_fitness < best_fitness:
                     best_fitness = local_fitness
                     best_solution = local_best
+
+        # Track final state
+        if self.track_history and best_solution is not None:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
 
         return best_solution, best_fitness
 

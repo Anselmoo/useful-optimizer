@@ -38,7 +38,7 @@ def temp_optimizer_file() -> Generator[Path, None, None]:
 from __future__ import annotations
 from typing import TYPE_CHECKING
 import numpy as np
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -73,6 +73,14 @@ class TestOptimizer(AbstractOptimizer):
 
     def search(self) -> tuple[np.ndarray, float]:
         """Execute optimization."""
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=0.0,
+                best_solution=np.zeros(self.dim),
+            )
+            self._finalize_history()
         return np.zeros(self.dim), 0.0
 '''
         )

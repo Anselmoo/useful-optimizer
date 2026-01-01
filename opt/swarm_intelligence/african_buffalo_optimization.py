@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -118,7 +118,7 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AfricanBuffaloOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -313,6 +313,11 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
         exploration_memory = np.zeros((self.population_size, self.dim))
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=global_best_fitness, best_solution=global_best
+                )
             for i in range(self.population_size):
                 # Update exploration memory (maaa equation)
                 r1, r2 = np.random.rand(2)
@@ -353,6 +358,12 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
                         )
                         exploration_memory[i] = np.zeros(self.dim)
 
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=global_best_fitness, best_solution=global_best
+            )
+            self._finalize_history()
         return global_best, global_best_fitness
 
 

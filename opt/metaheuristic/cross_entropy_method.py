@@ -30,7 +30,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -51,7 +51,7 @@ class CrossEntropyMethod(AbstractOptimizer):
         | Authors           | Rubinstein, Reuven Y.; Kroese, Dirk P.  |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Distribution-based, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -123,7 +123,7 @@ class CrossEntropyMethod(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = CrossEntropyMethod(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -295,8 +295,15 @@ class CrossEntropyMethod(AbstractOptimizer):
             self.lower_bound, self.upper_bound, self.dim
         )
         std = np.ones(self.dim)
+        best_sample = mean.copy()
+        best_fitness = self.func(best_sample)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_sample
+                )
             self.seed += 1
             samples = np.random.default_rng(self.seed).normal(
                 mean, std, (self.population_size, self.dim)
@@ -308,8 +315,20 @@ class CrossEntropyMethod(AbstractOptimizer):
             mean, std = elite_samples.mean(axis=0), elite_samples.std(axis=0)
             std *= self.noise_decay
 
+            # Update best if current mean is better
+            current_fitness = self.func(mean)
+            if current_fitness < best_fitness:
+                best_fitness = current_fitness
+                best_sample = mean.copy()
+
+        # Final update
         best_sample = mean
         best_fitness = self.func(best_sample)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_sample)
+            self._finalize_history()
         return best_sample, best_fitness
 
 

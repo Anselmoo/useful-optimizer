@@ -32,7 +32,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -49,9 +49,9 @@ class SocialGroupOptimizer(AbstractOptimizer):
         | Acronym           | SGO                                      |
         | Year Introduced   | 2016                                     |
         | Authors           | Satapathy, S. C.; Naik, A.               |
-        | Algorithm Class   | Social Inspired                          |
+        | Algorithm Class   | Social-Inspired                          |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Derivative-free, Three-phase |
+        | Properties        | Population-based, Derivative-free    |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -156,7 +156,7 @@ class SocialGroupOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SocialGroupOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -368,6 +368,11 @@ class SocialGroupOptimizer(AbstractOptimizer):
             print(f"Initial best fitness: {best_fitness:.6f}")
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Update self-introspection coefficient
             c_current = self.c * (1 - iteration / self.max_iter)
 
@@ -448,6 +453,10 @@ class SocialGroupOptimizer(AbstractOptimizer):
         if self.verbose:
             print(f"Final best fitness: {best_fitness:.6f}")
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

@@ -41,7 +41,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -67,7 +67,7 @@ class EquilibriumOptimizer(AbstractOptimizer):
         | Acronym           | EO                                       |
         | Year Introduced   | 2020                                     |
         | Authors           | Faramarzi, Afshin; Heidarinejad, Mohammad; Stephens, Brent; Mirjalili, Seyedali |
-        | Algorithm Class   | Physics Inspired                         |
+        | Algorithm Class   | Physics-Inspired                         |
         | Complexity        | O(N $\times$ dim $\times$ max_iter)      |
         | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
@@ -190,7 +190,7 @@ class EquilibriumOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = EquilibriumOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -402,6 +402,11 @@ class EquilibriumOptimizer(AbstractOptimizer):
 
         # Main optimization loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Time parameter (decreases from 1 to 0)
             t = (1 - iteration / self.max_iter) ** (self.a2 * iteration / self.max_iter)
 
@@ -467,6 +472,10 @@ class EquilibriumOptimizer(AbstractOptimizer):
                 best_solution = c_eq1.copy()
                 best_fitness = current_best_fitness
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

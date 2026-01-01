@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.multi_objective.abstract_multi_objective import AbstractMultiObjectiveOptimizer
+from opt.abstract import AbstractMultiObjectiveOptimizer
 
 
 if TYPE_CHECKING:
@@ -42,7 +42,7 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Multi-Objective Evolutionary Algorithm based on Decomposition|
-        | Acronym           | MOEA/D                                   |
+        | Acronym           | MOEA-D                                   |
         | Year Introduced   | 2007                                     |
         | Authors           | Zhang, Qingfu; Li, Hui                   |
         | Algorithm Class   | Multi-Objective Decomposition            |
@@ -302,6 +302,8 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         population_size: int = 100,
         max_iter: int = 300,
         n_neighbors: int = 20,
+        *,
+        track_history: bool = False,
     ) -> None:
         """Initialize the MOEA/D optimizer.
 
@@ -313,8 +315,17 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
             population_size: Number of subproblems (weight vectors).
             max_iter: Maximum iterations.
             n_neighbors: Number of neighbors for each subproblem.
+            track_history: Enable convergence history tracking.
         """
-        super().__init__(objectives, lower_bound, upper_bound, dim)
+        super().__init__(
+            objectives=objectives,
+            lower_bound=lower_bound,
+            upper_bound=upper_bound,
+            dim=dim,
+            max_iter=max_iter,
+            population_size=population_size,
+            track_history=track_history,
+        )
         self.population_size = population_size
         self.max_iter = max_iter
         self.n_neighbors = min(n_neighbors, population_size)
@@ -493,7 +504,31 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
         archive_solutions: list[np.ndarray] = []
         archive_fitness: list[np.ndarray] = []
 
+        def record_history() -> None:
+            """Record convergence and Pareto front history if enabled."""
+            if not self.track_history:
+                return
+
+            if archive_solutions:
+                pareto_set = np.array(archive_solutions)
+                pareto_front = np.array(archive_fitness)
+            else:
+                pareto_set, pareto_front = self._extract_pareto_front(
+                    population, fitness
+                )
+
+            best_idx = int(np.argmin(np.sum(fitness, axis=1)))
+            self._record_history(
+                best_fitness=float(np.sum(fitness[best_idx])),
+                best_solution=population[best_idx].copy(),
+                population_fitness=fitness.copy(),
+                population=population.copy(),
+                pareto_fitness=pareto_front,
+                pareto_solutions=pareto_set,
+            )
+
         for _ in range(self.max_iter):
+            record_history()
             for i in range(self.population_size):
                 # Select mating pool
                 if np.random.rand() < _NEIGHBOR_SELECTION_PROB:
@@ -558,6 +593,9 @@ class MOEAD(AbstractMultiObjectiveOptimizer):
                         del archive_fitness[k]
                     archive_solutions.append(offspring.copy())
                     archive_fitness.append(offspring_fitness.copy())
+
+        record_history()
+        self._finalize_history()
 
         # Return Pareto front from archive
         if archive_solutions:

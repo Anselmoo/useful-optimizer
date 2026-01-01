@@ -34,7 +34,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -50,12 +50,12 @@ class ADAMOptimization(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adaptive Moment Estimation               |
-        | Acronym           | Adam                                     |
+        | Acronym           | ADAM                                     |
         | Year Introduced   | 2014                                     |
         | Authors           | Kingma, Diederik P.; Ba, Jimmy Lei       |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Momentum-based   |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -146,7 +146,7 @@ class ADAMOptimization(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ADAMOptimization(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -317,6 +317,11 @@ class ADAMOptimization(AbstractOptimizer):
         best_fitness = self.func(best_solution)
 
         for t in range(1, self.max_iter + 1):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             grad = self._compute_gradient(best_solution)
             m = self.beta1 * m + (1 - self.beta1) * grad
             v = self.beta2 * v + (1 - self.beta2) * np.square(grad)
@@ -335,6 +340,14 @@ class ADAMOptimization(AbstractOptimizer):
 
     def _compute_gradient(self, x: np.ndarray) -> np.ndarray:
         """Compute the gradient of the objective function at a given point.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             x (np.ndarray): The point at which to compute the gradient.

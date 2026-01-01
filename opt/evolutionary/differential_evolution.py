@@ -37,7 +37,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -58,7 +58,7 @@ class DifferentialEvolution(AbstractOptimizer):
         | Authors           | Storn, Rainer; Price, Kenneth            |
         | Algorithm Class   | Evolutionary                             |
         | Complexity        | O(NP * dim) per iteration                |
-        | Properties        | Population-based, Derivative-free, Stochastic, Simple |
+        | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -149,7 +149,7 @@ class DifferentialEvolution(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = DifferentialEvolution(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -309,8 +309,18 @@ class DifferentialEvolution(AbstractOptimizer):
         )
         fitness = np.apply_along_axis(self.func, 1, population)
 
+        # Initialize best tracking
+        best_index = np.argmin(fitness)
+        best_solution = population[best_index]
+        best_fitness = fitness[best_index]
+
         # Main loop
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             self.seed += 1
             for i in range(self.population_size):
                 self.seed += 1
@@ -340,11 +350,20 @@ class DifferentialEvolution(AbstractOptimizer):
                     fitness[i] = trial_fitness
                     population[i] = trial
 
+            # Update best solution
+            best_index = np.argmin(fitness)
+            best_solution = population[best_index]
+            best_fitness = fitness[best_index]
+
         # Get best solution
         best_index = np.argmin(fitness)
         best_solution = population[best_index]
         best_fitness = fitness[best_index]
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

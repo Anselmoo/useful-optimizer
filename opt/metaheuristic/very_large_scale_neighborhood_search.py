@@ -47,7 +47,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -64,11 +64,11 @@ class VeryLargeScaleNeighborhood(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Very Large Scale Neighborhood Search     |
         | Acronym           | VLSN                                     |
-        | Year Introduced   | 2000 (Ahuja et al.)                      |
+        | Year Introduced   | 2000                                     |
         | Authors           | Ahuja, Ravindra K.; Orlin, James B.; Sharma, Dushyant |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size $\times$ neighborhood_size $\times$ dim $\times$ max_iter) |
-        | Properties        | Population-based, Large neighborhood, Local search-based |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -150,7 +150,7 @@ class VeryLargeScaleNeighborhood(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = VeryLargeScaleNeighborhood(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -331,9 +331,28 @@ class VeryLargeScaleNeighborhood(AbstractOptimizer):
                         best_fitness = fitness
                         best_neighbor = neighbor
                 self.population[i] = best_neighbor
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(
+                    [self.func(individual) for individual in self.population]
+                )
+                self._record_history(
+                    best_fitness=self.func(self.population[best_idx]),
+                    best_solution=self.population[best_idx],
+                )
+
         best_index = np.argmin(
             [self.func(individual) for individual in self.population]
         )
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.func(self.population[best_index]),
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.func(self.population[best_index])
 
 

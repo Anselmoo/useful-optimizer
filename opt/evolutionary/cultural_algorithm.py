@@ -40,7 +40,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -61,7 +61,7 @@ class CulturalAlgorithm(AbstractOptimizer):
         | Authors           | Reynolds, Robert G.                      |
         | Algorithm Class   | Evolutionary                             |
         | Complexity        | O(NP * dim) per iteration                |
-        | Properties        | Population-based, Knowledge-driven, Dual inheritance, Adaptive |
+        | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -148,7 +148,7 @@ class CulturalAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = CulturalAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -302,7 +302,18 @@ class CulturalAlgorithm(AbstractOptimizer):
             self.lower_bound, self.upper_bound, (self.belief_space_size, self.dim)
         )
 
+        # Initialize best tracking
+        fitness = np.apply_along_axis(self.func, 1, population)
+        best_index = fitness.argmin()
+        best_solution = population[best_index]
+        best_fitness = fitness[best_index]
+
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             self.seed += 1
             # Evaluate fitness of population
             fitness = np.apply_along_axis(self.func, 1, population)
@@ -340,9 +351,19 @@ class CulturalAlgorithm(AbstractOptimizer):
                 new_population[i] = child
             population = new_population
 
+            # Update best solution
+            best_index = fitness.argmin()
+            best_solution = population[best_index]
+            best_fitness = fitness[best_index]
+
         best_index = fitness.argmin()
         best_solution = population[best_index]
         best_fitness = fitness[best_index]
+
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

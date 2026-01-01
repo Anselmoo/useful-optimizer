@@ -36,7 +36,7 @@ from scipy.optimize import minimize
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from sklearn.preprocessing import KBinsDiscretizer
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -52,12 +52,12 @@ class LDAnalysis(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Linear Discriminant Analysis Optimizer   |
-        | Acronym           | LDA-Opt                                  |
-        | Year Introduced   | 1936 (LDA by Fisher), adapted for optimization |
+        | Acronym           | LDA-OPT                                  |
+        | Year Introduced   | 1936                                     |
         | Authors           | Fisher, Ronald A. (LDA); Implementation adapted |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(N*dim² + dim³) per iteration          |
-        | Properties        | Model-based, Population, Discriminative  |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -140,7 +140,7 @@ class LDAnalysis(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = LDAnalysis(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -393,7 +393,23 @@ class LDAnalysis(AbstractOptimizer):
             ).ravel()[0]
             self.fitness = np.append(self.fitness, new_fitness)
 
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(self.fitness)
+                self._record_history(
+                    best_fitness=self.fitness[best_idx],
+                    best_solution=self.population[best_idx],
+                )
+
         best_index = np.argmin(self.fitness)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.fitness[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.fitness[best_index]
 
 

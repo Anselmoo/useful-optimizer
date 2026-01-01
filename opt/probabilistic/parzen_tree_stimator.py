@@ -27,7 +27,7 @@ import numpy as np
 
 from sklearn.neighbors import KernelDensity
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -48,7 +48,7 @@ class ParzenTreeEstimator(AbstractOptimizer):
         | Authors           | Bergstra, James; Bardenet, Rémi; Bengio, Yoshua; Kégl, Balázs |
         | Algorithm Class   | Probabilistic                            |
         | Complexity        | O(N*dim) per iteration with N samples    |
-        | Properties        | Model-based, Sequential, Kernel density estimation |
+        | Properties        | Stochastic, Adaptive                 |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -137,7 +137,7 @@ class ParzenTreeEstimator(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ParzenTreeEstimator(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -382,7 +382,24 @@ class ParzenTreeEstimator(AbstractOptimizer):
             worst_index = np.argmax(self.scores)
             self.population[worst_index] = hps
             self.scores[worst_index] = score
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(self.scores)
+                self._record_history(
+                    best_fitness=self.scores[best_idx],
+                    best_solution=self.population[best_idx],
+                )
+
         best_index = np.argmin(self.scores)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.scores[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.scores[best_index]
 
 

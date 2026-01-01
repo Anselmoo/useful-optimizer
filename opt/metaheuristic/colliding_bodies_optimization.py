@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 class CollidingBodiesOptimization(AbstractOptimizer):
@@ -39,7 +39,7 @@ class CollidingBodiesOptimization(AbstractOptimizer):
         | Authors           | Kaveh, Ali; Mahdavi, Vahid Reza          |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Physics-inspired, Parameter-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -112,7 +112,7 @@ class CollidingBodiesOptimization(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = CollidingBodiesOptimization(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -291,6 +291,14 @@ class CollidingBodiesOptimization(AbstractOptimizer):
         self.update_population()
         # Return the best solution
         best_index = np.argmin(self.fitness)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.fitness[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.fitness[best_index]
 
 

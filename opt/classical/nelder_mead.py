@@ -37,7 +37,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -58,7 +58,7 @@ class NelderMead(AbstractOptimizer):
         | Authors           | Nelder, John; Mead, Roger                |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O((n+1) \times \text{evals})$ per iteration           |
-        | Properties        | Derivative-free, Simplex-based, Deterministic |
+        | Properties        | Derivative-free, Deterministic       |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -141,7 +141,7 @@ class NelderMead(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = NelderMead(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -333,6 +333,10 @@ class NelderMead(AbstractOptimizer):
             best_solution = rng.uniform(self.lower_bound, self.upper_bound, self.dim)
             best_fitness = self.func(best_solution)
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

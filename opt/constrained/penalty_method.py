@@ -35,7 +35,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -54,7 +54,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
         | Authors           | Courant, Richard                         |
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per iteration                      |
-        | Properties        | Exterior penalty, Gradient-based         |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -131,7 +131,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = PenaltyMethodOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -344,6 +344,11 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
         best_violation = self._compute_violation(current)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Minimize penalized objective
             result = minimize(
                 lambda x: self._penalized_objective(x, penalty),
@@ -376,6 +381,14 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
 
     def _compute_violation(self, x: np.ndarray) -> float:
         """Compute total constraint violation.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             x: Point to evaluate.

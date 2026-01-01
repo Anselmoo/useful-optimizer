@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -39,7 +39,7 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
         | Authors           | Abualigah, Laith; Diabat, Ali; Mirjalili, Seyedali; Abd Elaziz, Mohamed; Gandomi, Amir H. |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Math-inspired, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -115,7 +115,7 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ArithmeticOptimizationAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -288,6 +288,11 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
 
         # Main loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Calculate Math Optimizer Accelerated (MOA) function
             moa = 0.2 + (1 - iteration / self.max_iter) ** (_ALPHA)
 
@@ -352,6 +357,10 @@ class ArithmeticOptimizationAlgorithm(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

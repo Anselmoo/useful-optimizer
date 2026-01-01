@@ -45,7 +45,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -66,7 +66,7 @@ class SineCosineAlgorithm(AbstractOptimizer):
         | Authors           | Mirjalili, Seyedali                      |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Math-inspired, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -142,7 +142,7 @@ class SineCosineAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SineCosineAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -282,6 +282,8 @@ class SineCosineAlgorithm(AbstractOptimizer):
         r1_cut: float = 0.5,
         r2_cut: float = 0.5,
         seed: int | None = None,
+        *,
+        track_history: bool = False,
     ) -> None:
         """Initialize the SineCosineAlgorithm class.
 
@@ -295,6 +297,7 @@ class SineCosineAlgorithm(AbstractOptimizer):
             r1_cut (float, optional): The threshold for selecting the sine update rule (default: 0.5).
             r2_cut (float, optional): The threshold for selecting the cosine update rule (default: 0.5).
             seed (int | None, optional): The seed value for random number generation (default: None).
+            track_history (bool, optional): Whether to track optimization history (default: False).
         """
         super().__init__(
             func=func,
@@ -304,6 +307,7 @@ class SineCosineAlgorithm(AbstractOptimizer):
             max_iter=max_iter,
             seed=seed,
             population_size=population_size,
+            track_history=track_history,
         )
         self.r1_cut = r1_cut
         self.r2_cut = r2_cut
@@ -320,11 +324,23 @@ class SineCosineAlgorithm(AbstractOptimizer):
         )
         fitness = np.apply_along_axis(self.func, 1, population)
 
+        best_index = int(np.argmin(fitness))
+        best_solution = population[best_index].copy()
+        best_fitness = float(fitness[best_index])
+
         # Main loop
         for _ in range(self.max_iter):
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness,
+                    best_solution=best_solution,
+                    population_fitness=fitness.copy(),
+                    population=population.copy(),
+                )
+
             self.seed += 1
             # Get best solution
-            best_index = np.argmin(fitness)
+            best_index = int(np.argmin(fitness))
             best_solution = population[best_index]
 
             for i in range(self.population_size):
@@ -386,7 +402,19 @@ class SineCosineAlgorithm(AbstractOptimizer):
                 if fitness[i] < fitness[best_index]:
                     best_index = i
                     best_solution = population[i]
-        best_fitness = fitness[best_index]
+                    best_fitness = float(fitness[i])
+            best_fitness = float(fitness[best_index])
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+                population_fitness=fitness.copy(),
+                population=population.copy(),
+            )
+            self._finalize_history()
+
         return best_solution, best_fitness
 
 

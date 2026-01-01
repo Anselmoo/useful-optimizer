@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -106,7 +106,7 @@ class PathfinderAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = PathfinderAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -275,6 +275,11 @@ class PathfinderAlgorithm(AbstractOptimizer):
 
         # Main loop
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=pathfinder_fitness, best_solution=pathfinder
+                )
             # Update parameters
             r1 = np.random.rand()
             r2 = np.random.rand()
@@ -329,6 +334,12 @@ class PathfinderAlgorithm(AbstractOptimizer):
                         pathfinder_fitness = new_fitness
                         best_idx = i
 
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=pathfinder_fitness, best_solution=pathfinder
+            )
+            self._finalize_history()
         return pathfinder, pathfinder_fitness
 
 

@@ -39,7 +39,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -123,7 +123,7 @@ class ArtificialFishSwarm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ArtificialFishSwarm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -284,6 +284,11 @@ class ArtificialFishSwarm(AbstractOptimizer):
         best_solution = None
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             self.seed += 1
             for i in range(self.population_size):
                 solution = self.fishes[i]
@@ -299,6 +304,14 @@ class ArtificialFishSwarm(AbstractOptimizer):
 
     def behavior(self, i: int) -> np.ndarray:
         """Perform the behavior of the fish at index i.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             i (int): The index of the fish.

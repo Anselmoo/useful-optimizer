@@ -50,7 +50,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -66,12 +66,12 @@ class AdaDelta(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Adaptive Delta                           |
-        | Acronym           | AdaDelta                                 |
+        | Acronym           | ADADELTA                                 |
         | Year Introduced   | 2012                                     |
         | Authors           | Zeiler, Matthew D.                       |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, No manual LR     |
+        | Properties        | Gradient-based, Adaptive, Stochastic     |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -154,7 +154,7 @@ class AdaDelta(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AdaDelta(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -330,6 +330,11 @@ class AdaDelta(AbstractOptimizer):
 
         # Main loop
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             x = self._update(x)
             x = np.clip(x, self.lower_bound, self.upper_bound)
             fitness = self.func(x)
@@ -337,6 +342,10 @@ class AdaDelta(AbstractOptimizer):
                 best_fitness = fitness
                 best_solution = x
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

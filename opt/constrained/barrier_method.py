@@ -35,7 +35,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -50,11 +50,11 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Barrier Method (Interior Point)          |
         | Acronym           | IPM                                      |
-        | Year Introduced   | 1955 (Frisch), 1968 (Fiacco-McCormick)  |
+        | Year Introduced   | 1968                                     |
         | Authors           | Fiacco, Anthony V.; McCormick, Garth P.  |
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per iteration                      |
-        | Properties        | Interior-point, Gradient-based           |
+        | Properties        | Gradient-based, Deterministic            |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -131,7 +131,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = BarrierMethodOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -379,6 +379,11 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         best_fitness = self.func(current)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Minimize barrier objective
             try:
                 result = minimize(

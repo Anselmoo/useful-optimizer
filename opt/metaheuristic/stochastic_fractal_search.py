@@ -40,7 +40,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -61,7 +61,7 @@ class StochasticFractalSearch(AbstractOptimizer):
         | Authors           | Salimi, Hamid                            |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(population_size * dim * max_iter)      |
-        | Properties        | Population-based, Fractal-inspired, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -133,7 +133,7 @@ class StochasticFractalSearch(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = StochasticFractalSearch(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -324,7 +324,24 @@ class StochasticFractalSearch(AbstractOptimizer):
                         self.population[i], self.lower_bound, self.upper_bound
                     )
                     self.scores[i] = self.func(self.population[i])
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(self.scores)
+                self._record_history(
+                    best_fitness=self.scores[best_idx],
+                    best_solution=self.population[best_idx],
+                )
+
         best_index = np.argmin(self.scores)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.scores[best_index],
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.scores[best_index]
 
     def fractal_dimension(self, x: np.ndarray) -> float:

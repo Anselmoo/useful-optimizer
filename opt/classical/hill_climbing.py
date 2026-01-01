@@ -34,7 +34,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -51,11 +51,11 @@ class HillClimbing(AbstractOptimizer):
         |-------------------|------------------------------------------|
         | Algorithm Name    | Hill Climbing                            |
         | Acronym           | HC                                       |
-        | Year Introduced   | 1950s                                    |
+        | Year Introduced   | 1958                                     |
         | Authors           | Various (classic heuristic method)       |
         | Algorithm Class   | Classical                                |
         | Complexity        | $O(n \times \text{candidates} \times \text{iterations})$           |
-        | Properties        | Local search, Greedy, Derivative-free, Adaptive step |
+        | Properties        | Single-solution, Deterministic       |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -135,7 +135,7 @@ class HillClimbing(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = HillClimbing(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -307,6 +307,9 @@ class HillClimbing(AbstractOptimizer):
         best_score = self.func(solution)
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(best_fitness=best_score, best_solution=solution)
             before_score = best_score
             for i in range(self.dim):
                 before_point = solution[i]
@@ -328,6 +331,11 @@ class HillClimbing(AbstractOptimizer):
                     self.step_sizes[i] = best_step  # acceleration
             if abs(best_score - before_score) < self.epsilon:
                 break
+
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_score, best_solution=solution)
+            self._finalize_history()
 
         return solution, best_score
 

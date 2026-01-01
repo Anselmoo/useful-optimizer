@@ -46,7 +46,7 @@ repos:
         language: python
         pass_filenames: true
         files: ^opt/(classical|constrained|evolutionary|gradient_based|metaheuristic|multi_objective|physics_inspired|probabilistic|social_inspired|swarm_intelligence)/.*\.py$
-        exclude: ^opt/(benchmark|test|__pycache__|visualization|__init__)/.*
+        exclude: ^opt/(benchmark|test|__pycache__|visualization|__init__|.*/__init__\.py).*
         additional_dependencies:
           - pydantic>=2.12.5
           - jsonschema>=4.23.0

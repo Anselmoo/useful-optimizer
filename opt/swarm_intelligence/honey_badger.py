@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -106,7 +106,7 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = HoneyBadgerAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -267,6 +267,9 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
         prey_fitness = fitness[prey_idx]
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(best_fitness=prey_fitness, best_solution=prey)
             # Decrease intensity factor over iterations
             alpha = self._calculate_alpha(iteration)
 
@@ -324,6 +327,14 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
 
     def _calculate_alpha(self, iteration: int) -> float:
         """Calculate alpha parameter that decreases over iterations.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             iteration: Current iteration number.

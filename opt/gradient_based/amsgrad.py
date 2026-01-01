@@ -46,7 +46,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -62,12 +62,12 @@ class AMSGrad(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | AMSGrad                                  |
-        | Acronym           | AMSGrad                                  |
+        | Acronym           | AMSGRAD                                  |
         | Year Introduced   | 2018                                     |
         | Authors           | Reddi, Sashank J.; Kale, Satyen; Kumar, Sanjiv |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Non-decreasing second moment |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -155,7 +155,7 @@ class AMSGrad(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AMSGrad(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -327,6 +327,11 @@ class AMSGrad(AbstractOptimizer):
         v_hat = np.zeros(self.dim)  # Maximum of second moment estimates
 
         for t in range(1, self.max_iter + 1):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Compute gradient at current position
             gradient = self._compute_gradient(current_solution)
 
@@ -367,6 +372,14 @@ class AMSGrad(AbstractOptimizer):
 
     def _compute_gradient(self, x: np.ndarray) -> np.ndarray:
         """Compute the gradient of the objective function at a given point.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             x (np.ndarray): The point at which to compute the gradient.

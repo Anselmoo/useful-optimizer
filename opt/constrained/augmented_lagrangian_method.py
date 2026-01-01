@@ -37,7 +37,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 from opt.benchmark.functions import shifted_ackley
 
 
@@ -59,7 +59,7 @@ class AugmentedLagrangian(AbstractOptimizer):
         | Authors           | Hestenes, Magnus R.; Powell, Michael J.D.|
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per inner iteration                |
-        | Properties        | Gradient-based, Constraint handling      |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -148,7 +148,7 @@ class AugmentedLagrangian(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = AugmentedLagrangian(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -363,6 +363,11 @@ class AugmentedLagrangian(AbstractOptimizer):
             self.lower_bound, self.upper_bound, self.dim
         )
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             res = minimize(
                 self.augmented_lagrangian_func,
                 x0,

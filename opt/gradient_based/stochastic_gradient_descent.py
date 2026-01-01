@@ -36,7 +36,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -55,9 +55,9 @@ class SGD(AbstractOptimizer):
         | Acronym           | SGD                                      |
         | Year Introduced   | 1951                                     |
         | Authors           | Robbins, Herbert; Monro, Sutton          |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | First-order, Stochastic                  |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -124,7 +124,7 @@ class SGD(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SGD(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -280,6 +280,11 @@ class SGD(AbstractOptimizer):
         current_solution = best_solution.copy()
 
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Compute gradient at current position
             gradient = self._compute_gradient(current_solution)
 
@@ -303,6 +308,14 @@ class SGD(AbstractOptimizer):
 
     def _compute_gradient(self, x: np.ndarray) -> np.ndarray:
         """Compute the gradient of the objective function at a given point.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             x (np.ndarray): The point at which to compute the gradient.

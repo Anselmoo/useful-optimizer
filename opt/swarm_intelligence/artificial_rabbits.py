@@ -32,7 +32,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -119,7 +119,7 @@ class ArtificialRabbitsOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ArtificialRabbitsOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -284,6 +284,11 @@ class ArtificialRabbitsOptimizer(AbstractOptimizer):
         best_fitness = fitness[best_idx]
 
         for iteration in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Energy factor decreases linearly
             a = 4 * (1 - iteration / self.max_iter)
 
@@ -342,6 +347,10 @@ class ArtificialRabbitsOptimizer(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

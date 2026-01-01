@@ -39,7 +39,7 @@ import numpy as np
 
 from scipy.optimize import minimize
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -55,12 +55,12 @@ class Powell(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Powell's Conjugate Direction Method      |
-        | Acronym           | Powell                                   |
+        | Acronym           | POWELL                                   |
         | Year Introduced   | 1964                                     |
         | Authors           | Powell, Michael J. D.                    |
         | Algorithm Class   | Classical                                |
         | Complexity        | O(n²) per iteration                      |
-        | Properties        | Derivative-free, Conjugate directions, Deterministic |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -132,7 +132,7 @@ class Powell(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = Powell(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -287,6 +287,10 @@ class Powell(AbstractOptimizer):
             best_solution = rng.uniform(self.lower_bound, self.upper_bound, self.dim)
             best_fitness = self.func(best_solution)
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

@@ -36,7 +36,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 class GreyWolfOptimizer(AbstractOptimizer):
@@ -51,7 +51,7 @@ class GreyWolfOptimizer(AbstractOptimizer):
         | Authors           | Mirjalili, Seyedali; Mirjalili, Seyed Mohammad; Lewis, Andrew |
         | Algorithm Class   | Swarm Intelligence                       |
         | Complexity        | O(pack_size * dim * max_iter)            |
-        | Properties        | Population-based, Hierarchy-based, Derivative-free |
+        | Properties        | Population-based, Derivative-free, Nature-inspired |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -132,7 +132,7 @@ class GreyWolfOptimizer(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = GreyWolfOptimizer(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -320,10 +320,20 @@ class GreyWolfOptimizer(AbstractOptimizer):
             beta = population[sorted_indices[1]].copy()
             delta = population[sorted_indices[2]].copy()
 
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=fitness[sorted_indices[0]], best_solution=alpha
+                )
+
         # Get best solution
         best_solution = alpha
         best_fitness = self.func(best_solution)
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

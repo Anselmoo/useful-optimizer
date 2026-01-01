@@ -43,7 +43,7 @@ import numpy as np
 
 from scipy.optimize import linprog
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 from opt.benchmark.functions import shifted_ackley
 
 
@@ -59,7 +59,7 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
         | Authors           | Griffith, R. E.; Stewart, R. A.          |
         | Algorithm Class   | Constrained                              |
         | Complexity        | O(n³) per LP subproblem                  |
-        | Properties        | Gradient-based, Linear subproblems       |
+        | Properties        | Gradient-based, Deterministic        |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -138,7 +138,7 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = SuccessiveLinearProgramming(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -283,6 +283,11 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
             self.lower_bound, self.upper_bound, (self.population_size, self.dim)
         )
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             for i in range(self.population_size):
                 gradient = self.gradient(population[i])
                 bounds = [(self.lower_bound, self.upper_bound) for _ in range(self.dim)]
@@ -294,6 +299,14 @@ class SuccessiveLinearProgramming(AbstractOptimizer):
 
     def gradient(self, x: np.ndarray) -> np.ndarray:
         """Computes the gradient of the objective function at a given point.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             x (np.ndarray): The point at which to compute the gradient.

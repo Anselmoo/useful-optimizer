@@ -47,7 +47,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.multi_objective.abstract_multi_objective import AbstractMultiObjectiveOptimizer
+from opt.abstract import AbstractMultiObjectiveOptimizer
 
 
 if TYPE_CHECKING:
@@ -76,9 +76,9 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         | Acronym           | NSGA-II                                  |
         | Year Introduced   | 2002                                     |
         | Authors           | Deb, Kalyanmoy; Pratap, Amrit; Agarwal, Sameer; Meyarivan, T |
-        | Algorithm Class   | Multi-Objective Evolutionary             |
+        | Algorithm Class   | Multi-Objective                          |
         | Complexity        | O(mN²) per generation                    |
-        | Properties        | Population-based, Elitist, Derivative-free|
+        | Properties        | Population-based, Derivative-free         |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -339,6 +339,8 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         tournament_size: int = _TOURNAMENT_SIZE,
         eta_c: float = _SBX_DISTRIBUTION_INDEX,
         eta_m: float = _POLYNOMIAL_MUTATION_INDEX,
+        *,
+        track_history: bool = False,
     ) -> None:
         """Initialize NSGA-II optimizer.
 
@@ -355,9 +357,17 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             tournament_size: Tournament selection size.
             eta_c: SBX distribution index.
             eta_m: Polynomial mutation distribution index.
+            track_history: Enable convergence history tracking.
         """
         super().__init__(
-            objectives, lower_bound, upper_bound, dim, max_iter, seed, population_size
+            objectives=objectives,
+            lower_bound=lower_bound,
+            upper_bound=upper_bound,
+            dim=dim,
+            max_iter=max_iter,
+            seed=seed,
+            population_size=population_size,
+            track_history=track_history,
         )
         self.crossover_prob = crossover_prob
         self.mutation_prob = mutation_prob if mutation_prob else 1.0 / dim
@@ -539,8 +549,37 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
         # Assign initial ranks and crowding
         ranks, crowding = self._assign_ranks_and_crowding(fitness)
 
+        def record_history() -> None:
+            """Record convergence and Pareto front history if enabled."""
+            if not self.track_history:
+                return
+
+            fronts = self.fast_non_dominated_sort(fitness)
+            pareto_indices = fronts[0] if fronts and fronts[0] else []
+            pareto_solutions = (
+                population[pareto_indices]
+                if len(pareto_indices) > 0
+                else np.empty((0, self.dim))
+            )
+            pareto_fitness = (
+                fitness[pareto_indices]
+                if len(pareto_indices) > 0
+                else np.empty((0, self.num_objectives))
+            )
+            best_idx = int(np.argmin(np.sum(fitness, axis=1)))
+
+            self._record_history(
+                best_fitness=float(np.sum(fitness[best_idx])),
+                best_solution=population[best_idx].copy(),
+                population_fitness=fitness.copy(),
+                population=population.copy(),
+                pareto_fitness=pareto_fitness,
+                pareto_solutions=pareto_solutions,
+            )
+
         # Main generation loop
         for _ in range(self.max_iter):
+            record_history()
             # Create offspring population
             offspring = []
             while len(offspring) < self.population_size:
@@ -589,6 +628,10 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             population = np.array(new_population)
             fitness = np.array(new_fitness)
             ranks, crowding = self._assign_ranks_and_crowding(fitness)
+
+        # Track final state
+        record_history()
+        self._finalize_history()
 
         # Extract Pareto front (rank 0 solutions)
         pareto_mask = ranks == 0

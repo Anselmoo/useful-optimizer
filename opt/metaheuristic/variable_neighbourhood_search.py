@@ -38,7 +38,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -59,7 +59,7 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
         | Authors           | Mladenović, Nenad; Hansen, Pierre        |
         | Algorithm Class   | Metaheuristic                            |
         | Complexity        | O(neighborhood_size * dim * max_iter)    |
-        | Properties        | Local search, Neighborhood-based, Derivative-free |
+        | Properties        | Derivative-free, Stochastic          |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -128,7 +128,7 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = VariableNeighborhoodSearch(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -318,9 +318,28 @@ class VariableNeighborhoodSearch(AbstractOptimizer):
                 x = np.clip(x, self.lower_bound, self.upper_bound)
                 if self.func(x) < self.func(self.population[i]):
                     self.population[i] = x
+
+            # Track history if enabled
+            if self.track_history:
+                best_idx = np.argmin(
+                    [self.func(individual) for individual in self.population]
+                )
+                self._record_history(
+                    best_fitness=self.func(self.population[best_idx]),
+                    best_solution=self.population[best_idx],
+                )
+
         best_index = np.argmin(
             [self.func(individual) for individual in self.population]
         )
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=self.func(self.population[best_index]),
+                best_solution=self.population[best_index],
+            )
+            self._finalize_history()
         return self.population[best_index], self.func(self.population[best_index])
 
 

@@ -30,7 +30,7 @@ import numpy as np
 
 from scipy.linalg import sqrtm
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -51,7 +51,7 @@ class CMAESAlgorithm(AbstractOptimizer):
         | Authors           | Hansen, Nikolaus; Ostermeier, Andreas    |
         | Algorithm Class   | Evolutionary                             |
         | Complexity        | O(n³) per iteration                      |
-        | Properties        | Population-based, Derivative-free, Self-adaptive, Stochastic |
+        | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -133,7 +133,7 @@ class CMAESAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = CMAESAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -376,8 +376,21 @@ class CMAESAlgorithm(AbstractOptimizer):
             # Prevent sigma from becoming too small
             self.sigma = max(self.sigma, self.epsilon)
 
+            # Track history if enabled
+            if self.track_history:
+                indices = np.argsort(fitness)
+                self._record_history(
+                    best_fitness=fitness[indices[0]],
+                    best_solution=solutions[indices[0]],
+                )
+
         best_solution = mean
         best_fitness = self.func(best_solution)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
         return best_solution, best_fitness
 
 

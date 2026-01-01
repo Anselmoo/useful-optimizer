@@ -46,7 +46,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 
 
 if TYPE_CHECKING:
@@ -67,7 +67,7 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
         | Authors           | Atashpaz-Gargari, Esmaeil; Lucas, Caro   |
         | Algorithm Class   | Evolutionary                             |
         | Complexity        | O(NP * dim) per iteration                |
-        | Properties        | Population-based, Socio-politically inspired, Competitive |
+        | Properties        | Population-based, Derivative-free, Stochastic |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -150,7 +150,7 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = ImperialistCompetitiveAlgorithm(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -310,7 +310,17 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
             }
             empires.append(empire)
 
+        # Initialize best tracking
+        best_empire = min(empires, key=lambda e: fitness[e["imperialist"]])
+        best_solution = population[best_empire["imperialist"]]
+        best_fitness = fitness[best_empire["imperialist"]]
+
         for _ in range(self.max_iter):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             self.seed += 1
             # Assimilation
             for empire in empires:
@@ -362,10 +372,26 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
             # Eliminate the powerless empires
             empires = [empire for empire in empires if len(empire["colonies"]) > 0]
 
+            # Update best solution
+            if empires:
+                best_empire = min(
+                    empires, key=lambda e: self.func(population[e["imperialist"]])
+                )
+                best_solution = population[best_empire["imperialist"]]
+                best_fitness = self.func(best_solution)
+
         best_solution = min(
             empires, key=lambda empire: self.func(population[empire["imperialist"]])
         )
         best_fitness = self.func(population[best_solution["imperialist"]])
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=population[best_solution["imperialist"]],
+            )
+            self._finalize_history()
         return population[best_solution["imperialist"]], best_fitness
 
 

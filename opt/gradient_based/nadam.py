@@ -46,7 +46,7 @@ import numpy as np
 
 from scipy.optimize import approx_fprime
 
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 from opt.constants import ADAM_BETA1
 from opt.constants import ADAM_BETA2
 from opt.constants import ADAM_EPSILON
@@ -67,12 +67,12 @@ class Nadam(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Nesterov-accelerated Adaptive Moment     |
-        | Acronym           | Nadam                                    |
+        | Acronym           | NADAM                                    |
         | Year Introduced   | 2016                                     |
         | Authors           | Dozat, Timothy                           |
-        | Algorithm Class   | Gradient Based                           |
+        | Algorithm Class   | Gradient-Based                           |
         | Complexity        | O(dim)                                   |
-        | Properties        | Adaptive learning rate, Nesterov momentum |
+        | Properties        | Gradient-based, Stochastic           |
         | Implementation    | Python 3.10+                             |
         | COCO Compatible   | Yes                                      |
 
@@ -167,7 +167,7 @@ class Nadam(AbstractOptimizer):
 
         >>> from opt.benchmark.functions import sphere
         >>> optimizer = Nadam(
-        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10000, seed=42
+        ...     func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=10, seed=42
         ... )
         >>> solution, fitness = optimizer.search()
         >>> len(solution) == 10
@@ -338,6 +338,11 @@ class Nadam(AbstractOptimizer):
         v = np.zeros(self.dim)  # Second moment estimate
 
         for t in range(1, self.max_iter + 1):
+            # Track history if enabled
+            if self.track_history:
+                self._record_history(
+                    best_fitness=best_fitness, best_solution=best_solution
+                )
             # Compute gradient at current position
             gradient = self._compute_gradient(current_solution)
 
@@ -380,6 +385,14 @@ class Nadam(AbstractOptimizer):
 
     def _compute_gradient(self, x: np.ndarray) -> np.ndarray:
         """Compute the gradient of the objective function at a given point.
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=best_fitness,
+                best_solution=best_solution,
+            )
+            self._finalize_history()
 
         Args:
             x (np.ndarray): The point at which to compute the gradient.
