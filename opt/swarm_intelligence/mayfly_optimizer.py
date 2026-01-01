@@ -105,7 +105,7 @@ class MayflyOptimizer(AbstractOptimizer):
         ...     seed=42,  # Required for reproducibility
         ... )
         >>> solution, fitness = optimizer.search()
-        >>> isinstance(fitness, float) and fitness >= 0
+        >>> bool(isinstance(fitness, float) and fitness >= 0)
         True
 
         COCO benchmark example:
