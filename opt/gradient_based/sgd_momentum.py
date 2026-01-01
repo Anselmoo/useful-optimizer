@@ -123,8 +123,7 @@ class SGDMomentum(AbstractOptimizer):
         >>> from opt.gradient_based.sgd_momentum import SGDMomentum
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     SGDMomentum, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     SGDMomentum, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True
@@ -263,6 +262,8 @@ class SGDMomentum(AbstractOptimizer):
         learning_rate: float = 0.01,
         momentum: float = 0.9,
         seed: int | None = None,
+        target_precision: float = 1e-8,
+        f_opt: float | None = None,
     ) -> None:
         """Initialize the SGD with Momentum optimizer."""
         super().__init__(
@@ -272,6 +273,8 @@ class SGDMomentum(AbstractOptimizer):
             dim=dim,
             max_iter=max_iter,
             seed=seed,
+            target_precision=target_precision,
+            f_opt=f_opt,
         )
         self.learning_rate = learning_rate
         self.momentum = momentum

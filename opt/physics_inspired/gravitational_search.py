@@ -174,8 +174,13 @@ class GravitationalSearchOptimizer(AbstractOptimizer):
         >>> from opt.physics_inspired.gravitational_search import GravitationalSearchOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     GravitationalSearchOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     GravitationalSearchOptimizer,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

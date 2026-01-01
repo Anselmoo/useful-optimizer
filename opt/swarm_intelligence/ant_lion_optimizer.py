@@ -111,8 +111,7 @@ class AntLionOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.ant_lion_optimizer import AntLionOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     AntLionOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     AntLionOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

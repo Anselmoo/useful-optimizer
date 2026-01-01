@@ -110,8 +110,7 @@ class SGD(AbstractOptimizer):
         >>> from opt.gradient_based.stochastic_gradient_descent import SGD
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     SGD, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     SGD, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

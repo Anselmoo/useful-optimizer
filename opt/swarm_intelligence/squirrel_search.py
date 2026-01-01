@@ -78,8 +78,13 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
         >>> from opt.swarm_intelligence.squirrel_search import SquirrelSearchAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     SquirrelSearchAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     SquirrelSearchAlgorithm,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

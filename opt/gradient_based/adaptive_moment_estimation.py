@@ -132,8 +132,7 @@ class ADAMOptimization(AbstractOptimizer):
         >>> from opt.gradient_based.adaptive_moment_estimation import ADAMOptimization
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     ADAMOptimization, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     ADAMOptimization, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

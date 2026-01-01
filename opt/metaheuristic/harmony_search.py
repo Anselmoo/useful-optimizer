@@ -278,6 +278,8 @@ class HarmonySearch(AbstractOptimizer):
         pitch_adjusting_rate: float = 0.7,
         bandwidth: float = 0.01,
         seed: int | None = None,
+        target_precision: float = 1e-8,  # noqa: ARG002
+        f_opt: float | None = None,  # noqa: ARG002
     ) -> None:
         """Initialize the HarmonySearch class."""
         super().__init__(

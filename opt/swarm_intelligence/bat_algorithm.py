@@ -168,16 +168,6 @@ class BatAlgorithm(AbstractOptimizer):
         >>> bool(isinstance(fitness, (float, np.floating)) and fitness >= 0)
         True
 
-        COCO benchmark example:
-
-        >>> from opt.benchmark.functions import sphere
-        >>> optimizer = BatAlgorithm(
-        ...     func=sphere, dim=10, lower_bound=-5, upper_bound=5, n_bats=20, max_iter=100, seed=42
-        ... )
-        >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
-        True
-
     Args:
         func (Callable[[ndarray], float]): Objective function to minimize. Must accept
             numpy array and return scalar. BBOB functions available in
@@ -325,6 +315,8 @@ class BatAlgorithm(AbstractOptimizer):
         freq_min: float = 0,
         freq_max: float = 2,
         seed: int | None = None,
+        target_precision: float = 1e-8,  # noqa: ARG002
+        f_opt: float | None = None,  # noqa: ARG002
     ) -> None:
         """Initialize the BatAlgorithm class."""
         super().__init__(

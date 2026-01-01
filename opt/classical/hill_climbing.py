@@ -269,6 +269,8 @@ class HillClimbing(AbstractOptimizer):
         acceleration: float = 1.2,
         epsilon: float = 1e-6,
         seed: int | None = None,
+        target_precision: float = 1e-8,
+        f_opt: float | None = None,
     ) -> None:
         """Initialize the HillClimbing class."""
         super().__init__(
@@ -278,6 +280,8 @@ class HillClimbing(AbstractOptimizer):
             dim=dim,
             max_iter=max_iter,
             seed=seed,
+            target_precision=target_precision,
+            f_opt=f_opt,
         )
         self.step_sizes = np.full(dim, initial_step_sizes)
         self.acceleration = acceleration

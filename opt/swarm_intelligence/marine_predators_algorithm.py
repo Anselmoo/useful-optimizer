@@ -144,8 +144,13 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.marine_predators_algorithm import MarinePredatorsOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     MarinePredatorsOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     MarinePredatorsOptimizer,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

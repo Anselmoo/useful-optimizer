@@ -91,8 +91,13 @@ class MantaRayForagingOptimization(AbstractOptimizer):
         >>> from opt.swarm_intelligence.manta_ray import MantaRayForagingOptimization
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     MantaRayForagingOptimization, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     MantaRayForagingOptimization,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

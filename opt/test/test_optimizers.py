@@ -320,7 +320,7 @@ class TestOptimizerInstantiation:
             func=sphere, lower_bound=-5, upper_bound=5, dim=2, max_iter=10
         )
         assert optimizer is not None
-        assert optimizer.func == sphere
+        assert optimizer._original_func == sphere  # noqa: SLF001
         assert optimizer.lower_bound == -5
         assert optimizer.upper_bound == 5
         assert optimizer.dim == 2
@@ -508,7 +508,7 @@ class TestSpecialOptimizers:
             func=sphere, lower_bound=-5, upper_bound=5, dim=2, n_bats=5, max_iter=10
         )
         assert optimizer is not None
-        assert optimizer.func == sphere
+        assert optimizer._original_func == sphere  # noqa: SLF001
         assert optimizer.lower_bound == -5
         assert optimizer.upper_bound == 5
         assert optimizer.dim == 2

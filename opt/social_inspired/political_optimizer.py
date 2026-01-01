@@ -128,8 +128,7 @@ class PoliticalOptimizer(AbstractOptimizer):
         >>> from opt.social_inspired.political_optimizer import PoliticalOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     PoliticalOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     PoliticalOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

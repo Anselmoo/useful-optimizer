@@ -104,8 +104,13 @@ class AfricanBuffaloOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.african_buffalo_optimization import AfricanBuffaloOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     AfricanBuffaloOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     AfricanBuffaloOptimizer,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

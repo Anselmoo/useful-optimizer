@@ -116,11 +116,18 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
         COCO/BBOB compliant benchmark test:
 
         >>> from benchmarks.run_benchmark_suite import run_single_benchmark
-        >>> from opt.swarm_intelligence.whale_optimization_algorithm import WhaleOptimizationAlgorithm
+        >>> from opt.swarm_intelligence.whale_optimization_algorithm import (
+        ...     WhaleOptimizationAlgorithm,
+        ... )
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     WhaleOptimizationAlgorithm, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     WhaleOptimizationAlgorithm,
+        ...     shifted_ackley,
+        ...     -32.768,
+        ...     32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42,
         ... )
         >>> result["status"] == "success"
         True

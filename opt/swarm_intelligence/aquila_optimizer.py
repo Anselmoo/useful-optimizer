@@ -98,8 +98,7 @@ class AquilaOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.aquila_optimizer import AquilaOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     AquilaOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     AquilaOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

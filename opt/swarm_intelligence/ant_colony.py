@@ -129,8 +129,7 @@ class AntColony(AbstractOptimizer):
         >>> from opt.swarm_intelligence.ant_colony import AntColony
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     AntColony, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     AntColony, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True

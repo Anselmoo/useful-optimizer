@@ -231,6 +231,8 @@ class SimulatedAnnealing(AbstractOptimizer):
         *,
         dynamic_cooling: bool = True,
         seed: int | None = None,
+        target_precision: float = 1e-8,
+        f_opt: float | None = None,
     ) -> None:
         """Initialize the SimulatedAnnealing class."""
         super().__init__(
@@ -241,6 +243,8 @@ class SimulatedAnnealing(AbstractOptimizer):
             max_iter=max_iter,
             seed=seed,
             population_size=population_size,
+            target_precision=target_precision,
+            f_opt=f_opt,
         )
         self.init_temperature = init_temperature
         self.stopping_temperature = stopping_temperature

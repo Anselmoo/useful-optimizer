@@ -287,21 +287,6 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
         >>> isinstance(fitness, float) and fitness >= 0
         True
 
-        COCO benchmark example:
-
-        >>> from opt.benchmark.functions import sphere
-        >>> optimizer = {info.class_name}(
-        ...     func=sphere,
-        ...     lower_bound=-5,
-        ...     upper_bound=5,
-        ...     dim=10,
-        ...     max_iter=10000,
-        ...     seed=42
-        ... )
-        >>> solution, fitness = optimizer.search()
-        >>> len(solution) == 10
-        True
-
     Args:
         FIXME: Document all parameters with BBOB guidance.
         Detected parameters from __init__ signature: {", ".join(info.parameters)}

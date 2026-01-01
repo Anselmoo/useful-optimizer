@@ -127,8 +127,7 @@ class NelderMead(AbstractOptimizer):
         >>> from opt.classical.nelder_mead import NelderMead
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     NelderMead, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     NelderMead, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True
@@ -266,6 +265,8 @@ class NelderMead(AbstractOptimizer):
         max_iter: int = 1000,
         num_restarts: int = 25,
         seed: int | None = None,
+        target_precision: float = 1e-8,
+        f_opt: float | None = None,
     ) -> None:
         """Initialize the Nelder-Mead optimizer."""
         super().__init__(
@@ -275,6 +276,8 @@ class NelderMead(AbstractOptimizer):
             dim=dim,
             max_iter=max_iter,
             seed=seed,
+            target_precision=target_precision,
+            f_opt=f_opt,
         )
         self.num_restarts = num_restarts
 

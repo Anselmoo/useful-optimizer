@@ -151,8 +151,7 @@ class AdamW(AbstractOptimizer):
         >>> from opt.gradient_based.adamw import AdamW
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     AdamW, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     AdamW, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True
@@ -302,6 +301,8 @@ class AdamW(AbstractOptimizer):
         epsilon: float = ADAM_EPSILON,
         weight_decay: float = ADAMW_WEIGHT_DECAY,
         seed: int | None = None,
+        target_precision: float = 1e-8,
+        f_opt: float | None = None,
     ) -> None:
         """Initialize the AdamW optimizer."""
         super().__init__(
@@ -311,6 +312,8 @@ class AdamW(AbstractOptimizer):
             dim=dim,
             max_iter=max_iter,
             seed=seed,
+            target_precision=target_precision,
+            f_opt=f_opt,
         )
         self.learning_rate = learning_rate
         self.beta1 = beta1

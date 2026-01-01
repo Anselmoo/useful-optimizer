@@ -118,8 +118,7 @@ class GreyWolfOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> result = run_single_benchmark(
-        ...     GreyWolfOptimizer, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        ...     GreyWolfOptimizer, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
         ... )
         >>> result["status"] == "success"
         True
