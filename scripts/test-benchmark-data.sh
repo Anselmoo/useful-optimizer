@@ -144,7 +144,7 @@ TYPES_FILE="$PROJECT_ROOT/docs/.vitepress/theme/types/benchmark.ts"
 if [[ -f "$TYPES_FILE" ]]; then
     echo -e "${GREEN}✓ TypeScript types file found${NC}"
     echo -e "  Location: ${TYPES_FILE}"
-    
+
     # Create a simple TypeScript test
     cat > "$TEMP_DIR/test_types.ts" << 'TS_SCRIPT'
 import type { BenchmarkDataSchema } from '../../../.vitepress/theme/types/benchmark'
@@ -156,7 +156,7 @@ const benchmarkData: BenchmarkDataSchema = data as BenchmarkDataSchema
 console.log('✓ TypeScript types are compatible')
 console.log(`  Functions: ${Object.keys(benchmarkData.benchmarks).join(', ')}`)
 TS_SCRIPT
-    
+
     # Check if Node.js and TypeScript are available
     if command -v node &> /dev/null && [[ -d "$PROJECT_ROOT/docs/node_modules" ]]; then
         cd "$PROJECT_ROOT/docs"
