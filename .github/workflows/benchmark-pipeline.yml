@@ -80,16 +80,16 @@ jobs:
         run: |
           echo "## Benchmark Results Summary" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          
+
           if [ -f benchmarks/output/processed/benchmark-summary.json ]; then
             echo "✅ Benchmark completed successfully" >> $GITHUB_STEP_SUMMARY
             echo "" >> $GITHUB_STEP_SUMMARY
-            
+
             # Extract summary statistics
             FUNCTIONS=$(jq '.benchmarks | keys | length' benchmarks/output/processed/benchmark-summary.json)
             RUNS=$(jq '.metadata.n_runs' benchmarks/output/processed/benchmark-summary.json)
             DIMS=$(jq '.metadata.dimensions | length' benchmarks/output/processed/benchmark-summary.json)
-            
+
             echo "- **Functions tested:** $FUNCTIONS" >> $GITHUB_STEP_SUMMARY
             echo "- **Dimensions:** $(jq -r '.metadata.dimensions | @csv' benchmarks/output/processed/benchmark-summary.json)" >> $GITHUB_STEP_SUMMARY
             echo "- **Runs per configuration:** $RUNS" >> $GITHUB_STEP_SUMMARY

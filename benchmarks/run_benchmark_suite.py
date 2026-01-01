@@ -26,11 +26,8 @@ Usage:
 from __future__ import annotations
 
 import json
-import sys
 import time
 
-from datetime import datetime
-from datetime import timezone
 from pathlib import Path
 from typing import TYPE_CHECKING
 
