@@ -46,17 +46,19 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `population_size` | `int` | `100` | The number of ants in the colony. |
-| `seed` | `int  \|  None` | `None` | The seed value for random number generation. |
-| `alpha` | `float` | `1` | The importance of pheromone in the solution construction. |
-| `beta` | `float` | `1` | The importance of heuristic information in the solution construction. |
-| `rho` | `float` | `0.5` | The pheromone evaporation rate. |
-| `q` | `float` | `1` | The pheromone deposit factor. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `population_size` | `int` | `100` | Number of ants in colony. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `alpha` | `float` | `1` | Pheromone influence exponent. |
+| `beta` | `float` | `1` | Heuristic information weight (not used in basic
+        continuous ACO). |
+| `rho` | `float` | `0.5` | Pheromone evaporation rate in [0, 1]. |
+| `q` | `float` | `1` | Pheromone deposit constant. |
+| `track_history` | `bool` | `False` | Track optimization history for visualization |
 
 ## See Also
 

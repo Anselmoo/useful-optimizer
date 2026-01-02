@@ -43,16 +43,16 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `max_iter` | `int` | `1000` | Maximum number of iterations |
-| `seed` | `int  \|  None` | `None` | Random seed for reproducibility |
-| `population_size` | `int` | `100` | Number of individuals in population |
-| `a1` | `float` | `_A1` | Algorithm-specific parameter |
-| `a2` | `float` | `_A2` | Algorithm-specific parameter |
-| `gp` | `float` | `_GP` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `population_size` | `int` | `100` | Population size (number of particles). |
+| `a1` | `float` | `_A1` | Generation rate control constant. |
+| `a2` | `float` | `_A2` | Time decay exponent for $t$ parameter. |
+| `gp` | `float` | `_GP` | Generation probability threshold. |
 
 ## See Also
 

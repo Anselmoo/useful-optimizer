@@ -42,17 +42,17 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `fish_swarm` | `int` | `50` | The number of fish in the swarm (default: 50). |
-| `max_iter` | `int` | `1000` | The maximum number of iterations (default: 1000). |
-| `visual` | `int` | `1` | The visual range of each fish (default: 1). |
-| `step` | `float` | `0.1` | The step size for fish movement (default: 0. |
-| `try_number` | `int` | `3` | The number of attempts for prey behavior (default: 3). |
-| `epsilon` | `float` | `1e-09` | A small value added to avoid division by zero (default: 1e-9). |
-| `seed` | `int  \|  None` | `None` | The seed for the random number generator (default: None). |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `fish_swarm` | `int` | `50` | Number of fish in swarm. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `visual` | `int` | `1` | Visual distance parameter. |
+| `step` | `float` | `0.1` | Step size parameter. |
+| `try_number` | `int` | `3` | Number of attempts. |
+| `epsilon` | `float` | `1e-09` | Small value for numerical stability. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

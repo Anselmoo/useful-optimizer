@@ -50,17 +50,19 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be optimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `max_iter` | `int` | `DEFAULT_MAX_ITERATIONS` | The maximum number of iterations. |
-| `learning_rate` | `float` | `ADAMW_LEARNING_RATE` | The learning rate. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `DEFAULT_MAX_ITERATIONS` | Maximum iterations. |
+| `learning_rate` | `float` | `ADAMW_LEARNING_RATE` | Learning rate (step size). |
 | `beta1` | `float` | `ADAM_BETA1` | Exponential decay rate for first moment estimates. |
 | `beta2` | `float` | `ADAM_BETA2` | Exponential decay rate for second moment estimates. |
 | `epsilon` | `float` | `ADAM_EPSILON` | Small constant for numerical stability. |
-| `weight_decay` | `float` | `ADAMW_WEIGHT_DECAY` | Weight decay coefficient. |
-| `seed` | `int  \|  None` | `None` | The seed value for random number generation. |
+| `weight_decay` | `float` | `ADAMW_WEIGHT_DECAY` | Weight decay coefficient for L2 regularization decoupled from gradient. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `target_precision` | `float` | `1e-08` | Algorithm-specific parameter |
+| `f_opt` | `float  \|  None` | `None` | Algorithm-specific parameter |
 
 ## See Also
 

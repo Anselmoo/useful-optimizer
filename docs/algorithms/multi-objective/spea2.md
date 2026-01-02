@@ -37,13 +37,14 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `objectives` | `list[Callable]` | Required | Algorithm-specific parameter |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `max_iter` | `int` | Required | Maximum number of iterations |
-| `population_size` | `int` | `100` | Number of individuals in population |
-| `archive_size` | `int` | `100` | Algorithm-specific parameter |
+| `objectives` | `list[Callable]` | Required | List of objective functions
+        to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | Required | Maximum number of generations. |
+| `population_size` | `int` | `100` | Number of individuals in population. |
+| `archive_size` | `int` | `100` | External archive size. |
 
 ## See Also
 

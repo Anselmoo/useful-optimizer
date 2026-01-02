@@ -39,17 +39,19 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `dim` | `int` | Required | The dimensionality of the problem. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `n_bats` | `int` | Required | The number of bats in the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `loudness` | `float` | `0.5` | The initial loudness of the bats. |
-| `pulse_rate` | `float` | `0.9` | The pulse rate of the bats. |
-| `freq_min` | `float` | `0` | The minimum frequency of the bats. |
-| `freq_max` | `float` | `2` | The maximum frequency of the bats. |
-| `seed` | `int  \|  None` | `None` | The seed value for random number generation. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `n_bats` | `int` | Required | Number of bats in the population. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `loudness` | `float` | `0.5` | Initial loudness parameter (0-1). |
+| `pulse_rate` | `float` | `0.9` | Pulse emission rate (0-1). |
+| `freq_min` | `float` | `0` | Minimum frequency for velocity updates. |
+| `freq_max` | `float` | `2` | Maximum frequency for velocity updates. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `target_precision` | `float` | `1e-08` | Algorithm-specific parameter |
+| `f_opt` | `float  \|  None` | `None` | Algorithm-specific parameter |
 
 ## See Also
 

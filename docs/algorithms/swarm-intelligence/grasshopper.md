@@ -43,17 +43,17 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `max_iter` | `int` | `1000` | Maximum number of iterations |
-| `seed` | `int  \|  None` | `None` | Random seed for reproducibility |
-| `population_size` | `int` | `100` | Number of individuals in population |
-| `c_max` | `float` | `_C_MAX` | Algorithm-specific parameter |
-| `c_min` | `float` | `_C_MIN` | Algorithm-specific parameter |
-| `f` | `float` | `_ATTRACTION_INTENSITY` | Algorithm-specific parameter |
-| `l` | `float` | `_ATTRACTIVE_LENGTH_SCALE` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `population_size` | `int` | `100` | Number of grasshoppers. |
+| `c_max` | `float` | `_C_MAX` | Maximum coefficient for social forces. |
+| `c_min` | `float` | `_C_MIN` | Minimum coefficient for social forces. |
+| `f` | `float` | `_ATTRACTION_INTENSITY` | Attraction intensity in social force function. |
+| `l` | `float` | `_ATTRACTIVE_LENGTH_SCALE` | Attractive length scale in social force function. |
 
 ## See Also
 

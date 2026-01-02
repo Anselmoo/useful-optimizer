@@ -43,12 +43,13 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `population_size` | `int` | `30` | Number of individuals in population |
-| `max_iter` | `int` | `100` | Maximum number of iterations |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `30` | Population size (number of agents). |
+| `max_iter` | `int` | `100` | Maximum iterations. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

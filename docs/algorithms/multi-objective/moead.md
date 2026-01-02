@@ -38,13 +38,14 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `objectives` | `list[Callable]` | Required | Algorithm-specific parameter |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `population_size` | `int` | `100` | Number of individuals in population |
-| `max_iter` | `int` | `300` | Maximum number of iterations |
-| `n_neighbors` | `int` | `20` | Algorithm-specific parameter |
+| `objectives` | `list[Callable]` | Required | List of objective functions
+        to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Number of subproblems (weight vectors). |
+| `max_iter` | `int` | `300` | Maximum number of generations. |
+| `n_neighbors` | `int` | `20` | Neighborhood size for each subproblem. |
 
 ## See Also
 

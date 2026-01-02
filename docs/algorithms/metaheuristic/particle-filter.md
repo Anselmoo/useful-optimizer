@@ -43,16 +43,16 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `population_size` | `int` | `100` | Number of individuals in population |
-| `max_iter` | `int` | `1000` | Maximum number of iterations |
-| `inertia` | `float` | `0.7` | Algorithm-specific parameter |
-| `cognitive` | `float` | `1.5` | Algorithm-specific parameter |
-| `social` | `float` | `1.5` | Algorithm-specific parameter |
-| `seed` | `int  \|  None` | `None` | Random seed for reproducibility |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Number of particles. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `inertia` | `float` | `0.7` | Inertia weight controlling velocity momentum. |
+| `cognitive` | `float` | `1.5` | Cognitive coefficient for personal best attraction. |
+| `social` | `float` | `1.5` | Social coefficient for global best attraction. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

@@ -47,14 +47,15 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `population_size` | `int` | `100` | Number of individuals in population |
-| `max_iter` | `int` | `1000` | Maximum number of iterations |
-| `mutation_probability` | `float` | `0.1` | Algorithm-specific parameter |
-| `seed` | `int  \|  None` | `None` | Random seed for reproducibility |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Number of nests (solutions) in the population. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `mutation_probability` | `float` | `0.1` | Probability of abandoning a nest
+        (discovery rate pa). |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

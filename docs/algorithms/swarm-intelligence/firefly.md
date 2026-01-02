@@ -63,16 +63,18 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `population_size` | `int` | `100` | The number of fireflies in the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `alpha` | `float` | `0.5` | The attractiveness coefficient. |
-| `beta_0` | `float` | `1` | The initial value of the light absorption coefficient. |
-| `gamma` | `float` | `1` | The light absorption coefficient decay rate. |
-| `seed` | `int  \|  None` | `None` | The seed for the random number generator. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Number of fireflies in the population. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `alpha` | `float` | `0.5` | Randomization parameter controlling step size
+        of random movement. |
+| `beta_0` | `float` | `1` | Attractiveness coefficient at distance r=0. |
+| `gamma` | `float` | `1` | Light absorption coefficient. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `track_history` | `bool` | `False` | Track optimization history for visualization |
 
 ## See Also
 

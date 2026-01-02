@@ -243,6 +243,29 @@ Specialized algorithms for constrained problems and probabilistic approaches.
 
 Useful Optimizer includes comprehensive doctests to ensure all examples in the documentation are correct and up-to-date. All optimizer classes and benchmark functions include working examples that can be verified automatically.
 
+### Documentation Generation
+
+The project uses an automated documentation generator with Griffe integration to create comprehensive API documentation:
+
+```bash
+# Generate all documentation (markdown + JSON + API)
+uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
+
+# Or use the npm shortcut
+cd docs && npm run docs:api:all
+```
+
+This generates:
+- **Markdown pages** for all 117+ optimizers in `docs/algorithms/`
+- **JSON metadata** at `docs/public/optimizers/optimizers.json`
+- **Griffe API docs** per category in `docs/api/`
+- **VitePress sidebar** auto-configuration
+- **Full API JSON** for the entire opt package
+
+Performance: ~6 seconds for complete generation
+
+See [`docs/DOCUMENTATION_GENERATOR.md`](docs/DOCUMENTATION_GENERATOR.md) for detailed usage.
+
 ### Running Tests
 
 To run all tests including doctests:

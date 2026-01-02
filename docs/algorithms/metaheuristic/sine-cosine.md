@@ -39,15 +39,15 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be optimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `population_size` | `int` | `100` | The size of the population (default: 100). |
-| `max_iter` | `int` | `1000` | The maximum number of iterations (default: 1000). |
-| `r1_cut` | `float` | `0.5` | The threshold for selecting the sine update rule (default: 0. |
-| `r2_cut` | `float` | `0.5` | The threshold for selecting the cosine update rule (default: 0. |
-| `seed` | `int  \|  None` | `None` | The seed value for random number generation (default: None). |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Number of search agents. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `r1_cut` | `float` | `0.5` | Threshold for sine/cosine selection. |
+| `r2_cut` | `float` | `0.5` | Threshold for movement direction. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 
