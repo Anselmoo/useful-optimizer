@@ -10,8 +10,8 @@ from scripts.docstring_models import AlgorithmClass
 from scripts.docstring_models import AlgorithmMetadata
 from scripts.docstring_models import Args
 from scripts.docstring_models import Attributes
+from scripts.docstring_models import COCOBBOBOptimizerDocstringSchema
 from scripts.docstring_models import COCOBBOBSettings
-from scripts.docstring_models import CocoBbobOptimizerDocstringSchema
 from scripts.docstring_models import Example
 from scripts.docstring_models import Notes
 from scripts.docstring_models import Parameter
@@ -104,12 +104,12 @@ class TestCOCOBBOBSettings:
         assert settings.search_space is not None
 
 
-class TestCocoBbobOptimizerDocstringSchema:
+class TestCOCOBBOBOptimizerDocstringSchema:
     """Test root docstring schema model."""
 
     def test_minimal_valid_schema(self) -> None:
         """Test minimal valid docstring schema."""
-        schema = CocoBbobOptimizerDocstringSchema(
+        schema = COCOBBOBOptimizerDocstringSchema(
             summary="Test algorithm for optimization",
             algorithm_metadata=AlgorithmMetadata(
                 algorithm_name="Test Algorithm",
@@ -133,7 +133,7 @@ class TestCocoBbobOptimizerDocstringSchema:
     def test_invalid_schema_missing_required(self) -> None:
         """Test that missing required fields raises error."""
         with pytest.raises(ValidationError):
-            CocoBbobOptimizerDocstringSchema(
+            COCOBBOBOptimizerDocstringSchema(
                 summary="Test",
                 # Missing algorithm_metadata
                 coco_bbob_benchmark_settings=COCOBBOBSettings(),
@@ -147,7 +147,7 @@ class TestCocoBbobOptimizerDocstringSchema:
     def test_summary_length_validation(self) -> None:
         """Test that summary length is validated."""
         with pytest.raises(ValidationError):
-            CocoBbobOptimizerDocstringSchema(
+            COCOBBOBOptimizerDocstringSchema(
                 summary="x" * 100,  # Exceeds 80 char limit
                 algorithm_metadata=AlgorithmMetadata(
                     algorithm_name="Test",
