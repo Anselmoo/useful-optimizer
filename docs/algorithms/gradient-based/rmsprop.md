@@ -46,15 +46,15 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be optimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `learning_rate` | `float` | `0.01` | The learning rate. |
-| `rho` | `float` | `0.9` | The decay rate for the moving average. |
-| `epsilon` | `float` | `1e-08` | Small constant to avoid division by zero. |
-| `seed` | `int  \|  None` | `None` | The seed value for random number generation. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `learning_rate` | `float` | `0.01` | Learning rate (step size). |
+| `rho` | `float` | `0.9` | Decay rate for moving average of squared gradients. |
+| `epsilon` | `float` | `1e-08` | Small constant for numerical stability. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

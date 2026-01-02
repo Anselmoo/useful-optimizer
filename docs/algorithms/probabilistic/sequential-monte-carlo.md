@@ -42,14 +42,14 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `population_size` | `int` | `50` | Number of individuals in population |
-| `max_iter` | `int` | `100` | Maximum number of iterations |
-| `initial_temp` | `float` | `10.0` | Algorithm-specific parameter |
-| `final_temp` | `float` | `0.1` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `50` | Number of particles in SMC population. |
+| `max_iter` | `int` | `100` | Maximum SMC iterations. |
+| `initial_temp` | `float` | `10.0` | Starting temperature for importance weighting. |
+| `final_temp` | `float` | `0.1` | Final temperature for importance weighting. |
 
 ## See Also
 

@@ -39,13 +39,15 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `n_initial` | `int` | `10` | Algorithm-specific parameter |
-| `max_iter` | `int` | `50` | Maximum number of iterations |
-| `xi` | `float` | `0.01` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `n_initial` | `int` | `10` | Number of initial random samples to build GP surrogate. |
+| `max_iter` | `int` | `50` | Maximum Bayesian optimization iterations after initial
+        sampling. |
+| `xi` | `float` | `0.01` | Exploration parameter for Expected Improvement acquisition. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

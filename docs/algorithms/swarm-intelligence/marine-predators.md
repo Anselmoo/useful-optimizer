@@ -43,14 +43,14 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `max_iter` | `int` | `1000` | Maximum number of iterations |
-| `seed` | `int  \|  None` | `None` | Random seed for reproducibility |
-| `population_size` | `int` | `100` | Number of individuals in population |
-| `fads` | `float` | `_FADs_EFFECT_PROB` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `population_size` | `int` | `100` | Number of predators/prey. |
+| `fads` | `float` | `_FADs_EFFECT_PROB` | Fish Aggregating Devices effect probability. |
 
 ## See Also
 

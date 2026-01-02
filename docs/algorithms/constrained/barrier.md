@@ -39,14 +39,16 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `constraints` | `list[Callable]  \|  None` | `None` | Algorithm-specific parameter |
-| `max_iter` | `int` | `100` | Maximum number of iterations |
-| `initial_mu` | `float` | `10.0` | Algorithm-specific parameter |
-| `mu_reduction` | `float` | `0.5` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `constraints` | `list[Callable]  \|  None` | `None` | List of
+        inequality constraints in form $g(x) \leq 0$. |
+| `max_iter` | `int` | `100` | Maximum outer iterations. |
+| `initial_mu` | `float` | `10.0` | Starting barrier coefficient. |
+| `mu_reduction` | `float` | `0.5` | Barrier reduction factor β (0 < β < 1). |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

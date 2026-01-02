@@ -48,16 +48,16 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `population_size` | `int` | `100` | The number of glowworms in the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `luciferin_decay` | `float` | `0.1` | The decay rate of luciferin. |
-| `randomness` | `float` | `0.5` | The randomness factor for glowworm movement. |
-| `step_size` | `float` | `0.01` | The step size for glowworm movement. |
-| `seed` | `int  \|  None` | `None` | The seed for the random number generator. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Number of glowworms. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `luciferin_decay` | `float` | `0.1` | Luciferin decay constant. |
+| `randomness` | `float` | `0.5` | Randomness factor in movement. |
+| `step_size` | `float` | `0.01` | Movement step size. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

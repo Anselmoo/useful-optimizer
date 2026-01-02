@@ -47,17 +47,17 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `population_size` | `int` | `100` | The size of the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `belief_space_size` | `int` | `20` | The size of the belief space. |
-| `scaling_factor` | `float` | `0.5` | The scaling factor used in mutation. |
-| `mutation_probability` | `float` | `0.5` | The probability of mutation. |
-| `elitism` | `float` | `0.1` | The elitism factor. |
-| `seed` | `int  \|  None` | `None` | Random seed for reproducibility |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Number of individuals. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `belief_space_size` | `int` | `20` | Belief space size. |
+| `scaling_factor` | `float` | `0.5` | Influence strength. |
+| `mutation_probability` | `float` | `0.5` | Mutation probability. |
+| `elitism` | `float` | `0.1` | Elite preservation rate. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

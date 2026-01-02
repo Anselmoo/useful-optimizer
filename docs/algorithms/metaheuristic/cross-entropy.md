@@ -48,15 +48,15 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be optimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `population_size` | `int` | `100` | The size of the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `elite_frac` | `float` | `0.2` | The fraction of elite samples to select. |
-| `noise_decay` | `float` | `0.99` | The decay rate for the noise. |
-| `seed` | `int  \|  None` | `None` | The seed value for random number generation. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Number of samples per iteration. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `elite_frac` | `float` | `0.2` | Fraction of samples to use as elite set. |
+| `noise_decay` | `float` | `0.99` | Covariance decay factor to maintain exploration. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

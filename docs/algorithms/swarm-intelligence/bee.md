@@ -51,14 +51,14 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `dim` | `int` | Required | The dimensionality of the problem. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `n_bees` | `int` | `50` | The number of bees in the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `scout_bee` | `float` | `0.01` | The probability of a bee becoming a scout bee. |
-| `seed` | `int  \|  None` | `None` | The seed for the random number generator. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `n_bees` | `int` | `50` | Number of bees in population. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `scout_bee` | `float` | `0.01` | Scout bee ratio. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

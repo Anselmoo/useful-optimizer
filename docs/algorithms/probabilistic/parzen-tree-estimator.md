@@ -48,17 +48,18 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be optimized. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `lower_bound` | `float` | Required | The lower bound(s) of the search space. |
-| `upper_bound` | `float` | Required | The upper bound(s) of the search space. |
-| `population_size` | `int` | `100` | The size of the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `gamma` | `float` | `0.15` | The quantile value used to segment the distributions. |
-| `bandwidth` | `float` | `0.2` | The bandwidth of the Gaussian kernel used in the Parzen Tree Estimator. |
-| `n_samples` | `int  \|  None` | `None` | The number of samples to draw from the estimated distributions. |
-| `selection_strategy` | `str` | `'difference'` | The selection strategy used to choose the next set of hyperparameters. |
-| `seed` | `int  \|  None` | `None` | The seed value for the random number generator. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `population_size` | `int` | `100` | Number of observations to maintain for KDE fitting. |
+| `max_iter` | `int` | `1000` | Maximum TPE iterations. |
+| `gamma` | `float` | `0.15` | Quantile for splitting observations into good/bad. |
+| `bandwidth` | `float` | `0.2` | Gaussian kernel bandwidth for KDE. |
+| `n_samples` | `int  \|  None` | `None` | Number of candidates to sample from good KDE. |
+| `selection_strategy` | `str` | `'difference'` | Strategy for selecting next point:
+        "difference" or "ratio". |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

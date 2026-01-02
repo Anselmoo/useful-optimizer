@@ -49,15 +49,17 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `initial_step_sizes` | `float` | `1.0` | The initial step sizes for each dimension. |
-| `acceleration` | `float` | `1.2` | The acceleration factor. |
-| `epsilon` | `float` | `1e-06` | The convergence threshold. |
-| `seed` | `int  \|  None` | `None` | The random seed for reproducibility. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `initial_step_sizes` | `float` | `1.0` | Initial step size for all dimensions. |
+| `acceleration` | `float` | `1.2` | Factor for step size adaptation. |
+| `epsilon` | `float` | `1e-06` | Convergence threshold for fitness change. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `target_precision` | `float` | `1e-08` | Algorithm-specific parameter |
+| `f_opt` | `float  \|  None` | `None` | Algorithm-specific parameter |
 
 ## See Also
 

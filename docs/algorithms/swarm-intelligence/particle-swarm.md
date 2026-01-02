@@ -51,17 +51,21 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `population_size` | `int` | `DEFAULT_POPULATION_SIZE` | The number of particles in the swarm (default: 100). |
-| `max_iter` | `int` | `DEFAULT_MAX_ITERATIONS` | The maximum number of iterations (default: 1000). |
-| `c1` | `float` | `PSO_COGNITIVE_COEFFICIENT` | The cognitive parameter (default: 1. |
-| `c2` | `float` | `PSO_SOCIAL_COEFFICIENT` | The social parameter (default: 1. |
-| `w` | `float` | `PSO_INERTIA_WEIGHT` | The inertia weight (default: 0. |
-| `seed` | `int  \|  None` | `None` | The seed for the random number generator (default: None). |
-| `track_history` | `bool` | `False` | Track optimization history for visualization |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `DEFAULT_POPULATION_SIZE` | Number of particles in swarm. |
+| `max_iter` | `int` | `DEFAULT_MAX_ITERATIONS` | Maximum iterations. |
+| `c1` | `float` | `PSO_COGNITIVE_COEFFICIENT` | Cognitive coefficient controlling attraction to personal
+        best. |
+| `c2` | `float` | `PSO_SOCIAL_COEFFICIENT` | Social coefficient controlling attraction to global best. |
+| `w` | `float` | `PSO_INERTIA_WEIGHT` | Inertia weight controlling previous velocity influence. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `track_history` | `bool` | `False` | Enable convergence history tracking for BBOB
+        post-processing. |
+| `target_precision` | `float` | `1e-08` | Algorithm-specific parameter |
+| `f_opt` | `float  \|  None` | `None` | Algorithm-specific parameter |
 
 ## See Also
 

@@ -52,17 +52,17 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `dim` | `int` | Required | The dimensionality of the problem. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `cats` | `int` | `50` | The number of cats in the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `seeking_memory_pool` | `int` | `5` | The size of the seeking memory pool. |
-| `counts_of_dimension_to_change` | `int  \|  None` | `None` | The number of dimensions to change during seeking mode. |
-| `smp_change_probability` | `float` | `0.1` | The probability of changing dimensions during seeking mode. |
-| `spc_probability` | `float` | `0.2` | The probability of performing tracing mode. |
-| `seed` | `int  \|  None` | `None` | The seed value for random number generation. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `cats` | `int` | `50` | Number of cats in population. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `seeking_memory_pool` | `int` | `5` | Memory pool size for seeking mode. |
+| `counts_of_dimension_to_change` | `int  \|  None` | `None` | Dimensions to change. |
+| `smp_change_probability` | `float` | `0.1` | SMP change probability. |
+| `spc_probability` | `float` | `0.2` | SPC probability. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 
