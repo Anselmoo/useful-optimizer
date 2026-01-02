@@ -130,7 +130,9 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
     Example:
         Basic usage with BBOB benchmark function:
 
-        >>> from opt.evolutionary.imperialist_competitive_algorithm import ImperialistCompetitiveAlgorithm
+        >>> from opt.evolutionary.imperialist_competitive_algorithm import (
+        ...     ImperialistCompetitiveAlgorithm,
+        ... )
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = ImperialistCompetitiveAlgorithm(
         ...     func=shifted_ackley,
@@ -138,7 +140,7 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
         ...     upper_bound=32.768,
         ...     dim=2,
         ...     max_iter=50,
-        ...     seed=42
+        ...     seed=42,
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)

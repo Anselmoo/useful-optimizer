@@ -105,11 +105,7 @@ class OspreyOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.osprey_optimizer import OspreyOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = OspreyOptimizer(
-        ...     func=shifted_ackley,
-        ...     lower_bound=-32.768,
-        ...     upper_bound=32.768,
-        ...     dim=2,
-        ...     max_iter=50
+        ...     func=shifted_ackley, lower_bound=-32.768, upper_bound=32.768, dim=2, max_iter=50
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)

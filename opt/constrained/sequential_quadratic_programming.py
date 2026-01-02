@@ -118,7 +118,9 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
     Example:
         Basic usage with BBOB benchmark function:
 
-        >>> from opt.constrained.sequential_quadratic_programming import SequentialQuadraticProgramming
+        >>> from opt.constrained.sequential_quadratic_programming import (
+        ...     SequentialQuadraticProgramming,
+        ... )
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = SequentialQuadraticProgramming(
         ...     func=shifted_ackley,
@@ -126,7 +128,7 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
         ...     upper_bound=32.768,
         ...     dim=2,
         ...     max_iter=50,
-        ...     seed=42
+        ...     seed=42,
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)

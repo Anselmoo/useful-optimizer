@@ -124,7 +124,7 @@ class TestDocstringParser:
                 schema = parser.parse_file(sa_path)
                 # If it succeeds, verify we got a valid schema
                 assert schema is not None
-                assert hasattr(schema, 'algorithm_metadata')
+                assert hasattr(schema, "algorithm_metadata")
             except (ValidationError, ValueError):
                 # If it fails, that's also acceptable - some files may not be compliant yet
                 pass

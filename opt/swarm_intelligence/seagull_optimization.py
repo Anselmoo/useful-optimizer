@@ -93,11 +93,7 @@ class SeagullOptimizationAlgorithm(AbstractOptimizer):
         >>> from opt.swarm_intelligence.seagull_optimization import SeagullOptimizationAlgorithm
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = SeagullOptimizationAlgorithm(
-        ...     func=shifted_ackley,
-        ...     lower_bound=-32.768,
-        ...     upper_bound=32.768,
-        ...     dim=2,
-        ...     max_iter=50
+        ...     func=shifted_ackley, lower_bound=-32.768, upper_bound=32.768, dim=2, max_iter=50
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)

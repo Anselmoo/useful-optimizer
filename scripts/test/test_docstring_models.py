@@ -10,8 +10,8 @@ from scripts.docstring_models import AlgorithmClass
 from scripts.docstring_models import AlgorithmMetadata
 from scripts.docstring_models import Args
 from scripts.docstring_models import Attributes
-from scripts.docstring_models import COCOBBOBSettings
 from scripts.docstring_models import COCOBBOBOptimizerDocstringSchema
+from scripts.docstring_models import COCOBBOBSettings
 from scripts.docstring_models import Example
 from scripts.docstring_models import Notes
 from scripts.docstring_models import Parameter

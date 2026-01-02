@@ -94,7 +94,9 @@ class ArtificialGorillaTroopsOptimizer(AbstractOptimizer):
     Example:
         Basic usage with BBOB benchmark function:
 
-        >>> from opt.swarm_intelligence.artificial_gorilla_troops import ArtificialGorillaTroopsOptimizer
+        >>> from opt.swarm_intelligence.artificial_gorilla_troops import (
+        ...     ArtificialGorillaTroopsOptimizer,
+        ... )
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = ArtificialGorillaTroopsOptimizer(
         ...     func=shifted_ackley,
@@ -102,7 +104,7 @@ class ArtificialGorillaTroopsOptimizer(AbstractOptimizer):
         ...     upper_bound=32.768,
         ...     dim=2,
         ...     max_iter=50,
-        ...     seed=42
+        ...     seed=42,
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)

@@ -149,11 +149,7 @@ class StochasticDiffusionSearch(AbstractOptimizer):
         >>> from opt.metaheuristic.stochastic_diffusion_search import StochasticDiffusionSearch
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = StochasticDiffusionSearch(
-        ...     func=shifted_ackley,
-        ...     lower_bound=-32.768,
-        ...     upper_bound=32.768,
-        ...     dim=2,
-        ...     max_iter=50
+        ...     func=shifted_ackley, lower_bound=-32.768, upper_bound=32.768, dim=2, max_iter=50
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)

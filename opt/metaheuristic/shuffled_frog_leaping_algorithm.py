@@ -122,7 +122,9 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
     Example:
         Basic usage with BBOB benchmark function:
 
-        >>> from opt.metaheuristic.shuffled_frog_leaping_algorithm import ShuffledFrogLeapingAlgorithm
+        >>> from opt.metaheuristic.shuffled_frog_leaping_algorithm import (
+        ...     ShuffledFrogLeapingAlgorithm,
+        ... )
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = ShuffledFrogLeapingAlgorithm(
         ...     func=shifted_ackley,
@@ -130,7 +132,7 @@ class ShuffledFrogLeapingAlgorithm(AbstractOptimizer):
         ...     upper_bound=32.768,
         ...     dim=2,
         ...     max_iter=50,
-        ...     seed=42
+        ...     seed=42,
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)

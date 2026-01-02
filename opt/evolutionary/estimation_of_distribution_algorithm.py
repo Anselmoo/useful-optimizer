@@ -123,14 +123,12 @@ class EstimationOfDistributionAlgorithm(AbstractOptimizer):
     Example:
         Basic usage with BBOB benchmark function:
 
-        >>> from opt.evolutionary.estimation_of_distribution_algorithm import EstimationOfDistributionAlgorithm
+        >>> from opt.evolutionary.estimation_of_distribution_algorithm import (
+        ...     EstimationOfDistributionAlgorithm,
+        ... )
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = EstimationOfDistributionAlgorithm(
-        ...     func=shifted_ackley,
-        ...     lower_bound=-32.768,
-        ...     upper_bound=32.768,
-        ...     dim=2,
-        ...     max_iter=50
+        ...     func=shifted_ackley, lower_bound=-32.768, upper_bound=32.768, dim=2, max_iter=50
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)

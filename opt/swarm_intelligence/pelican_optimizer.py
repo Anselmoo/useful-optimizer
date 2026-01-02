@@ -104,11 +104,7 @@ class PelicanOptimizer(AbstractOptimizer):
         >>> from opt.swarm_intelligence.pelican_optimizer import PelicanOptimizer
         >>> from opt.benchmark.functions import shifted_ackley
         >>> optimizer = PelicanOptimizer(
-        ...     func=shifted_ackley,
-        ...     lower_bound=-32.768,
-        ...     upper_bound=32.768,
-        ...     dim=2,
-        ...     max_iter=50
+        ...     func=shifted_ackley, lower_bound=-32.768, upper_bound=32.768, dim=2, max_iter=50
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)

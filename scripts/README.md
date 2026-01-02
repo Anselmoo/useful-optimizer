@@ -135,7 +135,7 @@ To add new fields or modify the schema:
      --output scripts/docstring_models.py \
      --output-model-type pydantic_v2.BaseModel
    ```
-   
+
    **Note**: Current models were manually created for better control. Consider manual updates for small changes.
 
 3. **Update DocstringParser** if needed:
@@ -157,10 +157,10 @@ To add new fields or modify the schema:
    Draft7Validator.check_schema(schema)
    print('✓ Schema is valid')
    "
-   
+
    # Test updated models
    uv run pytest scripts/test/ -v
-   
+
    # Test on real files
    uv run python scripts/unified_validator.py opt/classical/simulated_annealing.py -v
    ```

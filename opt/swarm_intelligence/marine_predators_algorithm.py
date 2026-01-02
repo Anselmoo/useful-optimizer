@@ -148,7 +148,7 @@ class MarinePredatorsOptimizer(AbstractOptimizer):
         ...     upper_bound=32.768,
         ...     dim=2,
         ...     max_iter=50,
-        ...     seed=42
+        ...     seed=42,
         ... )
         >>> solution, fitness = optimizer.search()
         >>> isinstance(fitness, float)
