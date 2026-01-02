@@ -142,7 +142,8 @@ export default defineConfig({
             { text: 'Overview', link: '/benchmarks/' },
             { text: 'Methodology', link: '/benchmarks/methodology' },
             { text: 'Results', link: '/benchmarks/results' },
-            { text: 'Benchmark Functions', link: '/benchmarks/functions' }
+            { text: 'Benchmark Functions', link: '/benchmarks/functions' },
+            { text: 'Visualization Architecture', link: '/benchmarks/visualization' }
           ]
         }
       ]
@@ -177,6 +178,9 @@ export default defineConfig({
   vite: {
     ssr: {
       noExternal: ['echarts', 'vue-echarts', 'zrender']
+    },
+    optimizeDeps: {
+      include: ['echarts', 'vue-echarts']
     }
   }
 })
