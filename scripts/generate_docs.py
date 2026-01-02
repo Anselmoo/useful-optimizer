@@ -1095,11 +1095,11 @@ def main(args: Sequence[str] | None = None) -> None:
         for category in CATEGORY_INFO:
             category_dir = opt_dir / category
             if category_dir.exists():
-                generate_griffe_json(category, parsed.output_dir, parsed.verbose)
+                generate_griffe_json(category, parsed.output_dir, verbose=parsed.verbose)
 
     if parsed.full_api and not parsed.dry_run:
         print("\nGenerating full API JSON...")
-        generate_full_api_json(parsed.output_dir, parsed.verbose)
+        generate_full_api_json(parsed.output_dir, verbose=parsed.verbose)
 
     print(f"\nDone! Generated: {generated}, Skipped: {skipped}")
 
