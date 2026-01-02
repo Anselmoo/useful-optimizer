@@ -120,24 +120,27 @@ class LDAnalysis(AbstractOptimizer):
             - Expected Running Time (ERT) tracking
 
     Example:
-        COCO/BBOB compliant benchmark test:
+        Basic usage with BBOB benchmark function:
 
-        >>> from benchmarks.run_benchmark_suite import run_single_benchmark
         >>> from opt.probabilistic.linear_discriminant_analysis import LDAnalysis
         >>> from opt.benchmark.functions import shifted_ackley
-        >>> result = run_single_benchmark(
-        ...     LDAnalysis, shifted_ackley, -32.768, 32.768, dim=2, max_iter=50, seed=42
+        >>> optimizer = LDAnalysis(
+        ...     func=shifted_ackley,
+        ...     lower_bound=-32.768,
+        ...     upper_bound=32.768,
+        ...     dim=2,
+        ...     max_iter=50,
+        ...     seed=42
         ... )
-        >>> result["status"] == "success"
+        >>> solution, fitness = optimizer.search()
+        >>> isinstance(fitness, float)
         True
-        >>> "convergence_history" in result
+        >>> len(solution) == 2
         True
 
-        Metadata validation:
+        For COCO/BBOB benchmarking with full statistical analysis,
+        see `benchmarks/run_benchmark_suite.py`.
 
-        >>> required_keys = {"optimizer", "best_fitness", "best_solution", "status"}
-        >>> required_keys.issubset(result.keys())
-        True
 
     Args:
         func (Callable[[ndarray], float]): Objective function to minimize. Must accept

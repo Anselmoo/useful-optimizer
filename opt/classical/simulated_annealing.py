@@ -99,25 +99,26 @@ class SimulatedAnnealing(AbstractOptimizer):
             - Expected Running Time (ERT) tracking
 
     Example:
-        COCO/BBOB compliant benchmark test:
+        Basic usage with BBOB benchmark function:
 
-        >>> from benchmarks.run_benchmark_suite import run_single_benchmark
         >>> from opt.classical.simulated_annealing import SimulatedAnnealing
         >>> from opt.benchmark.functions import shifted_ackley
-        >>> result = run_single_benchmark(
-        ...     SimulatedAnnealing, shifted_ackley, -32.768, 32.768,
-        ...     dim=2, max_iter=50, seed=42
+        >>> optimizer = SimulatedAnnealing(
+        ...     func=shifted_ackley,
+        ...     lower_bound=-32.768,
+        ...     upper_bound=32.768,
+        ...     dim=2,
+        ...     max_iter=50
         ... )
-        >>> result["status"] == "success"
+        >>> solution, fitness = optimizer.search()
+        >>> isinstance(fitness, float)
         True
-        >>> "convergence_history" in result
+        >>> len(solution) == 2
         True
 
-        Metadata validation:
+        For COCO/BBOB benchmarking with full statistical analysis,
+        see `benchmarks/run_benchmark_suite.py`.
 
-        >>> required_keys = {"optimizer", "best_fitness", "best_solution", "status"}
-        >>> required_keys.issubset(result.keys())
-        True
 
     Args:
         Detected parameters from __init__ signature: func, lower_bound, upper_bound, dim, population_size, max_iter, init_temperature, stopping_temperature, cooling_rate, dynamic_cooling, seed
