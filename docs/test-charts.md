@@ -1,68 +1,96 @@
 # Chart Components Test
 
-This page demonstrates the ECharts and TresJS visualization components.
+This page demonstrates the ECharts and TresJS visualization components using real benchmark JSON data.
+
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
+import {
+  buildConvergenceSeries,
+  buildECDFSeries,
+  buildViolinSeries,
+  fetchBenchmarkData
+} from './.vitepress/theme/utils/benchmarkTransforms'
+import type { BenchmarkDataSchema } from './.vitepress/theme/types/benchmark'
+
+const datasetPath = '/benchmarks/demo-benchmark-data.json'
+const funcName = 'shifted_ackley'
+const dimension = 2
+const ecdfTargets = [1e-1, 1e-3, 1e-5, 1e-7]
+
+const dataset = ref<BenchmarkDataSchema | null>(null)
+const loading = ref(true)
+const error = ref<string | null>(null)
+
+onMounted(async () => {
+  try {
+    dataset.value = await fetchBenchmarkData(datasetPath)
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Failed to load benchmark data'
+  } finally {
+    loading.value = false
+  }
+})
+
+const optimizers = computed(() => {
+  const slice = dataset.value?.benchmarks?.[funcName]?.[String(dimension)]
+  return slice ? Object.keys(slice) : []
+})
+
+const convergenceData = computed(() =>
+  buildConvergenceSeries(dataset.value, funcName, dimension, optimizers.value)
+)
+
+const violinData = computed(() =>
+  buildViolinSeries(dataset.value, funcName, dimension, optimizers.value)
+)
+
+const ecdfData = computed(() =>
+  buildECDFSeries(dataset.value, funcName, dimension, ecdfTargets, optimizers.value)
+)
+
+const ready = computed(
+  () => !loading.value && !error.value && convergenceData.value.length > 0
+)
+</script>
 
 ## 2D Charts
 
-### ECDF Chart
+<div v-if="error" class="warning">
+  {{ error }}
+</div>
+<div v-else-if="loading">
+  Loading benchmark data from {{ datasetPath }}...
+</div>
+<div v-else-if="!ready">
+  Benchmark data loaded, but no runs were found for {{ funcName }} ({{ dimension }}D).
+</div>
+<div v-else>
+  <h3>ECDF Chart</h3>
+  <ClientOnly>
+    <ECDFChart
+      :data="ecdfData"
+      title="ECDF: Algorithm Comparison"
+      :logXAxis="false"
+      :targetPrecisions="ecdfTargets"
+    />
+  </ClientOnly>
 
-<ClientOnly>
-<ECDFChart
-  :data="[
-    {
-      algorithm: 'PSO',
-      budget: [1, 10, 100, 1000, 10000],
-      proportion: [0.1, 0.3, 0.6, 0.8, 0.95]
-    },
-    {
-      algorithm: 'DE',
-      budget: [1, 10, 100, 1000, 10000],
-      proportion: [0.05, 0.2, 0.5, 0.75, 0.9]
-    }
-  ]"
-  title="ECDF: Algorithm Comparison"
-/>
-</ClientOnly>
+  <h3>Convergence Chart</h3>
+  <ClientOnly>
+    <ConvergenceChart
+      :data="convergenceData"
+      title="Convergence Comparison"
+    />
+  </ClientOnly>
 
-### Convergence Chart
-
-<ClientOnly>
-<ConvergenceChart
-  :data="[
-    {
-      algorithm: 'PSO',
-      iterations: [0, 10, 20, 30, 40, 50],
-      mean: [100, 50, 25, 12.5, 6.25, 3.125],
-      std: [10, 8, 6, 4, 2, 1]
-    },
-    {
-      algorithm: 'DE',
-      iterations: [0, 10, 20, 30, 40, 50],
-      mean: [100, 45, 20, 9, 4, 2],
-      std: [12, 9, 7, 5, 3, 1.5]
-    }
-  ]"
-  title="Convergence Comparison"
-/>
-</ClientOnly>
-
-### Violin Plot
-
-<ClientOnly>
-<ViolinPlot
-  :data="[
-    {
-      algorithm: 'PSO',
-      values: [1.5, 2.3, 1.8, 2.1, 1.9, 2.0, 1.7, 2.2, 1.6, 2.4]
-    },
-    {
-      algorithm: 'DE',
-      values: [2.1, 2.8, 2.3, 2.6, 2.4, 2.5, 2.2, 2.7, 2.0, 2.9]
-    }
-  ]"
-  title="Final Fitness Distribution"
-/>
-</ClientOnly>
+  <h3>Violin Plot</h3>
+  <ClientOnly>
+    <ViolinPlot
+      :data="violinData"
+      title="Final Fitness Distribution"
+    />
+  </ClientOnly>
+</div>
 
 ## 3D Visualization
 
@@ -77,7 +105,3 @@ This page demonstrates the ECharts and TresJS visualization components.
   colorScale="viridis"
 />
 </ClientOnly>
-
-<script setup>
-// Components are auto-registered in theme
-</script>
