@@ -1,50 +1,54 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-
-export interface Parameter {
-  name: string
-  annotation: string
-  description: string
-  default?: string
-}
-
-export interface Method {
-  name: string
-  docstring: string
-  parameters: Parameter[]
-  returns: string
-}
-
-export interface ClassDoc {
-  name: string
-  docstring: string
-  bases: string[]
-  parameters: Parameter[]
-  methods: Method[]
-  attributes: Array<{ name: string; annotation: string; description: string }>
-  example?: string
-}
+import { useData } from 'vitepress'
+import { data as apiData } from '../../loaders/api.data'
+import type { APIClassDoc } from '../../loaders/api.data'
+import type { DocstringSection } from '../../types/griffe'
 
 const props = defineProps<{
-  classDoc: ClassDoc
+  classDoc?: APIClassDoc
+  category?: string
+  optimizer?: string
 }>()
 
-const hasParameters = computed(() => props.classDoc.parameters && props.classDoc.parameters.length > 0)
-const hasMethods = computed(() => props.classDoc.methods && props.classDoc.methods.length > 0)
-const hasAttributes = computed(() => props.classDoc.attributes && props.classDoc.attributes.length > 0)
-const hasExample = computed(() => props.classDoc.example && props.classDoc.example.length > 0)
+const { page } = useData()
 
-// Extract short description (first paragraph)
-const shortDescription = computed(() => {
-  const docstring = props.classDoc.docstring || ''
-  const firstParagraph = docstring.split('\n\n')[0]
-  return firstParagraph.trim()
+const normalizeCategory = (value?: string) => (value ? value.replace(/-/g, '_') : '')
+
+const resolvedClass = computed<APIClassDoc | undefined>(() => {
+  if (props.classDoc) return props.classDoc
+
+  const params = page.value?.params || {}
+  const category = normalizeCategory(props.category || params.category || params.module)
+  const optimizerName = props.optimizer || params.optimizer || params.name
+
+  if (!category || !optimizerName) return undefined
+  const candidates = apiData.categories?.[category] || []
+  return candidates.find((entry) => entry.name === optimizerName)
 })
 
-// Extract long description (remaining paragraphs)
+const docstringText = computed(() => {
+  const sections = resolvedClass.value?.docstring?.parsed || []
+  return sections
+    .map((section) => (typeof section.value === 'string' ? section.value : ''))
+    .filter(Boolean)
+    .join('\n\n')
+})
+
+const firstTextSection = (sections: DocstringSection[] = []) => {
+  const section = sections.find((entry) => entry.kind !== 'parameters')
+  return section && typeof section.value === 'string' ? section.value : ''
+}
+
+const hasParameters = computed(() => (resolvedClass.value?.parameters?.length || 0) > 0)
+const hasMethods = computed(() => (resolvedClass.value?.methods?.length || 0) > 0)
+const hasAttributes = computed(() => (resolvedClass.value?.attributes?.length || 0) > 0)
+const hasExample = computed(() => resolvedClass.value?.example && resolvedClass.value.example.length > 0)
+
+const shortDescription = computed(() => docstringText.value.split('\n\n')[0]?.trim() || '')
+
 const longDescription = computed(() => {
-  const docstring = props.classDoc.docstring || ''
-  const paragraphs = docstring.split('\n\n')
+  const paragraphs = docstringText.value.split('\n\n')
   if (paragraphs.length > 1) {
     return paragraphs.slice(1).join('\n\n').trim()
   }
@@ -53,12 +57,12 @@ const longDescription = computed(() => {
 </script>
 
 <template>
-  <div class="api-doc">
+  <div v-if="resolvedClass" class="api-doc">
     <div class="api-header">
-      <h2 class="api-title">{{ classDoc.name }}</h2>
-      <div v-if="classDoc.bases && classDoc.bases.length > 0" class="api-bases">
+      <h2 class="api-title">{{ resolvedClass.name }}</h2>
+      <div v-if="resolvedClass.bases && resolvedClass.bases.length > 0" class="api-bases">
         <span class="base-label">Extends:</span>
-        <code class="base-class" v-for="base in classDoc.bases" :key="base">{{ base }}</code>
+        <code class="base-class" v-for="base in resolvedClass.bases" :key="base">{{ base }}</code>
       </div>
     </div>
 
@@ -83,7 +87,7 @@ const longDescription = computed(() => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="param in classDoc.parameters" :key="param.name">
+            <tr v-for="param in resolvedClass.parameters" :key="param.name">
               <td><code>{{ param.name }}</code></td>
               <td><code class="type-annotation">{{ param.annotation }}</code></td>
               <td>
@@ -100,12 +104,14 @@ const longDescription = computed(() => {
     <div v-if="hasAttributes" class="api-section">
       <h3>Attributes</h3>
       <div class="attributes-list">
-        <div v-for="attr in classDoc.attributes" :key="attr.name" class="attribute-item">
+        <div v-for="attr in resolvedClass.attributes" :key="attr.name" class="attribute-item">
           <div class="attribute-signature">
             <code class="attribute-name">{{ attr.name }}</code>
             <span class="attribute-type">: <code>{{ attr.annotation }}</code></span>
           </div>
-          <p class="attribute-description">{{ attr.description }}</p>
+          <p class="attribute-description">
+            {{ firstTextSection(attr.docstring?.parsed) }}
+          </p>
         </div>
       </div>
     </div>
@@ -113,7 +119,7 @@ const longDescription = computed(() => {
     <div v-if="hasMethods" class="api-section">
       <h3>Methods</h3>
       <div class="methods-list">
-        <div v-for="method in classDoc.methods" :key="method.name" class="method-item">
+        <div v-for="method in resolvedClass.methods" :key="method.name" class="method-item">
           <div class="method-signature">
             <code class="method-name">{{ method.name }}</code>
             <span class="method-params">(
@@ -125,7 +131,9 @@ const longDescription = computed(() => {
             )</span>
             <span class="method-returns"> → <code>{{ method.returns }}</code></span>
           </div>
-          <p class="method-description">{{ method.docstring }}</p>
+          <p class="method-description">
+            {{ firstTextSection(method.docstring?.parsed) }}
+          </p>
         </div>
       </div>
     </div>
@@ -133,9 +141,12 @@ const longDescription = computed(() => {
     <div v-if="hasExample" class="api-section">
       <h3>Example</h3>
       <div class="example-code">
-        <pre><code class="language-python">{{ classDoc.example }}</code></pre>
+        <pre><code class="language-python">{{ resolvedClass.example }}</code></pre>
       </div>
     </div>
+  </div>
+  <div v-else class="api-doc">
+    <p>API documentation for this optimizer is not available.</p>
   </div>
 </template>
 
