@@ -54,3 +54,8 @@ If the API documentation renders above:
 2. ✅ TypeScript types match the structure
 3. ✅ APIDoc component is properly integrated
 4. Ready to apply to actual algorithm pages
+
+## See Also
+
+- [Usage Guide](/api-test/USAGE_GUIDE) - How to use this in your algorithm pages
+- [Root Level Test](/api-data-test) - Simple data loading test
