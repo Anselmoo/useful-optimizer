@@ -43,18 +43,20 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `objectives` | `Sequence[Callable]` | Required | Algorithm-specific parameter |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `max_iter` | `int` | `200` | Maximum number of iterations |
-| `seed` | `int  \|  None` | `None` | Random seed for reproducibility |
-| `population_size` | `int` | `100` | Number of individuals in population |
-| `crossover_prob` | `float` | `_CROSSOVER_PROBABILITY` | Algorithm-specific parameter |
-| `mutation_prob` | `float  \|  None` | `None` | Algorithm-specific parameter |
-| `tournament_size` | `int` | `_TOURNAMENT_SIZE` | Algorithm-specific parameter |
-| `eta_c` | `float` | `_SBX_DISTRIBUTION_INDEX` | Algorithm-specific parameter |
-| `eta_m` | `float` | `_POLYNOMIAL_MUTATION_INDEX` | Algorithm-specific parameter |
+| `objectives` | `Sequence[Callable]` | Required | List of objective functions
+        to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `200` | Maximum number of generations. |
+| `seed` | `int  \|  None` | `None` | **REQUIRED for BBOB compliance. |
+| `population_size` | `int` | `100` | Number of individuals in population. |
+| `crossover_prob` | `float` | `_CROSSOVER_PROBABILITY` | SBX crossover probability. |
+| `mutation_prob` | `float  \|  None` | `None` | Polynomial mutation probability per
+        dimension. |
+| `tournament_size` | `int` | `_TOURNAMENT_SIZE` | Binary tournament selection size. |
+| `eta_c` | `float` | `_SBX_DISTRIBUTION_INDEX` | SBX distribution index. |
+| `eta_m` | `float` | `_POLYNOMIAL_MUTATION_INDEX` | Polynomial mutation distribution index. |
 
 ## See Also
 

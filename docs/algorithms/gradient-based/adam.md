@@ -42,16 +42,16 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be optimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `alpha` | `float` | `0.001` | The learning rate. |
-| `beta1` | `float` | `0.9` | The exponential decay rate for the first moment estimates. |
-| `beta2` | `float` | `0.999` | The exponential decay rate for the second moment estimates. |
-| `epsilon` | `float` | `1e-13` | A small value added to the denominator for numerical stability. |
-| `seed` | `int  \|  None` | `None` | The random seed for reproducibility. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `alpha` | `float` | `0.001` | Learning rate (step size). |
+| `beta1` | `float` | `0.9` | Exponential decay rate for first moment estimates (mean of gradients). |
+| `beta2` | `float` | `0.999` | Exponential decay rate for second moment estimates (uncentered variance). |
+| `epsilon` | `float` | `1e-13` | Small constant for numerical stability in division operations. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

@@ -39,14 +39,17 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `constraints` | `list[Callable]  \|  None` | `None` | Algorithm-specific parameter |
-| `eq_constraints` | `list[Callable]  \|  None` | `None` | Algorithm-specific parameter |
-| `max_iter` | `int` | `100` | Maximum number of iterations |
-| `tol` | `float` | `1e-06` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `constraints` | `list[Callable]  \|  None` | `None` | List of
+        inequality constraints in form $g(x) \leq 0$. |
+| `eq_constraints` | `list[Callable]  \|  None` | `None` | List of
+        equality constraints in form $h(x) = 0$. |
+| `max_iter` | `int` | `100` | Maximum SQP iterations. |
+| `tol` | `float` | `1e-06` | Convergence tolerance. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

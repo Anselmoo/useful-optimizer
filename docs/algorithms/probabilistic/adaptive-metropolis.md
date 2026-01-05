@@ -41,14 +41,14 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `max_iter` | `int` | `1000` | Maximum number of iterations |
-| `initial_temp` | `float` | `10.0` | Algorithm-specific parameter |
-| `final_temp` | `float` | `0.01` | Algorithm-specific parameter |
-| `adaptation_start` | `int` | `100` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum MCMC iterations. |
+| `initial_temp` | `float` | `10.0` | Starting temperature for annealing schedule. |
+| `final_temp` | `float` | `0.01` | Final temperature for annealing schedule. |
+| `adaptation_start` | `int` | `100` | Iteration to start covariance adaptation. |
 
 ## See Also
 

@@ -39,14 +39,15 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `max_iter` | `int` | Required | Maximum number of iterations |
-| `population_size` | `int` | `30` | Number of individuals in population |
-| `lp1` | `float` | `_LP1` | Algorithm-specific parameter |
-| `lp2` | `float` | `_LP2` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | Required | Maximum iterations. |
+| `population_size` | `int` | `30` | Population size. |
+| `lp1` | `float` | `_LP1` | Learning parameter 1 controlling exploitation strength. |
+| `lp2` | `float` | `_LP2` | Learning parameter 2 controlling exploration strength. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

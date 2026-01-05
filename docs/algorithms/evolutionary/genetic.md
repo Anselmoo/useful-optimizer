@@ -52,15 +52,17 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `population_size` | `int` | `150` | Number of individuals in population |
-| `max_iter` | `int` | `1000` | Maximum number of iterations |
-| `tournament_size` | `int` | `3` | Algorithm-specific parameter |
-| `crossover_rate` | `float` | `0.7` | Probability of crossover |
-| `seed` | `int  \|  None` | `None` | Random seed for reproducibility |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `150` | Number of individuals. |
+| `max_iter` | `int` | `1000` | Maximum iterations/generations. |
+| `tournament_size` | `int` | `3` | Number of individuals in tournament selection. |
+| `crossover_rate` | `float` | `0.7` | Probability of inheriting from first parent in crossover. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `target_precision` | `float` | `1e-08` | Algorithm-specific parameter |
+| `f_opt` | `float  \|  None` | `None` | Algorithm-specific parameter |
 
 ## See Also
 

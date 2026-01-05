@@ -42,18 +42,21 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `population_size` | `int` | `30` | Number of individuals in population |
-| `max_iter` | `int` | `100` | Maximum number of iterations |
-| `c` | `float` | `0.2` | Algorithm-specific parameter |
-| `track_convergence` | `bool` | `False` | Track convergence history |
-| `early_stopping` | `bool` | `False` | Algorithm-specific parameter |
-| `tolerance` | `float` | `1e-06` | Algorithm-specific parameter |
-| `patience` | `int` | `10` | Algorithm-specific parameter |
-| `verbose` | `bool` | `False` | Algorithm-specific parameter |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `30` | Number of individuals in social group. |
+| `max_iter` | `int` | `100` | Maximum iterations. |
+| `c` | `float` | `0.2` | Self-introspection coefficient controlling exploration
+        intensity. |
+| `track_convergence` | `bool` | `False` | Enable convergence history tracking. |
+| `early_stopping` | `bool` | `False` | Enable early stopping when improvement
+        stagnates. |
+| `tolerance` | `float` | `1e-06` | Minimum improvement threshold for early stopping. |
+| `patience` | `int` | `10` | Iterations without improvement before early stopping. |
+| `verbose` | `bool` | `False` | Print optimization progress. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

@@ -54,15 +54,16 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | Objective function to minimize |
-| `lower_bound` | `float` | Required | Lower bound of search space |
-| `upper_bound` | `float` | Required | Upper bound of search space |
-| `dim` | `int` | Required | Problem dimensionality |
-| `max_iter` | `int` | `1000` | Maximum number of iterations |
-| `c` | `float` | `1` | Algorithm-specific parameter |
-| `lambda_` | `float` | `0.1` | Algorithm-specific parameter |
-| `static_cost` | `float` | `10000000000.0` | Algorithm-specific parameter |
-| `seed` | `int  \|  None` | `None` | Random seed for reproducibility |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum outer iterations. |
+| `c` | `float` | `1` | Initial penalty parameter for constraint violations. |
+| `lambda_` | `float` | `0.1` | Initial Lagrange multiplier. |
+| `static_cost` | `float` | `10000000000.0` | Large penalty cost applied when constraint
+        evaluation yields NaN. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

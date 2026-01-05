@@ -50,15 +50,15 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `population_size` | `int` | `100` | The number of solutions in each generation. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `sigma_init` | `float` | `0.5` | The initial step size. |
-| `epsilon` | `float` | `1e-09` | A small value to prevent the step size from becoming too small. |
-| `seed` | `int  \|  None` | `None` | The random seed. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `population_size` | `int` | `100` | Number of offspring per generation (λ). |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `sigma_init` | `float` | `0.5` | Initial global step-size controlling search spread. |
+| `epsilon` | `float` | `1e-09` | Minimum step-size threshold to prevent numerical instability. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

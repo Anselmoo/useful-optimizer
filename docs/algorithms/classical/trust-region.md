@@ -46,14 +46,14 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be optimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `max_iter` | `int` | `1000` | Maximum iterations per restart. |
 | `num_restarts` | `int` | `10` | Number of random restarts. |
-| `method` | `str` | `'trust-constr'` | Trust region method to use. |
-| `seed` | `int  \|  None` | `None` | The seed value for random number generation. |
+| `method` | `str` | `'trust-constr'` | Trust region variant ('trust-constr', 'trust-exact', 'trust-krylov'). |
+| `seed` | `int  \|  None` | `None` | Random seed for BBOB reproducibility. |
 
 ## See Also
 

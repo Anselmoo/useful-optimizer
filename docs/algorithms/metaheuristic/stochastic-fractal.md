@@ -39,14 +39,14 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `population_size` | `int` | `100` | The size of the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `diffusion_parameter` | `float` | `0.5` | The diffusion parameter. |
-| `seed` | `int  \|  None` | `None` | The seed for the random number generator. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Number of search particles. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `diffusion_parameter` | `float` | `0.5` | Step size for Gaussian diffusion. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## See Also
 

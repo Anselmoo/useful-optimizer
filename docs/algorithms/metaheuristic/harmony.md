@@ -39,16 +39,20 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `func` | `Callable` | Required | The objective function to be minimized. |
-| `lower_bound` | `float` | Required | The lower bound of the search space. |
-| `upper_bound` | `float` | Required | The upper bound of the search space. |
-| `dim` | `int` | Required | The dimensionality of the search space. |
-| `population_size` | `int` | `100` | The size of the population. |
-| `max_iter` | `int` | `1000` | The maximum number of iterations. |
-| `harmony_memory_accepting_rate` | `float` | `0.95` | The rate at which the harmony memory is accepted. |
-| `pitch_adjusting_rate` | `float` | `0.7` | The rate at which the pitch is adjusted. |
-| `bandwidth` | `float` | `0.01` | The bandwidth for adjusting the pitch. |
-| `seed` | `int  \|  None` | `None` | The seed for the random number generator. |
+| `func` | `Callable` | Required | Objective function to minimize. |
+| `lower_bound` | `float` | Required | Lower bound of search space. |
+| `upper_bound` | `float` | Required | Upper bound of search space. |
+| `dim` | `int` | Required | Problem dimensionality. |
+| `population_size` | `int` | `100` | Harmony memory size. |
+| `max_iter` | `int` | `1000` | Maximum iterations. |
+| `harmony_memory_accepting_rate` | `float` | `0.95` | Probability of selecting a value
+        from harmony memory (HMCR). |
+| `pitch_adjusting_rate` | `float` | `0.7` | Probability of adjusting a selected harmony
+        (PAR). |
+| `bandwidth` | `float` | `0.01` | Range for pitch adjustment. |
+| `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
+| `target_precision` | `float` | `1e-08` | Algorithm-specific parameter |
+| `f_opt` | `float  \|  None` | `None` | Algorithm-specific parameter |
 
 ## See Also
 
