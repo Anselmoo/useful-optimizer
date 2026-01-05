@@ -46,7 +46,7 @@ function transformGriffeOutput(data: any): Module {
   // Process each member in the module
   for (const [name, member] of Object.entries(data.members || {})) {
     const memberData = member as any
-    
+
     if (memberData.kind === 'class') {
       const classData: Class = {
         name: name,
@@ -148,7 +148,7 @@ export default defineLoader({
         const jsonPath = resolve(__dirname, `../../api/${category}.json`)
         const rawData = readFileSync(jsonPath, 'utf-8')
         const data = JSON.parse(rawData)
-        
+
         // The root key in Griffe output is the package name
         const packageData = data.opt?.[category] || data[`opt.${category}`] || {}
         modules[category] = transformGriffeOutput(packageData)

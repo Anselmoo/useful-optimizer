@@ -12,7 +12,7 @@ import sys
 from pathlib import Path
 
 
-def test_json_metadata() -> bool:
+def test_json_metadata() -> bool:  # noqa: PLR0911
     """Test that optimizers.json has correct structure."""
     json_path = Path("docs/public/optimizers/optimizers.json")
 
@@ -35,7 +35,9 @@ def test_json_metadata() -> bool:
 
     # Check optimizer count
     if data["total_count"] != len(data["optimizers"]):
-        print(f"❌ FAIL: total_count ({data['total_count']}) != actual count ({len(data['optimizers'])})")
+        print(
+            f"❌ FAIL: total_count ({data['total_count']}) != actual count ({len(data['optimizers'])})"
+        )
         return False
 
     # Check optimizer structure
@@ -44,7 +46,14 @@ def test_json_metadata() -> bool:
         return False
 
     first_opt = data["optimizers"][0]
-    required_opt_fields = ["name", "class_name", "category", "slug", "link", "parameters"]
+    required_opt_fields = [
+        "name",
+        "class_name",
+        "category",
+        "slug",
+        "link",
+        "parameters",
+    ]
     for field in required_opt_fields:
         if field not in first_opt:
             print(f"❌ FAIL: Missing field '{field}' in optimizer entry")
@@ -90,7 +99,9 @@ def test_griffe_json_files() -> bool:
         print(f"❌ FAIL: {full_api} not found")
         return False
 
-    print(f"✅ PASS: All Griffe JSON files present ({len(categories)} categories + full_api.json)")
+    print(
+        f"✅ PASS: All Griffe JSON files present ({len(categories)} categories + full_api.json)"
+    )
     return True
 
 

@@ -203,7 +203,7 @@ Add to GitHub Actions workflow:
 - name: Generate Documentation
   run: |
     uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
-    
+
 - name: Build VitePress
   run: |
     cd docs
