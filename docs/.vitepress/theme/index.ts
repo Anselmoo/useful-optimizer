@@ -60,6 +60,11 @@ export default {
       app.component('FitnessLandscape3D', defineAsyncComponent(() =>
         import('./components/FitnessLandscape3D.vue')
       ))
+
+      // Register APIDoc component for API documentation pages
+      app.component('APIDoc', defineAsyncComponent(() =>
+        import('./components/APIDoc.vue')
+      ))
     }
   }
 } satisfies Theme
