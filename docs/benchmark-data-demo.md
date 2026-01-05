@@ -3,37 +3,134 @@
 This page demonstrates the chart components using real benchmark data loaded from the data pipeline.
 
 <script setup>
-import { computed } from 'vue'
-import { useBenchmarkData } from '../.vitepress/utils/useBenchmarkData'
-import { 
-  toMultiConvergenceData, 
-  toMultiECDFData, 
-  toMultiViolinData 
-} from '../.vitepress/utils/benchmarkToECharts'
+import { computed, ref, onMounted } from 'vue'
 
-// Load benchmark data for shifted_ackley function, dimension 2
-const { 
-  data: benchmarkData, 
-  loading, 
-  error,
-  metadata,
-  availableOptimizers 
-} = useBenchmarkData('shifted_ackley', 2)
+// State
+const benchmarkData = ref(null)
+const loading = ref(true)
+const error = ref(null)
+const metadata = ref(null)
 
-// Transform data for charts
+// Load benchmark data on mount (client-side only)
+onMounted(async () => {
+  try {
+    const response = await fetch('/benchmarks/benchmark-results.json')
+    if (!response.ok) {
+      throw new Error('Failed to load benchmark data')
+    }
+    const data = await response.json()
+    
+    // Extract data for shifted_ackley, dimension 2
+    const funcData = data.benchmarks.shifted_ackley?.['2']
+    if (funcData) {
+      benchmarkData.value = funcData
+      metadata.value = data.metadata
+    } else {
+      throw new Error('No data found for shifted_ackley dimension 2')
+    }
+  } catch (e) {
+    error.value = e.message
+    console.error('Error loading benchmark data:', e)
+  } finally {
+    loading.value = false
+  }
+})
+
+const availableOptimizers = computed(() => {
+  if (!benchmarkData.value) return []
+  return Object.keys(benchmarkData.value)
+})
+
+// Transform data for ConvergenceChart
 const convergenceData = computed(() => {
   if (!benchmarkData.value) return []
-  return toMultiConvergenceData(benchmarkData.value)
+  
+  return Object.entries(benchmarkData.value).map(([name, bench]) => {
+    const runs = bench.runs.filter(run => run.history?.best_fitness)
+    if (runs.length === 0) return null
+    
+    const allHistories = runs.map(run => run.history.best_fitness)
+    const maxLength = Math.max(...allHistories.map(h => h.length))
+    
+    const iterations = []
+    const mean = []
+    const std = []
+    
+    for (let i = 0; i < maxLength; i++) {
+      const values = allHistories.filter(h => i < h.length).map(h => h[i])
+      if (values.length > 0) {
+        iterations.push(i)
+        const meanVal = values.reduce((a, b) => a + b, 0) / values.length
+        mean.push(meanVal)
+        
+        if (values.length > 1) {
+          const variance = values.map(v => Math.pow(v - meanVal, 2)).reduce((a, b) => a + b, 0) / values.length
+          std.push(Math.sqrt(variance))
+        } else {
+          std.push(0)
+        }
+      }
+    }
+    
+    return { algorithm: name, iterations, mean, std }
+  }).filter(Boolean)
 })
 
-const ecdfData = computed(() => {
-  if (!benchmarkData.value) return []
-  return toMultiECDFData(benchmarkData.value, [1e-1, 1e-3, 1e-5, 1e-7], 2)
-})
-
+// Transform data for ViolinPlot
 const violinData = computed(() => {
   if (!benchmarkData.value) return []
-  return toMultiViolinData(benchmarkData.value)
+  return Object.entries(benchmarkData.value).map(([name, bench]) => ({
+    algorithm: name,
+    values: bench.runs.map(run => run.best_fitness)
+  }))
+})
+
+// Transform data for ECDF
+const ecdfData = computed(() => {
+  if (!benchmarkData.value) return []
+  
+  const targetPrecisions = [1e-1, 1e-3, 1e-5, 1e-7]
+  const dimension = 2
+  
+  return Object.entries(benchmarkData.value).map(([name, bench]) => {
+    const runs = bench.runs.filter(run => run.history?.best_fitness)
+    if (runs.length === 0) return null
+    
+    const maxEvals = Math.max(...runs.map(r => r.n_evaluations))
+    const budgetPoints = Array.from({ length: 20 }, (_, i) => 
+      Math.pow(10, Math.log10(10) + (Math.log10(maxEvals / dimension) - Math.log10(10)) * i / 19)
+    )
+    
+    const budget = []
+    const proportion = []
+    
+    for (const budgetVal of budgetPoints) {
+      const absoluteBudget = budgetVal * dimension
+      let totalTargetsReached = 0
+      
+      for (const target of targetPrecisions) {
+        const runsReachingTarget = runs.filter(run => {
+          const history = run.history.best_fitness
+          const evaluationsPerIteration = run.n_evaluations / history.length
+          for (let i = 0; i < history.length; i++) {
+            const evals = (i + 1) * evaluationsPerIteration
+            if (evals <= absoluteBudget && history[i] <= target) {
+              return true
+            }
+          }
+          return false
+        })
+        if (runsReachingTarget.length > 0) {
+          totalTargetsReached++
+        }
+      }
+      
+      budget.push(budgetVal)
+      proportion.push(totalTargetsReached / targetPrecisions.length)
+    }
+    
+    return { algorithm: name, budget, proportion }
+  }).filter(Boolean)
 })
 
 // Summary statistics
