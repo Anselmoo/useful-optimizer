@@ -1,7 +1,14 @@
-export interface DocstringSection {
-  kind: 'text' | 'parameters' | 'returns' | 'examples'
-  value: string | Parameter[]
+export interface TextDocstringSection {
+  kind: 'text' | 'returns' | 'examples'
+  value: string
 }
+
+export interface ParametersDocstringSection {
+  kind: 'parameters'
+  value: Parameter[]
+}
+
+export type DocstringSection = TextDocstringSection | ParametersDocstringSection
 
 export interface Parameter {
   name: string
@@ -20,6 +27,6 @@ export interface GriffeMember {
 export interface GriffeClass {
   name: string
   docstring: { parsed: DocstringSection[] }
-  members: GriffeMember[]
+  members?: GriffeMember[]
   bases: string[]
 }

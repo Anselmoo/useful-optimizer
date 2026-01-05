@@ -1,14 +1,7 @@
 import fs from 'node:fs'
 import { basename, resolve } from 'node:path'
 import { defineLoader } from 'vitepress'
-import type { DocstringSection, GriffeClass, GriffeMember } from '../types/griffe'
-
-export interface Parameter {
-  name: string
-  annotation: string
-  description?: string
-  default?: string
-}
+import type { DocstringSection, GriffeClass, GriffeMember, Parameter } from '../types/griffe'
 
 export interface APIAttribute {
   name: string
@@ -132,7 +125,6 @@ const transformClass = (cls: any): APIClassDoc => {
   return {
     name: cls.name,
     docstring: normalizeDocstring(cls.docstring),
-    members: [],
     bases: (cls.bases || []).map((base: any) => renderType(base)).filter(Boolean),
     parameters,
     methods,
@@ -159,8 +151,8 @@ const transformGriffeToAPI = (data: any): APIClassDoc[] => {
 
 const loadAPIData = async (watchedFiles?: string[]): Promise<APIData> => {
   const filePaths =
-    watchedFiles?.length && watchedFiles.some(Boolean)
-      ? watchedFiles
+    watchedFiles && watchedFiles.length > 0
+      ? watchedFiles.filter(Boolean)
       : CATEGORY_FILES.map((category) => resolve(__dirname, `../../api/${category}.json`))
 
   const categories: Record<string, APIClassDoc[]> = {}

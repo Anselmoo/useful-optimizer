@@ -2,7 +2,8 @@
 import { computed } from 'vue'
 import { useData } from 'vitepress'
 import { data as apiData } from '../../loaders/api.data'
-import type { APIClassDoc, Parameter } from '../../loaders/api.data'
+import type { APIClassDoc } from '../../loaders/api.data'
+import type { DocstringSection } from '../../types/griffe'
 
 const props = defineProps<{
   classDoc?: APIClassDoc
@@ -34,8 +35,10 @@ const docstringText = computed(() => {
     .join('\n\n')
 })
 
-const firstTextSection = (sections: { value: unknown }[] = []) =>
-  (sections.find((section) => typeof section.value === 'string')?.value as string | undefined) || ''
+const firstTextSection = (sections: DocstringSection[] = []) => {
+  const section = sections.find((entry) => entry.kind !== 'parameters')
+  return section && typeof section.value === 'string' ? section.value : ''
+}
 
 const hasParameters = computed(() => (resolvedClass.value?.parameters?.length || 0) > 0)
 const hasMethods = computed(() => (resolvedClass.value?.methods?.length || 0) > 0)
