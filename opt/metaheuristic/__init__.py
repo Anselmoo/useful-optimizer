@@ -27,9 +27,12 @@ from opt.metaheuristic.very_large_scale_neighborhood_search import (
     VeryLargeScaleNeighborhood,
 )
 
+from .brain_storm_optimization import BrainStormOptimizer
+
 
 __all__: list[str] = [
     "ArithmeticOptimizationAlgorithm",
+    "BrainStormOptimizer",
     "CollidingBodiesOptimization",
     "CrossEntropyMethod",
     "EagleStrategy",
