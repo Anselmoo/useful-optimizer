@@ -26,6 +26,12 @@ export interface APIData {
   totalClasses: number
 }
 
+type GriffeMemberNode = {
+  kind?: string
+  members?: Record<string, unknown>
+  [key: string]: unknown
+}
+
 const CATEGORY_FILES = [
   'swarm_intelligence',
   'evolutionary',
@@ -48,7 +54,7 @@ const normalizeDocstring = (docstring: any): { parsed: DocstringSection[] } => {
   }
 }
 
-const renderType = (annotation: any): string => {
+const renderType = (annotation: unknown): string => {
   if (!annotation) return ''
   if (typeof annotation === 'string' || typeof annotation === 'number' || typeof annotation === 'boolean') {
     return String(annotation)
@@ -77,7 +83,7 @@ const renderType = (annotation: any): string => {
   }
 }
 
-const buildParameters = (params: any[] = []): Parameter[] =>
+const buildParameters = (params: Record<string, unknown>[] = []): Parameter[] =>
   params
     .filter((param) => param?.name && param.name !== 'self')
     .map((param) => ({
@@ -92,7 +98,7 @@ const buildSignature = (parameters: Parameter[], returns?: string): string => {
   return `${paramText ? `(${paramText})` : '()'}${returns ? ` -> ${returns}` : ''}`
 }
 
-const transformFunction = (name: string, fn: any): APIMethod => {
+const transformFunction = (name: string, fn: Record<string, unknown>): APIMethod => {
   const parameters = buildParameters(Array.isArray(fn.parameters) ? fn.parameters : [])
   const returns = renderType(fn.returns)
   return {
@@ -105,7 +111,7 @@ const transformFunction = (name: string, fn: any): APIMethod => {
   }
 }
 
-const transformClass = (cls: any): APIClassDoc => {
+const transformClass = (cls: GriffeClass & GriffeMemberNode): APIClassDoc => {
   const members = cls.members || {}
   const initMethod = members.__init__ || {}
   const parameters = buildParameters(Array.isArray(initMethod.parameters) ? initMethod.parameters : [])
@@ -143,7 +149,7 @@ const collectClasses = (member: any): APIClassDoc[] => {
   return []
 }
 
-const transformGriffeToAPI = (data: any): APIClassDoc[] => {
+const transformGriffeToAPI = (data: Record<string, unknown>): APIClassDoc[] => {
   if (!data) return []
   const members = data.members || {}
   return Object.values(members).flatMap((member) => collectClasses(member))
