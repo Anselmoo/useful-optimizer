@@ -223,14 +223,14 @@ watch(() => [props.logScale, props.showBoxplot, props.showPoints], () => {
 onMounted(() => {
   // SSR SAFETY: Only run in browser environment
   if (typeof window === 'undefined') return
-  
+
   initChart()
   window.addEventListener('resize', resizeChart)
 })
 
 onUnmounted(() => {
   if (typeof window === 'undefined') return
-  
+
   window.removeEventListener('resize', resizeChart)
   chart.value?.dispose()
 })

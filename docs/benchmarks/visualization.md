@@ -77,7 +77,7 @@ import { defineConfig } from 'vitepress'
 
 export default defineConfig({
   // ... other config
-  
+
   vite: {
     ssr: {
       // Ensure ECharts is bundled for SSR, not treated as external
@@ -110,10 +110,10 @@ const chartInstance = shallowRef<echarts.ECharts | null>(null)
 onMounted(async () => {
   // SSR SAFETY: Only run in browser environment
   if (typeof window === 'undefined') return
-  
+
   // Dynamic import for additional safety (optional with noExternal)
   const echarts = await import('echarts')
-  
+
   if (chartRef.value) {
     chartInstance.value = echarts.init(chartRef.value)
     chartInstance.value.setOption(chartOption.value)
@@ -274,7 +274,7 @@ echarts.use([LineChart, GridComponent, TooltipComponent, CanvasRenderer])
 
 **Current bundle sizes** (after tree-shaking):
 - ConvergenceChart: ~350KB
-- ECDFChart: ~340KB  
+- ECDFChart: ~340KB
 - ViolinPlot: ~360KB (includes boxplot)
 - FitnessLandscape3D: ~450KB (Three.js + TresJS)
 
