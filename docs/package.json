@@ -23,7 +23,7 @@
     "vue-echarts": "^7.0.3"
   },
   "dependencies": {
-    "@tresjs/cientos": "^4.3.1",
+    "@tresjs/cientos": "^5.0.0",
     "@tresjs/core": "^4.3.6",
     "d3": "^7.9.0",
     "d3-scale-chromatic": "^3.1.0",
