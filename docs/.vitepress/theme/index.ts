@@ -60,6 +60,11 @@ export default {
       app.component('FitnessLandscape3D', defineAsyncComponent(() =>
         import('./components/FitnessLandscape3D.vue')
       ))
+
+      // Register wrapper component for easy benchmark data integration
+      app.component('BenchmarkCharts', defineAsyncComponent(() =>
+        import('./components/BenchmarkCharts.vue')
+      ))
     }
   }
 } satisfies Theme
