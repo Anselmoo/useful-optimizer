@@ -2,167 +2,77 @@
 
 This page demonstrates the chart components using real mock benchmark data that validates against the schema.
 
-<script setup>
-import { computed, ref, onMounted } from 'vue'
+<script setup lang="ts">
+import { computed, onMounted, ref } from 'vue'
+import {
+  buildConvergenceSeries,
+  buildECDFSeries,
+  buildViolinSeries,
+  fetchBenchmarkData
+} from './.vitepress/theme/utils/benchmarkTransforms'
+import type { BenchmarkDataSchema } from './.vitepress/theme/types/benchmark'
 
-// Mock data structure - in production, this would be fetched from the API
-const mockData = ref({
-  metadata: {
-    max_iterations: 100,
-    n_runs: 10,
-    dimensions: [2, 5, 10],
-    timestamp: "2024-12-24T15:45:00Z",
-    python_version: "3.12.3",
-    numpy_version: "1.26.4"
-  },
-  benchmarks: {
-    shifted_ackley: {
-      "2": {
-        ParticleSwarm: {
-          runs: [
-            {
-              best_fitness: 0.0012345,
-              best_solution: [0.001, -0.002],
-              n_evaluations: 2000,
-              history: {
-                best_fitness: [10.5, 5.2, 2.1, 0.8, 0.3, 0.1, 0.05, 0.02, 0.01, 0.0012345],
-                mean_fitness: [15.3, 8.7, 4.5, 2.3, 1.2, 0.6, 0.3, 0.15, 0.08, 0.04]
-              }
-            },
-            {
-              best_fitness: 0.0023456,
-              best_solution: [-0.001, 0.003],
-              n_evaluations: 2000,
-              history: {
-                best_fitness: [11.2, 6.1, 2.8, 1.1, 0.5, 0.2, 0.08, 0.04, 0.015, 0.0023456],
-                mean_fitness: [16.1, 9.2, 5.1, 2.8, 1.5, 0.8, 0.4, 0.2, 0.1, 0.05]
-              }
-            },
-            {
-              best_fitness: 0.0018765,
-              best_solution: [0.002, 0.001],
-              n_evaluations: 2000,
-              history: {
-                best_fitness: [10.8, 5.8, 2.5, 0.9, 0.4, 0.15, 0.06, 0.03, 0.012, 0.0018765],
-                mean_fitness: [15.8, 8.9, 4.8, 2.5, 1.3, 0.7, 0.35, 0.18, 0.09, 0.045]
-              }
-            }
-          ],
-          statistics: {
-            mean_fitness: 0.0018189,
-            std_fitness: 0.0004681,
-            min_fitness: 0.0012345,
-            max_fitness: 0.0023456,
-            median_fitness: 0.0018765,
-            q1_fitness: 0.0015555,
-            q3_fitness: 0.0021111
-          },
-          success_rate: 1.0
-        },
-        DifferentialEvolution: {
-          runs: [
-            {
-              best_fitness: 0.0009876,
-              best_solution: [0.0005, -0.0008],
-              n_evaluations: 2000,
-              history: {
-                best_fitness: [12.3, 6.5, 3.2, 1.5, 0.7, 0.3, 0.12, 0.05, 0.02, 0.0009876],
-                mean_fitness: [17.2, 10.1, 5.8, 3.1, 1.8, 0.9, 0.45, 0.22, 0.11, 0.055]
-              }
-            },
-            {
-              best_fitness: 0.0015432,
-              best_solution: [-0.0007, 0.0009],
-              n_evaluations: 2000,
-              history: {
-                best_fitness: [11.8, 6.2, 2.9, 1.3, 0.6, 0.25, 0.1, 0.045, 0.018, 0.0015432],
-                mean_fitness: [16.5, 9.5, 5.3, 2.9, 1.6, 0.85, 0.42, 0.21, 0.105, 0.052]
-              }
-            },
-            {
-              best_fitness: 0.0011234,
-              best_solution: [0.0003, 0.0005],
-              n_evaluations: 2000,
-              history: {
-                best_fitness: [12.0, 6.3, 3.0, 1.4, 0.65, 0.28, 0.11, 0.048, 0.019, 0.0011234],
-                mean_fitness: [16.8, 9.8, 5.5, 3.0, 1.7, 0.88, 0.43, 0.215, 0.108, 0.054]
-              }
-            }
-          ],
-          statistics: {
-            mean_fitness: 0.0012181,
-            std_fitness: 0.0002379,
-            min_fitness: 0.0009876,
-            max_fitness: 0.0015432,
-            median_fitness: 0.0011234,
-            q1_fitness: 0.0010555,
-            q3_fitness: 0.0013333
-          },
-          success_rate: 1.0
-        }
-      }
-    }
+const datasetPath = '/benchmarks/demo-benchmark-data.json'
+const funcName = 'shifted_ackley'
+const dimension = 2
+const ecdfTargets = [1e-1, 1e-3, 1e-5, 1e-7]
+
+const dataset = ref<BenchmarkDataSchema | null>(null)
+const loading = ref(true)
+const error = ref<string | null>(null)
+
+onMounted(async () => {
+  try {
+    dataset.value = await fetchBenchmarkData(datasetPath)
+  } catch (err) {
+    error.value = err instanceof Error ? err.message : 'Failed to load benchmark data'
+  } finally {
+    loading.value = false
   }
 })
 
-// Extract shifted_ackley data for dimension 2
-const ackleyData = computed(() => mockData.value.benchmarks.shifted_ackley['2'])
+const ackleyData = computed(
+  () => dataset.value?.benchmarks?.[funcName]?.[String(dimension)] ?? {}
+)
 const optimizers = computed(() => Object.keys(ackleyData.value))
 
-// Transform data for ConvergenceChart
-const convergenceData = computed(() => {
-  return optimizers.value.map(opt => {
-    const firstRun = ackleyData.value[opt].runs[0]
-    return {
-      algorithm: opt,
-      iterations: Array.from({length: firstRun.history.best_fitness.length}, (_, i) => i * 10),
-      mean: firstRun.history.best_fitness,
-      std: firstRun.history.mean_fitness.map((m, i) => Math.abs(m - firstRun.history.best_fitness[i]))
-    }
-  })
-})
+const convergenceData = computed(() =>
+  buildConvergenceSeries(dataset.value, funcName, dimension, optimizers.value)
+)
 
-// Transform data for ViolinPlot
-const violinData = computed(() => {
-  return optimizers.value.map(opt => ({
-    algorithm: opt,
-    values: ackleyData.value[opt].runs.map(run => run.best_fitness)
-  }))
-})
+const violinData = computed(() =>
+  buildViolinSeries(dataset.value, funcName, dimension, optimizers.value)
+)
 
-// Transform data for ECDF
-const ecdfData = computed(() => {
-  return optimizers.value.map(opt => {
-    const runs = ackleyData.value[opt].runs
-    const fitnessValues = runs.map(r => r.best_fitness).sort((a, b) => a - b)
-    const budgets = [100, 500, 1000, 1500, 2000]
-    const proportions = budgets.map(budget => {
-      // Simulate proportion based on fitness threshold
-      const threshold = 0.01 / (budget / 2000)
-      return fitnessValues.filter(f => f <= threshold).length / fitnessValues.length
-    })
+const ecdfData = computed(() =>
+  buildECDFSeries(dataset.value, funcName, dimension, ecdfTargets, optimizers.value)
+)
 
-    return {
-      algorithm: opt,
-      budget: budgets,
-      proportion: proportions
-    }
-  })
-})
-
-// Metadata display
-const metadata = computed(() => mockData.value.metadata)
+const metadata = computed(() => dataset.value?.metadata)
+const hasData = computed(() => optimizers.value.length > 0)
 </script>
+
+<div v-if="error" class="warning">
+  {{ error }}
+</div>
+<div v-else-if="loading">
+  Loading benchmark data from {{ datasetPath }}...
+</div>
+<div v-else-if="!hasData">
+  No benchmark runs were found for {{ funcName }} ({{ dimension }}D).
+</div>
+
+<div v-else>
 
 ## Dataset Information
 
 **Benchmark Suite Metadata:**
-- **Max Iterations:** {{ metadata.max_iterations }}
-- **Number of Runs:** {{ metadata.n_runs }}
-- **Dimensions:** {{ metadata.dimensions.join(', ') }}
-- **Python Version:** {{ metadata.python_version }}
-- **NumPy Version:** {{ metadata.numpy_version }}
-- **Timestamp:** {{ metadata.timestamp }}
+- **Max Iterations:** {{ metadata?.max_iterations ?? '—' }}
+- **Number of Runs:** {{ metadata?.n_runs ?? '—' }}
+- **Dimensions:** {{ metadata?.dimensions?.join(', ') ?? '—' }}
+- **Python Version:** {{ metadata?.python_version ?? '—' }}
+- **NumPy Version:** {{ metadata?.numpy_version ?? '—' }}
+- **Timestamp:** {{ metadata?.timestamp ?? '—' }}
 
 ---
 
@@ -265,6 +175,7 @@ Interactive 3D visualization of the Ackley function:
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <style scoped>

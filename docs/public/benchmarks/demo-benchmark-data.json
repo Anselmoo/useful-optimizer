@@ -1,0 +1,218 @@
+{
+  "metadata": {
+    "max_iterations": 100,
+    "n_runs": 10,
+    "dimensions": [2, 5, 10],
+    "timestamp": "2024-12-24T15:45:00Z",
+    "python_version": "3.12.3",
+    "numpy_version": "1.26.4"
+  },
+  "benchmarks": {
+    "shifted_ackley": {
+      "2": {
+        "ParticleSwarm": {
+          "runs": [
+            {
+              "best_fitness": 0.0012345,
+              "best_solution": [0.001, -0.002],
+              "n_evaluations": 2000,
+              "history": {
+                "best_fitness": [10.5, 5.2, 2.1, 0.8, 0.3, 0.1, 0.05, 0.02, 0.01, 0.0012345],
+                "mean_fitness": [15.3, 8.7, 4.5, 2.3, 1.2, 0.6, 0.3, 0.15, 0.08, 0.04]
+              }
+            },
+            {
+              "best_fitness": 0.0023456,
+              "best_solution": [-0.001, 0.003],
+              "n_evaluations": 2000,
+              "history": {
+                "best_fitness": [11.2, 6.1, 2.8, 1.1, 0.5, 0.2, 0.08, 0.04, 0.015, 0.0023456],
+                "mean_fitness": [16.1, 9.2, 5.1, 2.8, 1.5, 0.8, 0.4, 0.2, 0.1, 0.05]
+              }
+            },
+            {
+              "best_fitness": 0.0018765,
+              "best_solution": [0.002, 0.001],
+              "n_evaluations": 2000,
+              "history": {
+                "best_fitness": [10.8, 5.8, 2.5, 0.9, 0.4, 0.15, 0.06, 0.03, 0.012, 0.0018765],
+                "mean_fitness": [15.8, 8.9, 4.8, 2.5, 1.3, 0.7, 0.35, 0.18, 0.09, 0.045]
+              }
+            }
+          ],
+          "statistics": {
+            "mean_fitness": 0.0018189,
+            "std_fitness": 0.0004681,
+            "min_fitness": 0.0012345,
+            "max_fitness": 0.0023456,
+            "median_fitness": 0.0018765,
+            "q1_fitness": 0.0015555,
+            "q3_fitness": 0.0021111
+          },
+          "success_rate": 1.0
+        },
+        "DifferentialEvolution": {
+          "runs": [
+            {
+              "best_fitness": 0.0009876,
+              "best_solution": [0.0005, -0.0008],
+              "n_evaluations": 2000,
+              "history": {
+                "best_fitness": [12.3, 6.5, 3.2, 1.5, 0.7, 0.3, 0.12, 0.05, 0.02, 0.0009876],
+                "mean_fitness": [17.2, 10.1, 5.8, 3.1, 1.8, 0.9, 0.45, 0.22, 0.11, 0.055]
+              }
+            },
+            {
+              "best_fitness": 0.0015432,
+              "best_solution": [-0.0007, 0.0009],
+              "n_evaluations": 2000,
+              "history": {
+                "best_fitness": [11.8, 6.2, 2.9, 1.3, 0.6, 0.25, 0.1, 0.045, 0.018, 0.0015432],
+                "mean_fitness": [16.5, 9.5, 5.3, 2.9, 1.6, 0.85, 0.42, 0.21, 0.105, 0.052]
+              }
+            },
+            {
+              "best_fitness": 0.0011234,
+              "best_solution": [0.0003, 0.0005],
+              "n_evaluations": 2000,
+              "history": {
+                "best_fitness": [12.0, 6.3, 3.0, 1.4, 0.65, 0.28, 0.11, 0.048, 0.019, 0.0011234],
+                "mean_fitness": [16.8, 9.8, 5.5, 3.0, 1.7, 0.88, 0.43, 0.215, 0.108, 0.054]
+              }
+            }
+          ],
+          "statistics": {
+            "mean_fitness": 0.0012181,
+            "std_fitness": 0.0002379,
+            "min_fitness": 0.0009876,
+            "max_fitness": 0.0015432,
+            "median_fitness": 0.0011234,
+            "q1_fitness": 0.0010555,
+            "q3_fitness": 0.0013333
+          },
+          "success_rate": 1.0
+        }
+      },
+      "5": {
+        "ParticleSwarm": {
+          "runs": [
+            {
+              "best_fitness": 0.0456789,
+              "best_solution": [0.001, -0.002, 0.003, -0.001, 0.002],
+              "n_evaluations": 5000,
+              "history": {
+                "best_fitness": [25.3, 15.2, 8.5, 4.2, 2.1, 1.0, 0.5, 0.2, 0.1, 0.0456789],
+                "mean_fitness": [32.1, 20.5, 12.3, 6.8, 3.5, 1.8, 0.9, 0.45, 0.22, 0.11]
+              }
+            },
+            {
+              "best_fitness": 0.0523456,
+              "best_solution": [-0.002, 0.001, -0.003, 0.002, -0.001],
+              "n_evaluations": 5000,
+              "history": {
+                "best_fitness": [26.1, 16.0, 9.2, 4.8, 2.5, 1.2, 0.6, 0.25, 0.12, 0.0523456],
+                "mean_fitness": [33.5, 21.3, 13.1, 7.2, 3.8, 2.0, 1.0, 0.5, 0.25, 0.125]
+              }
+            }
+          ],
+          "statistics": {
+            "mean_fitness": 0.0490123,
+            "std_fitness": 0.0033334,
+            "min_fitness": 0.0456789,
+            "max_fitness": 0.0523456,
+            "median_fitness": 0.0490123,
+            "q1_fitness": 0.0473456,
+            "q3_fitness": 0.0506790
+          },
+          "success_rate": 0.95
+        }
+      }
+    },
+    "rosenbrock": {
+      "2": {
+        "ParticleSwarm": {
+          "runs": [
+            {
+              "best_fitness": 0.234567,
+              "best_solution": [0.98, 0.96],
+              "n_evaluations": 2000,
+              "history": {
+                "best_fitness": [1500.5, 850.2, 450.1, 200.5, 85.3, 35.2, 15.8, 5.6, 1.2, 0.234567],
+                "mean_fitness": [2100.3, 1200.8, 650.5, 320.2, 140.6, 60.8, 28.5, 12.3, 4.5, 1.8]
+              }
+            },
+            {
+              "best_fitness": 0.345678,
+              "best_solution": [0.97, 0.94],
+              "n_evaluations": 2000,
+              "history": {
+                "best_fitness": [1600.2, 900.5, 480.3, 220.8, 95.6, 40.2, 18.5, 6.8, 1.5, 0.345678],
+                "mean_fitness": [2200.5, 1300.2, 700.8, 350.5, 155.3, 68.5, 32.2, 14.8, 5.5, 2.2]
+              }
+            }
+          ],
+          "statistics": {
+            "mean_fitness": 0.290123,
+            "std_fitness": 0.055556,
+            "min_fitness": 0.234567,
+            "max_fitness": 0.345678,
+            "median_fitness": 0.290123,
+            "q1_fitness": 0.262345,
+            "q3_fitness": 0.317901
+          },
+          "success_rate": 0.85
+        }
+      }
+    },
+    "sphere": {
+      "2": {
+        "ParticleSwarm": {
+          "runs": [
+            {
+              "best_fitness": 0.00012345,
+              "best_solution": [0.0001, -0.0002],
+              "n_evaluations": 1000,
+              "history": {
+                "best_fitness": [5.5, 2.8, 1.2, 0.5, 0.2, 0.08, 0.03, 0.01, 0.003, 0.00012345],
+                "mean_fitness": [8.2, 4.5, 2.3, 1.1, 0.5, 0.22, 0.1, 0.045, 0.02, 0.008]
+              }
+            }
+          ],
+          "statistics": {
+            "mean_fitness": 0.00012345,
+            "std_fitness": 0.0,
+            "min_fitness": 0.00012345,
+            "max_fitness": 0.00012345,
+            "median_fitness": 0.00012345,
+            "q1_fitness": 0.00012345,
+            "q3_fitness": 0.00012345
+          },
+          "success_rate": 1.0
+        },
+        "DifferentialEvolution": {
+          "runs": [
+            {
+              "best_fitness": 0.00008765,
+              "best_solution": [0.00005, -0.00007],
+              "n_evaluations": 1000,
+              "history": {
+                "best_fitness": [6.2, 3.1, 1.5, 0.7, 0.3, 0.12, 0.05, 0.02, 0.005, 0.00008765],
+                "mean_fitness": [9.3, 5.2, 2.8, 1.4, 0.7, 0.35, 0.17, 0.08, 0.035, 0.015]
+              }
+            }
+          ],
+          "statistics": {
+            "mean_fitness": 0.00008765,
+            "std_fitness": 0.0,
+            "min_fitness": 0.00008765,
+            "max_fitness": 0.00008765,
+            "median_fitness": 0.00008765,
+            "q1_fitness": 0.00008765,
+            "q3_fitness": 0.00008765
+          },
+          "success_rate": 1.0
+        }
+      }
+    }
+  }
+}

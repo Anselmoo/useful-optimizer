@@ -209,8 +209,10 @@ Temporary Items
 .apdisk
 
 
-# VitePress build output
-docs/.vitepress/
-docs/docs/.vitepress/
-/.vitepress/
+# VitePress build output (dist/cache ignored above). Keep theme/config tracked.
+!docs/.vitepress/
+!docs/.vitepress/theme/**
+!docs/.vitepress/algorithmsSidebar.ts
+!docs/.vitepress/config.ts
+!docs/.vitepress/loaders/**
 node_modules/
