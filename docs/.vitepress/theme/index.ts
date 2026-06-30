@@ -29,6 +29,9 @@ export default {
       app.component('FitnessLandscape3D', defineAsyncComponent(() =>
         import('./components/FitnessLandscape3D.vue')
       ))
+      app.component('BenchmarkCharts', defineAsyncComponent(() =>
+        import('./components/BenchmarkCharts.vue')
+      ))
     }
   }
 } satisfies Theme

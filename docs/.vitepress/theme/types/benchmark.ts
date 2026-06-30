@@ -1,5 +1,29 @@
 // Auto-generated from benchmark-data-schema.json - DO NOT EDIT
 
+export interface Benchmarks {
+  runs: {
+    best_fitness: number
+    best_solution: number[]
+    n_evaluations: number
+    history?: {
+      best_fitness?: number[]
+      mean_fitness?: number[]
+    }
+    status?: string
+    [k: string]: unknown
+  }[]
+  statistics: {
+    mean_fitness: number
+    std_fitness: number
+    min_fitness: number
+    max_fitness: number
+    median_fitness: number
+    q1_fitness?: number
+    q3_fitness?: number
+  }
+  success_rate: number
+}
+
 /**
  * IOHprofiler-compatible benchmark results for optimizer evaluation
  */
