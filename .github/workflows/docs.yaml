@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'docs/**'
+      - 'opt/**'
       - '.github/workflows/docs.yaml'
   workflow_dispatch:
 
@@ -28,7 +29,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: docs/package.json
 
@@ -52,13 +53,27 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
           cache-dependency-path: docs/package.json
 
-      - name: Install dependencies
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install 3.12
+
+      - name: Install Python dependencies
+        run: uv sync --group dev
+
+      - name: Regenerate Griffe API JSON
+        run: uv run python scripts/generate_docs.py --json --griffe --full-api
+
+      - name: Install Node dependencies
         working-directory: docs
-        run: npm install
+        run: npm ci
 
       - name: Validate documentation migration
         working-directory: docs
