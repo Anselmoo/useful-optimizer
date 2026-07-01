@@ -55,5 +55,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`imperialist_competitive_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/evolutionary/imperialist_competitive_algorithm.py)
+View the implementation: [`imperialist_competitive_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/evolutionary/imperialist_competitive_algorithm.py)
 :::

@@ -65,5 +65,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`differential_evolution.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/evolutionary/differential_evolution.py)
+View the implementation: [`differential_evolution.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/evolutionary/differential_evolution.py)
 :::

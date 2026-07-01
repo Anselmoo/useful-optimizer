@@ -63,5 +63,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`particle_filter.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/metaheuristic/particle_filter.py)
+View the implementation: [`particle_filter.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/metaheuristic/particle_filter.py)
 :::

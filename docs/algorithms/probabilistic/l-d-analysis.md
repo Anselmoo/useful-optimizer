@@ -61,5 +61,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`linear_discriminant_analysis.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/probabilistic/linear_discriminant_analysis.py)
+View the implementation: [`linear_discriminant_analysis.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/probabilistic/linear_discriminant_analysis.py)
 :::

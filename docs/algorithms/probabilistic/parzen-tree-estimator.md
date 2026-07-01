@@ -70,5 +70,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`parzen_tree_stimator.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/probabilistic/parzen_tree_stimator.py)
+View the implementation: [`parzen_tree_stimator.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/probabilistic/parzen_tree_stimator.py)
 :::

@@ -17,7 +17,6 @@ dev = [
     "ruff>=0.9.0",
     "pytest>=8.0.0",
     "pre-commit>=4.0.0",
-    "pydocstyle>=6.3.0",
 ]
 visualization = [
     "matplotlib>=3.7.0",
@@ -28,18 +27,18 @@ benchmark = [
 ]
 
 [build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
+requires = ["uv_build>=0.11.25,<0.12"]
+build-backend = "uv_build"
 
-[tool.hatch.build.targets.wheel]
-packages = ["opt"]
+[tool.uv.build-backend]
+module-name = "opt"
 
 [dependency-groups]
 dev = [
     "ruff>=0.9.0",
     "pytest>=8.0.0",
     "pre-commit>=4.0.0",
-    "pydocstyle>=6.3.0",
+    "ty>=0.0.1",
     "datamodel-code-generator>=0.48.0",
     "griffe>=1.15.0",
 ]
@@ -54,7 +53,7 @@ addopts = [
     "--doctest-glob=*.md",
     "-v",
 ]
-testpaths = ["opt"]
+testpaths = ["src/opt"]
 
 [tool.ruff]
 # Exclude a variety of commonly ignored directories.
@@ -91,6 +90,7 @@ line-length = 88
 indent-width = 4
 # Define Python target versions.
 target-version = "py310"
+src = ["src"]
 # Add more options as needed
 
 fix = true
@@ -144,13 +144,13 @@ exclude = [".venv"]
 dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.lint.per-file-ignores]
-"opt/test/*" = ["S101", "PLR2004", "PLC0415", "ANN001", "ANN201", "ICN001", "S108"]
-"opt/visualization/*" = ["FBT001", "FBT002", "FBT003", "PLC0415", "PLR2004", "ANN003", "S101", "B905"]
-"opt/abstract_optimizer.py" = ["FBT001", "FBT002"]
-"opt/swarm_intelligence/particle_swarm.py" = ["FBT001", "FBT002"]
-"opt/social_inspired/social_group_optimizer.py" = ["FBT001", "FBT002"]
+"src/opt/test/*" = ["S101", "PLR2004", "PLC0415", "ANN001", "ANN201", "ICN001", "S108"]
+"src/opt/visualization/*" = ["FBT001", "FBT002", "FBT003", "PLC0415", "PLR2004", "ANN003", "S101", "B905"]
+"src/opt/abstract_optimizer.py" = ["FBT001", "FBT002"]
+"src/opt/swarm_intelligence/particle_swarm.py" = ["FBT001", "FBT002"]
+"src/opt/social_inspired/social_group_optimizer.py" = ["FBT001", "FBT002"]
 "benchmarks/*" = ["PERF203", "S101", "ANN001", "ANN201", "ANN003"]
-"opt/demo.py" = ["TC002", "ANN401"]
+"src/opt/demo.py" = ["TC002", "ANN401"]
 "scripts/docstring_models.py" = ["D200", "D415", "FBT003", "D101", "TC002"]  # Generated code - ignore docstring style
 "scripts/unified_validator.py" = ["FBT001", "FBT002", "TRY300"]  # CLI script
 "scripts/test/*" = ["S101"]  # Test files - allow assert
@@ -224,3 +224,6 @@ keep-runtime-typing = true
 # an import to be moved into a type-checking block.
 # quote-annotations = true
 strict = true
+
+[tool.ty.environment]
+python-version = "3.10"

@@ -65,5 +65,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`sgd_momentum.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/gradient_based/sgd_momentum.py)
+View the implementation: [`sgd_momentum.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/gradient_based/sgd_momentum.py)
 :::

@@ -56,5 +56,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`moth_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/swarm_intelligence/moth_search.py)
+View the implementation: [`moth_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/swarm_intelligence/moth_search.py)
 :::

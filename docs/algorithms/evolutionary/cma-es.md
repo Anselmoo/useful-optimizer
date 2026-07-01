@@ -69,5 +69,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`cma_es.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/evolutionary/cma_es.py)
+View the implementation: [`cma_es.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/evolutionary/cma_es.py)
 :::

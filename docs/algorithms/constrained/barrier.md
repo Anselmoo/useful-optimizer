@@ -59,5 +59,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`barrier_method.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/constrained/barrier_method.py)
+View the implementation: [`barrier_method.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/constrained/barrier_method.py)
 :::

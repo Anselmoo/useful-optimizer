@@ -55,5 +55,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`spea2.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/multi_objective/spea2.py)
+View the implementation: [`spea2.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/multi_objective/spea2.py)
 :::

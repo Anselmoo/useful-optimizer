@@ -58,5 +58,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`sine_cosine_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/metaheuristic/sine_cosine_algorithm.py)
+View the implementation: [`sine_cosine_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/metaheuristic/sine_cosine_algorithm.py)
 :::

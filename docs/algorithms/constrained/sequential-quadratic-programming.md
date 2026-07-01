@@ -60,5 +60,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`sequential_quadratic_programming.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/constrained/sequential_quadratic_programming.py)
+View the implementation: [`sequential_quadratic_programming.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/constrained/sequential_quadratic_programming.py)
 :::

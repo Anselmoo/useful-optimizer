@@ -54,5 +54,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`spotted_hyena.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/swarm_intelligence/spotted_hyena.py)
+View the implementation: [`spotted_hyena.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/swarm_intelligence/spotted_hyena.py)
 :::

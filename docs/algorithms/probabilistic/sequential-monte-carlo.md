@@ -60,5 +60,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`sequential_monte_carlo.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/probabilistic/sequential_monte_carlo.py)
+View the implementation: [`sequential_monte_carlo.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/probabilistic/sequential_monte_carlo.py)
 :::

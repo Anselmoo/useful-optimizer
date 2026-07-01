@@ -3,7 +3,7 @@ name: Documentation Validation
 on:
   pull_request:
     paths:
-      - 'opt/**/*.py'
+      - 'src/opt/**/*.py'
       - 'docs/schemas/**/*.json'
       - 'scripts/**.py'
       - '.github/workflows/docs-validation.yml'
@@ -11,7 +11,7 @@ on:
     branches:
       - main
     paths:
-      - 'opt/**/*.py'
+      - 'src/opt/**/*.py'
       - 'docs/schemas/**/*.json'
       - 'scripts/**.py'
 
@@ -38,16 +38,16 @@ jobs:
       - name: Validate docstrings against schema
         run: |
           uv run python scripts/unified_validator.py \
-            opt/classical/*.py \
-            opt/constrained/*.py \
-            opt/evolutionary/*.py \
-            opt/gradient_based/*.py \
-            opt/metaheuristic/*.py \
-            opt/multi_objective/*.py \
-            opt/physics_inspired/*.py \
-            opt/probabilistic/*.py \
-            opt/social_inspired/*.py \
-            opt/swarm_intelligence/*.py \
+            src/opt/classical/*.py \
+            src/opt/constrained/*.py \
+            src/opt/evolutionary/*.py \
+            src/opt/gradient_based/*.py \
+            src/opt/metaheuristic/*.py \
+            src/opt/multi_objective/*.py \
+            src/opt/physics_inspired/*.py \
+            src/opt/probabilistic/*.py \
+            src/opt/social_inspired/*.py \
+            src/opt/swarm_intelligence/*.py \
             --verbose
         continue-on-error: true  # Allow failures but report them
 

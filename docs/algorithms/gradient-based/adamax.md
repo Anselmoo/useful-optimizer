@@ -66,5 +66,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`adamax.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/gradient_based/adamax.py)
+View the implementation: [`adamax.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/gradient_based/adamax.py)
 :::

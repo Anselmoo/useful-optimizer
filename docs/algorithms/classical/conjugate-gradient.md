@@ -64,5 +64,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`conjugate_gradient.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/classical/conjugate_gradient.py)
+View the implementation: [`conjugate_gradient.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/conjugate_gradient.py)
 :::

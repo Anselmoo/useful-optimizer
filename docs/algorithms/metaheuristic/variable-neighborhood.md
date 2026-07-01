@@ -58,5 +58,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`variable_neighbourhood_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/metaheuristic/variable_neighbourhood_search.py)
+View the implementation: [`variable_neighbourhood_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/metaheuristic/variable_neighbourhood_search.py)
 :::

@@ -54,5 +54,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`simulated_annealing.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/classical/simulated_annealing.py)
+View the implementation: [`simulated_annealing.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/simulated_annealing.py)
 :::

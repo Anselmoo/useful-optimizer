@@ -6,7 +6,7 @@ from docstrings and generates standardized Markdown documentation.
 
 Usage:
     uv run python scripts/generate_docs.py --all
-    uv run python scripts/generate_docs.py --file opt/swarm_intelligence/particle_swarm.py
+    uv run python scripts/generate_docs.py --file src/opt/swarm_intelligence/particle_swarm.py
     uv run python scripts/generate_docs.py --category swarm_intelligence
     uv run python scripts/generate_docs.py --dry-run  # Preview without writing
     uv run python scripts/generate_docs.py --sidebar  # Generate sidebar config
@@ -1009,7 +1009,7 @@ def main(args: Sequence[str] | None = None) -> None:
 
     parsed = parser.parse_args(args)
 
-    opt_dir = Path("opt")
+    opt_dir = Path("src/opt")
     files_to_process: list[Path] = []
 
     if parsed.file:

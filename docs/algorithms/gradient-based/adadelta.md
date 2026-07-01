@@ -79,5 +79,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`adadelta.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/gradient_based/adadelta.py)
+View the implementation: [`adadelta.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/gradient_based/adadelta.py)
 :::
