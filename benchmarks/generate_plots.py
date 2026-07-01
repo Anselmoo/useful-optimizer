@@ -62,12 +62,12 @@ def plot_convergence_curves(
 
     for optimizer_name, optimizer_data in func_results.items():
         if optimizer_data.get("runs"):
-            # Get the first successful run with convergence history
+            # Get the first successful run with convergence history.
+            # Raw results.json stores the curve under the flat "convergence_history"
+            # field (see RunResult in run_benchmark_suite.py).
             for run in optimizer_data["runs"]:
-                if run["status"] == "success" and run.get("history", {}).get(
-                    "best_fitness"
-                ):
-                    history = run.get("history", {}).get("best_fitness", [])
+                if run.get("status") == "success" and run.get("convergence_history"):
+                    history = run.get("convergence_history", [])
                     ax.plot(history, label=optimizer_name, linewidth=2, alpha=0.8)
                     break
 

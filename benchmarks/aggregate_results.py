@@ -78,7 +78,7 @@ def calculate_ert(
         ...     {"best_fitness": 1e-7, "n_evaluations": 150},
         ... ]
         >>> ert = calculate_ert(runs, target_precision=1e-8, f_opt=0.0)
-        >>> ert == 100.0
+        >>> bool(ert == 200.0)  # 100 evals of the one success / 0.5 success rate
         True
     """
     if not runs:

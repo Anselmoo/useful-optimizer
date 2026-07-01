@@ -74,7 +74,9 @@ class BenchmarkMetadata(BaseModel):
     dimensions: list[int]
     timestamp: str
     target_precision: float = Field(gt=0)
-    subset: bool
+    tier: str
+    n_optimizers: int = Field(ge=1)
+    estimated_runtime: str
     python_version: str | None = None
     numpy_version: str | None = None
 
@@ -413,6 +415,8 @@ def run_benchmark_suite(
                 )
 
     # Create final Pydantic model
+    import platform
+
     metadata = BenchmarkMetadata(
         max_iterations=MAX_ITERATIONS,
         n_runs=N_RUNS,
@@ -422,6 +426,8 @@ def run_benchmark_suite(
         tier=tier,
         n_optimizers=len(optimizers),
         estimated_runtime=TIER_RUNTIMES[tier],
+        python_version=platform.python_version(),
+        numpy_version=np.__version__,
     )
     results = BenchmarkResults(metadata=metadata, benchmarks=benchmarks_dict)
 
@@ -483,9 +489,9 @@ Examples:
     )
 
     print(
-        f"\nCompleted {len(results['benchmarks'])} functions x "
-        f"{results['metadata']['n_optimizers']} optimizers x "
+        f"\nCompleted {len(results.benchmarks)} functions x "
+        f"{results.metadata.n_optimizers} optimizers x "
         f"{len(DIMENSIONS)} dimensions x {N_RUNS} runs"
     )
-    print(f"Tier: {results['metadata']['tier'].upper()}")
-    print(f"Estimated runtime: {results['metadata']['estimated_runtime']}")
+    print(f"Tier: {results.metadata.tier.upper()}")
+    print(f"Estimated runtime: {results.metadata.estimated_runtime}")

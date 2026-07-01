@@ -16,7 +16,7 @@ on:
           - 'false'
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   benchmark:
@@ -56,6 +56,24 @@ jobs:
             --input benchmarks/output/results.json \
             --output-dir benchmarks/output/processed \
             --validate
+
+      - name: Publish benchmark data to docs
+        if: success()
+        run: |
+          # Feed the processed summary to the VitePress charts. BenchmarkCharts.vue
+          # and benchmarks/results.md fetch /benchmarks/benchmark-results.json.
+          mkdir -p docs/public/benchmarks
+          cp benchmarks/output/processed/benchmark-summary.json \
+             docs/public/benchmarks/benchmark-results.json
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/public/benchmarks/benchmark-results.json
+          if git diff --cached --quiet; then
+            echo "No benchmark data changes to publish."
+          else
+            git commit -m "chore: update benchmark results [skip ci]"
+            git push
+          fi
 
       - name: Upload benchmark artifact
         if: always()

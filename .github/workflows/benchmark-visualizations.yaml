@@ -36,7 +36,7 @@ jobs:
         run: uv sync --all-extras
 
       - name: Run benchmark suite
-        run: uv run python benchmarks/run_benchmark_suite.py --output-dir benchmarks/output
+        run: uv run python benchmarks/run_benchmark_suite.py --tier showcase --output-dir benchmarks/output
 
       - name: Generate visualizations
         run: uv run python benchmarks/generate_plots.py --results benchmarks/output/results.json --output-dir benchmarks/output
