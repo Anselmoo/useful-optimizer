@@ -7,7 +7,9 @@ Python library of 120+ optimization algorithms (PSO, DE, SGO, etc.) with a ViteP
 ## Tooling
 
 - **Package manager**: `uv` (not pip/poetry)
+- **Python**: `>=3.12,<3.15` (CI matrix: 3.12, 3.13, 3.14)
 - **Linter/formatter**: `ruff` — runs on pre-commit; auto-fixes on commit
+- **Type checker**: `ty` (`uv run ty check src/opt/`)
 - **Tests**: `pytest` with `--doctest-modules` (doctests in every optimizer file are part of the test suite)
 - **Docs**: VitePress 1.5 in `docs/`, Node 24+
 
@@ -16,14 +18,20 @@ Python library of 120+ optimization algorithms (PSO, DE, SGO, etc.) with a ViteP
 ```bash
 # Python
 uv sync --all-extras          # install all deps including dev/benchmark/validate
-uv run pytest                 # run tests + doctests
-uv run ruff check opt/        # lint
-uv run ruff format opt/       # format
+uv run pytest src/opt/test/ -v --tb=short   # unit tests
+uv run pytest --doctest-modules -v          # doctests
+uv run ruff check src/opt/   # lint
+uv run ruff format src/opt/  # format
+uv run ty check src/opt/     # type check (non-blocking)
 
 # Docs
 cd docs && npm run docs:dev    # dev server
 cd docs && npm run docs:build  # production build (runs SSR — must be SSR-safe)
 cd docs && npm run docs:api    # regenerate Griffe JSON API files
+
+# Full docs CI pipeline locally (mirrors docs.yaml build job):
+uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
+cd docs && npm ci && npm run docs:build && npm run validate:migration
 
 # Benchmarks
 uv run python benchmarks/run_benchmark_suite.py --output-dir benchmarks/output
@@ -32,7 +40,7 @@ uv run python benchmarks/run_benchmark_suite.py --output-dir benchmarks/output
 ## Repository Structure
 
 ```
-opt/                        # Python package (120+ optimizers)
+src/opt/                    # Python package (120+ optimizers) — src layout since #144
   abstract/                 # AbstractOptimizer base class
   swarm_intelligence/       # 56 files
   evolutionary/             # 6 files
@@ -75,9 +83,11 @@ scripts/                    # Dev tooling scripts
   unified_validator.py      # Pydantic schema validation for docstrings
 
 .github/workflows/
-  benchmark-pipeline.yml    # COCO/BBOB CI pipeline
+  tests.yaml                # pytest matrix 3.12/3.13/3.14 + ruff lint (PRs + main)
+  docs.yaml                 # VitePress build + Pages deploy (PRs + main; deploy skipped on PRs)
+  docs-validation.yml       # Pydantic docstring schema validation
+  benchmark-pipeline.yml    # COCO/BBOB CI pipeline (schedule/dispatch only)
   benchmark-visualizations.yaml  # Weekly benchmark run + artifact upload
-  docs.yaml                 # VitePress build + GitHub Pages deploy
 ```
 
 ## Pre-commit Hooks
@@ -130,7 +140,7 @@ benchmarks/run_benchmark_suite.py
 
 ### API Documentation Flow
 ```
-opt/ (Python source)
+src/opt/ (Python source)
   → griffe dump → docs/api/*.json
       ↓
   docs/.vitepress/loaders/api.data.ts   (VitePress data loader)
@@ -141,7 +151,6 @@ opt/ (Python source)
 ## GitHub / git
 
 - **Main branch**: `main`
-- **Active dev branch**: `finishing-version-020-2` (ahead of main — all Phase 4-5 doc work lives here)
 - **Active epic**: Issue #52 — VitePress Documentation Site with Scientific Visualization Suite
 
 ### gh CLI
@@ -155,7 +164,7 @@ Alternatively use the `mcp__github__*` MCP tools which bypass this conflict.
 
 | Issue | Description | Status |
 |-------|-------------|--------|
-| #134 | Wire ECharts to real benchmark data | ✅ Done (commit d141809) |
-| #92 | package-lock.json for npm CI | Open PR |
-| #86 | CI/CD & GitHub Pages deployment | Waiting |
+| #134 | Wire ECharts to real benchmark data | ✅ Done |
+| #92 | package-lock.json for npm CI | ✅ Done (docs/package-lock.json present) |
+| #86 | CI/CD & GitHub Pages deployment | ✅ In progress — PR #145 |
 | #55 | Zensical alternative (alternative doc stack) | Parked |

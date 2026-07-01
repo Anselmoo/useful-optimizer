@@ -428,7 +428,7 @@ def run_benchmark_suite(
     # Save results to JSON
     output_file = output_dir / "results.json"
     with output_file.open("w") as f:
-        json.dump(results.model_dump(), f, indent=2)
+        json.dump(results.model_dump(exclude_none=True), f, indent=2)
 
     print(f"\nBenchmark suite completed. Results saved to {output_file}")
     return results
