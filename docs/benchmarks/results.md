@@ -1,63 +1,5 @@
 # Benchmark Results
 
-<script setup>
-import { ref } from 'vue'
-
-// Sample data for demonstration
-const convergenceData = ref([
-  {
-    algorithm: 'Particle Swarm',
-    iterations: Array.from({length: 100}, (_, i) => i + 1),
-    mean: Array.from({length: 100}, (_, i) => 100 * Math.exp(-i * 0.05) + Math.random() * 0.1),
-    std: Array.from({length: 100}, (_, i) => 10 * Math.exp(-i * 0.03))
-  },
-  {
-    algorithm: 'Differential Evolution',
-    iterations: Array.from({length: 100}, (_, i) => i + 1),
-    mean: Array.from({length: 100}, (_, i) => 100 * Math.exp(-i * 0.06) + Math.random() * 0.1),
-    std: Array.from({length: 100}, (_, i) => 8 * Math.exp(-i * 0.04))
-  },
-  {
-    algorithm: 'Grey Wolf',
-    iterations: Array.from({length: 100}, (_, i) => i + 1),
-    mean: Array.from({length: 100}, (_, i) => 100 * Math.exp(-i * 0.045) + Math.random() * 0.1),
-    std: Array.from({length: 100}, (_, i) => 12 * Math.exp(-i * 0.025))
-  }
-])
-
-const ecdfData = ref([
-  {
-    algorithm: 'Particle Swarm',
-    budget: Array.from({length: 50}, (_, i) => 10 ** (i * 0.1)),
-    proportion: Array.from({length: 50}, (_, i) => 1 - Math.exp(-i * 0.08))
-  },
-  {
-    algorithm: 'Differential Evolution',
-    budget: Array.from({length: 50}, (_, i) => 10 ** (i * 0.1)),
-    proportion: Array.from({length: 50}, (_, i) => 1 - Math.exp(-i * 0.1))
-  }
-])
-
-const violinData = ref([
-  {
-    algorithm: 'PSO',
-    values: Array.from({length: 30}, () => Math.random() * 1e-4 + 1e-5)
-  },
-  {
-    algorithm: 'DE',
-    values: Array.from({length: 30}, () => Math.random() * 5e-5 + 1e-6)
-  },
-  {
-    algorithm: 'GWO',
-    values: Array.from({length: 30}, () => Math.random() * 2e-4 + 5e-5)
-  },
-  {
-    algorithm: 'SA',
-    values: Array.from({length: 30}, () => Math.random() * 1e-3 + 1e-4)
-  }
-])
-</script>
-
 This page presents interactive benchmark results comparing optimization algorithms on standard test functions.
 
 ## Summary Table
@@ -93,22 +35,37 @@ Based on Friedman test across all functions and dimensions:
 
 ## Interactive Visualizations
 
-::: info Note on Visualizations
-The charts below require JavaScript and use the ECharts library with Catppuccin Mocha theme.
-In production, these would display real benchmark data from JSON files.
+The charts below are driven by real benchmark data. They load
+`/benchmarks/benchmark-results.json` (published by the
+[Benchmark Pipeline](https://github.com/Anselmoo/useful-optimizer/actions)) and
+fall back to a bundled demo dataset when a fresh run is not yet available.
+
+::: info Rendering
+Charts use ECharts with the Catppuccin Mocha theme and render client-side only
+(wrapped in `<ClientOnly>` for SSR safety).
 :::
 
-### Convergence Curves
+### Iteration vs Precision (common convergence view)
 
-Convergence curves show the best fitness value over iterations, with shaded regions representing ±1 standard deviation across 30 independent runs.
+The convergence panel plots **precision** — the distance to the known optimum
+$|f - f^*|$ — against **iteration** on a shared log axis, so every optimizer is
+compared on one common scale. Shaded bands show ±1 standard deviation across the
+independent runs. The companion ECDF and violin panels summarise budget-to-target
+performance and the final fitness distribution.
 
-### ECDF Curves
+<ClientOnly>
+  <BenchmarkCharts
+    algorithm="ParticleSwarm"
+    functionName="shifted_ackley"
+    :dimension="2"
+    :compareWith="['DifferentialEvolution', 'AdamW', 'HarmonySearch']"
+  />
+</ClientOnly>
 
-ECDF (Empirical Cumulative Distribution Function) curves are the gold standard for optimizer comparison, showing the proportion of (function, target) pairs solved as a function of budget.
-
-### Fitness Distribution
-
-Box plots and violin plots show the distribution of final fitness values across 30 independent runs.
+- **Convergence** — iteration vs precision $|f - f^*|$, all algorithms overlaid.
+- **ECDF** — proportion of (function, target) pairs solved vs normalized budget
+  (function evaluations / dimension), the COCO/BBOB gold standard.
+- **Fitness Distribution** — violin + box plot of final fitness across runs.
 
 ## Function-Specific Results
 

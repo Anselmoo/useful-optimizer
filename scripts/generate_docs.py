@@ -224,6 +224,10 @@ class DocstringInfo:
     attributes: list[tuple[str, str]] = field(default_factory=list)
     parameters: list[ParameterInfo] = field(default_factory=list)
     returns: str = ""
+    # Rich narrative sections (Algorithm Metadata, Mathematical Formulation,
+    # Hyperparameters, COCO/BBOB Benchmark Settings, Notes, References, See Also, …)
+    # captured verbatim as (title, body) so their markdown/LaTeX renders as-is.
+    raw_sections: list[tuple[str, str]] = field(default_factory=list)
 
 
 @dataclass
@@ -237,6 +241,79 @@ class OptimizerDoc:
     file_slug: str
     docstring_info: DocstringInfo
     init_params: list[ParameterInfo] = field(default_factory=list)
+
+
+# Section headers with dedicated parsing (drive the Parameters table, JSON
+# metadata, references, and usage example). Matched case-insensitively.
+_SPECIAL_SECTIONS = {
+    "reference": "reference",
+    "example": "example",
+    "attributes": "attributes",
+    "args": "args",
+    "arguments": "args",
+    "parameters": "args",
+    "returns": "returns",
+    "methods": "skip",
+}
+
+# Rich narrative sections captured verbatim and rendered as Markdown ## sections.
+# These carry the algorithm's tables, LaTeX formulas, and COCO/BBOB metadata.
+_RICH_SECTIONS = {
+    "algorithm metadata",
+    "mathematical formulation",
+    "hyperparameters",
+    "coco/bbob benchmark settings",
+    "notes",
+    "references",
+    "see also",
+    "raises",
+    "results",
+}
+
+# A top-level section header: begins at column 0, a short Title-like phrase
+# ending in a colon (optionally followed by inline content on the same line).
+_SECTION_HEADER_RE = re.compile(r"^([A-Z][A-Za-z0-9 /()_.-]*):[ \t]*(.*)$")
+
+
+def _classify_header(line: str) -> tuple[str, str, str] | None:
+    """Return (title, lowercase_key, inline_remainder) if line is a section header."""
+    if not line or line[0].isspace():
+        return None
+    match = _SECTION_HEADER_RE.match(line)
+    if not match:
+        return None
+    title = match.group(1).strip()
+    return title, title.lower(), match.group(2).strip()
+
+
+def _normalize_section_body(body_lines: list[str]) -> str:
+    """Normalize a rich section body for Markdown rendering.
+
+    Google-style docstrings over-indent block content (4+ spaces) which Markdown
+    would misinterpret as code blocks. Left-align every line so tables, lists,
+    and math render, and guarantee blank lines around ``$$…$$`` display math so
+    it is parsed as a block rather than inline text.
+    """
+    out: list[str] = []
+    in_math = False
+    for raw in body_lines:
+        line = raw.strip()
+        if line == "$$":
+            if not in_math:
+                if out and out[-1] != "":
+                    out.append("")  # blank line before opening delimiter
+                out.append("$$")
+                in_math = True
+            else:
+                out.append("$$")
+                out.append("")  # blank line after closing delimiter
+                in_math = False
+            continue
+        out.append(line)
+
+    text = "\n".join(out)
+    text = re.sub(r"\n{3,}", "\n\n", text)  # collapse runs of blank lines
+    return text.strip("\n")
 
 
 def parse_google_docstring(docstring: str | None) -> DocstringInfo:
@@ -257,49 +334,55 @@ def parse_google_docstring(docstring: str | None) -> DocstringInfo:
         "args": [],
         "returns": [],
     }
+    raw_sections: list[tuple[str, list[str]]] = []
+    current_raw: list[str] | None = None
 
-    i = 0
-    while i < len(lines):
-        line = lines[i]
-        stripped = line.strip()
+    for line in lines:
+        header = _classify_header(line)
+        if header is not None:
+            title, key, remainder = header
+            if key in _SPECIAL_SECTIONS:
+                current_section = _SPECIAL_SECTIONS[key]
+                current_raw = None
+                if key == "reference" and remainder:
+                    section_content["reference"].append(remainder)
+                continue
+            if key in _RICH_SECTIONS:
+                current_section = "raw"
+                current_raw = []
+                raw_sections.append((title, current_raw))
+                if remainder:
+                    current_raw.append(remainder)
+                continue
+            # Unrecognized header: fall through and keep it as narrative text.
 
-        # Detect section headers
-        if stripped.lower().startswith("reference:"):
-            current_section = "reference"
-            remaining = stripped[len("reference:") :].strip()
-            if remaining:
-                section_content["reference"].append(remaining)
-            i += 1
+        if current_section == "raw" and current_raw is not None:
+            current_raw.append(line)
             continue
-        if stripped.lower().startswith("example:"):
+        if line.strip().startswith(">>>"):
             current_section = "example"
-            i += 1
-            continue
-        if stripped == "Attributes:":
-            current_section = "attributes"
-            i += 1
-            continue
-        if stripped == "Args:":
-            current_section = "args"
-            i += 1
-            continue
-        if stripped == "Returns:":
-            current_section = "returns"
-            i += 1
-            continue
-        if stripped == "Methods:":
-            current_section = "skip"
-            i += 1
-            continue
-        if stripped.startswith(">>>"):
-            current_section = "example"
+            current_raw = None
             section_content["example"].append(line)
-            i += 1
             continue
-
         if current_section != "skip":
             section_content[current_section].append(line)
-        i += 1
+
+    # Assemble rich narrative sections (normalize indentation; drop empties;
+    # merge repeated titles such as a second "Notes:" block into the first).
+    merged: dict[str, str] = {}
+    order: list[str] = []
+    for title, body_lines in raw_sections:
+        body = _normalize_section_body(body_lines)
+        if not body.strip():
+            continue
+        key = title.lower()
+        if key in merged:
+            merged[key] = f"{merged[key]}\n\n{body}"
+        else:
+            merged[key] = body
+            order.append(key)
+    title_by_key = {title.lower(): title for title, _ in raw_sections}
+    info.raw_sections = [(title_by_key[key], merged[key]) for key in order]
 
     # Process description
     desc_lines = section_content["description"]
@@ -318,16 +401,20 @@ def parse_google_docstring(docstring: str | None) -> DocstringInfo:
         if doi_match:
             info.reference_doi = doi_match.group(1)
 
-    # Process example
+    # Process example. For doctest-style examples keep only the executable
+    # code (the >>> / ... lines), dropping expected-output lines and trailing
+    # prose so the snippet is clean. Plain code blocks are kept verbatim.
     example_lines = section_content["example"]
     if example_lines:
-        cleaned = []
-        for line in example_lines:
-            if line.strip().startswith(">>>") or line.strip().startswith("..."):
-                cleaned.append(line.strip()[4:])
-            else:
-                cleaned.append(line)
-        info.example_code = "\n".join(cleaned).strip()
+        prompt_lines = [
+            line for line in example_lines if line.strip().startswith((">>>", "..."))
+        ]
+        if prompt_lines:
+            info.example_code = "\n".join(
+                line.strip()[4:] for line in prompt_lines
+            ).strip()
+        else:
+            info.example_code = "\n".join(example_lines).strip()
 
     # Process attributes
     attr_lines = section_content["attributes"]
@@ -541,15 +628,19 @@ def parse_optimizer_file(file_path: Path) -> OptimizerDoc | None:
 
     init_params = extract_init_signature(optimizer_class)
 
+    # Prefer the class docstring: it carries the rich algorithm sections
+    # (metadata, formulation, hyperparameters, COCO/BBOB settings). Fall back to
+    # the module docstring for anything the class docstring omits (e.g. overview).
     merged_info = DocstringInfo(
-        short_description=module_info.short_description or class_info.short_description,
-        long_description=module_info.long_description or class_info.long_description,
-        reference=module_info.reference or class_info.reference,
-        reference_doi=module_info.reference_doi or class_info.reference_doi,
-        example_code=module_info.example_code or class_info.example_code,
-        attributes=module_info.attributes or class_info.attributes,
+        short_description=class_info.short_description or module_info.short_description,
+        long_description=class_info.long_description or module_info.long_description,
+        reference=class_info.reference or module_info.reference,
+        reference_doi=class_info.reference_doi or module_info.reference_doi,
+        example_code=class_info.example_code or module_info.example_code,
+        attributes=class_info.attributes or module_info.attributes,
         parameters=class_info.parameters or module_info.parameters,
         returns=class_info.returns or module_info.returns,
+        raw_sections=class_info.raw_sections or module_info.raw_sections,
     )
 
     parts = file_path.parts
@@ -609,8 +700,12 @@ def generate_markdown(doc: OptimizerDoc) -> str:
         lines.append(doc.docstring_info.long_description)
         lines.append("")
 
-    # Reference with proper citation format
-    if doc.docstring_info.reference:
+    # Titles of the rich narrative sections captured from the class docstring.
+    raw_titles = {title.lower() for title, _ in doc.docstring_info.raw_sections}
+
+    # Reference with proper citation format (skip when the class docstring
+    # already provides a richer "References" section rendered further below).
+    if doc.docstring_info.reference and "references" not in raw_titles:
         lines.append("## Reference")
         lines.append("")
         ref = doc.docstring_info.reference
@@ -675,8 +770,20 @@ def generate_markdown(doc: OptimizerDoc) -> str:
 
     lines.append("")
 
-    # See Also section
-    lines.append("## See Also")
+    # Rich narrative sections from the class docstring (Algorithm Metadata,
+    # Mathematical Formulation, Hyperparameters, COCO/BBOB Benchmark Settings,
+    # Notes, References, See Also, …). Content is already Markdown/LaTeX and
+    # renders natively in VitePress.
+    for section_title, section_body in doc.docstring_info.raw_sections:
+        lines.append(f"## {section_title}")
+        lines.append("")
+        lines.append(section_body)
+        lines.append("")
+
+    # Navigation links. When the class docstring supplies its own "See Also"
+    # section (rendered above), use a distinct heading to avoid a duplicate.
+    nav_heading = "Related Pages" if "see also" in raw_titles else "See Also"
+    lines.append(f"## {nav_heading}")
     lines.append("")
     lines.append(f"- [{badge_name} Algorithms](/algorithms/{cat_slug}/)")
     lines.append("- [All Algorithms](/algorithms/)")

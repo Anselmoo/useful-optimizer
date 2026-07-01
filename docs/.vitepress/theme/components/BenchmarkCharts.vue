@@ -148,12 +148,12 @@ watch(() => [props.algorithm, props.functionName, props.dimension, props.compare
 
     <div v-else class="charts-container">
       <div v-if="showConvergence && convergenceData.length > 0" class="chart-section">
-        <h3>Convergence Analysis</h3>
+        <h3>Convergence Analysis — Iteration vs Precision</h3>
         <ConvergenceChart
           :data="convergenceData"
-          :title="`${algorithm} on ${functionName} (${dimension}D)`"
+          :title="`${functionName} (${dimension}D): iteration vs precision`"
           xAxisLabel="Iteration"
-          yAxisLabel="Best Fitness"
+          yAxisLabel="Precision |f − f*|"
           :logScale="true"
           :showConfidenceBand="true"
         />
