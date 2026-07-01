@@ -83,11 +83,11 @@ class RunResult(BaseModel):
     """Individual run result."""
 
     optimizer: str
-    best_fitness: float
-    best_solution: list[float]
-    elapsed_time: float
-    n_evaluations: int
-    converged: bool
+    best_fitness: float | None = None
+    best_solution: list[float] | None = None
+    elapsed_time: float | None = None
+    n_evaluations: int | None = None
+    converged: bool | None = None
     evaluations_to_target: int | None = None
     convergence_history: list[float] | None = None
     status: str
