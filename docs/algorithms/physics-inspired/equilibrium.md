@@ -63,5 +63,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`equilibrium_optimizer.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/physics_inspired/equilibrium_optimizer.py)
+View the implementation: [`equilibrium_optimizer.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/physics_inspired/equilibrium_optimizer.py)
 :::

@@ -54,5 +54,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`emperor_penguin.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/swarm_intelligence/emperor_penguin.py)
+View the implementation: [`emperor_penguin.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/swarm_intelligence/emperor_penguin.py)
 :::

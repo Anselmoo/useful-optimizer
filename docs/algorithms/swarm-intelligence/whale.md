@@ -61,5 +61,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`whale_optimization_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/swarm_intelligence/whale_optimization_algorithm.py)
+View the implementation: [`whale_optimization_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/swarm_intelligence/whale_optimization_algorithm.py)
 :::

@@ -67,5 +67,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`nsga_ii.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/multi_objective/nsga_ii.py)
+View the implementation: [`nsga_ii.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/multi_objective/nsga_ii.py)
 :::

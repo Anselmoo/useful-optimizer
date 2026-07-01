@@ -55,5 +55,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`orca_predator.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/swarm_intelligence/orca_predator.py)
+View the implementation: [`orca_predator.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/swarm_intelligence/orca_predator.py)
 :::

@@ -73,5 +73,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`adamw.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/gradient_based/adamw.py)
+View the implementation: [`adamw.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/gradient_based/adamw.py)
 :::

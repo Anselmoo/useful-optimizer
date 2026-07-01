@@ -59,5 +59,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`adaptive_metropolis.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/probabilistic/adaptive_metropolis.py)
+View the implementation: [`adaptive_metropolis.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/probabilistic/adaptive_metropolis.py)
 :::

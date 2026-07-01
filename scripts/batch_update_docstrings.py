@@ -588,7 +588,7 @@ def main(argv: Sequence[str] | None = None) -> int:
 
     # Find the opt directory
     script_dir = Path(__file__).parent
-    opt_dir = script_dir.parent / "opt"
+    opt_dir = script_dir.parent / "src" / "opt"
 
     if not opt_dir.exists():
         print(f"❌ Error: opt directory not found at {opt_dir}", file=sys.stderr)

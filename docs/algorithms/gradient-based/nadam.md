@@ -71,5 +71,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`nadam.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/gradient_based/nadam.py)
+View the implementation: [`nadam.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/gradient_based/nadam.py)
 :::

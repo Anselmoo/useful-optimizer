@@ -54,5 +54,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`atom_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/physics_inspired/atom_search.py)
+View the implementation: [`atom_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/physics_inspired/atom_search.py)
 :::

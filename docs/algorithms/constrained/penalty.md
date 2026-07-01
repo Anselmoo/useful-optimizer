@@ -61,5 +61,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`penalty_method.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/constrained/penalty_method.py)
+View the implementation: [`penalty_method.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/constrained/penalty_method.py)
 :::

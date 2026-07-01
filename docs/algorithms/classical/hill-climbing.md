@@ -70,5 +70,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`hill_climbing.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/classical/hill_climbing.py)
+View the implementation: [`hill_climbing.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/hill_climbing.py)
 :::

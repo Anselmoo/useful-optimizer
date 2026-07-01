@@ -58,5 +58,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`lbfgs.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/classical/lbfgs.py)
+View the implementation: [`lbfgs.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/lbfgs.py)
 :::

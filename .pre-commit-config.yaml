@@ -15,29 +15,15 @@ repos:
         types_or: [python, pyi, jupyter]
       - id: ruff-format
 
-  # Docstring validation
-  # Note: Using unified Pydantic-based validator for schema compliance
-  # - pydocstyle: Google-style compliance
-  # - unified-validator: Pydantic schema validation (COCO/BBOB compliance)
-  # - google-docstring-inline-summaries: Inline format enforcement
-  - repo: https://github.com/pycqa/pydocstyle
-    rev: "6.3.0"
-    hooks:
-      - id: pydocstyle
-        args:
-          - --convention=google
-          - --add-ignore=D100,D104
-        files: ^opt/(classical|constrained|evolutionary|gradient_based|metaheuristic|multi_objective|physics_inspired|probabilistic|social_inspired|swarm_intelligence)/.*\.py$
-
   - repo: local
     hooks:
       - id: google-docstring-inline-summaries
         name: Enforce inline Google docstring summaries
         entry: python scripts/check_google_docstring_inline_descriptions.py
-        language: system
+        language: python
         pass_filenames: true
-        files: ^opt/(abstract_optimizer\.py|multi_objective/abstract_multi_objective\.py|(classical|constrained|evolutionary|gradient_based|metaheuristic|multi_objective|physics_inspired|probabilistic|social_inspired|swarm_intelligence)/.*\.py)$
-        exclude: ^opt/(benchmark|test|__pycache__|visualization)/.*
+        files: ^src/opt/(abstract_optimizer\.py|multi_objective/abstract_multi_objective\.py|(classical|constrained|evolutionary|gradient_based|metaheuristic|multi_objective|physics_inspired|probabilistic|social_inspired|swarm_intelligence)/.*\.py)$
+        exclude: ^src/opt/(benchmark|test|__pycache__|visualization)/.*
 
       # Unified Pydantic-based validator (replaces validate-optimizer-docs)
       - id: unified-docstring-validator
@@ -45,8 +31,8 @@ repos:
         entry: python scripts/unified_validator.py
         language: python
         pass_filenames: true
-        files: ^opt/(classical|constrained|evolutionary|gradient_based|metaheuristic|multi_objective|physics_inspired|probabilistic|social_inspired|swarm_intelligence)/.*\.py$
-        exclude: ^opt/(benchmark|test|__pycache__|visualization|__init__|.*/__init__\.py).*
+        files: ^src/opt/(classical|constrained|evolutionary|gradient_based|metaheuristic|multi_objective|physics_inspired|probabilistic|social_inspired|swarm_intelligence)/.*\.py$
+        exclude: ^src/opt/(benchmark|test|__pycache__|visualization|__init__|.*/__init__\.py).*
         additional_dependencies:
           - pydantic>=2.12.5
           - jsonschema>=4.23.0

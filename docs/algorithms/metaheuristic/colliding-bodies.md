@@ -66,5 +66,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`colliding_bodies_optimization.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/metaheuristic/colliding_bodies_optimization.py)
+View the implementation: [`colliding_bodies_optimization.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/metaheuristic/colliding_bodies_optimization.py)
 :::

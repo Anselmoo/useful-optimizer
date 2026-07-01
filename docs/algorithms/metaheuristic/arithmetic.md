@@ -54,5 +54,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`arithmetic_optimization.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/metaheuristic/arithmetic_optimization.py)
+View the implementation: [`arithmetic_optimization.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/metaheuristic/arithmetic_optimization.py)
 :::

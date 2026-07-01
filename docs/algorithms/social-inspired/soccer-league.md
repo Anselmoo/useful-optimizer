@@ -60,5 +60,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`soccer_league_optimizer.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/social_inspired/soccer_league_optimizer.py)
+View the implementation: [`soccer_league_optimizer.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/social_inspired/soccer_league_optimizer.py)
 :::

@@ -62,5 +62,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`very_large_scale_neighborhood_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/metaheuristic/very_large_scale_neighborhood_search.py)
+View the implementation: [`very_large_scale_neighborhood_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/metaheuristic/very_large_scale_neighborhood_search.py)
 :::

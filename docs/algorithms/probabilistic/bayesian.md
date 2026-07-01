@@ -58,5 +58,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`bayesian_optimizer.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/probabilistic/bayesian_optimizer.py)
+View the implementation: [`bayesian_optimizer.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/probabilistic/bayesian_optimizer.py)
 :::

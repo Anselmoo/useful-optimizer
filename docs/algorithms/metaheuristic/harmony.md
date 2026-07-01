@@ -63,5 +63,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`harmony_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/metaheuristic/harmony_search.py)
+View the implementation: [`harmony_search.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/metaheuristic/harmony_search.py)
 :::

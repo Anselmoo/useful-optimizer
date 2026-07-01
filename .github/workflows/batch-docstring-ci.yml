@@ -4,14 +4,14 @@ on:
   pull_request:
     paths:
       - 'scripts/batch_update_docstrings.py'
-      - 'opt/test/test_batch_update_docstrings.py'
+      - 'src/opt/test/test_batch_update_docstrings.py'
       - '.github/workflows/batch-docstring-ci.yml'
   push:
     branches:
       - main
     paths:
       - 'scripts/batch_update_docstrings.py'
-      - 'opt/test/test_batch_update_docstrings.py'
+      - 'src/opt/test/test_batch_update_docstrings.py'
 
 jobs:
   validate-batch-docstring-script:
@@ -22,15 +22,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
       - name: Install uv
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
-          echo "$HOME/.local/bin" >> $GITHUB_PATH
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
 
       - name: Install dependencies
         run: uv sync
@@ -45,7 +40,7 @@ jobs:
 
       - name: Run tests
         run: |
-          uv run pytest opt/test/test_batch_update_docstrings.py -v
+          uv run pytest src/opt/test/test_batch_update_docstrings.py -v
           echo "✅ All tests passed"
 
       - name: Check linting
@@ -81,7 +76,7 @@ jobs:
       - name: Verify abstract classes are skipped
         run: |
           # Count abstract files in opt directory
-          abstract_count=$(find opt -name "abstract_*.py" -type f | wc -l)
+          abstract_count=$(find src/opt -name "abstract_*.py" -type f | wc -l)
 
           # Run script and check that abstract files are not processed
           output=$(uv run python scripts/batch_update_docstrings.py --dry-run 2>&1)

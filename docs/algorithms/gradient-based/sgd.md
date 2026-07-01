@@ -59,5 +59,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`stochastic_gradient_descent.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/gradient_based/stochastic_gradient_descent.py)
+View the implementation: [`stochastic_gradient_descent.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/gradient_based/stochastic_gradient_descent.py)
 :::

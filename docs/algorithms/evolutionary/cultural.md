@@ -68,5 +68,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`cultural_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/evolutionary/cultural_algorithm.py)
+View the implementation: [`cultural_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/evolutionary/cultural_algorithm.py)
 :::

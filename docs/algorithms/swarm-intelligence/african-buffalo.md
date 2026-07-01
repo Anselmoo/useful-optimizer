@@ -58,5 +58,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`african_buffalo_optimization.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/swarm_intelligence/african_buffalo_optimization.py)
+View the implementation: [`african_buffalo_optimization.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/swarm_intelligence/african_buffalo_optimization.py)
 :::

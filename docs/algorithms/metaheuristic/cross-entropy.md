@@ -67,5 +67,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`cross_entropy_method.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/metaheuristic/cross_entropy_method.py)
+View the implementation: [`cross_entropy_method.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/metaheuristic/cross_entropy_method.py)
 :::

@@ -59,5 +59,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`estimation_of_distribution_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/evolutionary/estimation_of_distribution_algorithm.py)
+View the implementation: [`estimation_of_distribution_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/evolutionary/estimation_of_distribution_algorithm.py)
 :::

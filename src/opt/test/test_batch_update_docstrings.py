@@ -16,7 +16,7 @@ from typing import TYPE_CHECKING
 import pytest
 
 
-sys.path.insert(0, str(Path(__file__).parents[2] / "scripts"))
+sys.path.insert(0, str(Path(__file__).parents[3] / "scripts"))
 
 from batch_update_docstrings import OPTIMIZER_CATEGORIES
 from batch_update_docstrings import OptimizerInfo

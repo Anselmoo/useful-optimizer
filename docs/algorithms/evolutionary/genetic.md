@@ -73,5 +73,5 @@ print(f"Best fitness: {best_fitness:.6e}")
 ---
 
 ::: tip Source Code
-View the implementation: [`genetic_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/opt/evolutionary/genetic_algorithm.py)
+View the implementation: [`genetic_algorithm.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/evolutionary/genetic_algorithm.py)
 :::

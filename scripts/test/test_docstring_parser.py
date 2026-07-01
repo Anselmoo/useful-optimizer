@@ -98,7 +98,7 @@ class TestDocstringParser:
         parser = DocstringParser()
 
         # Test with simulated_annealing.py
-        sa_path = Path("opt/classical/simulated_annealing.py")
+        sa_path = Path("src/opt/classical/simulated_annealing.py")
         if sa_path.exists():
             docstring = parser.extract_class_docstring(sa_path)
             assert docstring is not None
@@ -116,7 +116,7 @@ class TestDocstringParser:
         parser = DocstringParser()
 
         # Test with a file that has complete docstring
-        sa_path = Path("opt/classical/simulated_annealing.py")
+        sa_path = Path("src/opt/classical/simulated_annealing.py")
         if sa_path.exists():
             # Try to parse the file - it may succeed or fail depending on docstring quality
             # We're just testing that the parsing mechanism works
