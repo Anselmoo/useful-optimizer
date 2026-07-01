@@ -16,8 +16,8 @@ import argparse
 import json
 import sys
 
+from datetime import UTC
 from datetime import datetime
-from datetime import timezone
 from pathlib import Path
 
 import numpy as np
@@ -163,7 +163,7 @@ def aggregate_results(input_file: Path, _output_dir: Path | None = None) -> dict
             "max_iterations": raw_data["metadata"].get("max_iterations", 0),
             "n_runs": raw_data["metadata"].get("n_runs", 0),
             "dimensions": raw_data["metadata"].get("dimensions", []),
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
             "python_version": sys.version.split()[0],
             "numpy_version": np.__version__,
         },

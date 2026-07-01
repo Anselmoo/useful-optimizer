@@ -8,15 +8,20 @@ on:
       - 'docs/**'
       - 'src/opt/**'
       - '.github/workflows/docs.yaml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'src/opt/**'
+      - '.github/workflows/docs.yaml'
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -75,13 +80,13 @@ jobs:
         working-directory: docs
         run: npm ci
 
-      - name: Validate documentation migration
-        working-directory: docs
-        run: npm run validate:migration
-
       - name: Build documentation
         working-directory: docs
         run: npm run docs:build
+
+      - name: Validate documentation migration
+        working-directory: docs
+        run: npm run validate:migration
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v4
@@ -89,6 +94,10 @@ jobs:
           path: docs/.vitepress/dist
 
   deploy:
+    if: github.event_name != 'pull_request'
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

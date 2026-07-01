@@ -83,11 +83,11 @@ class RunResult(BaseModel):
     """Individual run result."""
 
     optimizer: str
-    best_fitness: float
-    best_solution: list[float]
-    elapsed_time: float
-    n_evaluations: int
-    converged: bool
+    best_fitness: float | None = None
+    best_solution: list[float] | None = None
+    elapsed_time: float | None = None
+    n_evaluations: int | None = None
+    converged: bool | None = None
     evaluations_to_target: int | None = None
     convergence_history: list[float] | None = None
     status: str
@@ -428,7 +428,7 @@ def run_benchmark_suite(
     # Save results to JSON
     output_file = output_dir / "results.json"
     with output_file.open("w") as f:
-        json.dump(results.model_dump(), f, indent=2)
+        json.dump(results.model_dump(exclude_none=True), f, indent=2)
 
     print(f"\nBenchmark suite completed. Results saved to {output_file}")
     return results

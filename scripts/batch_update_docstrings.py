@@ -618,7 +618,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 processed.append(info)
             else:
                 failed.append(filepath)
-        except Exception as e:  # noqa: PERF203
+        except Exception as e:
             # Exception handling in loop is necessary for graceful error handling
             print(f"❌ Error processing {filepath}: {e}", file=sys.stderr)
             failed.append(filepath)
