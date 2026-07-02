@@ -1,771 +1,771 @@
 [meta]
-generated_at = "2026-07-01T22:07:08+00:00"
+generated_at = "2026-07-02T05:18:04+00:00"
 rrt_version = "1.9.1"
 
 [files."docs/algorithms/classical/bfgs.md"]
 hash = "sha256:87bcc759091006cfcd65919183e5369e75b318d3f58dc9ae6df6d29fdffa2610"
 size = 9071
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/classical/conjugate-gradient.md"]
 hash = "sha256:53764a750666a022ff1b7cf06163abab3dc09f2378f829cbc81964449aaec480"
 size = 8862
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/classical/hill-climbing.md"]
 hash = "sha256:a8c84e2a26ff0551bb92706ab8472aca5739a7f3235b47721db27d2055bff667"
 size = 9336
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/classical/index.md"]
 hash = "sha256:f3deb2b313442706ccc799faabdaf7e931f634bbb691b112383158c0f0910fde"
 size = 1218
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/classical/lbfgs.md"]
 hash = "sha256:aef3e1e1f56272b6ec49a63b05e68380b23b72ffe883c2e36eceaaa86510c3b1"
 size = 8578
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/classical/nelder-mead.md"]
 hash = "sha256:28196fe4be6db440417c252667191ea45fe3651de38e49b6e34e0c6059312065"
 size = 8975
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/classical/powell.md"]
 hash = "sha256:e400df6add3edb732c9ece34af1e189ec11994b61610871d70e6f3ed79f317bb"
 size = 6942
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/classical/simulated-annealing.md"]
 hash = "sha256:ab8b19f375558ac4e44b6f7f7c642c423f34e05bca3d3dad4c821a390b730486"
 size = 7553
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/classical/tabu.md"]
 hash = "sha256:b0dcb94e441be1737cc30c8bd34061ed73ee87695324124b552e249faaab138b"
 size = 7699
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/classical/trust-region.md"]
 hash = "sha256:4b8224ca3446df5e5aa8634e9533eec5e88f4bebc05395d0b73933f908d32c04"
 size = 7413
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/constrained/augmented-lagrangian.md"]
 hash = "sha256:3771a48630e267f4203dd803d6d84c973c110afed68b8e8e1bd746ab6626dab9"
 size = 9722
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/constrained/barrier.md"]
 hash = "sha256:18bab39883cb16ca5be82147f274c1c01cec33c3382d793faeb5e1ef46b9c38e"
 size = 8648
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/constrained/index.md"]
 hash = "sha256:bb558d1b0da974f5966f76927725b5f61b85009dc9a0f1ed1e9bf2fb5709f80d"
 size = 1246
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/constrained/penalty.md"]
 hash = "sha256:99ec932a897d2bed15127da9cfca00ef70eac0a2c155d4eeb68f731f8c59d109"
 size = 8677
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/constrained/sequential-quadratic-programming.md"]
 hash = "sha256:71aa48b7a6dcc6d5731f94a110255fa44cea434d137827c030685fdce14be281"
 size = 8831
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/constrained/successive-linear-programming.md"]
 hash = "sha256:df0b3a224a675496ecbcbb19515e928f0224735671cd4c4c604c78c0b3b71afc"
 size = 8939
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/evolutionary/cma-es.md"]
 hash = "sha256:c7ef34b0c812fa8f29d5beea3c6606e81586396aa605d634b71a82b411f1c733"
 size = 9647
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/evolutionary/cultural.md"]
 hash = "sha256:20f85586fd012387b10223efa338d44110bdf544e6b9266c198b6d70e54f2cbd"
 size = 8606
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/evolutionary/differential-evolution.md"]
 hash = "sha256:f302da5561d84577c15bb9ab5bcd0ef1f6faafec09384ad4ba9ec4adba178787"
 size = 9501
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/evolutionary/estimation-of-distribution.md"]
 hash = "sha256:81bbb95884d2cebaa0eb226aafa396c0a3393cfd899b215b53f46d92cfc4bcfc"
 size = 7981
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/evolutionary/genetic.md"]
 hash = "sha256:be1d53298c69036f1600b7e0b1e911987e3ce1a3af9f445c28bbb1d4d748c768"
 size = 9992
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/evolutionary/imperialist-competitive.md"]
 hash = "sha256:bea5a4e9e0aa5c9210601a62da3ff59c641f2d7574badeca80d2e67c7366a1d5"
 size = 7906
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/evolutionary/index.md"]
 hash = "sha256:78ce4909c8fe4163ce63411736b33d907fe29b17390cfd6dc543157ce4318a62"
 size = 1262
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/adadelta.md"]
 hash = "sha256:038e0dca478ba664b67e241a53185aa5e8a81de187b011441df85c8548e6a60a"
 size = 9161
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/adagrad.md"]
 hash = "sha256:76704cdde785bcb9b63019415363a0f2bb8ae8bc265fb807b84902b3f510d377"
 size = 8457
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/adam.md"]
 hash = "sha256:9eba7d8133d2ce5e06e1670565eb078746472fc98c7ca173546a0f6fb5bc3783"
 size = 9250
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/adamax.md"]
 hash = "sha256:9cf8bdf45b2d86155f3b9d1300d8264f16266ef242df46e5e46d9f230c87c9fe"
 size = 8744
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/adamw.md"]
 hash = "sha256:8ee3c694bf748de00a5ca17099ae6fb53eccd573c305907390887e4f98f4266c"
 size = 9931
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/amsgrad.md"]
 hash = "sha256:8eeebcfd63bbbd275c3a288a3db5ca2d42b8929adc7d3caa4e7ce652bf79ad50"
 size = 9111
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/index.md"]
 hash = "sha256:42a7cd35d4ae6319cf15c002e09102792fe013c2784ffeccaa25ba87c9eecf66"
 size = 1303
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/nadam.md"]
 hash = "sha256:d189688f7be4a85b32b79cfc98f80dc808f90ff6fbd087e95b6cff4e9f992992"
 size = 9195
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/nesterov.md"]
 hash = "sha256:c9f56152968e180cfc5cdf069e0ec2f20b0e5f879cf0c83f0eb209d1f822a48a"
 size = 8279
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/rmsprop.md"]
 hash = "sha256:296fdc46d2c55e97db6d5ad7df36144278205c4a65325966642b975bd33531fa"
 size = 8468
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/sgd-momentum.md"]
 hash = "sha256:19dad437fad51d4be13c3f30ace7eadcae5ce1e241c82429b55bc96aff8914b6"
 size = 8567
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/gradient-based/sgd.md"]
 hash = "sha256:93d77c4c592974e94beec788fe92b706f5cb2cafac90d8378cad93ccaba1a076"
 size = 7785
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/arithmetic.md"]
 hash = "sha256:88c09b60d49160b6dcccf1b6f4e161688d39aaba267257d1b826a31a727999dc"
 size = 8375
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/colliding-bodies.md"]
 hash = "sha256:e4ae80ce9ca92fc74ad33f861b0cc019295fb640931486e268e83ef71f456a2e"
 size = 8382
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/cross-entropy.md"]
 hash = "sha256:4fde77af4280c3c5762ca373948d2d6f7d4554fa3f8866ebf7bc12864940b66b"
 size = 9164
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/eagle-strategy.md"]
 hash = "sha256:51c0372edc359075ef6a33428d5769f688ba6ff14b5e8ee7cdfb04098c8a3321"
 size = 8395
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/forensic-based-investigation.md"]
 hash = "sha256:2171a31e6b329738dade192e75f558f548cfe4bf7786fa5afe93d5b4b3b36ea9"
 size = 8048
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/harmony.md"]
 hash = "sha256:8891c3e568e153d826af2d1a09ab37ffb2a57f1596070463935cc077dff0fb5e"
 size = 9305
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/index.md"]
 hash = "sha256:ce44ec940c6be6d6ef871eee9b1b8f5713e0e356efa4a319debc61724d7fc17a"
 size = 1303
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/particle-filter.md"]
 hash = "sha256:e183264357650b7c82d75c38f3d66f75da24420238ffb541e5302113232f8e30"
 size = 9186
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/shuffled-frog-leaping.md"]
 hash = "sha256:83821f362621cca1bed152c80f1cbca9d491aba859840797783e84f41d48b84c"
 size = 9176
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/sine-cosine.md"]
 hash = "sha256:3876bb404f335bdb4b6d60fc67bf71c061aa7802773cff30e2f6622bc2084169"
 size = 8723
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/stochastic-diffusion.md"]
 hash = "sha256:af6aed8f12dcdbc0817e2a30ebeada551af476ad19ff6d677e5951015c1b6414"
 size = 9007
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/stochastic-fractal.md"]
 hash = "sha256:58aa6b2d95ba3635d6a0ef348122d8e8d1f4c922e5bd10ab69bcdce94d5a992c"
 size = 8272
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/variable-depth.md"]
 hash = "sha256:af41b05f2fb1405040bdb7494555a2f0dd13dffc29e70e5ae3d72be341f4f9ff"
 size = 8603
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/variable-neighborhood.md"]
 hash = "sha256:3a7b3ff1317fd5a6766d9a1cd35fbd9b6a091a12a32536d967693a84e66e97da"
 size = 8414
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/metaheuristic/very-large-scale-neighborhood.md"]
 hash = "sha256:cd413bfdc91263e2b6a54f01d244811c61c3a15e5222fc3a628b6970e4b50cd0"
 size = 8974
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/multi-objective/index.md"]
 hash = "sha256:c0889a574820a838372308ebeee8c1220bed8c556b20eef7d60d70b1e6fc7472"
 size = 1631
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/multi-objective/moead.md"]
 hash = "sha256:308fa15972cde591ae7a4fb9e0acc4179497401511806e84fbcc9c336d2035bd"
 size = 9532
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/multi-objective/nsga-ii.md"]
 hash = "sha256:a87b99d35729a4a8362d42e482eb15d60c7f0a5bb3d302d7bc6fdb7c208361d8"
 size = 9730
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/multi-objective/spea2.md"]
 hash = "sha256:9f68136bdbeca806369e0a66c64f663bd2a3319be5394c0f0bed942cb1a094b9"
 size = 9421
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/physics-inspired/atom.md"]
 hash = "sha256:eb8911a6f36a2a8cfa837e5fedb3856a09c7b133d1e76dfae2f90efaa80463fa"
 size = 9981
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/physics-inspired/equilibrium.md"]
 hash = "sha256:e18da4265a9cc7340a17a7c24d2b6955d96e8d794390ea0aa56c0c89ada0926f"
 size = 10228
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/physics-inspired/gravitational.md"]
 hash = "sha256:894955782786ba0cef8ca5e0d6feb800673d9e96df71c7f13846c6da7c7f7d6d"
 size = 10343
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/physics-inspired/index.md"]
 hash = "sha256:7cbc8023818fc44df90e3b82c563916e2dd7a74d6895fbc5bab062fc45d23f5d"
 size = 1295
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/physics-inspired/r-i-m-e.md"]
 hash = "sha256:c6f47f467d8f425dfe84acaa23945f43a3d2e70ecdbafdaa379e30b3688313bc"
 size = 9837
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/probabilistic/adaptive-metropolis.md"]
 hash = "sha256:d0c3d3a5de27b4e6dda9921188c69b39912ac1ed8eda972c141aed458ed23efa"
 size = 9133
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/probabilistic/bayesian.md"]
 hash = "sha256:c1a42f603de32d04d991d5eeaa7a1a66ac4ed0c307edc34a1cc93779b3d2d8f5"
 size = 9196
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/probabilistic/index.md"]
 hash = "sha256:112fba87c1c4e5df4ff5b36768b08b04046010031b386c11880ef07c7c56e510"
 size = 1081
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/probabilistic/l-d-analysis.md"]
 hash = "sha256:de787f1bbc28f29f78d7cc4917b38542e722f0f200e29aca877740fc4489a674"
 size = 9947
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/probabilistic/parzen-tree-estimator.md"]
 hash = "sha256:5b9edfd2c6dfb89109fca3db5939be56ef1542da2b4bd370695a2bf1d1b66918"
 size = 10373
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/probabilistic/sequential-monte-carlo.md"]
 hash = "sha256:16e45c07d5bb94318d9524f6c65458971669e3a041dabd4fd98792f950fda9c0"
 size = 9287
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/social-inspired/index.md"]
 hash = "sha256:8fccfa60fb9c24433bd63f191cd0331d0f6c25f4afba3d78b91c93ebdbb4267d"
 size = 1318
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/social-inspired/political.md"]
 hash = "sha256:953987a133864bb33c921306de7fb6af6babf6da93d4e0f323910f5188ab2308"
 size = 8783
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/social-inspired/soccer-league.md"]
 hash = "sha256:ee0ca3196e9e23410c58f09508dc249946906eb4277c9d9cb6f487a93f6cb9b5"
 size = 9181
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/social-inspired/social-group.md"]
 hash = "sha256:14c121ec2c6e84081ab78571b9744f1ee303b54925c930ce68694b79dd0a9d5d"
 size = 9712
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/social-inspired/teaching-learning.md"]
 hash = "sha256:19916cead70b58242c28e862d4f62a9b3e3e99f817b56ec9710e97a62472560d"
 size = 8522
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/african-buffalo.md"]
 hash = "sha256:afd4b0f91b06c3700a6d46ef70a588821c6c52cd095f45c2b0a3ad54bdea942e"
 size = 8429
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/african-vultures.md"]
 hash = "sha256:533fbda51f49f674666b2886a6d70257f7e0500c98258df402dc43b9e10c2a28"
 size = 7059
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/ant-colony.md"]
 hash = "sha256:2213123b3cb749c191bc5f252d57238d8847c1859e627067a4b55e40be9a4b47"
 size = 9835
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/ant-lion.md"]
 hash = "sha256:1b99ca71730850ea9dd055d32fcb07c70a428808a12b066e04bc2462557fd2ff"
 size = 7270
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/aquila.md"]
 hash = "sha256:94d1057dc08eccca0a9dd14bb3a10dee3a4b71e0874b9d34a85a0cbc607ed093"
 size = 7110
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/artificial-fish-swarm.md"]
 hash = "sha256:920da78be1d5f2457068b5fad613af93f86a2a397532c45eac9c345e8448eab3"
 size = 7515
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/artificial-gorilla-troops.md"]
 hash = "sha256:d23809e3c33a257c465ae91c8fdbc1d5765c6964e6c1bdc8e638ffe76c78bfe6"
 size = 7054
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/artificial-hummingbird.md"]
 hash = "sha256:7f639ec0bcbb7bc246c6d6b175fc7b4f2e9962a34a494148c636d76a6fcc705e"
 size = 7165
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/artificial-rabbits.md"]
 hash = "sha256:9f3a003ddafa71f9eebe9041a4bd1b6bf121974cf7347c99ab2bc65a187cec39"
 size = 7057
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/barnacles-mating.md"]
 hash = "sha256:86f991a822a01572c764e7fb7daeb2ad3649e90bc89b29a1400a7afac258b07a"
 size = 7205
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/bat.md"]
 hash = "sha256:8939a3fe2182a295675a0d1f7e3d3d82c7a214605e3652cd7077198d3ed1193f"
 size = 9724
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/bee.md"]
 hash = "sha256:19f8d69c0f79eb71ea4ba64e210b2aa1d1c8e25c9f039e8c2476202596d88b5c"
 size = 7614
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/black-widow.md"]
 hash = "sha256:a1ed6b4ce65e515deb59d5ca852e5be56fed1ff04d38a85f087d02664cf45af0"
 size = 7304
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/brown-bear.md"]
 hash = "sha256:a7eb6eebc204eadd4c70057eff24511c598a5ae3b7c03f9dca873c64ed6fb60d"
 size = 7092
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/cat-swarm.md"]
 hash = "sha256:19629851e8545106eb4dab4fa948bc56b33f9caf80c5c49943eec20a7f9db2d7"
 size = 7686
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/chimp.md"]
 hash = "sha256:f683a44790f71a2c2d27d52c1b7420ef257747421d89aa6c604702d0d109afad"
 size = 6938
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/coati.md"]
 hash = "sha256:b46168ba775916b7a56a2a84f50b1c56240d43b7848758a7986fd8ff3c08033c"
 size = 7071
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/cuckoo.md"]
 hash = "sha256:aa269b15ac50b7786795fb829f6dbc59aa137173089c786e40375b94040e8bab"
 size = 9189
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/dandelion.md"]
 hash = "sha256:3d9b48fe855cd2058d93b12d2bdab6f6518173cbb580ba0b48bc2c93706d51e8"
 size = 7014
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/dingo.md"]
 hash = "sha256:d3c8f7abed02b62bf41733beacbe33f4489e2c164738ca0e14d6f9c11e27a2ac"
 size = 7232
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/dragonfly.md"]
 hash = "sha256:19c2508803370cd5b96b6997f2f0db1767ab0dd6e1a231c63b83eff9eb4c0317"
 size = 8511
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/emperor-penguin.md"]
 hash = "sha256:64ea48d5f7ed6d2abf75a2847929a879356ce92ee42c200048cceee90ee5caf1"
 size = 6917
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/fennec-fox.md"]
 hash = "sha256:f1949cd0ba37c461d3eaf78eedfd67250c94223d6ca35029be3552d020bb9d3d"
 size = 7046
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/firefly.md"]
 hash = "sha256:7bee12eff2f56ea09485b1896d98376005e4b9127ba8eb616c20a76da169427a"
 size = 10584
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/flower-pollination.md"]
 hash = "sha256:48ac5e7a86427af2eb454e205aeb5fd6664e63db5800f808a31d84020e719809"
 size = 7040
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/giant-trevally.md"]
 hash = "sha256:dfb526b1c0295b05fd91af24cd3d134cf65cda5526b00bdd8a880e42f9652c6d"
 size = 7020
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/glowworm-swarm.md"]
 hash = "sha256:edd3cfb583e108da9b0c7cae59551f521d6020b56437b97a97b3a9e68f8c2583"
 size = 8934
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/golden-eagle.md"]
 hash = "sha256:f26911f140d3d8a66343a249d705f904b85e5536049507960f502294ea5369f3"
 size = 6857
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/grasshopper.md"]
 hash = "sha256:64b27033d699ea33881eddf9b4b59faac838b0c0ba86d9b9e4c06382e2c2d912"
 size = 9097
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/grey-wolf.md"]
 hash = "sha256:6c7eba925726ecb6767ef9b5e8f93bf9a401a3b7a5a5e09b231b860d35936bdd"
 size = 9120
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/harris-hawks.md"]
 hash = "sha256:ee953df9649011536bfa99001d2a92f7f2ac0a205247a7d475210eadcce4c2a7"
 size = 8719
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/honey-badger.md"]
 hash = "sha256:e6d6437972c90e8b05726d1505ed303879a4a6c8a72f6e102b97ea9f3ee11e3e"
 size = 7184
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/index.md"]
 hash = "sha256:5963c9134ab3cc6930e315c7c1545d44645bd6b1cc1a220887a16174e62725ef"
 size = 2866
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/manta-ray-foraging.md"]
 hash = "sha256:665322db07d50cfc8aaf520a45f6001d3300ef0a21d6fbec99821981d90bf096"
 size = 6908
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/marine-predators.md"]
 hash = "sha256:d1b21481319eccaf646607255d012d24288b27a178083b662353cfc2b3f7e025"
 size = 8947
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/mayfly.md"]
 hash = "sha256:0812f376d3fb881cd8c4604ec6ac52ba54558385ca0bc0876f6a0b85a5cd3314"
 size = 7427
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/moth-flame.md"]
 hash = "sha256:17a70a901b27a6ac85f7f801316ae70c00da122eb4f99fb2778cf61869c88f7b"
 size = 8633
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/moth.md"]
 hash = "sha256:6eaf0f5ddc3d98c577044de0340f5c1575fb3cdcd61339767464c6cc4252f3ea"
 size = 7088
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/mountain-gazelle.md"]
 hash = "sha256:e6e4238eb577f26fab65194ddf2daa418e05847f1e22648dadcfb19e0ea89b4b"
 size = 7140
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/orca-predator.md"]
 hash = "sha256:2db343b29440a0eaa578b238bdcf6ac2befb5116ddd95d82f12aec527b1438dd"
 size = 7070
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/osprey.md"]
 hash = "sha256:28fd50ad7b9a8e1d7be15866e1da9ea842d2d16025a46613b9737a2ea61eaa66"
 size = 7054
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/particle-swarm.md"]
 hash = "sha256:64d5a72e3cdb0de97a3c8e46c35d090e4895674b4af515b472b8db9042ededc8"
 size = 10493
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/pathfinder.md"]
 hash = "sha256:51597eb4c751bd27724105cef422062eef443f3733d3af1d5428255499f9400f"
 size = 6871
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/pelican.md"]
 hash = "sha256:2dd7f78ad35757e6deadb7461705bd70cf6d89a81285e6e111084d03c8576f8c"
 size = 6993
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/reptile.md"]
 hash = "sha256:6abb5baf1466685ef01b23f7ca7d4b62871ec1942db33a5e8ba92fa76913a2cc"
 size = 6871
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/salp-swarm.md"]
 hash = "sha256:a8552b25a6a4c10248e0e7e3e2042f807c4046ead76ef0510fa89a0719e2d6af"
 size = 8447
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/sand-cat-swarm.md"]
 hash = "sha256:db1cc4fd529e11dfa9671ceae97df9e0eca5dae1bfdd78bacadc3f36a9f63b53"
 size = 7051
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/seagull.md"]
 hash = "sha256:a3fd3d035426b754c218ab92ae437e17d1e0539f04398d6571beb41d55f95ee9"
 size = 6930
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/slime-mould.md"]
 hash = "sha256:2aa26ae3758f05b8f7f289ef429b17f11ca7baf138cbe8c3d11556662c4e2276"
 size = 6868
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/snow-geese.md"]
 hash = "sha256:eb3f433a17d7e82fbf1e9739b393485e497c47c3978728cf9fd7800267706202"
 size = 6984
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/spotted-hyena.md"]
 hash = "sha256:4d180939d476a4980a45cd13a842d559df51fc8027c6649d58eb68238b9bfd9c"
 size = 6888
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/squirrel.md"]
 hash = "sha256:90356b6e9b93aeb18354bf4c5b88b92983ad0094db8f3c61b868346d2fa12147"
 size = 7002
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/starling-murmuration.md"]
 hash = "sha256:ab6d004f57f79e2ebc1339058df4f9b51cf5a8139d91d5cafa17c81f017f0e6d"
 size = 7093
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/tunicate-swarm.md"]
 hash = "sha256:c96929077d5f7ba0e6ad12800d26c8e13c0603e55d83951e2ba790e579429654"
 size = 6910
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/whale.md"]
 hash = "sha256:a84bec731145282e3d8c6f733e9932bf0829d55f35039abf1f3d3e572c493f22"
 size = 9124
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/wild-horse.md"]
 hash = "sha256:0099dcbf2d538160f6f34e0346e5e4c7b1c2247067113e2f4df708ec533368af"
 size = 7064
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/algorithms/swarm-intelligence/zebra.md"]
 hash = "sha256:0052f6bf36324cfd8fbe89b3d9f6bebc43e57a6082ccee6c39ff17bea1196fbd"
 size = 7012
 description = "Generated optimizer algorithm pages"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
 
 [files."docs/public/benchmarks/benchmark-results.json"]
-hash = "sha256:af7b56a65c2635eafc93d58046bc5d2f52ee71458f1771a898aa13d848bdcc41"
-size = 439064
+hash = "sha256:b69575e4f2b48fbbec96cc7467625d02b27f2e855067373fa8b9d2502971855a"
+size = 439065
 description = "Aggregated benchmark results feeding the docs charts"
-updated_at = "2026-07-01T22:07:08+00:00"
+updated_at = "2026-07-02T05:18:04+00:00"
