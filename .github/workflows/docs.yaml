@@ -73,6 +73,11 @@ jobs:
       - name: Install Python dependencies
         run: uv sync --group dev
 
+      - name: Verify generated docs match committed fingerprints
+        # Runs through pre-commit so the repo-release-tools version stays pinned
+        # in a single place (.pre-commit-config.yaml) rather than duplicated here.
+        run: uv run pre-commit run rrt-artifacts-check --hook-stage pre-push --all-files
+
       - name: Regenerate Griffe API JSON
         run: uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
 

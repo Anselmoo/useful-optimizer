@@ -37,8 +37,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `objectives` | `Sequence[Callable]` | Required | List of objective functions
-        to minimize. |
+| `objectives` | `Sequence[Callable]` | Required | List of objective functions to minimize. |
 | `lower_bound` | `float` | Required | Lower bound of search space. |
 | `upper_bound` | `float` | Required | Upper bound of search space. |
 | `dim` | `int` | Required | Problem dimensionality. |
@@ -46,8 +45,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `seed` | `int  \|  None` | `None` | **REQUIRED for BBOB compliance. |
 | `population_size` | `int` | `100` | Number of individuals in population. |
 | `crossover_prob` | `float` | `_CROSSOVER_PROBABILITY` | SBX crossover probability. |
-| `mutation_prob` | `float  \|  None` | `None` | Polynomial mutation probability per
-        dimension. |
+| `mutation_prob` | `float  \|  None` | `None` | Polynomial mutation probability per dimension. |
 | `tournament_size` | `int` | `_TOURNAMENT_SIZE` | Binary tournament selection size. |
 | `eta_c` | `float` | `_SBX_DISTRIBUTION_INDEX` | SBX distribution index. |
 | `eta_m` | `float` | `_POLYNOMIAL_MUTATION_INDEX` | Polynomial mutation distribution index. |
@@ -218,6 +216,18 @@ Related Multi-Objective Algorithms:
 - Evolutionary: MOEAD, SPEA2
 - Indicator-based: IBEA, SMS-EMOA
 - Decomposition: MOEA/D, RVEA
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

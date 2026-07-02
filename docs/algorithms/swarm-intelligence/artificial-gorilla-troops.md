@@ -177,6 +177,18 @@ Related BBOB Algorithm Classes:
 - Swarm: ParticleSwarm, AntColony
 - Gradient: AdamW, SGDMomentum
 
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
+
 ## Related Pages
 
 - [Swarm Intelligence Algorithms](/algorithms/swarm-intelligence/)

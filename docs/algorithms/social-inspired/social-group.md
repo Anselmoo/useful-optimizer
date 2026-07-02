@@ -42,11 +42,9 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `dim` | `int` | Required | Problem dimensionality. |
 | `population_size` | `int` | `30` | Number of individuals in social group. |
 | `max_iter` | `int` | `100` | Maximum iterations. |
-| `c` | `float` | `0.2` | Self-introspection coefficient controlling exploration
-        intensity. |
+| `c` | `float` | `0.2` | Self-introspection coefficient controlling exploration intensity. |
 | `track_convergence` | `bool` | `False` | Enable convergence history tracking. |
-| `early_stopping` | `bool` | `False` | Enable early stopping when improvement
-        stagnates. |
+| `early_stopping` | `bool` | `False` | Enable early stopping when improvement stagnates. |
 | `tolerance` | `float` | `1e-06` | Minimum improvement threshold for early stopping. |
 | `patience` | `int` | `10` | Iterations without improvement before early stopping. |
 | `verbose` | `bool` | `False` | Print optimization progress. |
@@ -232,6 +230,18 @@ Related BBOB Algorithm Classes:
 - Evolutionary: GeneticAlgorithm, DifferentialEvolution
 - Swarm: ParticleSwarm, AntColony
 - Gradient: AdamW, SGDMomentum
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

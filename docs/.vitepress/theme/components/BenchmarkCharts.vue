@@ -7,6 +7,7 @@
  *   <BenchmarkCharts algorithm="ParticleSwarm" functionName="shifted_ackley" :dimension="2" />
  */
 import { ref, computed, onMounted, watch } from 'vue'
+import { withBase } from 'vitepress'
 import ConvergenceChart from './ConvergenceChart.vue'
 import ECDFChart from './ECDFChart.vue'
 import ViolinPlot from './ViolinPlot.vue'
@@ -39,9 +40,9 @@ const loadData = async () => {
     loading.value = true
     error.value = null
 
-    let response = await fetch('/benchmarks/benchmark-results.json')
+    let response = await fetch(withBase('/benchmarks/benchmark-results.json'))
     if (!response.ok) {
-      response = await fetch('/benchmarks/demo-benchmark-data.json')
+      response = await fetch(withBase('/benchmarks/demo-benchmark-data.json'))
       if (!response.ok) throw new Error('Failed to load benchmark data')
     }
 

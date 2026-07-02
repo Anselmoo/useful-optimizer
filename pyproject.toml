@@ -227,3 +227,22 @@ strict = true
 
 [tool.ty.environment]
 python-version = "3.12"
+
+# repo-release-tools (rrt) — integrity tracking for generated documentation.
+# `rrt artifacts --snapshot` writes .rrt/artifacts.lock.toml; the
+# rrt-artifacts-check pre-commit/pre-push hook fails when a tracked generated
+# file drifts from its committed fingerprint. See scripts/generate_docs.py.
+[tool.rrt]
+release_branch = "release/v{version}"
+
+[[tool.rrt.version_targets]]
+path = "pyproject.toml"
+kind = "pep621"
+
+[[tool.rrt.artifact_targets]]
+path = "docs/algorithms/*/*.md"
+description = "Generated optimizer algorithm pages"
+
+[[tool.rrt.artifact_targets]]
+path = "docs/public/benchmarks/benchmark-results.json"
+description = "Aggregated benchmark results feeding the docs charts"

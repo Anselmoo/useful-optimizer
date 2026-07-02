@@ -187,6 +187,18 @@ BBOB Comparison: Similar performance, TR more robust to ill-conditioning
 LBFGS: Limited-memory variant with line search
 BBOB Comparison: TR better on ill-conditioned, L-BFGS better memory scaling
 
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
+
 ## Related Pages
 
 - [Classical Algorithms](/algorithms/classical/)

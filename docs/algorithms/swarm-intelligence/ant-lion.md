@@ -44,8 +44,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `max_iter` | `int` | `1000` | Maximum iterations. |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 | `population_size` | `int` | `100` | Population size. |
-| `track_history` | `bool` | `False` | Enable convergence history tracking for BBOB
-        post-processing. |
+| `track_history` | `bool` | `False` | Enable convergence history tracking for BBOB post-processing. |
 
 ## Algorithm Metadata
 
@@ -182,6 +181,18 @@ Related BBOB Algorithm Classes:
 - Evolutionary: GeneticAlgorithm, DifferentialEvolution
 - Swarm: ParticleSwarm, AntColony
 - Gradient: AdamW, SGDMomentum
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

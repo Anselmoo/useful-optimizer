@@ -224,6 +224,18 @@ Related BBOB Algorithm Classes:
 - Model-based: SequentialMonteCarloOptimizer
 - Gradient: L-BFGS-B (used in acquisition)
 
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
+
 ## Related Pages
 
 - [Probabilistic Algorithms](/algorithms/probabilistic/)

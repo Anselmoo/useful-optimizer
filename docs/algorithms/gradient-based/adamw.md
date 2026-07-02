@@ -232,6 +232,25 @@ Related BBOB Algorithm Classes:
 - Gradient: Adam, AMSGrad, Nadam, Adamax
 - Classical: BFGS, L-BFGS
 
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+Convergence, final-fitness distribution and performance profile on `rastrigin` (5D), averaged over independent runs (compared against representative baselines):
+
+<ClientOnly>
+  <BenchmarkCharts
+    algorithm="AdamW"
+    functionName="rastrigin"
+    :dimension="5"
+    :compareWith="['GreyWolfOptimizer', 'ParticleSwarm', 'AntColony']"
+  />
+</ClientOnly>
+
 ## Related Pages
 
 - [Gradient-Based Algorithms](/algorithms/gradient-based/)

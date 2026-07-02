@@ -54,8 +54,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `population_size` | `int` | `100` | Number of ants in colony. |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 | `alpha` | `float` | `1` | Pheromone influence exponent. |
-| `beta` | `float` | `1` | Heuristic information weight (not used in basic
-        continuous ACO). |
+| `beta` | `float` | `1` | Heuristic information weight (not used in basic continuous ACO). |
 | `rho` | `float` | `0.5` | Pheromone evaporation rate in [0, 1]. |
 | `q` | `float` | `1` | Pheromone deposit constant. |
 | `track_history` | `bool` | `False` | Track optimization history for visualization |
@@ -219,6 +218,25 @@ Related BBOB Algorithm Classes:
 - Evolutionary: GeneticAlgorithm, DifferentialEvolution
 - Swarm: ParticleSwarm, BatAlgorithm, FireflyAlgorithm
 - Gradient: AdamW, SGDMomentum
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+Convergence, final-fitness distribution and performance profile on `rastrigin` (5D), averaged over independent runs (compared against representative baselines):
+
+<ClientOnly>
+  <BenchmarkCharts
+    algorithm="AntColony"
+    functionName="rastrigin"
+    :dimension="5"
+    :compareWith="['GreyWolfOptimizer', 'ParticleSwarm', 'FireflyAlgorithm']"
+  />
+</ClientOnly>
 
 ## Related Pages
 

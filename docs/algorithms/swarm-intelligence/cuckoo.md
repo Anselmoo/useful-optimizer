@@ -53,8 +53,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `dim` | `int` | Required | Problem dimensionality. |
 | `population_size` | `int` | `100` | Number of nests (solutions) in the population. |
 | `max_iter` | `int` | `1000` | Maximum iterations. |
-| `mutation_probability` | `float` | `0.1` | Probability of abandoning a nest
-        (discovery rate pa). |
+| `mutation_probability` | `float` | `0.1` | Probability of abandoning a nest (discovery rate pa). |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## Algorithm Metadata
@@ -215,6 +214,18 @@ Related BBOB Algorithm Classes:
 - Evolutionary: GeneticAlgorithm, DifferentialEvolution
 - Swarm: ParticleSwarm, AntColony, FireflyAlgorithm
 - Gradient: AdamW, SGDMomentum
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

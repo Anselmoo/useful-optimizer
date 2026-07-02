@@ -3,8 +3,10 @@
 /**
  * Documentation Dependency Validation Script
  *
- * Validates that the documentation migration to KaTeX is successful.
- * Run this script to verify math rendering and dependency health.
+ * Validates that the documentation math rendering uses VitePress' built-in
+ * MathJax support (markdown-it-mathjax3) rather than the unmaintained
+ * markdown-it-katex plugin, whose markup was incompatible with modern KaTeX
+ * CSS and rendered sub/superscripts incorrectly.
  *
  * Usage:
  *   node validate-docs-migration.js
@@ -60,7 +62,7 @@ const checks = {
   echartsVersion: false,
 };
 
-section('Documentation Migration Validation');
+section('Documentation Math Rendering Validation');
 
 // Check 1: package.json has correct dependencies
 section('1. Checking package.json');
@@ -68,20 +70,20 @@ try {
   const packagePath = join(docsDir, 'package.json');
   const packageJson = JSON.parse(readFileSync(packagePath, 'utf-8'));
 
-  // Check for markdown-it-katex
-  if (packageJson.devDependencies['markdown-it-katex']) {
-    success(`markdown-it-katex found: ${packageJson.devDependencies['markdown-it-katex']}`);
+  // Check for markdown-it-mathjax3
+  if (packageJson.devDependencies['markdown-it-mathjax3']) {
+    success(`markdown-it-mathjax3 found: ${packageJson.devDependencies['markdown-it-mathjax3']}`);
     checks.packageJson = true;
   } else {
-    error('markdown-it-katex not found in devDependencies');
+    error('markdown-it-mathjax3 not found in devDependencies');
   }
 
-  // Check that markdown-it-mathjax3 is removed
-  if (!packageJson.devDependencies['markdown-it-mathjax3']) {
-    success('markdown-it-mathjax3 correctly removed');
+  // Check that the legacy markdown-it-katex is removed
+  if (!packageJson.devDependencies['markdown-it-katex']) {
+    success('legacy markdown-it-katex correctly removed');
     checks.noLegacyDeps = true;
   } else {
-    error('markdown-it-mathjax3 still present - should be removed');
+    error('markdown-it-katex still present - should be removed');
   }
 
   // Verify ECharts versions
@@ -100,46 +102,39 @@ try {
   error(`Failed to read package.json: ${err.message}`);
 }
 
-// Check 2: VitePress config uses KaTeX
+// Check 2: VitePress config uses built-in MathJax
 section('2. Checking VitePress Configuration');
 try {
   const configPath = join(docsDir, '.vitepress', 'config.ts');
   const configContent = readFileSync(configPath, 'utf-8');
 
-  // Check for KaTeX import
-  if (configContent.includes('markdown-it-katex')) {
-    success('markdown-it-katex import found');
-  } else {
-    error('markdown-it-katex import missing');
-  }
-
-  // Check for KaTeX CSS
-  if (configContent.includes('katex@') && configContent.includes('.min.css')) {
-    success('KaTeX CSS stylesheet configured');
-  } else {
-    warning('KaTeX CSS might be missing from head configuration');
-  }
-
-  // Check for plugin configuration
-  if (configContent.includes('md.use(markdownItKatex)')) {
-    success('KaTeX plugin configured in markdown config');
+  // Check for the built-in math option
+  if (/math:\s*true/.test(configContent)) {
+    success('Built-in "math: true" option configured');
     checks.viteConfig = true;
   } else {
-    error('KaTeX plugin not configured - check markdown.config section');
+    error('"math: true" not found - enable VitePress built-in MathJax in markdown config');
   }
 
-  // Check that old math: true option is removed
-  if (configContent.includes('math: true')) {
-    warning('Found "math: true" - this option does nothing and should be removed');
+  // Check that the legacy KaTeX plugin is gone
+  if (!configContent.includes('markdown-it-katex')) {
+    success('No legacy markdown-it-katex import');
   } else {
-    success('Legacy "math: true" option removed');
+    error('markdown-it-katex import still present - should be removed');
+  }
+
+  // Check that the stale KaTeX CDN stylesheet is gone
+  if (!(configContent.includes('katex@') && configContent.includes('.min.css'))) {
+    success('Legacy KaTeX CDN stylesheet removed');
+  } else {
+    warning('Found a KaTeX CDN stylesheet link - no longer needed with MathJax');
   }
 
 } catch (err) {
   error(`Failed to read VitePress config: ${err.message}`);
 }
 
-// Check 3: Built output contains KaTeX
+// Check 3: Built output contains MathJax
 section('3. Checking Built Documentation');
 try {
   const builtFunctionsPath = join(docsDir, '.vitepress', 'dist', 'benchmarks', 'functions.html');
@@ -147,24 +142,24 @@ try {
   if (existsSync(builtFunctionsPath)) {
     const htmlContent = readFileSync(builtFunctionsPath, 'utf-8');
 
-    // Check for KaTeX classes
-    const katexMatches = htmlContent.match(/katex/g);
-    if (katexMatches && katexMatches.length > 0) {
-      success(`KaTeX rendering detected (${katexMatches.length} instances)`);
+    // Check for MathJax containers
+    const mathjaxMatches = htmlContent.match(/mjx-container/g);
+    if (mathjaxMatches && mathjaxMatches.length > 0) {
+      success(`MathJax rendering detected (${mathjaxMatches.length} instances)`);
       checks.mathRendering = true;
     } else {
-      error('No KaTeX rendering found in built HTML');
+      error('No MathJax rendering found in built HTML');
     }
 
-    // Check for MathJax traces (should not exist)
-    if (htmlContent.includes('mjx') || htmlContent.includes('mathjax')) {
-      error('MathJax traces found - migration incomplete');
+    // Check for legacy KaTeX traces (should not exist)
+    if (htmlContent.includes('class="katex')) {
+      error('Legacy KaTeX traces found - migration incomplete');
     } else {
-      success('No MathJax traces found (clean migration)');
+      success('No legacy KaTeX traces found (clean migration)');
     }
 
     // Check for math content
-    if (htmlContent.includes('mathbf') || htmlContent.includes('sum')) {
+    if (htmlContent.includes('MathJax') || htmlContent.includes('<mjx-')) {
       success('Mathematical content found in HTML');
     } else {
       warning('No mathematical content detected - might need to verify');
@@ -184,16 +179,16 @@ try {
   const nodeModulesKatex = join(docsDir, 'node_modules', 'markdown-it-katex');
   const nodeModulesMathjax = join(docsDir, 'node_modules', 'markdown-it-mathjax3');
 
-  if (existsSync(nodeModulesKatex)) {
-    success('markdown-it-katex installed in node_modules');
+  if (existsSync(nodeModulesMathjax)) {
+    success('markdown-it-mathjax3 installed in node_modules');
   } else {
-    error('markdown-it-katex not found in node_modules - run npm install');
+    error('markdown-it-mathjax3 not found in node_modules - run npm install');
   }
 
-  if (!existsSync(nodeModulesMathjax)) {
-    success('markdown-it-mathjax3 not in node_modules (correctly removed)');
+  if (!existsSync(nodeModulesKatex)) {
+    success('markdown-it-katex not in node_modules (correctly removed)');
   } else {
-    warning('markdown-it-mathjax3 still in node_modules - run: rm -rf node_modules && npm install');
+    warning('markdown-it-katex still in node_modules - run: rm -rf node_modules && npm install');
   }
 } catch (err) {
   warning(`Could not verify node_modules: ${err.message}`);
@@ -209,7 +204,7 @@ console.log(`\nPassed: ${passedChecks}/${totalChecks} (${percentage}%)\n`);
 
 if (passedChecks === totalChecks) {
   success('All critical checks passed! ✨');
-  success('Migration to KaTeX is complete and working correctly.');
+  success('Math rendering via built-in MathJax is complete and working correctly.');
   console.log('\nNext steps:');
   info('1. Run "npm run docs:dev" to test locally');
   info('2. Run "npm run docs:build" to verify production build');
@@ -225,13 +220,13 @@ if (passedChecks === totalChecks) {
   });
   console.log('\nRecommended actions:');
   if (!checks.packageJson) {
-    info('1. Verify package.json has "markdown-it-katex": "^2.0.3"');
+    info('1. Verify package.json has "markdown-it-mathjax3": "^4"');
   }
   if (!checks.viteConfig) {
-    info('2. Check .vitepress/config.ts for KaTeX configuration');
+    info('2. Set markdown: { math: true } in .vitepress/config.ts');
   }
   if (!checks.noLegacyDeps) {
-    info('3. Remove markdown-it-mathjax3 from package.json');
+    info('3. Remove markdown-it-katex from package.json');
     info('4. Run: rm -rf node_modules package-lock.json && npm install');
   }
   process.exit(1);

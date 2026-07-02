@@ -712,7 +712,7 @@
           "type": "float",
           "default": "10000000000.0",
           "required": false,
-          "description": "Large penalty cost applied when constraint\n        evaluation yields NaN."
+          "description": "Large penalty cost applied when constraint evaluation yields NaN."
         },
         {
           "name": "seed",
@@ -768,7 +768,7 @@
           "type": "list[Callable[[np.ndarray], float]] | None",
           "default": "None",
           "required": false,
-          "description": "List of\n        inequality constraints in form $g(x) \\leq 0$."
+          "description": "List of inequality constraints in form $g(x) \\leq 0$."
         },
         {
           "name": "max_iter",
@@ -845,14 +845,14 @@
           "type": "list[Callable[[np.ndarray], float]] | None",
           "default": "None",
           "required": false,
-          "description": "List of\n        inequality constraints in form $g(x) \\leq 0$."
+          "description": "List of inequality constraints in form $g(x) \\leq 0$."
         },
         {
           "name": "eq_constraints",
           "type": "list[Callable[[np.ndarray], float]] | None",
           "default": "None",
           "required": false,
-          "description": "List of\n        equality constraints in form $h(x) = 0$."
+          "description": "List of equality constraints in form $h(x) = 0$."
         },
         {
           "name": "max_iter",
@@ -929,14 +929,14 @@
           "type": "list[Callable[[np.ndarray], float]] | None",
           "default": "None",
           "required": false,
-          "description": "List of\n        inequality constraints in form $g(x) \\leq 0$."
+          "description": "List of inequality constraints in form $g(x) \\leq 0$."
         },
         {
           "name": "eq_constraints",
           "type": "list[Callable[[np.ndarray], float]] | None",
           "default": "None",
           "required": false,
-          "description": "List of\n        equality constraints in form $h(x) = 0$."
+          "description": "List of equality constraints in form $h(x) = 0$."
         },
         {
           "name": "max_iter",
@@ -1020,7 +1020,7 @@
           "type": "int",
           "default": "100",
           "required": false,
-          "description": "Population size for gradient estimation via\n        finite differences."
+          "description": "Population size for gradient estimation via finite differences."
         },
         {
           "name": "track_history",
@@ -2798,14 +2798,14 @@
           "type": "float",
           "default": "0.95",
           "required": false,
-          "description": "Probability of selecting a value\n        from harmony memory (HMCR)."
+          "description": "Probability of selecting a value from harmony memory (HMCR)."
         },
         {
           "name": "pitch_adjusting_rate",
           "type": "float",
           "default": "0.7",
           "required": false,
-          "description": "Probability of adjusting a selected harmony\n        (PAR)."
+          "description": "Probability of adjusting a selected harmony (PAR)."
         },
         {
           "name": "bandwidth",
@@ -3407,7 +3407,7 @@
           "type": "int",
           "default": "10",
           "required": false,
-          "description": "Number of neighbors explored around each\n        individual."
+          "description": "Number of neighbors explored around each individual."
         },
         {
           "name": "seed",
@@ -3435,7 +3435,7 @@
           "type": "list[Callable[[np.ndarray], float]]",
           "default": null,
           "required": true,
-          "description": "List of objective functions\n        to minimize."
+          "description": "List of objective functions to minimize."
         },
         {
           "name": "lower_bound",
@@ -3498,7 +3498,7 @@
           "type": "Sequence[Callable[[np.ndarray], float]]",
           "default": null,
           "required": true,
-          "description": "List of objective functions\n        to minimize."
+          "description": "List of objective functions to minimize."
         },
         {
           "name": "lower_bound",
@@ -3554,7 +3554,7 @@
           "type": "float | None",
           "default": "None",
           "required": false,
-          "description": "Polynomial mutation probability per\n        dimension."
+          "description": "Polynomial mutation probability per dimension."
         },
         {
           "name": "tournament_size",
@@ -3596,7 +3596,7 @@
           "type": "list[Callable[[np.ndarray], float]]",
           "default": null,
           "required": true,
-          "description": "List of objective functions\n        to minimize."
+          "description": "List of objective functions to minimize."
         },
         {
           "name": "lower_bound",
@@ -4051,7 +4051,7 @@
           "type": "int",
           "default": "50",
           "required": false,
-          "description": "Maximum Bayesian optimization iterations after initial\n        sampling."
+          "description": "Maximum Bayesian optimization iterations after initial sampling."
         },
         {
           "name": "xi",
@@ -4226,7 +4226,7 @@
           "type": "str",
           "default": "'difference'",
           "required": false,
-          "description": "Strategy for selecting next point:\n        \"difference\" or \"ratio\"."
+          "description": "Strategy for selecting next point: \"difference\" or \"ratio\"."
         },
         {
           "name": "seed",
@@ -4506,7 +4506,7 @@
           "type": "float",
           "default": "0.2",
           "required": false,
-          "description": "Self-introspection coefficient controlling exploration\n        intensity."
+          "description": "Self-introspection coefficient controlling exploration intensity."
         },
         {
           "name": "track_convergence",
@@ -4520,7 +4520,7 @@
           "type": "bool",
           "default": "False",
           "required": false,
-          "description": "Enable early stopping when improvement\n        stagnates."
+          "description": "Enable early stopping when improvement stagnates."
         },
         {
           "name": "tolerance",
@@ -4828,7 +4828,7 @@
           "type": "float",
           "default": "1",
           "required": false,
-          "description": "Heuristic information weight (not used in basic\n        continuous ACO)."
+          "description": "Heuristic information weight (not used in basic continuous ACO)."
         },
         {
           "name": "rho",
@@ -4919,7 +4919,7 @@
           "type": "bool",
           "default": "False",
           "required": false,
-          "description": "Enable convergence history tracking for BBOB\n        post-processing."
+          "description": "Enable convergence history tracking for BBOB post-processing."
         }
       ],
       "example_code": "from opt.swarm_intelligence.ant_lion_optimizer import AntLionOptimizer\nfrom opt.benchmark.functions import shifted_ackley\noptimizer = AntLionOptimizer(\n    func=shifted_ackley, lower_bound=-32.768, upper_bound=32.768, dim=2, max_iter=50\n)\nsolution, fitness = optimizer.search()\nisinstance(fitness, float)\nlen(solution) == 2"
@@ -5885,7 +5885,7 @@
           "type": "float",
           "default": "0.1",
           "required": false,
-          "description": "Probability of abandoning a nest\n        (discovery rate pa)."
+          "description": "Probability of abandoning a nest (discovery rate pa)."
         },
         {
           "name": "seed",
@@ -6249,7 +6249,7 @@
           "type": "float",
           "default": "0.5",
           "required": false,
-          "description": "Randomization parameter controlling step size\n        of random movement."
+          "description": "Randomization parameter controlling step size of random movement."
         },
         {
           "name": "beta_0",
@@ -7425,7 +7425,7 @@
           "type": "float",
           "default": "PSO_COGNITIVE_COEFFICIENT",
           "required": false,
-          "description": "Cognitive coefficient controlling attraction to personal\n        best."
+          "description": "Cognitive coefficient controlling attraction to personal best."
         },
         {
           "name": "c2",
@@ -7453,7 +7453,7 @@
           "type": "bool",
           "default": "False",
           "required": false,
-          "description": "Enable convergence history tracking for BBOB\n        post-processing."
+          "description": "Enable convergence history tracking for BBOB post-processing."
         },
         {
           "name": "target_precision",
@@ -8048,7 +8048,7 @@
           "type": "bool",
           "default": "False",
           "required": false,
-          "description": "Enable convergence history tracking for BBOB\n        post-processing."
+          "description": "Enable convergence history tracking for BBOB post-processing."
         }
       ],
       "example_code": "from opt.swarm_intelligence.squirrel_search import SquirrelSearchAlgorithm\nfrom opt.benchmark.functions import shifted_ackley\noptimizer = SquirrelSearchAlgorithm(\n    func=shifted_ackley, lower_bound=-32.768, upper_bound=32.768, dim=2, max_iter=50\n)\nsolution, fitness = optimizer.search()\nisinstance(fitness, float)\nlen(solution) == 2"

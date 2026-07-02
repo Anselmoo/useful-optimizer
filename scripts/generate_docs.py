@@ -30,6 +30,7 @@ import textwrap
 
 from dataclasses import dataclass
 from dataclasses import field
+from functools import cache
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -448,12 +449,18 @@ def parse_args_section(args_text: str, params: list[ParameterInfo]) -> None:
         if default_match:
             default = default_match.group(1).rstrip(".")
 
+        # Collapse internal whitespace (multi-line docstring descriptions carry
+        # newlines that would otherwise break the generated Markdown table).
+        clean = re.sub(r"\s+", " ", desc.strip())
+        first_sentence = clean.split(".")[0].strip()
+        description = f"{first_sentence}." if first_sentence else clean
+
         params.append(
             ParameterInfo(
                 name=name,
                 type_hint=type_hint,
                 default=default if is_optional else None,
-                description=desc.strip().split(".")[0] + ".",
+                description=description,
             )
         )
 
@@ -664,6 +671,135 @@ def parse_optimizer_file(file_path: Path) -> OptimizerDoc | None:
     )
 
 
+# ---------------------------------------------------------------------------
+# Benchmark chart integration
+# ---------------------------------------------------------------------------
+
+# Analytic surface shown on every algorithm page via FitnessLandscape3D
+# (real benchmark-function values, no run data required).
+_LANDSCAPE_FUNCTION = "rastrigin"
+
+# Preferred function/dimension for the run-based BenchmarkCharts embed, with
+# graceful fallback to whatever the optimizer actually has data for.
+_CHART_PREFERRED_FUNCS = ("rastrigin", "ackley", "rosenbrock", "sphere")
+_CHART_PREFERRED_DIM = "5"
+# Comparison baselines drawn alongside the page's own algorithm when they share
+# the same function/dimension. Capped for chart legibility. Ordered to favour
+# optimizers that record convergence history, so the convergence/ECDF charts
+# are populated with multiple curves rather than a single line.
+_COMPARE_PRIORITY = (
+    "GreyWolfOptimizer",
+    "ParticleSwarm",
+    "AntColony",
+    "FireflyAlgorithm",
+    "DifferentialEvolution",
+    "GeneticAlgorithm",
+    "AdamW",
+)
+_COMPARE_LIMIT = 3
+
+
+@cache
+def _load_benchmark_index() -> dict:
+    """Load published benchmark data and index optimizer coverage.
+
+    Prefers the real ``benchmark-results.json``; falls back to the committed
+    demo data; returns empty indexes when neither is present. Result is cached.
+    """
+    repo_root = Path(__file__).resolve().parent.parent
+    bench_dir = repo_root / "docs" / "public" / "benchmarks"
+    data: dict = {}
+    for candidate in ("benchmark-results.json", "demo-benchmark-data.json"):
+        path = bench_dir / candidate
+        if path.exists():
+            try:
+                data = json.loads(path.read_text(encoding="utf-8"))
+            except (OSError, json.JSONDecodeError):
+                data = {}
+            break
+
+    locations: dict[str, list[tuple[str, str]]] = {}
+    by_func_dim: dict[tuple[str, str], set[str]] = {}
+    for func, dims in data.get("benchmarks", {}).items():
+        for dim, opts in dims.items():
+            for algo in opts:
+                locations.setdefault(algo, []).append((func, dim))
+                by_func_dim.setdefault((func, dim), set()).add(algo)
+
+    return {"locations": locations, "by_func_dim": by_func_dim}
+
+
+def _pick_chart_target(algorithm: str) -> tuple[str, str] | None:
+    """Choose a representative (function, dimension) the algorithm has data for."""
+    locations = _load_benchmark_index()["locations"].get(algorithm)
+    if not locations:
+        return None
+    location_set = set(locations)
+    for func in _CHART_PREFERRED_FUNCS:
+        if (func, _CHART_PREFERRED_DIM) in location_set:
+            return func, _CHART_PREFERRED_DIM
+    for func in _CHART_PREFERRED_FUNCS:
+        for loc_func, loc_dim in locations:
+            if loc_func == func:
+                return loc_func, loc_dim
+    return locations[0]
+
+
+def _pick_compare(algorithm: str, func: str, dim: str) -> list[str]:
+    """Pick up to ``_COMPARE_LIMIT`` baseline optimizers sharing this func/dim."""
+    others = _load_benchmark_index()["by_func_dim"].get((func, dim), set()) - {
+        algorithm
+    }
+    ordered = [a for a in _COMPARE_PRIORITY if a in others]
+    ordered += [a for a in sorted(others) if a not in ordered]
+    return ordered[:_COMPARE_LIMIT]
+
+
+def _benchmark_section_lines(doc: OptimizerDoc) -> list[str]:
+    """Build the '## Benchmark Performance' Markdown block for an optimizer."""
+    lines = ["## Benchmark Performance", ""]
+    lines.append(
+        "Interactive fitness landscape of a representative multimodal benchmark "
+        "function (drag to rotate, scroll to zoom):"
+    )
+    lines.append("")
+    lines.append("<ClientOnly>")
+    lines.append(f'  <FitnessLandscape3D functionName="{_LANDSCAPE_FUNCTION}" />')
+    lines.append("</ClientOnly>")
+    lines.append("")
+
+    target = _pick_chart_target(doc.class_name)
+    if target is not None:
+        func, dim = target
+        compare = _pick_compare(doc.class_name, func, dim)
+        suffix = " (compared against representative baselines):" if compare else ":"
+        lines.append(
+            f"Convergence, final-fitness distribution and performance profile on "
+            f"`{func}` ({dim}D), averaged over independent runs{suffix}"
+        )
+        lines.append("")
+        lines.append("<ClientOnly>")
+        lines.append("  <BenchmarkCharts")
+        lines.append(f'    algorithm="{doc.class_name}"')
+        lines.append(f'    functionName="{func}"')
+        lines.append(f'    :dimension="{dim}"')
+        if compare:
+            compare_list = ", ".join(f"'{c}'" for c in compare)
+            lines.append(f'    :compareWith="[{compare_list}]"')
+        lines.append("  />")
+        lines.append("</ClientOnly>")
+        lines.append("")
+    else:
+        lines.append("::: tip Run-based charts")
+        lines.append(
+            "Convergence, distribution and ECDF charts appear here once this "
+            "optimizer is included in the benchmark suite."
+        )
+        lines.append(":::")
+        lines.append("")
+    return lines
+
+
 def generate_markdown(doc: OptimizerDoc) -> str:
     """Generate Markdown documentation from parsed optimizer info."""
     cat_info = CATEGORY_INFO.get(doc.category, {})
@@ -766,7 +902,12 @@ def generate_markdown(doc: OptimizerDoc) -> str:
         type_display = type_display.replace("|", " \\| ")
         type_display = re.sub(r"Callable\[\[.*?\],\s*float\]", "Callable", type_display)
 
-        lines.append(f"| `{param.name}` | `{type_display}` | {default_str} | {desc} |")
+        # Guard against any residual newlines/pipes breaking the Markdown table.
+        safe_desc = re.sub(r"\s+", " ", desc).replace("|", "\\|").strip()
+
+        lines.append(
+            f"| `{param.name}` | `{type_display}` | {default_str} | {safe_desc} |"
+        )
 
     lines.append("")
 
@@ -779,6 +920,10 @@ def generate_markdown(doc: OptimizerDoc) -> str:
         lines.append("")
         lines.append(section_body)
         lines.append("")
+
+    # Benchmark performance charts: analytic fitness landscape on every page,
+    # plus real convergence/distribution/ECDF charts when run data exists.
+    lines.extend(_benchmark_section_lines(doc))
 
     # Navigation links. When the class docstring supplies its own "See Also"
     # section (rendered above), use a distinct heading to avoid a duplicate.
@@ -962,7 +1107,9 @@ def generate_json_metadata(docs: list[OptimizerDoc], output_path: Path) -> None:
     }
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(json.dumps(output_data, indent=2), encoding="utf-8")
+    # Trailing newline keeps end-of-file-fixer from re-touching the file (which
+    # would otherwise ping-pong with the regenerate-optimizer-docs hook).
+    output_path.write_text(json.dumps(output_data, indent=2) + "\n", encoding="utf-8")
     print(f"Generated JSON metadata: {output_path}")
 
 
