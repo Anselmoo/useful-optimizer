@@ -40,8 +40,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `upper_bound` | `float` | Required | Upper bound of search space. |
 | `dim` | `int` | Required | Problem dimensionality. |
 | `n_initial` | `int` | `10` | Number of initial random samples to build GP surrogate. |
-| `max_iter` | `int` | `50` | Maximum Bayesian optimization iterations after initial
-        sampling. |
+| `max_iter` | `int` | `50` | Maximum Bayesian optimization iterations after initial sampling. |
 | `xi` | `float` | `0.01` | Exploration parameter for Expected Improvement acquisition. |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
@@ -214,6 +213,18 @@ Related BBOB Algorithm Classes:
 - Probabilistic: AdaptiveMetropolisOptimizer, SequentialMonteCarloOptimizer
 - Gradient: AdamW, SGDMomentum
 - Metaheuristic: SimulatedAnnealing, HarmonySearch
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

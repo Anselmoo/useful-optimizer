@@ -1,4 +1,5 @@
 import { ref, computed } from 'vue'
+import { withBase } from 'vitepress'
 import type { BenchmarkDataSchema, Benchmarks } from '../types/benchmark'
 
 export function useBenchmarkData(
@@ -15,9 +16,9 @@ export function useBenchmarkData(
       loading.value = true
       error.value = null
 
-      let response = await fetch('/benchmarks/benchmark-results.json')
+      let response = await fetch(withBase('/benchmarks/benchmark-results.json'))
       if (!response.ok) {
-        response = await fetch('/benchmarks/demo-benchmark-data.json')
+        response = await fetch(withBase('/benchmarks/demo-benchmark-data.json'))
         if (!response.ok) {
           throw new Error('Failed to load benchmark data')
         }

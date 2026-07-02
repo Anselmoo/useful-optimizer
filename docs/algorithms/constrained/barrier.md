@@ -39,8 +39,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `lower_bound` | `float` | Required | Lower bound of search space. |
 | `upper_bound` | `float` | Required | Upper bound of search space. |
 | `dim` | `int` | Required | Problem dimensionality. |
-| `constraints` | `list[Callable]  \|  None` | `None` | List of
-        inequality constraints in form $g(x) \leq 0$. |
+| `constraints` | `list[Callable]  \|  None` | `None` | List of inequality constraints in form $g(x) \leq 0$. |
 | `max_iter` | `int` | `100` | Maximum outer iterations. |
 | `initial_mu` | `float` | `10.0` | Starting barrier coefficient. |
 | `mu_reduction` | `float` | `0.5` | Barrier reduction factor β (0 < β < 1). |
@@ -207,6 +206,18 @@ opt.benchmark.functions: BBOB-compatible test functions
 Related BBOB Algorithm Classes:
 - Classical: SimulatedAnnealing, NelderMead
 - Gradient: AdamW, BFGS
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

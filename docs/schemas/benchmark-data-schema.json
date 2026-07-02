@@ -37,7 +37,7 @@
                 "type": "array",
                 "items": {
                   "type": "object",
-                  "required": ["best_fitness", "best_solution", "n_evaluations"],
+                  "required": ["best_fitness", "n_evaluations"],
                   "properties": {
                     "best_fitness": { "type": "number" },
                     "best_solution": {

@@ -61,8 +61,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `max_iter` | `int` | `1000` | Maximum outer iterations. |
 | `c` | `float` | `1` | Initial penalty parameter for constraint violations. |
 | `lambda_` | `float` | `0.1` | Initial Lagrange multiplier. |
-| `static_cost` | `float` | `10000000000.0` | Large penalty cost applied when constraint
-        evaluation yields NaN. |
+| `static_cost` | `float` | `10000000000.0` | Large penalty cost applied when constraint evaluation yields NaN. |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## Algorithm Metadata
@@ -238,6 +237,18 @@ opt.benchmark.functions: BBOB-compatible test functions
 Related BBOB Algorithm Classes:
 - Classical: SimulatedAnnealing, NelderMead
 - Gradient: AdamW, SGDMomentum, BFGS
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

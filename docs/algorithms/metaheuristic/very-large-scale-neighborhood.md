@@ -49,8 +49,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `dim` | `int` | Required | Problem dimensionality. |
 | `population_size` | `int` | `100` | Number of individuals in population. |
 | `max_iter` | `int` | `1000` | Maximum iterations. |
-| `neighborhood_size` | `int` | `10` | Number of neighbors explored around each
-        individual. |
+| `neighborhood_size` | `int` | `10` | Number of neighbors explored around each individual. |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## Algorithm Metadata
@@ -208,6 +207,18 @@ Related BBOB Algorithm Classes:
 - Evolutionary: GeneticAlgorithm, DifferentialEvolution
 - Swarm: ParticleSwarm, AntColony
 - Gradient: AdamW, SGDMomentum
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

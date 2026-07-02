@@ -44,7 +44,9 @@ class Run(BaseModel):
     """Individual optimization run results."""
 
     best_fitness: float
-    best_solution: list[float]
+    # Omitted from the web-published file to keep it lean — the charts never
+    # read the full solution vector.
+    best_solution: list[float] | None = None
     n_evaluations: int
     history: History | None = None
 

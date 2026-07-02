@@ -175,6 +175,25 @@ BBOB Comparison: SA better on multimodal, HC faster on unimodal
 TabuSearch: Memory-based metaheuristic
 BBOB Comparison: Both escape local optima, different mechanisms
 
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+Convergence, final-fitness distribution and performance profile on `rastrigin` (5D), averaged over independent runs (compared against representative baselines):
+
+<ClientOnly>
+  <BenchmarkCharts
+    algorithm="SimulatedAnnealing"
+    functionName="rastrigin"
+    :dimension="5"
+    :compareWith="['GreyWolfOptimizer', 'ParticleSwarm', 'AntColony']"
+  />
+</ClientOnly>
+
 ## Related Pages
 
 - [Classical Algorithms](/algorithms/classical/)

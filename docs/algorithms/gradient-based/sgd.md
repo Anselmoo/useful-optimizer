@@ -195,6 +195,18 @@ Related BBOB Algorithm Classes:
 - Gradient: Adam, AdamW, RMSprop, SGDMomentum
 - Classical: BFGS, L-BFGS
 
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
+
 ## Related Pages
 
 - [Gradient-Based Algorithms](/algorithms/gradient-based/)

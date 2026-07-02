@@ -3,7 +3,7 @@
 export interface Benchmarks {
   runs: {
     best_fitness: number
-    best_solution: number[]
+    best_solution?: number[]
     n_evaluations: number
     history?: {
       best_fitness?: number[]
@@ -52,7 +52,7 @@ export interface BenchmarkDataSchema {
         [k: string]: {
           runs: {
             best_fitness: number;
-            best_solution: number[];
+            best_solution?: number[];
             n_evaluations: number;
             history?: {
               best_fitness?: number[];

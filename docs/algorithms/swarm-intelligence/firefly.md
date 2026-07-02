@@ -69,8 +69,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `dim` | `int` | Required | Problem dimensionality. |
 | `population_size` | `int` | `100` | Number of fireflies in the population. |
 | `max_iter` | `int` | `1000` | Maximum iterations. |
-| `alpha` | `float` | `0.5` | Randomization parameter controlling step size
-        of random movement. |
+| `alpha` | `float` | `0.5` | Randomization parameter controlling step size of random movement. |
 | `beta_0` | `float` | `1` | Attractiveness coefficient at distance r=0. |
 | `gamma` | `float` | `1` | Light absorption coefficient. |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
@@ -237,6 +236,25 @@ Related BBOB Algorithm Classes:
 - Evolutionary: GeneticAlgorithm, DifferentialEvolution
 - Swarm: ParticleSwarm, AntColony, BatAlgorithm
 - Gradient: AdamW, SGDMomentum
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+Convergence, final-fitness distribution and performance profile on `rastrigin` (5D), averaged over independent runs (compared against representative baselines):
+
+<ClientOnly>
+  <BenchmarkCharts
+    algorithm="FireflyAlgorithm"
+    functionName="rastrigin"
+    :dimension="5"
+    :compareWith="['GreyWolfOptimizer', 'ParticleSwarm', 'AntColony']"
+  />
+</ClientOnly>
 
 ## Related Pages
 

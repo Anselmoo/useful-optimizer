@@ -4,6 +4,7 @@ This page demonstrates the ECharts and TresJS visualization components using rea
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
+import { withBase } from 'vitepress'
 import {
   buildConvergenceSeries,
   buildECDFSeries,
@@ -12,7 +13,7 @@ import {
 } from './.vitepress/theme/utils/benchmarkTransforms'
 import type { BenchmarkDataSchema } from './.vitepress/theme/types/benchmark'
 
-const datasetPath = '/benchmarks/demo-benchmark-data.json'
+const datasetPath = withBase('/benchmarks/demo-benchmark-data.json')
 const funcName = 'shifted_ackley'
 const dimension = 2
 const ecdfTargets = [1e-1, 1e-3, 1e-5, 1e-7]

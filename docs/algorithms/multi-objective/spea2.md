@@ -33,8 +33,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `objectives` | `list[Callable]` | Required | List of objective functions
-        to minimize. |
+| `objectives` | `list[Callable]` | Required | List of objective functions to minimize. |
 | `lower_bound` | `float` | Required | Lower bound of search space. |
 | `upper_bound` | `float` | Required | Upper bound of search space. |
 | `dim` | `int` | Required | Problem dimensionality. |
@@ -221,6 +220,18 @@ Related Multi-Objective Algorithms:
 - Pareto-based: NSGA-II, NSGA-III
 - Decomposition: MOEA/D, RVEA
 - Indicator-based: IBEA, SMS-EMOA
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

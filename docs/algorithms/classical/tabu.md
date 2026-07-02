@@ -182,6 +182,18 @@ BBOB Comparison: Both escape local optima, TS uses deterministic memory
 HillClimbing: Greedy local search without memory or probabilistic acceptance
 BBOB Comparison: TS better on multimodal due to tabu memory
 
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
+
 ## Related Pages
 
 - [Classical Algorithms](/algorithms/classical/)

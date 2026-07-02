@@ -51,8 +51,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `dim` | `int` | Required | Problem dimensionality. |
 | `max_iter` | `int` | `1000` | Maximum SLP iterations. |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
-| `population_size` | `int` | `100` | Population size for gradient estimation via
-        finite differences. |
+| `population_size` | `int` | `100` | Population size for gradient estimation via finite differences. |
 | `track_history` | `bool` | `False` | Track optimization history for visualization |
 
 ## Algorithm Metadata
@@ -221,6 +220,18 @@ opt.benchmark.functions: BBOB-compatible test functions
 Related BBOB Algorithm Classes:
 - Classical: SimulatedAnnealing, NelderMead
 - Gradient: AdamW, BFGS
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

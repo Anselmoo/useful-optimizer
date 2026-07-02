@@ -27,6 +27,27 @@ from pydantic import ValidationError
 from opt.benchmark.optima import get_optimum_safe
 
 
+def sanitize_json(obj: object) -> object:
+    """Recursively make the payload strict JSON and compact for the browser.
+
+    Two transforms:
+    - Non-finite floats (``inf``/``-inf``/``nan``) become ``None``. Python's
+      ``json.dump`` writes them as the literals ``Infinity``/``NaN``, which
+      browsers' ``JSON.parse`` rejects.
+    - Finite floats are rounded to 6 significant figures, shrinking the served
+      file substantially without any visible impact on the charts.
+    """
+    if isinstance(obj, dict):
+        return {key: sanitize_json(value) for key, value in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize_json(item) for item in obj]
+    if isinstance(obj, float):
+        if not np.isfinite(obj):
+            return None
+        return float(f"{obj:.6g}")
+    return obj
+
+
 def downsample_convergence(
     history: list[float], target_points: int = 100
 ) -> list[float]:
@@ -176,7 +197,10 @@ def aggregate_results(input_file: Path, _output_dir: Path | None = None) -> dict
         f_opt = get_optimum_safe(func_name, default=0.0)
 
         for dim_key, dim_data in func_data.items():
-            processed["benchmarks"][func_name][dim_key] = {}
+            # Normalize the raw suite's "2D"/"5D" keys to the bare "2"/"5"
+            # form the chart components and JSON schema expect.
+            norm_dim_key = dim_key.removesuffix("D")
+            processed["benchmarks"][func_name][norm_dim_key] = {}
 
             for optimizer_name, optimizer_data in dim_data.items():
                 runs = optimizer_data.get("runs", [])
@@ -206,9 +230,10 @@ def aggregate_results(input_file: Path, _output_dir: Path | None = None) -> dict
                 # Process convergence histories
                 processed_runs = []
                 for run in runs:
+                    # best_solution is intentionally omitted — the docs charts
+                    # never read the full solution vector and it dominates size.
                     processed_run = {
-                        "best_fitness": run.get("best_fitness", float("inf")),
-                        "best_solution": run.get("best_solution", []),
+                        "best_fitness": run.get("best_fitness"),
                         "n_evaluations": run.get("n_evaluations", 0),
                     }
 
@@ -222,7 +247,7 @@ def aggregate_results(input_file: Path, _output_dir: Path | None = None) -> dict
                     processed_runs.append(processed_run)
 
                 # Store processed data
-                processed["benchmarks"][func_name][dim_key][optimizer_name] = {
+                processed["benchmarks"][func_name][norm_dim_key][optimizer_name] = {
                     "runs": processed_runs,
                     "statistics": stats,
                     "success_rate": success_rate,
@@ -302,10 +327,15 @@ def main():
             sys.exit(1)
         print("Validation passed!")
 
-    # Save processed results
+    # Save processed results. Sanitize non-finite floats to null and set
+    # allow_nan=False so serialization fails loudly if any slip through —
+    # guaranteeing a strict, browser-parseable JSON file for the docs charts.
     output_file = args.output_dir / "benchmark-summary.json"
     with output_file.open("w") as f:
-        json.dump(processed_data, f, indent=2)
+        # Compact separators (no indentation) keep the browser-served file small.
+        json.dump(
+            sanitize_json(processed_data), f, separators=(",", ":"), allow_nan=False
+        )
 
     print(f"Processed results saved to {output_file}")
 

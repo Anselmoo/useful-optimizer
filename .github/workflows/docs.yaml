@@ -73,6 +73,9 @@ jobs:
       - name: Install Python dependencies
         run: uv sync --group dev
 
+      - name: Verify generated docs match committed fingerprints
+        run: uvx --from git+https://github.com/Anselmoo/repo-release-tools@v1.9.1 rrt artifacts --check --strict
+
       - name: Regenerate Griffe API JSON
         run: uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
 

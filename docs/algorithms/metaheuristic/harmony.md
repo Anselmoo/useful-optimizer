@@ -45,10 +45,8 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `dim` | `int` | Required | Problem dimensionality. |
 | `population_size` | `int` | `100` | Harmony memory size. |
 | `max_iter` | `int` | `1000` | Maximum iterations. |
-| `harmony_memory_accepting_rate` | `float` | `0.95` | Probability of selecting a value
-        from harmony memory (HMCR). |
-| `pitch_adjusting_rate` | `float` | `0.7` | Probability of adjusting a selected harmony
-        (PAR). |
+| `harmony_memory_accepting_rate` | `float` | `0.95` | Probability of selecting a value from harmony memory (HMCR). |
+| `pitch_adjusting_rate` | `float` | `0.7` | Probability of adjusting a selected harmony (PAR). |
 | `bandwidth` | `float` | `0.01` | Range for pitch adjustment. |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 | `target_precision` | `float` | `1e-08` | Algorithm-specific parameter |
@@ -208,6 +206,25 @@ Related BBOB Algorithm Classes:
 - Evolutionary: GeneticAlgorithm, DifferentialEvolution
 - Swarm: ParticleSwarm, AntColony
 - Gradient: AdamW, SGDMomentum
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+Convergence, final-fitness distribution and performance profile on `rastrigin` (5D), averaged over independent runs (compared against representative baselines):
+
+<ClientOnly>
+  <BenchmarkCharts
+    algorithm="HarmonySearch"
+    functionName="rastrigin"
+    :dimension="5"
+    :compareWith="['GreyWolfOptimizer', 'ParticleSwarm', 'AntColony']"
+  />
+</ClientOnly>
 
 ## Related Pages
 

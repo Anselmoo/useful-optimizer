@@ -36,3 +36,29 @@ repos:
         additional_dependencies:
           - pydantic>=2.12.5
           - jsonschema>=4.23.0
+
+      # Regenerate the VitePress algorithm docs whenever an optimizer source
+      # file, the generator, or the published benchmark data changes. Modifies
+      # docs/algorithms/**; re-stage and commit again if it rewrites files
+      # (same pattern as ruff-format). Mirrors the docs.yaml CI generation step.
+      # Note: intentionally omits --griffe/--full-api. The Griffe API JSON
+      # embeds a machine-specific git_info.repository absolute path, so it is
+      # non-deterministic across environments and would make this hook never
+      # converge. Those files are regenerated fresh in the docs CI build.
+      - id: regenerate-optimizer-docs
+        name: Regenerate optimizer docs (Markdown + charts + sidebar)
+        entry: uv run python scripts/generate_docs.py --all --json --sidebar
+        language: system
+        pass_filenames: false
+        files: ^(src/opt/.*\.py|scripts/generate_docs\.py|docs/public/benchmarks/benchmark-results\.json)$
+
+  # repo-release-tools: fail when a generated artifact drifts from its
+  # committed fingerprint (.rrt/artifacts.lock.toml). Refresh the lock after
+  # regenerating with:  just docs   (or  rrt artifacts --snapshot ).
+  - repo: https://github.com/Anselmoo/repo-release-tools
+    rev: v1.9.1
+    hooks:
+      - id: rrt-artifacts-check
+        stages: [pre-push]
+      - id: rrt-artifacts-snapshot
+        stages: [manual]

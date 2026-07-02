@@ -57,8 +57,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `gamma` | `float` | `0.15` | Quantile for splitting observations into good/bad. |
 | `bandwidth` | `float` | `0.2` | Gaussian kernel bandwidth for KDE. |
 | `n_samples` | `int  \|  None` | `None` | Number of candidates to sample from good KDE. |
-| `selection_strategy` | `str` | `'difference'` | Strategy for selecting next point:
-        "difference" or "ratio". |
+| `selection_strategy` | `str` | `'difference'` | Strategy for selecting next point: "difference" or "ratio". |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
 
 ## Algorithm Metadata
@@ -234,6 +233,18 @@ Related BBOB Algorithm Classes:
 - Probabilistic: BayesianOptimizer, AdaptiveMetropolisOptimizer
 - Metaheuristic: HarmonySearch, SineCosineAlgorithm
 - Swarm: ParticleSwarm, AntColony
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+::: tip Run-based charts
+Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+:::
 
 ## Related Pages
 

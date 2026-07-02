@@ -57,13 +57,11 @@ print(f"Best fitness: {best_fitness:.6e}")
 | `dim` | `int` | Required | Problem dimensionality. |
 | `population_size` | `int` | `DEFAULT_POPULATION_SIZE` | Number of particles in swarm. |
 | `max_iter` | `int` | `DEFAULT_MAX_ITERATIONS` | Maximum iterations. |
-| `c1` | `float` | `PSO_COGNITIVE_COEFFICIENT` | Cognitive coefficient controlling attraction to personal
-        best. |
+| `c1` | `float` | `PSO_COGNITIVE_COEFFICIENT` | Cognitive coefficient controlling attraction to personal best. |
 | `c2` | `float` | `PSO_SOCIAL_COEFFICIENT` | Social coefficient controlling attraction to global best. |
 | `w` | `float` | `PSO_INERTIA_WEIGHT` | Inertia weight controlling previous velocity influence. |
 | `seed` | `int  \|  None` | `None` | Random seed for reproducibility. |
-| `track_history` | `bool` | `False` | Enable convergence history tracking for BBOB
-        post-processing. |
+| `track_history` | `bool` | `False` | Enable convergence history tracking for BBOB post-processing. |
 | `target_precision` | `float` | `1e-08` | Algorithm-specific parameter |
 | `f_opt` | `float  \|  None` | `None` | Algorithm-specific parameter |
 
@@ -229,6 +227,25 @@ Related BBOB Algorithm Classes:
 - Evolutionary: GeneticAlgorithm, DifferentialEvolution
 - Swarm: AntColony, BatAlgorithm, FireflyAlgorithm
 - Gradient: AdamW, SGDMomentum
+
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+Convergence, final-fitness distribution and performance profile on `rastrigin` (5D), averaged over independent runs (compared against representative baselines):
+
+<ClientOnly>
+  <BenchmarkCharts
+    algorithm="ParticleSwarm"
+    functionName="rastrigin"
+    :dimension="5"
+    :compareWith="['GreyWolfOptimizer', 'AntColony', 'FireflyAlgorithm']"
+  />
+</ClientOnly>
 
 ## Related Pages
 

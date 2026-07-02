@@ -212,6 +212,25 @@ Related BBOB Algorithm Classes:
 - Swarm: ParticleSwarm, AntColony, WhaleOptimizationAlgorithm
 - Gradient: AdamW, SGDMomentum
 
+## Benchmark Performance
+
+Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+
+<ClientOnly>
+  <FitnessLandscape3D functionName="rastrigin" />
+</ClientOnly>
+
+Convergence, final-fitness distribution and performance profile on `rastrigin` (5D), averaged over independent runs (compared against representative baselines):
+
+<ClientOnly>
+  <BenchmarkCharts
+    algorithm="GreyWolfOptimizer"
+    functionName="rastrigin"
+    :dimension="5"
+    :compareWith="['ParticleSwarm', 'AntColony', 'FireflyAlgorithm']"
+  />
+</ClientOnly>
+
 ## Related Pages
 
 - [Swarm Intelligence Algorithms](/algorithms/swarm-intelligence/)

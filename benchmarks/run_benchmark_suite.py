@@ -223,15 +223,20 @@ def run_single_benchmark(
     if seed is not None:
         np.random.seed(seed)
 
-    # Create optimizer with history tracking and COCO/BBOB parameters
+    # Create optimizer, passing only the COCO/BBOB parameters its __init__
+    # actually accepts. Optimizer subclasses override __init__ with varying
+    # signatures (some omit track_history / target_precision / f_opt); passing
+    # an unsupported kwarg would raise TypeError and drop the whole run.
     try:
-        # Determine if optimizer needs population_size
         import inspect
 
         sig = inspect.signature(optimizer_class.__init__)
-        needs_population = "population_size" in sig.parameters
+        accepted = set(sig.parameters)
+        has_varkw = any(
+            p.kind is inspect.Parameter.VAR_KEYWORD for p in sig.parameters.values()
+        )
 
-        kwargs = {
+        candidate_kwargs = {
             "func": func,
             "lower_bound": lower_bound,
             "upper_bound": upper_bound,
@@ -241,10 +246,14 @@ def run_single_benchmark(
             "target_precision": target_precision,
             "f_opt": f_opt,
             "seed": seed,
+            "population_size": 30,  # Moderate population size where supported
+            "n_bats": 30,  # BatAlgorithm names its population parameter n_bats
         }
-
-        if needs_population:
-            kwargs["population_size"] = 30  # Moderate population size
+        kwargs = {
+            key: value
+            for key, value in candidate_kwargs.items()
+            if has_varkw or key in accepted
+        }
 
         optimizer = optimizer_class(**kwargs)
     except TypeError as e:
@@ -476,11 +485,56 @@ Examples:
         default="standard",
         help="Optimizer tier selection (default: standard)",
     )
+    parser.add_argument(
+        "--max-iter",
+        type=int,
+        default=None,
+        help="Override maximum iterations per run (default: module MAX_ITERATIONS)",
+    )
+    parser.add_argument(
+        "--n-runs",
+        type=int,
+        default=None,
+        help="Override number of independent runs (default: module N_RUNS)",
+    )
+    parser.add_argument(
+        "--dimensions",
+        type=str,
+        default=None,
+        help="Override dimensions as a comma-separated list, e.g. '2,5,10'",
+    )
+    parser.add_argument(
+        "--functions",
+        type=str,
+        default=None,
+        help="Restrict to a comma-separated subset of benchmark function names",
+    )
     # Deprecated - kept for backward compatibility
     parser.add_argument(
         "--subset", action="store_true", help="[DEPRECATED] Use --tier showcase instead"
     )
     args = parser.parse_args()
+
+    # Apply lightweight overrides for fast/custom runs by adjusting the module
+    # constants the suite reads. Enables e.g. --max-iter 150 --n-runs 10.
+    if args.max_iter is not None:
+        MAX_ITERATIONS = args.max_iter
+    if args.n_runs is not None:
+        N_RUNS = args.n_runs
+    if args.dimensions is not None:
+        DIMENSIONS = [int(d) for d in args.dimensions.split(",") if d.strip()]
+    if args.functions is not None:
+        wanted = {f.strip() for f in args.functions.split(",") if f.strip()}
+        unknown = wanted - set(BENCHMARK_FUNCTIONS)
+        if unknown:
+            msg = (
+                f"Unknown function(s): {', '.join(sorted(unknown))}. "
+                f"Available: {', '.join(sorted(BENCHMARK_FUNCTIONS))}"
+            )
+            raise SystemExit(msg)
+        BENCHMARK_FUNCTIONS = {
+            name: cfg for name, cfg in BENCHMARK_FUNCTIONS.items() if name in wanted
+        }
 
     results = run_benchmark_suite(
         output_dir=args.output_dir,
