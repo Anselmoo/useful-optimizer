@@ -47,7 +47,7 @@ repos:
       # converge. Those files are regenerated fresh in the docs CI build.
       - id: regenerate-optimizer-docs
         name: Regenerate optimizer docs (Markdown + charts + sidebar)
-        entry: uv run python scripts/generate_docs.py --all --json --sidebar
+        entry: python scripts/generate_docs.py --all --json --sidebar
         language: system
         pass_filenames: false
         files: ^(src/opt/.*\.py|scripts/generate_docs\.py|docs/public/benchmarks/benchmark-results\.json)$
