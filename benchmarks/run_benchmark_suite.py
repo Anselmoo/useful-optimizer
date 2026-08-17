@@ -537,9 +537,7 @@ Examples:
         }
 
     results = run_benchmark_suite(
-        output_dir=args.output_dir,
-        tier=args.tier,
-        subset=args.subset if args.subset else None,
+        output_dir=args.output_dir, tier=args.tier, subset=args.subset or None
     )
 
     print(
