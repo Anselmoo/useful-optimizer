@@ -28,7 +28,7 @@ class EvolutionaryAlgorithm(AbstractOptimizer):
         dim: int,
         max_iter: int,
         population_size: int = 50,
-        **kwargs
+        **kwargs,
     ):
         pass
 
@@ -59,7 +59,7 @@ ga = GeneticAlgorithm(
     max_iter=100,
     population_size=50,
     crossover_rate=0.8,
-    mutation_rate=0.1
+    mutation_rate=0.1,
 )
 solution, fitness = ga.search()
 
@@ -72,7 +72,7 @@ de = DifferentialEvolution(
     max_iter=100,
     population_size=50,
     F=0.8,  # Differential weight
-    CR=0.9  # Crossover probability
+    CR=0.9,  # Crossover probability
 )
 solution, fitness = de.search()
 ```

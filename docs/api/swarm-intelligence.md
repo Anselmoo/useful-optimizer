@@ -31,7 +31,7 @@ class SwarmAlgorithm(AbstractOptimizer):
         dim: int,
         max_iter: int,
         population_size: Optional[int] = None,
-        **kwargs
+        **kwargs,
     ):
         """
         Args:
@@ -72,7 +72,7 @@ pso = ParticleSwarm(
     upper_bound=32.768,
     dim=10,
     max_iter=100,
-    population_size=30
+    population_size=30,
 )
 solution, fitness = pso.search()
 print(f"PSO - Best fitness: {fitness:.6e}")
@@ -84,7 +84,7 @@ gwo = GreyWolf(
     upper_bound=32.768,
     dim=10,
     max_iter=100,
-    population_size=30
+    population_size=30,
 )
 solution, fitness = gwo.search()
 print(f"GWO - Best fitness: {fitness:.6e}")

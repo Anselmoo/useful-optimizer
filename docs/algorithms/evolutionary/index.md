@@ -27,7 +27,7 @@ ga = GeneticAlgorithm(
     upper_bound=5.12,
     dim=10,
     max_iter=100,
-    population_size=50
+    population_size=50,
 )
 best_solution, best_fitness = ga.search()
 ```
