@@ -103,6 +103,7 @@ All public APIs use Python type hints for better IDE support:
 from typing import Callable
 import numpy as np
 
+
 def search(self) -> tuple[np.ndarray, float]:
     """Run the optimization search.
 
@@ -126,7 +127,7 @@ def __init__(
     upper_bound: float,
     dim: int,
     max_iter: int = 100,
-    population_size: int = 30
+    population_size: int = 30,
 ) -> None:
     """Initialize the optimizer.
 
