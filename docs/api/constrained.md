@@ -27,7 +27,7 @@ class ConstrainedOptimizer(AbstractOptimizer):
         max_iter: int,
         constraints_eq: Optional[List[Callable]] = None,
         constraints_ineq: Optional[List[Callable]] = None,
-        **kwargs
+        **kwargs,
     ):
         pass
 
@@ -49,12 +49,15 @@ from opt.constrained import PenaltyMethod
 from opt.benchmark.functions import sphere
 import numpy as np
 
+
 # Define constraints
 def eq_constraint(x):
     return x[0] + x[1] - 1.0  # x[0] + x[1] = 1
 
+
 def ineq_constraint(x):
     return x[0] - 0.5  # x[0] >= 0.5
+
 
 # Penalty Method
 penalty = PenaltyMethod(
@@ -65,11 +68,13 @@ penalty = PenaltyMethod(
     max_iter=100,
     constraints_eq=[eq_constraint],
     constraints_ineq=[ineq_constraint],
-    penalty_factor=1000
+    penalty_factor=1000,
 )
 solution, fitness = penalty.search()
 print(f"Solution: {solution}")
-print(f"Constraint satisfaction: eq={eq_constraint(solution):.6f}, ineq={ineq_constraint(solution):.6f}")
+print(
+    f"Constraint satisfaction: eq={eq_constraint(solution):.6f}, ineq={ineq_constraint(solution):.6f}"
+)
 ```
 
 ## See Also

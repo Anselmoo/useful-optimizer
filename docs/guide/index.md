@@ -32,11 +32,7 @@ All optimizers implement the `AbstractOptimizer` base class with a consistent `s
 from opt.swarm_intelligence import ParticleSwarm
 
 optimizer = ParticleSwarm(
-    func=objective_function,
-    lower_bound=-10.0,
-    upper_bound=10.0,
-    dim=10,
-    max_iter=100
+    func=objective_function, lower_bound=-10.0, upper_bound=10.0, dim=10, max_iter=100
 )
 
 best_solution, best_fitness = optimizer.search()
@@ -62,7 +58,7 @@ from opt.benchmark.functions import (
     rastrigin,
     ackley,
     shifted_ackley,
-    griewank
+    griewank,
 )
 ```
 
