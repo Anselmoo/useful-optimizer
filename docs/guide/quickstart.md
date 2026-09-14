@@ -15,11 +15,11 @@ from opt.benchmark.functions import shifted_ackley
 
 ```python
 optimizer = ParticleSwarm(
-    func=shifted_ackley,       # Objective function to minimize
-    lower_bound=-12.768,       # Lower bound of search space
-    upper_bound=12.768,        # Upper bound of search space
-    dim=2,                     # Number of dimensions
-    max_iter=100               # Maximum iterations
+    func=shifted_ackley,  # Objective function to minimize
+    lower_bound=-12.768,  # Lower bound of search space
+    upper_bound=12.768,  # Upper bound of search space
+    dim=2,  # Number of dimensions
+    max_iter=100,  # Maximum iterations
 )
 ```
 
@@ -47,9 +47,9 @@ optimizer = ParticleSwarm(
     upper_bound=10.0,
     dim=10,
     max_iter=500,
-    population_size=50,      # Number of particles
-    c1=2.0,                  # Cognitive parameter
-    c2=2.0                   # Social parameter
+    population_size=50,  # Number of particles
+    c1=2.0,  # Cognitive parameter
+    c2=2.0,  # Social parameter
 )
 
 # Run optimization
@@ -69,38 +69,26 @@ from opt.swarm_intelligence import (
     AntColony,
     FireflyAlgorithm,
     GreyWolfOptimizer,
-    WhaleOptimizationAlgorithm
+    WhaleOptimizationAlgorithm,
 )
 ```
 
 ### Evolutionary Algorithms
 
 ```python
-from opt.evolutionary import (
-    GeneticAlgorithm,
-    DifferentialEvolution,
-    CMAES
-)
+from opt.evolutionary import GeneticAlgorithm, DifferentialEvolution, CMAES
 ```
 
 ### Gradient-Based
 
 ```python
-from opt.gradient_based import (
-    SGDMomentum,
-    AdamW,
-    RMSprop
-)
+from opt.gradient_based import SGDMomentum, AdamW, RMSprop
 ```
 
 ### Classical Methods
 
 ```python
-from opt.classical import (
-    BFGS,
-    NelderMead,
-    SimulatedAnnealing
-)
+from opt.classical import BFGS, NelderMead, SimulatedAnnealing
 ```
 
 ## Custom Objective Functions
@@ -111,18 +99,16 @@ You can optimize any function that takes a numpy array and returns a scalar:
 import numpy as np
 from opt.swarm_intelligence import ParticleSwarm
 
+
 # Define your own objective function
 def my_function(x: np.ndarray) -> float:
     """Custom objective: sum of squares with a twist."""
     return np.sum(x**2) + 10 * np.sin(np.sum(x))
 
+
 # Optimize it
 optimizer = ParticleSwarm(
-    func=my_function,
-    lower_bound=-10.0,
-    upper_bound=10.0,
-    dim=5,
-    max_iter=100
+    func=my_function, lower_bound=-10.0, upper_bound=10.0, dim=5, max_iter=100
 )
 
 best_solution, best_fitness = optimizer.search()
@@ -140,12 +126,7 @@ from opt.swarm_intelligence import ParticleSwarm
 run_demo(ParticleSwarm)
 
 # Or customize parameters
-run_demo(
-    ParticleSwarm,
-    max_iter=200,
-    population_size=50,
-    dim=10
-)
+run_demo(ParticleSwarm, max_iter=200, population_size=50, dim=10)
 ```
 
 ### Command Line Demos

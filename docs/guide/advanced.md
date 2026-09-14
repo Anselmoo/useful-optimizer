@@ -16,20 +16,20 @@ optimizer = ParticleSwarm(
     upper_bound=10.0,
     dim=10,
     max_iter=100,
-    track_history=True  # Enable history tracking
+    track_history=True,  # Enable history tracking
 )
 
 best_solution, best_fitness = optimizer.search()
 
 # Access convergence history
-if hasattr(optimizer, 'best_fitness_history'):
+if hasattr(optimizer, "best_fitness_history"):
     import matplotlib.pyplot as plt
 
     plt.plot(optimizer.best_fitness_history)
-    plt.xlabel('Iteration')
-    plt.ylabel('Best Fitness')
-    plt.title('Convergence Curve')
-    plt.yscale('log')
+    plt.xlabel("Iteration")
+    plt.ylabel("Best Fitness")
+    plt.title("Convergence Curve")
+    plt.yscale("log")
     plt.show()
 ```
 
@@ -46,10 +46,10 @@ optimizer = ParticleSwarm(
     upper_bound=10.0,
     dim=10,
     max_iter=500,
-    population_size=100,    # Number of particles
-    w=0.7,                  # Inertia weight
-    c1=1.5,                 # Cognitive coefficient
-    c2=1.5                  # Social coefficient
+    population_size=100,  # Number of particles
+    w=0.7,  # Inertia weight
+    c1=1.5,  # Cognitive coefficient
+    c2=1.5,  # Social coefficient
 )
 ```
 
@@ -65,8 +65,8 @@ optimizer = DifferentialEvolution(
     dim=10,
     max_iter=500,
     population_size=100,
-    mutation_factor=0.8,    # F parameter
-    crossover_rate=0.9      # CR parameter
+    mutation_factor=0.8,  # F parameter
+    crossover_rate=0.9,  # CR parameter
 )
 ```
 
@@ -84,7 +84,7 @@ optimizer = AdamW(
     learning_rate=0.001,
     beta1=0.9,
     beta2=0.999,
-    weight_decay=0.01
+    weight_decay=0.01,
 )
 ```
 
@@ -99,19 +99,19 @@ from opt.benchmark.functions import rosenbrock
 
 # Define algorithms to compare
 algorithms = {
-    'PSO': ParticleSwarm,
-    'GWO': GreyWolfOptimizer,
-    'DE': DifferentialEvolution,
-    'SA': SimulatedAnnealing
+    "PSO": ParticleSwarm,
+    "GWO": GreyWolfOptimizer,
+    "DE": DifferentialEvolution,
+    "SA": SimulatedAnnealing,
 }
 
 # Common parameters
 params = {
-    'func': rosenbrock,
-    'lower_bound': -5.0,
-    'upper_bound': 10.0,
-    'dim': 10,
-    'max_iter': 100
+    "func": rosenbrock,
+    "lower_bound": -5.0,
+    "upper_bound": 10.0,
+    "dim": 10,
+    "max_iter": 100,
 }
 
 # Run comparison
@@ -143,7 +143,7 @@ for run in range(n_runs):
         lower_bound=-12.768,
         upper_bound=12.768,
         dim=10,
-        max_iter=100
+        max_iter=100,
     )
 
     _, fitness = optimizer.search()
@@ -163,12 +163,15 @@ For problems with constraints, use the constrained optimization methods:
 ```python
 from opt.constrained import AugmentedLagrangianMethod
 
+
 def objective(x):
-    return x[0]**2 + x[1]**2
+    return x[0] ** 2 + x[1] ** 2
+
 
 def constraint1(x):
     """Inequality constraint: g(x) <= 0"""
     return x[0] + x[1] - 1  # x[0] + x[1] <= 1
+
 
 optimizer = AugmentedLagrangianMethod(
     func=objective,
@@ -176,7 +179,7 @@ optimizer = AugmentedLagrangianMethod(
     upper_bound=10.0,
     dim=2,
     max_iter=100,
-    constraints=[constraint1]
+    constraints=[constraint1],
 )
 
 best_solution, best_fitness = optimizer.search()
@@ -190,6 +193,7 @@ best_solution, best_fitness = optimizer.search()
 from opt.abstract_optimizer import AbstractOptimizer
 import numpy as np
 
+
 class MyOptimizer(AbstractOptimizer):
     """Custom optimization algorithm."""
 
@@ -200,7 +204,7 @@ class MyOptimizer(AbstractOptimizer):
         upper_bound: float,
         dim: int,
         max_iter: int = 100,
-        **kwargs
+        **kwargs,
     ):
         super().__init__(
             func=func,
@@ -208,17 +212,13 @@ class MyOptimizer(AbstractOptimizer):
             upper_bound=upper_bound,
             dim=dim,
             max_iter=max_iter,
-            **kwargs
+            **kwargs,
         )
 
     def search(self) -> tuple[np.ndarray, float]:
         """Run the optimization."""
         # Initialize
-        best_solution = np.random.uniform(
-            self.lower_bound,
-            self.upper_bound,
-            self.dim
-        )
+        best_solution = np.random.uniform(self.lower_bound, self.upper_bound, self.dim)
         best_fitness = self.func(best_solution)
 
         # Main loop

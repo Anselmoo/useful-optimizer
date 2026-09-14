@@ -24,7 +24,7 @@ class ProbabilisticOptimizer(AbstractOptimizer):
         dim: int,
         max_iter: int,
         population_size: int = 50,
-        **kwargs
+        **kwargs,
     ):
         pass
 
@@ -52,7 +52,7 @@ eda = EstimationOfDistribution(
     dim=10,
     max_iter=100,
     population_size=100,
-    selection_size=20  # Number of best individuals for distribution update
+    selection_size=20,  # Number of best individuals for distribution update
 )
 solution, fitness = eda.search()
 print(f"Best fitness: {fitness:.6e}")
@@ -72,7 +72,7 @@ bo = BayesianOptimization(
     dim=5,  # Lower dimensions recommended for BO
     max_iter=50,  # Fewer iterations than other methods
     n_initial_points=10,
-    acquisition='ei'  # Expected Improvement
+    acquisition="ei",  # Expected Improvement
 )
 solution, fitness = bo.search()
 ```

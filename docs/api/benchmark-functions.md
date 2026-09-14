@@ -10,6 +10,7 @@ All benchmark functions share the same interface:
 from opt.benchmark.functions import sphere, rosenbrock, ackley
 import numpy as np
 
+
 def benchmark_function(x: np.ndarray) -> float:
     """
     Args:
@@ -50,21 +51,13 @@ from opt.benchmark.functions import sphere, ackley
 
 # Test with sphere function
 optimizer = ParticleSwarm(
-    func=sphere,
-    lower_bound=-5.12,
-    upper_bound=5.12,
-    dim=10,
-    max_iter=100
+    func=sphere, lower_bound=-5.12, upper_bound=5.12, dim=10, max_iter=100
 )
 best_solution, best_fitness = optimizer.search()
 
 # Test with Ackley function
 optimizer = ParticleSwarm(
-    func=ackley,
-    lower_bound=-32.768,
-    upper_bound=32.768,
-    dim=10,
-    max_iter=100
+    func=ackley, lower_bound=-32.768, upper_bound=32.768, dim=10, max_iter=100
 )
 best_solution, best_fitness = optimizer.search()
 ```
