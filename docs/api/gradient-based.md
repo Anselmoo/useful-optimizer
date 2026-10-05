@@ -29,7 +29,7 @@ class GradientOptimizer(AbstractOptimizer):
         dim: int,
         max_iter: int,
         learning_rate: float = 0.01,
-        **kwargs
+        **kwargs,
     ):
         pass
 
@@ -63,7 +63,7 @@ adam = Adam(
     max_iter=1000,
     learning_rate=0.01,
     beta1=0.9,
-    beta2=0.999
+    beta2=0.999,
 )
 solution, fitness = adam.search()
 
@@ -75,7 +75,7 @@ rmsprop = RMSprop(
     dim=10,
     max_iter=1000,
     learning_rate=0.001,
-    decay_rate=0.9
+    decay_rate=0.9,
 )
 solution, fitness = rmsprop.search()
 ```

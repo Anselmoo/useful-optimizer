@@ -370,7 +370,7 @@ class NSGAII(AbstractMultiObjectiveOptimizer):
             track_history=track_history,
         )
         self.crossover_prob = crossover_prob
-        self.mutation_prob = mutation_prob if mutation_prob else 1.0 / dim
+        self.mutation_prob = mutation_prob or 1.0 / dim
         self.tournament_size = tournament_size
         self.eta_c = eta_c
         self.eta_m = eta_m

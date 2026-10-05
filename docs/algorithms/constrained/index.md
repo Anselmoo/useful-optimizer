@@ -20,11 +20,14 @@ Constrained optimization algorithms can handle problems with equality and inequa
 from opt.constrained import PenaltyMethod
 from opt.benchmark.functions import sphere
 
+
 def constraint_eq(x):
     return x[0] + x[1] - 1.0  # x[0] + x[1] = 1
 
+
 def constraint_ineq(x):
     return x[0] - 0.5  # x[0] >= 0.5
+
 
 optimizer = PenaltyMethod(
     func=sphere,
@@ -33,7 +36,7 @@ optimizer = PenaltyMethod(
     dim=2,
     max_iter=100,
     constraints_eq=[constraint_eq],
-    constraints_ineq=[constraint_ineq]
+    constraints_ineq=[constraint_ineq],
 )
 best_solution, best_fitness = optimizer.search()
 ```

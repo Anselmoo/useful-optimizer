@@ -22,13 +22,7 @@ from opt.classical import NelderMead, SimulatedAnnealing
 from opt.benchmark.functions import rosenbrock
 
 # Nelder-Mead
-nm = NelderMead(
-    func=rosenbrock,
-    lower_bound=-5,
-    upper_bound=10,
-    dim=10,
-    max_iter=1000
-)
+nm = NelderMead(func=rosenbrock, lower_bound=-5, upper_bound=10, dim=10, max_iter=1000)
 best_solution, best_fitness = nm.search()
 ```
 

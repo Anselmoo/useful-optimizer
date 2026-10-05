@@ -32,7 +32,7 @@ optimizer = TeachingLearning(
     upper_bound=5.12,
     dim=10,
     max_iter=100,
-    population_size=30
+    population_size=30,
 )
 best_solution, best_fitness = optimizer.search()
 ```
