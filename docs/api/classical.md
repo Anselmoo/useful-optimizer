@@ -26,7 +26,7 @@ class ClassicalAlgorithm(AbstractOptimizer):
         upper_bound: float,
         dim: int,
         max_iter: int,
-        **kwargs
+        **kwargs,
     ):
         pass
 
@@ -50,13 +50,7 @@ from opt.classical import NelderMead, SimulatedAnnealing
 from opt.benchmark.functions import rosenbrock
 
 # Nelder-Mead
-nm = NelderMead(
-    func=rosenbrock,
-    lower_bound=-5,
-    upper_bound=10,
-    dim=10,
-    max_iter=1000
-)
+nm = NelderMead(func=rosenbrock, lower_bound=-5, upper_bound=10, dim=10, max_iter=1000)
 solution, fitness = nm.search()
 
 # Simulated Annealing
@@ -67,7 +61,7 @@ sa = SimulatedAnnealing(
     dim=10,
     max_iter=1000,
     initial_temp=100,
-    cooling_rate=0.95
+    cooling_rate=0.95,
 )
 solution, fitness = sa.search()
 ```

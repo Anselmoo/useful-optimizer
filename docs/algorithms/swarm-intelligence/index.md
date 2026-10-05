@@ -47,17 +47,13 @@ pso = ParticleSwarm(
     upper_bound=32.768,
     dim=10,
     max_iter=100,
-    population_size=30
+    population_size=30,
 )
 best_solution, best_fitness = pso.search()
 
 # Ant Colony Optimization
 aco = AntColony(
-    func=shifted_ackley,
-    lower_bound=-32.768,
-    upper_bound=32.768,
-    dim=10,
-    max_iter=100
+    func=shifted_ackley, lower_bound=-32.768, upper_bound=32.768, dim=10, max_iter=100
 )
 best_solution, best_fitness = aco.search()
 ```

@@ -40,11 +40,7 @@ from opt.benchmark.functions import shifted_ackley
 
 # Create optimizer
 optimizer = ParticleSwarm(
-    func=shifted_ackley,
-    lower_bound=-12.768,
-    upper_bound=12.768,
-    dim=2,
-    max_iter=100
+    func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, max_iter=100
 )
 
 # Run optimization

@@ -39,13 +39,13 @@ from opt.metaheuristic import CrossEntropyMethod
 from opt.benchmark.functions import shifted_ackley
 
 optimizer = CrossEntropyMethod(
-        func=shifted_ackley,
-        dim=2,
-        lower_bound=-12.768,
-        upper_bound=+12.768,
-        population_size=100,
-        max_iter=1000,
-    )
+    func=shifted_ackley,
+    dim=2,
+    lower_bound=-12.768,
+    upper_bound=+12.768,
+    population_size=100,
+    max_iter=1000,
+)
 best_solution, best_fitness = optimizer.search()
 print(f"Best solution: {best_solution}")
 print(f"Best fitness: {best_fitness}")
@@ -59,15 +59,29 @@ from opt.classical import BFGS
 from opt.benchmark.functions import shifted_ackley
 
 # Gradient-based optimization
-sgd = SGD(func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, learning_rate=0.01)
+sgd = SGD(
+    func=shifted_ackley,
+    lower_bound=-12.768,
+    upper_bound=12.768,
+    dim=2,
+    learning_rate=0.01,
+)
 best_solution, best_fitness = sgd.search()
 
 # Adam variant with weight decay
-adamw = AdamW(func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, weight_decay=0.01)
+adamw = AdamW(
+    func=shifted_ackley,
+    lower_bound=-12.768,
+    upper_bound=12.768,
+    dim=2,
+    weight_decay=0.01,
+)
 best_solution, best_fitness = adamw.search()
 
 # Quasi-Newton method
-bfgs = BFGS(func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, num_restarts=10)
+bfgs = BFGS(
+    func=shifted_ackley, lower_bound=-12.768, upper_bound=12.768, dim=2, num_restarts=10
+)
 best_solution, best_fitness = bfgs.search()
 ```
 
@@ -97,13 +111,7 @@ from opt.swarm_intelligence import ParticleSwarm
 run_demo(ParticleSwarm)
 
 # Or customize parameters
-run_demo(
-    ParticleSwarm,
-    max_iter=200,
-    population_size=50,
-    c1=2.0,
-    c2=2.0
-)
+run_demo(ParticleSwarm, max_iter=200, population_size=50, c1=2.0, c2=2.0)
 ```
 
 You can also run demos directly from the command line:
@@ -305,8 +313,7 @@ from opt.swarm_intelligence.particle_swarm import ParticleSwarm
 from opt.benchmark.functions import sphere
 
 optimizer = ParticleSwarm(
-    func=sphere, dim=2, lower_bound=-5, upper_bound=5,
-    max_iter=10, seed=42
+    func=sphere, dim=2, lower_bound=-5, upper_bound=5, max_iter=10, seed=42
 )
 solution, fitness = optimizer.search()
 print(f"Fitness: {fitness}")  # Should be < 1.0
