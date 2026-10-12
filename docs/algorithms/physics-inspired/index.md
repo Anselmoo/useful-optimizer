@@ -26,13 +26,7 @@ Physics-inspired algorithms mimic natural physical processes such as electromagn
 from opt.physics_inspired import AtomSearch
 from opt.benchmark.functions import sphere
 
-optimizer = AtomSearch(
-    func=sphere,
-    lower_bound=-5,
-    upper_bound=5,
-    dim=10,
-    max_iter=100
-)
+optimizer = AtomSearch(func=sphere, lower_bound=-5, upper_bound=5, dim=10, max_iter=100)
 best_solution, best_fitness = optimizer.search()
 ```
 

@@ -163,7 +163,7 @@ class DocstringParser:
                 elif key == "COCO Compatible":
                     metadata["coco_compatible"] = value.lower() in ("yes", "true")
 
-        return metadata if metadata else None
+        return metadata or None
 
     def parse_args_section(self, content: str) -> list[dict] | None:
         """Parse Args section into list of parameter dictionaries.
@@ -207,7 +207,7 @@ class DocstringParser:
         if current_param:
             parameters.append(current_param)
 
-        return parameters if parameters else None
+        return parameters or None
 
     def parse_file(self, file_path: Path) -> COCOBBOBOptimizerDocstringSchema:
         """Extract and validate class docstring from file.

@@ -32,7 +32,7 @@ adam = Adam(
     upper_bound=10,
     dim=10,
     max_iter=1000,
-    learning_rate=0.01
+    learning_rate=0.01,
 )
 best_solution, best_fitness = adam.search()
 ```

@@ -96,10 +96,8 @@ class ParticleSwarm(AbstractOptimizer):
 ### In Test Code
 
 ```python
-from opt.constants import (
-    SHIFTED_ACKLEY_BOUND,
-    DEFAULT_MAX_ITERATIONS,
-)
+from opt.constants import SHIFTED_ACKLEY_BOUND, DEFAULT_MAX_ITERATIONS
+
 
 def test_optimizer():
     optimizer = SomeOptimizer(

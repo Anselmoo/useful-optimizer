@@ -11,6 +11,7 @@ from opt.benchmark.functions import sphere, rosenbrock, ackley
 
 # Each function takes a numpy array and returns a scalar
 import numpy as np
+
 x = np.array([1.0, 2.0, 3.0])
 fitness = sphere(x)  # Returns: 14.0
 ```
@@ -161,29 +162,23 @@ print(griewank(x))  # 0.0
 
 ```python
 from opt.swarm_intelligence import ParticleSwarm
-from opt.benchmark.functions import (
-    sphere,
-    rosenbrock,
-    rastrigin,
-    ackley,
-    griewank
-)
+from opt.benchmark.functions import sphere, rosenbrock, rastrigin, ackley, griewank
 
 functions = {
-    'sphere': {'func': sphere, 'bounds': (-5.12, 5.12)},
-    'rosenbrock': {'func': rosenbrock, 'bounds': (-5, 10)},
-    'rastrigin': {'func': rastrigin, 'bounds': (-5.12, 5.12)},
-    'ackley': {'func': ackley, 'bounds': (-32.768, 32.768)},
-    'griewank': {'func': griewank, 'bounds': (-600, 600)}
+    "sphere": {"func": sphere, "bounds": (-5.12, 5.12)},
+    "rosenbrock": {"func": rosenbrock, "bounds": (-5, 10)},
+    "rastrigin": {"func": rastrigin, "bounds": (-5.12, 5.12)},
+    "ackley": {"func": ackley, "bounds": (-32.768, 32.768)},
+    "griewank": {"func": griewank, "bounds": (-600, 600)},
 }
 
 for name, config in functions.items():
     optimizer = ParticleSwarm(
-        func=config['func'],
-        lower_bound=config['bounds'][0],
-        upper_bound=config['bounds'][1],
+        func=config["func"],
+        lower_bound=config["bounds"][0],
+        upper_bound=config["bounds"][1],
         dim=10,
-        max_iter=100
+        max_iter=100,
     )
     _, fitness = optimizer.search()
     print(f"{name}: {fitness:.6e}")
@@ -197,6 +192,7 @@ You can create custom objective functions for your specific problems:
 import numpy as np
 from opt.swarm_intelligence import ParticleSwarm
 
+
 def my_function(x: np.ndarray) -> float:
     """Custom objective function.
 
@@ -208,12 +204,9 @@ def my_function(x: np.ndarray) -> float:
     """
     return np.sum(x**2) + 10 * np.sin(np.sum(x))
 
+
 optimizer = ParticleSwarm(
-    func=my_function,
-    lower_bound=-10.0,
-    upper_bound=10.0,
-    dim=10,
-    max_iter=100
+    func=my_function, lower_bound=-10.0, upper_bound=10.0, dim=10, max_iter=100
 )
 
 best_solution, best_fitness = optimizer.search()
