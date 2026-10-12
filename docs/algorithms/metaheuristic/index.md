@@ -22,11 +22,7 @@ from opt.metaheuristic import HarmonySearch
 from opt.benchmark.functions import rosenbrock
 
 optimizer = HarmonySearch(
-    func=rosenbrock,
-    lower_bound=-5,
-    upper_bound=10,
-    dim=10,
-    max_iter=100
+    func=rosenbrock, lower_bound=-5, upper_bound=10, dim=10, max_iter=100
 )
 best_solution, best_fitness = optimizer.search()
 ```

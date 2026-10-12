@@ -112,7 +112,7 @@ def test_new_field_validation(self) -> None:
     """Test validation of new field."""
     metadata = AlgorithmMetadata(
         # ... existing fields
-        new_field="test value",
+        new_field="test value"
     )
     assert metadata.new_field == "test value"
 ```

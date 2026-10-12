@@ -20,11 +20,7 @@ from opt.probabilistic import EstimationOfDistribution
 from opt.benchmark.functions import rastrigin
 
 optimizer = EstimationOfDistribution(
-    func=rastrigin,
-    lower_bound=-5.12,
-    upper_bound=5.12,
-    dim=10,
-    max_iter=100
+    func=rastrigin, lower_bound=-5.12, upper_bound=5.12, dim=10, max_iter=100
 )
 best_solution, best_fitness = optimizer.search()
 ```

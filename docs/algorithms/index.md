@@ -89,11 +89,11 @@ All algorithms share the same interface:
 from opt.swarm_intelligence import ParticleSwarm
 
 optimizer = ParticleSwarm(
-    func=objective_function,    # Callable[[np.ndarray], float]
-    lower_bound=-10.0,          # Lower bound of search space
-    upper_bound=10.0,           # Upper bound of search space
-    dim=10,                     # Number of dimensions
-    max_iter=100                # Maximum iterations
+    func=objective_function,  # Callable[[np.ndarray], float]
+    lower_bound=-10.0,  # Lower bound of search space
+    upper_bound=10.0,  # Upper bound of search space
+    dim=10,  # Number of dimensions
+    max_iter=100,  # Maximum iterations
 )
 
 best_solution, best_fitness = optimizer.search()

@@ -25,7 +25,7 @@ class MetaheuristicAlgorithm(AbstractOptimizer):
         upper_bound: float,
         dim: int,
         max_iter: int,
-        **kwargs
+        **kwargs,
     ):
         pass
 
@@ -56,7 +56,7 @@ hs = HarmonySearch(
     max_iter=100,
     harmony_memory_size=30,
     hmcr=0.9,  # Harmony memory consideration rate
-    par=0.3    # Pitch adjustment rate
+    par=0.3,  # Pitch adjustment rate
 )
 solution, fitness = hs.search()
 
@@ -67,7 +67,7 @@ sca = SineCosine(
     upper_bound=32.768,
     dim=10,
     max_iter=100,
-    population_size=30
+    population_size=30,
 )
 solution, fitness = sca.search()
 ```
