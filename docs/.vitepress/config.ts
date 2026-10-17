@@ -173,10 +173,12 @@ export default defineConfig({
 
   vite: {
     ssr: {
-      noExternal: ['echarts', 'vue-echarts', 'zrender']
+      noExternal: ['echarts', 'zrender']
     },
     optimizeDeps: {
-      include: ['echarts', 'vue-echarts']
+      // Pre-bundle everything the client-only chart components import, so the
+      // dev server does not re-optimise and reload on the first chart page.
+      include: ['echarts', 'zrender', 'three', '@tresjs/core', '@tresjs/cientos', 'd3']
     }
   }
 })

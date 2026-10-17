@@ -2,11 +2,15 @@
 /**
  * FitnessLandscape3D.vue
  *
- * Interactive 3D fitness landscape visualization using TresJS (Vue wrapper for Three.js).
- * Replaces deprecated ECharts-GL with modern, maintained library.
- * Uses PlaneGeometry for surface plots with D3 color scales.
+ * Interactive 3D fitness landscape (TresJS / Three.js). The surface is drawn
+ * over the function's search domain with its height normalised to the plot
+ * width, so every benchmark function is readable without manual tuning.
+ * An optional trajectory (e.g. the best-so-far path of a 2D run) is overlaid.
+ *
+ * Interaction: drag rotates, right-drag pans. Scroll-zoom is enabled after a
+ * click on the plot, so scrolling the page over the canvas still works.
  */
-import { computed, ref, watch } from 'vue'
+import { computed, onBeforeUnmount, ref, watch } from 'vue'
 import { TresCanvas } from '@tresjs/core'
 import { OrbitControls } from '@tresjs/cientos'
 import * as THREE from 'three'
@@ -20,10 +24,75 @@ interface TrajectoryPoint {
   iteration: number
 }
 
+type Range = [number, number]
+type HeightScale = 'linear' | 'log'
+
+interface FunctionSpec {
+  label: string
+  fn: (x: number, y: number) => number
+  xRange: Range
+  yRange: Range
+  /** Heights span orders of magnitude, so default to a log height. */
+  defaultScale: HeightScale
+}
+
+const FUNCTIONS: Record<string, FunctionSpec> = {
+  sphere: {
+    label: 'Sphere',
+    fn: (x, y) => x * x + y * y,
+    xRange: [-5, 5],
+    yRange: [-5, 5],
+    defaultScale: 'linear'
+  },
+  rosenbrock: {
+    label: 'Rosenbrock',
+    fn: (x, y) => 100 * (y - x * x) ** 2 + (1 - x) ** 2,
+    xRange: [-2, 2],
+    yRange: [-1, 3],
+    defaultScale: 'log'
+  },
+  rastrigin: {
+    label: 'Rastrigin',
+    fn: (x, y) =>
+      20 + (x * x - 10 * Math.cos(2 * Math.PI * x)) + (y * y - 10 * Math.cos(2 * Math.PI * y)),
+    xRange: [-5.12, 5.12],
+    yRange: [-5.12, 5.12],
+    defaultScale: 'linear'
+  },
+  ackley: {
+    label: 'Ackley',
+    fn: (x, y) => {
+      const a = 20
+      const b = 0.2
+      const c = 2 * Math.PI
+      const sum1 = (x * x + y * y) / 2
+      const sum2 = (Math.cos(c * x) + Math.cos(c * y)) / 2
+      return -a * Math.exp(-b * Math.sqrt(sum1)) - Math.exp(sum2) + a + Math.E
+    },
+    xRange: [-5, 5],
+    yRange: [-5, 5],
+    defaultScale: 'linear'
+  },
+  griewank: {
+    label: 'Griewank',
+    fn: (x, y) => (x * x + y * y) / 4000 - Math.cos(x) * Math.cos(y / Math.SQRT2) + 1,
+    xRange: [-10, 10],
+    yRange: [-10, 10],
+    defaultScale: 'linear'
+  },
+  himmelblau: {
+    label: 'Himmelblau',
+    fn: (x, y) => (x * x + y - 11) ** 2 + (x + y * y - 7) ** 2,
+    xRange: [-5, 5],
+    yRange: [-5, 5],
+    defaultScale: 'log'
+  }
+}
+
 interface Props {
   functionName: string
-  xRange?: [number, number]
-  yRange?: [number, number]
+  xRange?: Range
+  yRange?: Range
   resolution?: number
   trajectory?: TrajectoryPoint[]
   colorScale?: 'viridis' | 'turbo' | 'plasma' | 'inferno' | 'catppuccin'
@@ -31,8 +100,6 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  xRange: () => [-5, 5],
-  yRange: () => [-5, 5],
   resolution: 100,
   colorScale: 'viridis',
   height: 500
@@ -42,167 +109,136 @@ const emit = defineEmits<{
   'update:functionName': [value: string]
 }>()
 
-const chartHeight = computed(() => {
-  return typeof props.height === 'number' ? `${props.height}px` : props.height
+// The selector works on its own; a parent can still drive it via v-model.
+const current = ref(FUNCTIONS[props.functionName] ? props.functionName : 'sphere')
+watch(
+  () => props.functionName,
+  name => {
+    if (FUNCTIONS[name]) current.value = name
+  }
+)
+
+const spec = computed(() => FUNCTIONS[current.value])
+const heightScale = ref<HeightScale>(spec.value.defaultScale)
+watch(current, () => {
+  heightScale.value = spec.value.defaultScale
 })
 
-// Benchmark function implementations
-const benchmarkFunctions: Record<string, (x: number, y: number) => number> = {
-  sphere: (x, y) => x * x + y * y,
+const xRange = computed<Range>(() => props.xRange ?? spec.value.xRange)
+const yRange = computed<Range>(() => props.yRange ?? spec.value.yRange)
 
-  rosenbrock: (x, y) => {
-    return 100 * Math.pow(y - x * x, 2) + Math.pow(1 - x, 2)
-  },
+const chartHeight = computed(() =>
+  typeof props.height === 'number' ? `${props.height}px` : props.height
+)
 
-  rastrigin: (x, y) => {
-    return 20 + (x * x - 10 * Math.cos(2 * Math.PI * x)) +
-           (y * y - 10 * Math.cos(2 * Math.PI * y))
-  },
+/** Plot is 2 units wide; the surface rises at most SURFACE_HEIGHT above y = 0. */
+const SURFACE_HEIGHT = 1
 
-  ackley: (x, y) => {
-    const a = 20
-    const b = 0.2
-    const c = 2 * Math.PI
-    const d = 2
+const heightTransform = (z: number) =>
+  heightScale.value === 'log' ? Math.log10(1 + Math.max(z, 0)) : z
 
-    const sum1 = (x * x + y * y) / d
-    const sum2 = (Math.cos(c * x) + Math.cos(c * y)) / d
-
-    return -a * Math.exp(-b * Math.sqrt(sum1)) - Math.exp(sum2) + a + Math.E
-  },
-
-  griewank: (x, y) => {
-    const sum = (x * x + y * y) / 4000
-    const prod = Math.cos(x) * Math.cos(y / Math.sqrt(2))
-    return sum - prod + 1
-  },
-
-  himmelblau: (x, y) => {
-    return Math.pow(x * x + y - 11, 2) + Math.pow(x + y * y - 7, 2)
-  }
+const getColorScale = (scaleType: string, zMin: number, zMax: number) => {
+  const interpolator =
+    scaleType === 'turbo'
+      ? d3.interpolateTurbo
+      : scaleType === 'plasma'
+        ? d3.interpolatePlasma
+        : scaleType === 'inferno'
+          ? d3.interpolateInferno
+          : scaleType === 'catppuccin'
+            ? d3.interpolateRgbBasis([
+                catppuccinColors.green,
+                catppuccinColors.teal,
+                catppuccinColors.blue,
+                catppuccinColors.mauve,
+                catppuccinColors.red
+              ])
+            : d3.interpolateViridis
+  return d3.scaleSequential(interpolator).domain([zMin, zMax])
 }
 
-// Evaluate function at (x, y)
-const evaluateFunction = (x: number, y: number, functionName: string): number => {
-  const func = benchmarkFunctions[functionName] || benchmarkFunctions.sphere
-  return func(x, y)
-}
+const surface = computed(() => {
+  const [xMin, xMax] = xRange.value
+  const [yMin, yMax] = yRange.value
+  const res = Math.max(2, props.resolution)
 
-// Generate surface geometry with colors
-const surfaceGeometry = computed(() => {
-  const [xMin, xMax] = props.xRange
-  const [yMin, yMax] = props.yRange
-  const res = props.resolution
-
+  // PlaneGeometry lies in the XY plane; heights are written to Z and the
+  // geometry is then rotated so that Z becomes the (upward) Y axis.
   const geometry = new THREE.PlaneGeometry(2, 2, res - 1, res - 1)
   const positions = geometry.attributes.position
-  const colors = new Float32Array(positions.count * 3)
+  const heights = new Float32Array(positions.count)
 
-  let zMin = Infinity
-  let zMax = -Infinity
-
-  // First pass: compute Z values and find min/max
-  for (let i = 0; i < positions.count; i++) {
-    const u = positions.getX(i) // [-1, 1]
-    const v = positions.getY(i) // [-1, 1]
-
-    const x = xMin + (u + 1) / 2 * (xMax - xMin)
-    const y = yMin + (v + 1) / 2 * (yMax - yMin)
-    const z = evaluateFunction(x, y, props.functionName)
-
-    positions.setZ(i, z)
-    zMin = Math.min(zMin, z)
-    zMax = Math.max(zMax, z)
+  let hMin = Infinity
+  let hMax = -Infinity
+  for (let i = 0; i < positions.count; i += 1) {
+    const x = xMin + ((positions.getX(i) + 1) / 2) * (xMax - xMin)
+    const y = yMin + ((positions.getY(i) + 1) / 2) * (yMax - yMin)
+    const h = heightTransform(spec.value.fn(x, y))
+    heights[i] = h
+    hMin = Math.min(hMin, h)
+    hMax = Math.max(hMax, h)
   }
 
-  // Second pass: apply colors based on Z values
-  const colorScale = getColorScale(props.colorScale, zMin, zMax)
-
-  for (let i = 0; i < positions.count; i++) {
-    const z = positions.getZ(i)
-    const colorValue = d3.color(colorScale(z))
-    if (colorValue) {
-      const rgb = colorValue.rgb()
-      colors[i * 3] = rgb.r / 255
-      colors[i * 3 + 1] = rgb.g / 255
-      colors[i * 3 + 2] = rgb.b / 255
-    }
+  const span = hMax - hMin || 1
+  const colors = new Float32Array(positions.count * 3)
+  const colorScale = getColorScale(props.colorScale, hMin, hMax)
+  for (let i = 0; i < positions.count; i += 1) {
+    positions.setZ(i, ((heights[i] - hMin) / span) * SURFACE_HEIGHT)
+    const rgb = d3.rgb(colorScale(heights[i]))
+    colors[i * 3] = rgb.r / 255
+    colors[i * 3 + 1] = rgb.g / 255
+    colors[i * 3 + 2] = rgb.b / 255
   }
 
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+  geometry.rotateX(-Math.PI / 2)
   geometry.computeVertexNormals()
 
-  return geometry
+  return { geometry, hMin, span }
 })
 
-// Get D3 color scale
-const getColorScale = (scaleType: string, zMin: number, zMax: number) => {
-  switch (scaleType) {
-    case 'viridis':
-      return d3.scaleSequential(d3.interpolateViridis).domain([zMin, zMax])
-    case 'turbo':
-      return d3.scaleSequential(d3.interpolateTurbo).domain([zMin, zMax])
-    case 'plasma':
-      return d3.scaleSequential(d3.interpolatePlasma).domain([zMin, zMax])
-    case 'inferno':
-      return d3.scaleSequential(d3.interpolateInferno).domain([zMin, zMax])
-    case 'catppuccin':
-      return d3.scaleSequential(
-        d3.interpolateRgbBasis([
-          catppuccinColors.green,
-          catppuccinColors.teal,
-          catppuccinColors.blue,
-          catppuccinColors.mauve,
-          catppuccinColors.red
-        ])
-      ).domain([zMin, zMax])
-    default:
-      return d3.scaleSequential(d3.interpolateViridis).domain([zMin, zMax])
-  }
+watch(surface, (_next, previous) => previous?.geometry.dispose())
+onBeforeUnmount(() => surface.value.geometry.dispose())
+
+/** Map a point in search-space coordinates onto the rendered surface. */
+const toScene = (p: TrajectoryPoint) => {
+  const [xMin, xMax] = xRange.value
+  const [yMin, yMax] = yRange.value
+  const u = -1 + ((p.x - xMin) / (xMax - xMin)) * 2
+  const v = -1 + ((p.y - yMin) / (yMax - yMin)) * 2
+  const { hMin, span } = surface.value
+  const h = ((heightTransform(p.z) - hMin) / span) * SURFACE_HEIGHT
+  return new THREE.Vector3(u, Math.max(h, 0) + 0.02, -v)
 }
 
-// Generate trajectory line geometry
-const trajectoryGeometry = computed(() => {
-  if (!props.trajectory || props.trajectory.length === 0) return null
+const trajectoryPoints = computed(() => (props.trajectory ?? []).map(toScene))
 
-  const points = props.trajectory.map(p => {
-    const [xMin, xMax] = props.xRange
-    const [yMin, yMax] = props.yRange
+const trajectoryGeometry = computed(() =>
+  trajectoryPoints.value.length > 1
+    ? new THREE.BufferGeometry().setFromPoints(trajectoryPoints.value)
+    : null
+)
+watch(trajectoryGeometry, (_next, previous) => previous?.dispose())
+onBeforeUnmount(() => trajectoryGeometry.value?.dispose())
 
-    // Map world coordinates to [-1, 1] range
-    const u = -1 + (p.x - xMin) / (xMax - xMin) * 2
-    const v = -1 + (p.y - yMin) / (yMax - yMin) * 2
+const startPoint = computed(() => trajectoryPoints.value[0] ?? null)
+const endPoint = computed(() => trajectoryPoints.value.at(-1) ?? null)
 
-    return new THREE.Vector3(u, v, p.z)
-  })
+// Scroll-zoom only while the plot is active, so the page keeps scrolling.
+const active = ref(false)
+const resetKey = ref(0)
+const reset = () => {
+  resetKey.value += 1
+}
 
-  return new THREE.BufferGeometry().setFromPoints(points)
-})
+const onFunctionChange = (event: Event) => {
+  const value = (event.target as HTMLSelectElement).value
+  current.value = value
+  emit('update:functionName', value)
+}
 
-// Start and end points for trajectory
-const startPoint = computed(() => {
-  if (!props.trajectory || props.trajectory.length === 0) return null
-  const p = props.trajectory[0]
-  const [xMin, xMax] = props.xRange
-  const [yMin, yMax] = props.yRange
-
-  const u = -1 + (p.x - xMin) / (xMax - xMin) * 2
-  const v = -1 + (p.y - yMin) / (yMax - yMin) * 2
-
-  return new THREE.Vector3(u, v, p.z)
-})
-
-const endPoint = computed(() => {
-  if (!props.trajectory || props.trajectory.length === 0) return null
-  const p = props.trajectory[props.trajectory.length - 1]
-  const [xMin, xMax] = props.xRange
-  const [yMin, yMax] = props.yRange
-
-  const u = -1 + (p.x - xMin) / (xMax - xMin) * 2
-  const v = -1 + (p.y - yMin) / (yMax - yMin) * 2
-
-  return new THREE.Vector3(u, v, p.z)
-})
+const CAMERA_POSITION: [number, number, number] = [2.3, 1.8, 2.5]
+const CAMERA_TARGET: [number, number, number] = [0, 0.35, 0]
 </script>
 
 <template>
@@ -210,79 +246,76 @@ const endPoint = computed(() => {
     <div class="controls">
       <div class="control-group">
         <label>Function:</label>
-        <select
-          :value="functionName"
-          @change="emit('update:functionName', ($event.target as HTMLSelectElement).value)"
-          class="select"
-        >
-          <option value="sphere">Sphere</option>
-          <option value="rosenbrock">Rosenbrock</option>
-          <option value="rastrigin">Rastrigin</option>
-          <option value="ackley">Ackley</option>
-          <option value="griewank">Griewank</option>
-          <option value="himmelblau">Himmelblau</option>
+        <select :value="current" class="select" @change="onFunctionChange">
+          <option v-for="(f, key) in FUNCTIONS" :key="key" :value="key">{{ f.label }}</option>
         </select>
+        <label>Height:</label>
+        <select v-model="heightScale" class="select">
+          <option value="linear">Linear</option>
+          <option value="log">Logarithmic</option>
+        </select>
+        <button type="button" class="reset" @click="reset">Reset view</button>
       </div>
       <div class="control-info">
-        <span class="hint">🖱️ Drag to rotate • Scroll to zoom • Right-click to pan</span>
+        <span class="hint">
+          {{ active
+            ? 'Drag to rotate · scroll to zoom · right-drag to pan'
+            : 'Drag to rotate · click the plot to enable scroll-zoom' }}
+        </span>
       </div>
     </div>
 
-    <div class="chart" :style="{ height: chartHeight }">
-      <TresCanvas>
-        <TresPerspectiveCamera :position="[3, 3, 5]" :fov="45" />
-        <OrbitControls />
+    <div
+      class="chart"
+      :style="{ height: chartHeight }"
+      @pointerdown="active = true"
+      @pointerleave="active = false"
+    >
+      <TresCanvas :key="resetKey" :clear-color="catppuccinColors.base">
+        <TresPerspectiveCamera :position="CAMERA_POSITION" :fov="45" :near="0.1" :far="100" />
+        <OrbitControls :target="CAMERA_TARGET" :enable-zoom="active" :min-distance="1.2" :max-distance="12" />
 
-        <!-- Surface mesh with vertex colors -->
-        <TresMesh :geometry="surfaceGeometry">
+        <TresMesh :geometry="surface.geometry">
           <TresMeshPhongMaterial
             :vertex-colors="true"
             :side="THREE.DoubleSide"
-            :shininess="100"
+            :shininess="60"
             :specular="0x111111"
           />
         </TresMesh>
 
-        <!-- Trajectory line -->
-        <TresLine
-          v-if="trajectoryGeometry"
-          :geometry="trajectoryGeometry"
-        >
-          <TresLineBasicMaterial :color="catppuccinColors.yellow" :linewidth="3" />
+        <TresLine v-if="trajectoryGeometry" :geometry="trajectoryGeometry">
+          <TresLineBasicMaterial :color="catppuccinColors.yellow" />
         </TresLine>
 
-        <!-- Start point marker -->
         <TresMesh v-if="startPoint" :position="startPoint">
-          <TresSphereGeometry :args="[0.05, 16, 16]" />
+          <TresSphereGeometry :args="[0.03, 16, 16]" />
           <TresMeshBasicMaterial :color="catppuccinColors.green" />
         </TresMesh>
 
-        <!-- End point marker -->
         <TresMesh v-if="endPoint" :position="endPoint">
-          <TresSphereGeometry :args="[0.05, 16, 16]" />
+          <TresSphereGeometry :args="[0.03, 16, 16]" />
           <TresMeshBasicMaterial :color="catppuccinColors.red" />
         </TresMesh>
 
-        <!-- Lighting -->
-        <TresPointLight :position="[5, 5, 10]" :intensity="0.8" />
-        <TresPointLight :position="[-5, -5, -10]" :intensity="0.5" />
-        <TresAmbientLight :intensity="0.3" />
+        <TresPointLight :position="[3, 4, 3]" :intensity="40" />
+        <TresPointLight :position="[-3, 2, -3]" :intensity="20" />
+        <TresAmbientLight :intensity="0.6" />
 
-        <!-- Grid helper (optional) -->
-        <TresGridHelper :args="[10, 10]" />
+        <TresGridHelper :args="[2.4, 12]" :position="[0, -0.01, 0]" />
       </TresCanvas>
     </div>
 
+    <p class="axes">
+      Search domain x ∈ [{{ xRange[0] }}, {{ xRange[1] }}], y ∈ [{{ yRange[0] }}, {{ yRange[1] }}];
+      height is f(x, y){{ heightScale === 'log' ? ' on a log10(1 + f) scale' : '' }}, normalised to the
+      plot width.
+    </p>
+
     <div v-if="trajectory && trajectory.length" class="trajectory-info">
-      <span class="legend-item">
-        <span class="dot green"></span> Start
-      </span>
-      <span class="legend-item">
-        <span class="dot red"></span> End (Best)
-      </span>
-      <span class="legend-item">
-        <span class="line yellow"></span> Trajectory
-      </span>
+      <span class="legend-item"><span class="dot green"></span> Start</span>
+      <span class="legend-item"><span class="dot red"></span> End (Best)</span>
+      <span class="legend-item"><span class="line yellow"></span> Trajectory</span>
     </div>
   </div>
 </template>
@@ -307,6 +340,7 @@ const endPoint = computed(() => {
 .control-group {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
@@ -315,7 +349,8 @@ const endPoint = computed(() => {
   font-weight: 500;
 }
 
-.select {
+.select,
+.reset {
   background-color: var(--ctp-mocha-surface1, #45475a);
   border: 1px solid var(--ctp-mocha-surface2, #585b70);
   border-radius: 4px;
@@ -324,7 +359,12 @@ const endPoint = computed(() => {
   font-size: 0.875rem;
 }
 
-.select:focus {
+.reset {
+  cursor: pointer;
+}
+
+.select:focus,
+.reset:hover {
   outline: none;
   border-color: var(--ctp-mocha-mauve, #cba6f7);
 }
@@ -334,15 +374,19 @@ const endPoint = computed(() => {
   font-size: 0.8rem;
 }
 
-.hint {
-  opacity: 0.8;
-}
-
 .chart {
+  position: relative;
   width: 100%;
   min-height: 400px;
   border-radius: 4px;
+  overflow: hidden;
   background-color: var(--ctp-mocha-base, #1e1e2e);
+}
+
+.axes {
+  margin: 8px 0 0;
+  color: var(--ctp-mocha-overlay1, #7f849c);
+  font-size: 0.75rem;
 }
 
 .trajectory-info {

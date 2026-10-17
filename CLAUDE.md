@@ -127,6 +127,16 @@ if (typeof window !== 'undefined') {
 
 Always wrap chart components in `<ClientOnly>` in markdown.
 
+### Chart components
+- ECharts charts share `theme/utils/useEChart.ts` (theme registration, `notMerge`
+  updates, `ResizeObserver`, disposal, zoom/toolbox options, log-axis helpers) and the
+  `ChartFrame.vue` card. New charts should use them rather than calling `echarts.init`.
+- Do not use ECharts' built-in wheel zoom: an `inside` dataZoom swallows every wheel
+  event over the plot, so the page cannot scroll. `zoomComponents()` keeps the inside
+  zoom pan-only (`zoomLock`) and `useEChart` adds Ctrl/⌘ + wheel zoom itself.
+- Log axes cannot show 0; values are clamped to `LOG_FLOOR` and the chart says so.
+- Do not stack line series on two value axes (ECharts stacks x); use a custom polygon.
+
 ### Benchmark Data Flow
 ```
 benchmarks/run_benchmark_suite.py

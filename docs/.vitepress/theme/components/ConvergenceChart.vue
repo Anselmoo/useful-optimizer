@@ -2,20 +2,35 @@
 /**
  * ConvergenceChart.vue
  *
- * Displays convergence curves for optimization algorithms with confidence bands.
- * Follows COCO/IOHprofiler visualization standards.
+ * Convergence curves with a variability band, following COCO/IOHprofiler
+ * conventions. The centre line and the band are supplied by the caller
+ * (median + interquartile range by default, see benchmarkTransforms.ts).
+ * Supports zoom, pan, box zoom, reset and PNG export.
  */
-import { ref, computed, onMounted, onUnmounted, watch, shallowRef } from 'vue'
-import * as echarts from 'echarts'
-import { catppuccinMochaTheme, catppuccinColors } from '../../themes/catppuccin'
+import { computed, ref } from 'vue'
+import type { EChartsOption, SeriesOption } from 'echarts'
+import ChartFrame from './ChartFrame.vue'
+import {
+  LOG_FLOOR,
+  colorFor,
+  formatLog,
+  legendOption,
+  logExtent,
+  logSafe,
+  titleOption,
+  tooltipBase,
+  useEChart,
+  valueAxisStyle,
+  zoomComponents
+} from '../utils/useEChart'
 
 interface ConvergenceData {
   algorithm: string
   iterations: number[]
   mean: number[]
   std?: number[]
-  min?: number[]
-  max?: number[]
+  lower?: number[]
+  upper?: number[]
 }
 
 interface Props {
@@ -25,6 +40,8 @@ interface Props {
   yAxisLabel?: string
   logScale?: boolean
   showConfidenceBand?: boolean
+  /** Name of the band in tooltips, e.g. "IQR" or "±σ". */
+  bandLabel?: string
   height?: string | number
 }
 
@@ -34,211 +51,167 @@ const props = withDefaults(defineProps<Props>(), {
   yAxisLabel: 'Best Fitness',
   logScale: true,
   showConfidenceBand: true,
+  bandLabel: '±σ',
   height: 400
 })
 
 const chartRef = ref<HTMLElement | null>(null)
-const chart = shallowRef<echarts.ECharts | null>(null)
 
-const chartHeight = computed(() => {
-  return typeof props.height === 'number' ? `${props.height}px` : props.height
-})
+const chartHeight = computed(() =>
+  typeof props.height === 'number' ? `${props.height}px` : props.height
+)
 
-const algorithmColors = [
-  catppuccinColors.mauve,
-  catppuccinColors.blue,
-  catppuccinColors.green,
-  catppuccinColors.yellow,
-  catppuccinColors.peach,
-  catppuccinColors.red,
-  catppuccinColors.teal,
-  catppuccinColors.pink
-]
+/** Band edges: explicit lower/upper, else mean ± std. */
+const bandOf = (algo: ConvergenceData) => {
+  if (algo.lower && algo.upper) return { lower: algo.lower, upper: algo.upper }
+  if (algo.std) {
+    return {
+      lower: algo.mean.map((m, i) => m - algo.std![i]),
+      upper: algo.mean.map((m, i) => m + algo.std![i])
+    }
+  }
+  return null
+}
 
-const chartOption = computed(() => {
-  const series: echarts.SeriesOption[] = []
+const clampedLog = computed(
+  () =>
+    props.logScale &&
+    props.data.some(a => a.mean.some(v => !(v > LOG_FLOOR)))
+)
+
+const chartOption = computed<EChartsOption>(() => {
+  const series: SeriesOption[] = []
+  const y = (v: number) => (props.logScale ? logSafe(v) : v)
 
   props.data.forEach((algo, index) => {
-    const color = algorithmColors[index % algorithmColors.length]
+    const color = colorFor(index)
 
-    // Main line (mean)
     series.push({
+      id: `main-${index}`,
       name: algo.algorithm,
       type: 'line',
-      data: algo.iterations.map((iter, i) => [iter, algo.mean[i]]),
+      data: algo.iterations.map((x, i) => [x, y(algo.mean[i])]),
       smooth: false,
       symbol: 'none',
-      lineStyle: {
-        color: color,
-        width: 2
-      },
-      itemStyle: {
-        color: color
-      }
+      lineStyle: { color, width: 2 },
+      itemStyle: { color },
+      z: 3
     })
 
-    // Confidence band (mean ± std)
-    if (props.showConfidenceBand && algo.std) {
-      const upperBand = algo.iterations.map((iter, i) => [iter, algo.mean[i] + algo.std![i]])
-      const lowerBand = algo.iterations.map((iter, i) => [iter, algo.mean[i] - algo.std![i]])
-
+    const band = props.showConfidenceBand ? bandOf(algo) : null
+    if (band) {
+      // One filled polygon between the lower and the upper edge. (Stacked
+      // line series cannot do this: with two value axes ECharts stacks x.)
+      const lower = band.lower.map(y)
+      const upper = band.upper.map(y)
       series.push({
-        name: `${algo.algorithm} (±σ)`,
-        type: 'line',
-        data: [...upperBand, ...[...lowerBand].reverse()],
-        smooth: false,
-        symbol: 'none',
-        lineStyle: { opacity: 0 },
-        areaStyle: {
-          color: color,
-          opacity: 0.15
+        // Same name as the curve, so the legend toggles curve and band together.
+        name: algo.algorithm,
+        type: 'custom',
+        data: [[algo.iterations[0], algo.iterations[algo.iterations.length - 1], Math.min(...lower), Math.max(...upper)]],
+        encode: { x: [0, 1], y: [2, 3] },
+        renderItem: (_params: any, api: any) => {
+          const top = algo.iterations.map((x, i) => api.coord([x, upper[i]]))
+          const bottom = algo.iterations.map((x, i) => api.coord([x, lower[i]])).reverse()
+          return {
+            type: 'polygon',
+            shape: { points: [...top, ...bottom] },
+            style: api.style({ fill: color, opacity: 0.15, stroke: 'none' })
+          }
         },
-        stack: `band-${index}`
+        silent: true,
+        tooltip: { show: false },
+        z: 1
       })
     }
   })
 
+  const names = props.data.map(d => d.algorithm)
+  const zoom = zoomComponents({ slider: true, zoomY: true })
+  const extent = props.logScale
+    ? logExtent(
+        props.data.flatMap(a => [
+          ...a.mean,
+          ...(props.showConfidenceBand ? (bandOf(a)?.lower ?? []) : []),
+          ...(props.showConfidenceBand ? (bandOf(a)?.upper ?? []) : [])
+        ]).map(logSafe)
+      )
+    : null
+
   return {
     backgroundColor: 'transparent',
-    title: {
-      text: props.title,
-      left: 'center',
-      textStyle: {
-        color: catppuccinColors.text,
-        fontSize: 16,
-        fontWeight: 600
-      }
-    },
+    title: titleOption(props.title),
     tooltip: {
+      ...tooltipBase,
       trigger: 'axis',
-      backgroundColor: catppuccinColors.mantle,
-      borderColor: catppuccinColors.surface1,
-      textStyle: {
-        color: catppuccinColors.text
-      },
       formatter: (params: any) => {
-        if (!Array.isArray(params)) return ''
-        const iteration = params[0]?.value[0] || 0
-        let html = `<div style="font-weight:600">Iteration ${iteration}</div>`
-        params.forEach((p: any) => {
-          if (!p.seriesName.includes('±σ')) {
-            const value = p.value[1]
-            html += `<div style="color:${p.color}">${p.seriesName}: ${value.toExponential(3)}</div>`
-          }
-        })
+        if (!Array.isArray(params) || params.length === 0) return ''
+        const x = params[0].value[0]
+        let html = `<div style="font-weight:600">${props.xAxisLabel} ${Number(x).toLocaleString()}</div>`
+        params
+          .filter((p: any) => String(p.seriesId).startsWith('main-'))
+          .forEach((p: any) => {
+            html += `<div style="color:${p.color}">${p.seriesName}: ${Number(p.value[1]).toExponential(3)}</div>`
+          })
         return html
       }
     },
-    legend: {
-      data: props.data.map(d => d.algorithm),
-      bottom: 10,
-      textStyle: {
-        color: catppuccinColors.text
-      }
-    },
-    grid: {
-      left: '10%',
-      right: '5%',
-      top: '15%',
-      bottom: '20%'
-    },
+    legend: legendOption(names),
+    toolbox: zoom.toolbox,
+    dataZoom: zoom.dataZoom,
+    grid: { left: 70, right: 24, top: 56, bottom: 96 },
     xAxis: {
       type: 'value',
       name: props.xAxisLabel,
-      nameLocation: 'center',
-      nameGap: 30,
-      nameTextStyle: {
-        color: catppuccinColors.subtext0
-      },
-      axisLine: {
-        lineStyle: { color: catppuccinColors.surface2 }
-      },
-      axisLabel: {
-        color: catppuccinColors.subtext0
-      },
-      splitLine: {
-        lineStyle: { color: catppuccinColors.surface0 }
-      }
+      nameLocation: 'middle',
+      nameGap: 28,
+      ...valueAxisStyle,
+      axisLabel: { ...valueAxisStyle.axisLabel, hideOverlap: true }
     },
     yAxis: {
       type: props.logScale ? 'log' : 'value',
       name: props.yAxisLabel,
-      nameLocation: 'center',
-      nameGap: 50,
-      nameTextStyle: {
-        color: catppuccinColors.subtext0
-      },
-      axisLine: {
-        lineStyle: { color: catppuccinColors.surface2 }
-      },
+      nameLocation: 'middle',
+      nameGap: 52,
+      scale: !props.logScale,
+      splitNumber: props.logScale ? 8 : 5,
+      min: extent?.min,
+      max: extent?.max,
+      ...valueAxisStyle,
       axisLabel: {
-        color: catppuccinColors.subtext0,
-        formatter: (value: number) => value.toExponential(0)
-      },
-      splitLine: {
-        lineStyle: { color: catppuccinColors.surface0 }
+        ...valueAxisStyle.axisLabel,
+        formatter: props.logScale ? formatLog : undefined
       }
     },
     series
   }
 })
 
-const initChart = () => {
-  if (!chartRef.value) return
-
-  echarts.registerTheme('catppuccin-mocha', catppuccinMochaTheme)
-  chart.value = echarts.init(chartRef.value, 'catppuccin-mocha')
-  chart.value.setOption(chartOption.value)
-}
-
-const resizeChart = () => {
-  chart.value?.resize()
-}
-
-watch(() => props.data, () => {
-  chart.value?.setOption(chartOption.value)
-}, { deep: true })
-
-watch(() => [props.logScale, props.showConfidenceBand], () => {
-  chart.value?.setOption(chartOption.value)
-})
-
-onMounted(() => {
-  // SSR SAFETY: Only run in browser environment
-  if (typeof window === 'undefined') return
-
-  initChart()
-  window.addEventListener('resize', resizeChart)
-})
-
-onUnmounted(() => {
-  if (typeof window === 'undefined') return
-
-  window.removeEventListener('resize', resizeChart)
-  chart.value?.dispose()
-})
+useEChart(chartRef, chartOption)
 </script>
 
 <template>
-  <div class="chart-container">
-    <div
-      ref="chartRef"
-      class="chart"
-      :style="{ height: chartHeight }"
-    />
-  </div>
+  <ChartFrame>
+    <div ref="chartRef" class="chart" :style="{ height: chartHeight }" />
+    <template #footer>
+      <p v-if="showConfidenceBand" class="note">Shaded band: {{ bandLabel }}.</p>
+      <p v-if="clampedLog" class="note">
+        On the log axis, values at or below {{ LOG_FLOOR.toExponential(0) }} (including exact
+        zeros) are drawn at {{ LOG_FLOOR.toExponential(0) }}.
+      </p>
+    </template>
+  </ChartFrame>
 </template>
 
 <style scoped>
-.chart-container {
-  background-color: var(--ctp-mocha-surface0, #313244);
-  border-radius: 8px;
-  padding: 16px;
-  margin: 16px 0;
-}
-
 .chart {
   width: 100%;
   min-height: 300px;
+}
+
+.note {
+  margin: 0;
+  color: var(--ctp-mocha-overlay1, #7f849c);
+  font-size: 0.75rem;
 }
 </style>

@@ -1,16 +1,25 @@
 <script setup lang="ts">
 /**
- * Unified benchmark chart wrapper. Loads data and renders convergence,
- * violin, and ECDF charts for a given algorithm/function/dimension.
+ * Unified benchmark chart wrapper. Loads the published benchmark data and
+ * renders convergence, distribution and ECDF charts for an algorithm
+ * (optionally compared against others) on one function and dimension.
  *
  * Usage:
  *   <BenchmarkCharts algorithm="ParticleSwarm" functionName="shifted_ackley" :dimension="2" />
  */
 import { ref, computed, onMounted, watch } from 'vue'
 import { withBase } from 'vitepress'
+import type { BenchmarkDataSchema } from '../types/benchmark'
 import ConvergenceChart from './ConvergenceChart.vue'
 import ECDFChart from './ECDFChart.vue'
 import ViolinPlot from './ViolinPlot.vue'
+import {
+  DEFAULT_TARGETS,
+  buildConvergenceSeries,
+  buildECDFSeries,
+  buildViolinSeries,
+  fetchBenchmarkData
+} from '../utils/benchmarkTransforms'
 
 interface Props {
   algorithm: string
@@ -28,39 +37,39 @@ const props = withDefaults(defineProps<Props>(), {
   showConvergence: true,
   showECDF: true,
   showViolin: true,
-  targetPrecisions: () => [1e-1, 1e-3, 1e-5, 1e-7]
+  targetPrecisions: () => DEFAULT_TARGETS
 })
 
-const benchmarkData = ref<any>(null)
+const benchmarkData = ref<BenchmarkDataSchema | null>(null)
 const loading = ref(true)
 const error = ref<string | null>(null)
+
+const statistic = ref<'median' | 'mean'>('median')
+const xUnit = ref<'iteration' | 'evaluation'>('iteration')
+
+const algorithms = computed(() => [props.algorithm, ...(props.compareWith ?? [])])
+const maxIterations = computed(() => benchmarkData.value?.metadata?.max_iterations)
 
 const loadData = async () => {
   try {
     loading.value = true
     error.value = null
 
-    let response = await fetch(withBase('/benchmarks/benchmark-results.json'))
-    if (!response.ok) {
-      response = await fetch(withBase('/benchmarks/demo-benchmark-data.json'))
-      if (!response.ok) throw new Error('Failed to load benchmark data')
+    let data: BenchmarkDataSchema
+    try {
+      data = await fetchBenchmarkData(withBase('/benchmarks/benchmark-results.json'))
+    } catch {
+      data = await fetchBenchmarkData(withBase('/benchmarks/demo-benchmark-data.json'))
     }
 
-    const data = await response.json()
-    const funcData = data.benchmarks[props.functionName]?.[props.dimension.toString()]
+    const funcData = data.benchmarks[props.functionName]?.[String(props.dimension)]
     if (!funcData) {
       throw new Error(`No data for ${props.functionName} dimension ${props.dimension}`)
     }
-
-    const algorithms = [props.algorithm, ...(props.compareWith ?? [])]
-    const filtered: Record<string, any> = {}
-    for (const alg of algorithms) {
-      if (funcData[alg]) filtered[alg] = funcData[alg]
+    if (!algorithms.value.some(name => funcData[name])) {
+      throw new Error(`No data for algorithm(s): ${algorithms.value.join(', ')}`)
     }
-    if (Object.keys(filtered).length === 0) {
-      throw new Error(`No data for algorithm(s): ${algorithms.join(', ')}`)
-    }
-    benchmarkData.value = filtered
+    benchmarkData.value = data
   } catch (e) {
     error.value = e instanceof Error ? e.message : 'Unknown error'
   } finally {
@@ -68,68 +77,42 @@ const loadData = async () => {
   }
 }
 
-const convergenceData = computed(() => {
-  if (!benchmarkData.value) return []
-  return Object.entries(benchmarkData.value).map(([name, bench]: [string, any]) => {
-    const runs = bench.runs.filter((run: any) => run.history?.best_fitness?.length)
-    if (runs.length === 0) return null
-    const allHistories: number[][] = runs.map((run: any) => run.history.best_fitness)
-    const maxLength = Math.max(...allHistories.map(h => h.length))
-    const iterations: number[] = []
-    const meanArr: number[] = []
-    const stdArr: number[] = []
-    for (let i = 0; i < maxLength; i++) {
-      const values = allHistories.filter(h => i < h.length).map(h => h[i])
-      if (values.length === 0) continue
-      const mu = values.reduce((a, b) => a + b, 0) / values.length
-      iterations.push(i)
-      meanArr.push(mu)
-      stdArr.push(
-        values.length > 1
-          ? Math.sqrt(values.map(v => (v - mu) ** 2).reduce((a, b) => a + b, 0) / values.length)
-          : 0
-      )
+const convergenceData = computed(() =>
+  buildConvergenceSeries(
+    benchmarkData.value,
+    props.functionName,
+    props.dimension,
+    algorithms.value,
+    {
+      statistic: statistic.value,
+      xUnit: xUnit.value,
+      maxIterations: maxIterations.value
     }
-    return { algorithm: name, iterations, mean: meanArr, std: stdArr }
-  }).filter(Boolean)
-})
+  )
+)
 
-const violinData = computed(() => {
-  if (!benchmarkData.value) return []
-  return Object.entries(benchmarkData.value).map(([name, bench]: [string, any]) => ({
-    algorithm: name,
-    values: bench.runs.map((run: any) => run.best_fitness)
-  }))
-})
+const withoutHistory = computed(() =>
+  algorithms.value.filter(
+    name =>
+      benchmarkData.value?.benchmarks[props.functionName]?.[String(props.dimension)]?.[name] &&
+      !convergenceData.value.some(series => series.algorithm === name)
+  )
+)
 
-const ecdfData = computed(() => {
-  if (!benchmarkData.value) return []
-  return Object.entries(benchmarkData.value).map(([name, bench]: [string, any]) => {
-    const runs = bench.runs.filter((run: any) => run.history?.best_fitness?.length)
-    if (runs.length === 0) return null
-    const maxEvals = Math.max(...runs.map((r: any) => r.n_evaluations))
-    const budgetPoints = Array.from({ length: 20 }, (_, i) =>
-      Math.pow(10, Math.log10(10) + (Math.log10(maxEvals / props.dimension) - Math.log10(10)) * i / 19)
-    )
-    const budget: number[] = []
-    const proportion: number[] = []
-    for (const budgetVal of budgetPoints) {
-      const absoluteBudget = budgetVal * props.dimension
-      let totalTargetsReached = 0
-      for (const target of props.targetPrecisions) {
-        const reachedCount = runs.filter((run: any) => {
-          const history: number[] = run.history.best_fitness
-          const evalsPerIter = run.n_evaluations / history.length
-          return history.some((val, i) => (i + 1) * evalsPerIter <= absoluteBudget && val <= target)
-        }).length
-        if (reachedCount > 0) totalTargetsReached++
-      }
-      budget.push(budgetVal)
-      proportion.push(totalTargetsReached / props.targetPrecisions.length)
-    }
-    return { algorithm: name, budget, proportion }
-  }).filter(Boolean)
-})
+const violinData = computed(() =>
+  buildViolinSeries(benchmarkData.value, props.functionName, props.dimension, algorithms.value)
+)
+
+const ecdfData = computed(() =>
+  buildECDFSeries(
+    benchmarkData.value,
+    props.functionName,
+    props.dimension,
+    props.targetPrecisions,
+    algorithms.value,
+    maxIterations.value
+  )
+)
 
 onMounted(loadData)
 watch(() => [props.algorithm, props.functionName, props.dimension, props.compareWith], loadData)
@@ -148,16 +131,39 @@ watch(() => [props.algorithm, props.functionName, props.dimension, props.compare
     </div>
 
     <div v-else class="charts-container">
-      <div v-if="showConvergence && convergenceData.length > 0" class="chart-section">
+      <div v-if="showConvergence" class="chart-section">
         <h3>Convergence Analysis — Iteration vs Precision</h3>
+        <div class="options">
+          <label>
+            Curve
+            <select v-model="statistic">
+              <option value="median">Median, interquartile band</option>
+              <option value="mean">Mean, ±1 σ band</option>
+            </select>
+          </label>
+          <label>
+            x-axis
+            <select v-model="xUnit">
+              <option value="iteration">Iterations</option>
+              <option value="evaluation">Function evaluations</option>
+            </select>
+          </label>
+        </div>
         <ConvergenceChart
+          v-if="convergenceData.length > 0"
           :data="convergenceData"
-          :title="`${functionName} (${dimension}D): iteration vs precision`"
-          xAxisLabel="Iteration"
+          :title="`${functionName} (${dimension}D): best fitness so far`"
+          :xAxisLabel="xUnit === 'iteration' ? 'Iteration' : 'Function evaluations'"
           yAxisLabel="Precision |f − f*|"
+          :bandLabel="statistic === 'median' ? 'IQR' : '±σ'"
           :logScale="true"
           :showConfidenceBand="true"
         />
+        <p v-if="withoutHistory.length" class="notice">
+          No convergence history in the published benchmark data for
+          {{ withoutHistory.join(', ') }}; it appears after the next benchmark run.
+          The distribution and ECDF charts below still use its final results.
+        </p>
       </div>
 
       <div v-if="showViolin && violinData.length > 0" class="chart-section">
@@ -177,8 +183,8 @@ watch(() => [props.algorithm, props.functionName, props.dimension, props.compare
         <ECDFChart
           :data="ecdfData"
           :title="`ECDF: ${functionName} (${dimension}D)`"
-          xAxisLabel="log₁₀(#f-evaluations / dimension)"
-          yAxisLabel="Proportion of targets reached"
+          xAxisLabel="#f-evaluations / dimension"
+          yAxisLabel="Proportion of (run, target) pairs reached"
           :logXAxis="true"
           :targetPrecisions="targetPrecisions"
         />
@@ -241,5 +247,38 @@ watch(() => [props.algorithm, props.functionName, props.dimension, props.compare
   margin-bottom: 16px;
   font-size: 1.3rem;
   font-weight: 600;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 8px;
+  color: var(--ctp-mocha-subtext1, #bac2de);
+  font-size: 0.875rem;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.options select {
+  background-color: var(--ctp-mocha-surface1, #45475a);
+  border: 1px solid var(--ctp-mocha-surface2, #585b70);
+  border-radius: 4px;
+  color: var(--ctp-mocha-text, #cdd6f4);
+  padding: 4px 8px;
+  font-size: 0.875rem;
+}
+
+.notice {
+  margin: 8px 0 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--ctp-mocha-yellow, #f9e2af);
+  background-color: var(--ctp-mocha-surface0, #313244);
+  color: var(--ctp-mocha-subtext1, #bac2de);
+  font-size: 0.875rem;
 }
 </style>
