@@ -56,9 +56,11 @@ repos:
   # committed fingerprint (.rrt/artifacts.lock.toml). Refresh the lock after
   # regenerating with:  just docs   (or  rrt artifacts --snapshot ).
   - repo: https://github.com/Anselmoo/repo-release-tools
-    rev: v1.9.1
+    rev: v1.18.0
     hooks:
       - id: rrt-artifacts-check
         stages: [pre-push]
+      - id: rrt-release-check
+        stages: [manual]
       - id: rrt-artifacts-snapshot
         stages: [manual]
