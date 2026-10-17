@@ -8,7 +8,7 @@
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview",
     "docs:api": "cd .. && uv run griffe dump opt -d google -r -o docs/api/full_api.json && cd docs",
-    "docs:api:all": "cd .. && uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar && cd docs",
+    "docs:api:all": "cd .. && uv run python scripts/generate_docs.py --all --json --full-api --sidebar && cd docs",
     "validate:migration": "node validate-docs-migration.js"
   },
   "devDependencies": {

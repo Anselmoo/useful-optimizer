@@ -1,38 +1,37 @@
-# Evolutionary Algorithms
+# 🧬 Evolutionary Algorithms
 
-Optimization algorithms inspired by biological evolution and natural selection.
+Algorithms inspired by biological evolution.
 
-## Overview
+This category contains **6 algorithms**.
 
-Evolutionary algorithms use mechanisms inspired by biological evolution, such as reproduction, mutation, recombination, and selection. They maintain a population of candidate solutions and evolve them over generations.
+| Algorithm | Acronym | Year | Description |
+|-----------|---------|------|-------------|
+| [Covariance Matrix Adaptation Evolution Strategy](./cma-es) | CMA-ES | 2001 | Covariance Matrix Adaptation Evolution Strategy (CMA-ES) optimization algorithm. |
+| [Cultural Algorithm](./cultural-algorithm) | CA | 1994 | Cultural Algorithm (CA) optimization algorithm. |
+| [Differential Evolution](./differential-evolution) | DE | 1997 | Differential Evolution (DE) optimization algorithm. |
+| [Estimation of Distribution Algorithm](./estimation-of-distribution-algorithm) | EDA | 1996 | Estimation of Distribution Algorithm (EDA) optimization algorithm. |
+| [Genetic Algorithm](./genetic-algorithm) | GA | 1975 | Genetic Algorithm (GA) optimization algorithm. |
+| [Imperialist Competitive Algorithm](./imperialist-competitive-algorithm) | ICA | 2007 | Imperialist Competitive Algorithm (ICA) optimization algorithm. |
 
-## Available Algorithms
+## Usage
 
-- [Genetic Algorithm](./genetic-algorithm) - Classic evolutionary algorithm
-- [Differential Evolution](./differential-evolution) - Vector-based evolutionary strategy
-- [CMA-ES](./cma-es) - Covariance Matrix Adaptation Evolution Strategy
-- [Cultural Algorithm](./cultural) - Dual inheritance system
-- [Imperialist Competitive Algorithm](./imperialist) - Socio-politically inspired
-
-## Usage Example
+Every optimizer shares the same interface:
 
 ```python
-from opt.evolutionary import GeneticAlgorithm, DifferentialEvolution
-from opt.benchmark.functions import rastrigin
+from opt.evolutionary.cma_es import CMAESAlgorithm
+from opt.benchmark.functions import sphere
 
-# Genetic Algorithm
-ga = GeneticAlgorithm(
-    func=rastrigin,
+optimizer = CMAESAlgorithm(
+    func=sphere,
     lower_bound=-5.12,
     upper_bound=5.12,
     dim=10,
-    max_iter=100,
-    population_size=50
+    max_iter=500,
 )
-best_solution, best_fitness = ga.search()
+best_solution, best_fitness = optimizer.search()
 ```
 
 ## See Also
 
-- [API Reference](/api/evolutionary) - Complete API documentation
-- [Swarm Intelligence](../swarm-intelligence/) - Related population-based methods
+- [All Algorithms](/algorithms/)
+- [Benchmark Functions](/api/benchmark-functions)

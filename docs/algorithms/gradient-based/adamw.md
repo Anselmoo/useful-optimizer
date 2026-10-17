@@ -1,4 +1,4 @@
-# AdamW
+# Adam with Decoupled Weight Decay
 
 <span class="badge badge-gradient">Gradient-Based</span>
 

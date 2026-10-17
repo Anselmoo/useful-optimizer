@@ -1,43 +1,35 @@
-# Social-Inspired Algorithms
+# 👥 Social-Inspired Algorithms
 
-Optimization algorithms based on human social behavior and interactions.
+Algorithms inspired by social behaviors.
 
-## Overview
+This category contains **4 algorithms**.
 
-Social-inspired algorithms model human social phenomena such as teaching, learning, cooperation, competition, and cultural evolution to solve optimization problems.
+| Algorithm | Acronym | Year | Description |
+|-----------|---------|------|-------------|
+| [Political Optimizer](./political-optimizer) | PO | 2020 | Political Optimizer (PO) algorithm. |
+| [Soccer League Competition](./soccer-league-optimizer) | SLC | 2014 | Soccer League Competition (SLC) algorithm. |
+| [Social Group Optimization](./social-group-optimizer) | SGO | 2016 | Social Group Optimization (SGO) algorithm. |
+| [Teaching-Learning Based Optimization](./teaching-learning) | TLBO | 2011 | Teaching-Learning Based Optimization (TLBO) algorithm. |
 
-## Available Algorithms
+## Usage
 
-- [Teaching-Learning Based Optimization](./tlbo) - Simulates teaching and learning in a classroom
-- [Social Spider Optimization](./social-spider) - Models spider colony behavior
-- [League Championship Algorithm](./league-championship) - Sports competition simulation
-- [Soccer League Optimization](./soccer-league) - Football league dynamics
-
-## Characteristics
-
-- Model social interactions and behaviors
-- Use cooperation and competition mechanisms
-- Often involve knowledge sharing
-- Can incorporate learning and adaptation
-
-## Usage Example
+Every optimizer shares the same interface:
 
 ```python
-from opt.social_inspired import TeachingLearning
-from opt.benchmark.functions import rastrigin
+from opt.social_inspired.political_optimizer import PoliticalOptimizer
+from opt.benchmark.functions import sphere
 
-optimizer = TeachingLearning(
-    func=rastrigin,
+optimizer = PoliticalOptimizer(
+    func=sphere,
     lower_bound=-5.12,
     upper_bound=5.12,
     dim=10,
-    max_iter=100,
-    population_size=30
+    max_iter=500,
 )
 best_solution, best_fitness = optimizer.search()
 ```
 
 ## See Also
 
-- [API Reference](/api/) - Complete API documentation
-- [Swarm Intelligence](../swarm-intelligence/) - Related collective behavior algorithms
+- [All Algorithms](/algorithms/)
+- [Benchmark Functions](/api/benchmark-functions)

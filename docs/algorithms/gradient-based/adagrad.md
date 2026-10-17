@@ -1,4 +1,4 @@
-# Adagrad
+# Adaptive Gradient Algorithm
 
 <span class="badge badge-gradient">Gradient-Based</span>
 

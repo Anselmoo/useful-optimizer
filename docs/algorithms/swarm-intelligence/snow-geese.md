@@ -1,4 +1,4 @@
-# Snow Geese Optimizer
+# Snow Geese Algorithm
 
 <span class="badge badge-swarm">Swarm Intelligence</span>
 
@@ -147,8 +147,10 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Snow Geese Algorithm (2021). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Jiang, H., Yang, Y., Ping, W., & Dong, Y. (2023). A novel hybrid algorithm
+based on Snow Geese and Differential Evolution for global optimization.
+Applied Soft Computing, 139, 110235.
+https://doi.org/10.1016/j.asoc.2023.110235
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."

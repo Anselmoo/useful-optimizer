@@ -1,77 +1,29 @@
-# Constrained Optimization API
+# Constrained API
 
-API reference for constrained optimization algorithms in `opt.constrained`.
+API reference for the 5 classes of `opt.constrained`. This page is generated from the source; see the [algorithm pages](/algorithms/constrained/) for formulations and references.
 
-## Module Overview
+## Imports
 
 ```python
 from opt.constrained import (
-    PenaltyMethod,
-    BarrierMethod,
     AugmentedLagrangian,
+    BarrierMethodOptimizer,
+    PenaltyMethodOptimizer,
     SequentialQuadraticProgramming,
-    TrustRegionConstrained,
+    SuccessiveLinearProgramming,
 )
 ```
 
-## Common Interface
+## Common interface
 
-```python
-class ConstrainedOptimizer(AbstractOptimizer):
-    def __init__(
-        self,
-        func: Callable,
-        lower_bound: float,
-        upper_bound: float,
-        dim: int,
-        max_iter: int,
-        constraints_eq: Optional[List[Callable]] = None,
-        constraints_ineq: Optional[List[Callable]] = None,
-        **kwargs
-    ):
-        pass
+Every class takes the objective `func`, the search-space `lower_bound`, `upper_bound` and `dim`, usually `max_iter` and `seed`, and implements `search() -> tuple[np.ndarray, float]`. See [AbstractOptimizer](./abstract-optimizer).
 
-    def search(self) -> tuple[np.ndarray, float]:
-        pass
-```
+## Classes
 
-## Constraint Specification
-
-Constraints are specified as callable functions:
-
-- **Equality constraints**: `g(x) = 0`
-- **Inequality constraints**: `h(x) >= 0`
-
-## Example Usage
-
-```python
-from opt.constrained import PenaltyMethod
-from opt.benchmark.functions import sphere
-import numpy as np
-
-# Define constraints
-def eq_constraint(x):
-    return x[0] + x[1] - 1.0  # x[0] + x[1] = 1
-
-def ineq_constraint(x):
-    return x[0] - 0.5  # x[0] >= 0.5
-
-# Penalty Method
-penalty = PenaltyMethod(
-    func=sphere,
-    lower_bound=-5,
-    upper_bound=5,
-    dim=2,
-    max_iter=100,
-    constraints_eq=[eq_constraint],
-    constraints_ineq=[ineq_constraint],
-    penalty_factor=1000
-)
-solution, fitness = penalty.search()
-print(f"Solution: {solution}")
-print(f"Constraint satisfaction: eq={eq_constraint(solution):.6f}, ineq={ineq_constraint(solution):.6f}")
-```
-
-## See Also
-
-- [Constrained Optimization](/algorithms/constrained/) - Algorithm details
+| Class | Algorithm | Additional parameters |
+|-------|-----------|-----------------------|
+| [`AugmentedLagrangian`](/algorithms/constrained/augmented-lagrangian-method) | Augmented Lagrangian Method | `c=1`, `lambda_=0.1`, `static_cost=10000000000.0` |
+| [`BarrierMethodOptimizer`](/algorithms/constrained/barrier-method) | Barrier Method (Interior Point) | `constraints=None`, `initial_mu=10.0`, `mu_reduction=0.5` |
+| [`PenaltyMethodOptimizer`](/algorithms/constrained/penalty-method) | Penalty Method (Quadratic Penalty) | `constraints=None`, `eq_constraints=None`, `initial_penalty=1.0`, `penalty_growth=2.0` |
+| [`SequentialQuadraticProgramming`](/algorithms/constrained/sequential-quadratic-programming) | Sequential Quadratic Programming | `constraints=None`, `eq_constraints=None`, `tol=1e-06` |
+| [`SuccessiveLinearProgramming`](/algorithms/constrained/successive-linear-programming) | Successive Linear Programming | - |

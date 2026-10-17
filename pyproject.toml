@@ -266,6 +266,14 @@ path = "docs/algorithms/*/*.md"
 description = "Generated optimizer algorithm pages"
 
 [[tool.rrt.artifact_targets]]
+path = "docs/algorithms/index.md"
+description = "Algorithm overview with generated catalog"
+
+[[tool.rrt.artifact_targets]]
+path = "docs/api/*.md"
+description = "API reference pages (module pages generated per category)"
+
+[[tool.rrt.artifact_targets]]
 path = "docs/public/optimizers/optimizers.json"
 description = "Generated optimizer metadata index"
 

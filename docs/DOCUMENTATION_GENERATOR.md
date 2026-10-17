@@ -16,7 +16,7 @@ The `scripts/generate_docs.py` script now supports:
 
 ```bash
 # From project root
-uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
+uv run python scripts/generate_docs.py --all --json --full-api --sidebar
 
 # Or from docs directory via npm
 cd docs && npm run docs:api:all
@@ -34,12 +34,7 @@ uv run python scripts/generate_docs.py --all
 uv run python scripts/generate_docs.py --all --json
 ```
 
-**Griffe API docs (per category):**
-```bash
-uv run python scripts/generate_docs.py --griffe
-```
-
-**Full API documentation:**
+**Griffe API dump (one file for every category):**
 ```bash
 uv run python scripts/generate_docs.py --full-api
 ```
@@ -52,7 +47,7 @@ uv run python scripts/generate_docs.py --all --sidebar
 ### Generate for Specific Category
 
 ```bash
-uv run python scripts/generate_docs.py --category swarm_intelligence --json --griffe
+uv run python scripts/generate_docs.py --category swarm_intelligence --json
 ```
 
 ## Output Files
@@ -131,8 +126,7 @@ const particleSwarm = data.modules.swarm_intelligence.classes
 | `--sidebar` | Generate sidebar config |
 | `--clean` | Remove old docs before generating |
 | `--json` | Generate JSON metadata |
-| `--griffe` | Generate Griffe API docs per category |
-| `--full-api` | Generate full API JSON |
+| `--full-api` | Generate the Griffe API dump `docs/api/full_api.json` (not committed; `--griffe` is a deprecated alias) |
 
 ## Performance
 
@@ -162,7 +156,7 @@ npm run docs:build
 ### Missing JSON files
 ```bash
 # Regenerate all JSON
-uv run python scripts/generate_docs.py --all --json --griffe --full-api
+uv run python scripts/generate_docs.py --all --json --full-api
 ```
 
 ## Development Workflow
@@ -170,7 +164,7 @@ uv run python scripts/generate_docs.py --all --json --griffe --full-api
 1. **Update optimizer docstrings** following Google style
 2. **Generate documentation**:
    ```bash
-   uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
+   uv run python scripts/generate_docs.py --all --json --full-api --sidebar
    ```
 3. **Test VitePress**:
    ```bash
@@ -183,17 +177,17 @@ uv run python scripts/generate_docs.py --all --json --griffe --full-api
 ## Files Modified by Generator
 
 ### Always Generated
-- `docs/algorithms/**/*.md` - Algorithm pages
+- `docs/algorithms/<category>/<file-stem>.md` - Algorithm pages (slug = source file stem)
+- `docs/algorithms/<category>/index.md` - Category index pages
+- `docs/algorithms/index.md` - the generated catalog block (hand-written text around it is kept)
+- `docs/api/<category>.md` - API reference pages and the generated block of `docs/api/index.md`
 - `docs/public/optimizers/optimizers.json` - Metadata
 
 ### With `--sidebar`
 - `docs/.vitepress/algorithmsSidebar.ts`
 
-### With `--griffe`
-- `docs/api/{category}.json` (10 files)
-
 ### With `--full-api`
-- `docs/api/full_api.json`
+- `docs/api/full_api.json` (generated in CI, git-ignored: it embeds a machine-specific path)
 
 ## CI/CD Integration
 
@@ -202,7 +196,7 @@ Add to GitHub Actions workflow:
 ```yaml
 - name: Generate Documentation
   run: |
-    uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
+    uv run python scripts/generate_docs.py --all --json --full-api --sidebar
 
 - name: Build VitePress
   run: |

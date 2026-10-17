@@ -1,4 +1,4 @@
-# NSGA-II
+# Non-dominated Sorting Genetic Algorithm II
 
 <span class="badge badge-multi">Multi-Objective</span>
 

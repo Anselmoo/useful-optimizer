@@ -292,6 +292,32 @@ ALL_OPTIMIZERS = (
 )
 
 
+# Optimizers deliberately outside the parametrized lists above because they need
+# an extra constructor argument; each has its own dedicated test below.
+TESTED_SEPARATELY = {BatAlgorithm}
+
+
+class TestOptimizerCoverage:
+    """The hand-maintained lists must not fall behind the public API."""
+
+    def test_every_exported_optimizer_is_tested(self) -> None:
+        """Test that each class in ``opt.__all__`` is covered by a list here."""
+        import inspect
+
+        import opt
+
+        exported = {
+            getattr(opt, name)
+            for name in opt.__all__
+            if inspect.isclass(getattr(opt, name))
+            and issubclass(getattr(opt, name), AbstractOptimizer)
+            and not inspect.isabstract(getattr(opt, name))
+        }
+        covered = set(ALL_OPTIMIZERS) | TESTED_SEPARATELY
+        missing = sorted(cls.__name__ for cls in exported - covered)
+        assert not missing, f"Add these optimizers to the lists above: {missing}"
+
+
 class TestAbstractOptimizer:
     """Tests for the AbstractOptimizer base class."""
 

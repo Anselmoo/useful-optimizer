@@ -1,4 +1,4 @@
-# Powell's Method
+# Powell's Conjugate Direction Method
 
 <span class="badge badge-classical">Classical</span>
 

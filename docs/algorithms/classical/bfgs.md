@@ -1,4 +1,4 @@
-# BFGS
+# Broyden-Fletcher-Goldfarb-Shanno
 
 <span class="badge badge-classical">Classical</span>
 

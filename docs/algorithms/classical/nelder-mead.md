@@ -1,4 +1,4 @@
-# Nelder-Mead
+# Nelder-Mead Simplex Method
 
 <span class="badge badge-classical">Classical</span>
 

@@ -158,8 +158,9 @@ class SeagullOptimizationAlgorithm(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Seagull Optimization Algorithm (2019). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Dhiman, G., & Kumar, V. (2019). Seagull optimization algorithm: Theory and its
+            applications for large-scale industrial engineering problems. Knowledge-
+            Based Systems, 165, 169-196.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

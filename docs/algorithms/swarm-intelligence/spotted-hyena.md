@@ -145,8 +145,9 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Spotted Hyena Optimizer (2017). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Dhiman, G., & Kumar, V. (2017). Spotted hyena optimizer: A novel bio-inspired
+based metaheuristic technique for engineering applications. Advances in
+Engineering Software, 114, 48-70.
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."

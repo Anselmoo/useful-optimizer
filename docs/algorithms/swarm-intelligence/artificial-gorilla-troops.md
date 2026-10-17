@@ -47,7 +47,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | Property          | Value                                    |
 |-------------------|------------------------------------------|
 | Algorithm Name    | Artificial Gorilla Troops Optimizer             |
-| Acronym           | GTO                           |
+| Acronym           | AGTO                           |
 | Year Introduced   | 2021                            |
 | Authors           | Various (see References)                |
 | Algorithm Class   | Swarm Intelligence |
@@ -146,8 +146,10 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Artificial Gorilla Troops Optimizer (2021). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Abdollahzadeh, B., Soleimanian Gharehchopogh, F., & Mirjalili, S. (2021).
+Artificial gorilla troops optimizer: A new nature-inspired metaheuristic
+algorithm for global optimization problems. International Journal of
+Intelligent Systems, 36(10), 5887-5958.
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."

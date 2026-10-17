@@ -169,8 +169,10 @@ class GiantTrevallyOptimizer(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Giant Trevally Optimizer (2022). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Sadeeq, H. T., & Abdulazeez, A. M. (2022). Giant Trevally Optimizer (GTO): A
+            Novel Metaheuristic Algorithm for Global Optimization and Challenging
+            Engineering Problems. IEEE Access, 10, 121615-121640.
+        https://doi.org/10.1109/ACCESS.2022.3223388
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

@@ -1,38 +1,40 @@
-# Classical Optimization Algorithms
+# 🎯 Classical Algorithms
 
-Well-established optimization methods with proven convergence properties.
+Traditional mathematical optimization methods.
 
-## Overview
+This category contains **9 algorithms**.
 
-Classical optimization algorithms include direct search methods, quasi-Newton methods, and derivative-free techniques that have been studied extensively in optimization theory.
+| Algorithm | Acronym | Year | Description |
+|-----------|---------|------|-------------|
+| [Broyden-Fletcher-Goldfarb-Shanno](./bfgs) | BFGS | 1970 | Broyden-Fletcher-Goldfarb-Shanno (BFGS) quasi-Newton optimization algorithm. |
+| [Conjugate Gradient Method](./conjugate-gradient) | CG | 1952 | Conjugate Gradient Method (CG) optimization algorithm. |
+| [Hill Climbing](./hill-climbing) | HC | 1958 | Hill Climbing local search optimization algorithm. |
+| [Limited-memory BFGS](./lbfgs) | L-BFGS | 1980 | Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS) optimization algorithm. |
+| [Nelder-Mead Simplex Method](./nelder-mead) | NM | 1965 | Nelder-Mead Simplex Method optimization algorithm. |
+| [Powell's Conjugate Direction Method](./powell) | POWELL | 1964 | Powell's Conjugate Direction Method optimization algorithm. |
+| [Simulated Annealing](./simulated-annealing) | SA | 1983 | Simulated Annealing (SA) metaheuristic optimization algorithm. |
+| [Tabu Search](./tabu-search) | TS | 1986 | Tabu Search metaheuristic optimization algorithm. |
+| [Trust Region Method](./trust-region) | TR | 1983 | Trust Region optimization algorithm. |
 
-## Available Algorithms
+## Usage
 
-- [BFGS](./bfgs) - Broyden–Fletcher–Goldfarb–Shanno algorithm
-- [Nelder-Mead](./nelder-mead) - Simplex-based derivative-free method
-- [Simulated Annealing](./simulated-annealing) - Thermodynamics-inspired probabilistic technique
-- [Hill Climbing](./hill-climbing) - Local search algorithm
-- [Powell's Method](./powell) - Conjugate direction method
-- [Trust Region](./trust-region) - Constrained optimization approach
-
-## Usage Example
+Every optimizer shares the same interface:
 
 ```python
-from opt.classical import NelderMead, SimulatedAnnealing
-from opt.benchmark.functions import rosenbrock
+from opt.classical.bfgs import BFGS
+from opt.benchmark.functions import sphere
 
-# Nelder-Mead
-nm = NelderMead(
-    func=rosenbrock,
-    lower_bound=-5,
-    upper_bound=10,
+optimizer = BFGS(
+    func=sphere,
+    lower_bound=-5.12,
+    upper_bound=5.12,
     dim=10,
-    max_iter=1000
+    max_iter=500,
 )
-best_solution, best_fitness = nm.search()
+best_solution, best_fitness = optimizer.search()
 ```
 
 ## See Also
 
-- [API Reference](/api/classical) - Complete API documentation
-- [Gradient-Based Methods](../gradient-based/) - For gradient-based classical methods
+- [All Algorithms](/algorithms/)
+- [Benchmark Functions](/api/benchmark-functions)

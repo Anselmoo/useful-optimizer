@@ -1,4 +1,4 @@
-# Adadelta
+# Adaptive Delta
 
 <span class="badge badge-gradient">Gradient-Based</span>
 

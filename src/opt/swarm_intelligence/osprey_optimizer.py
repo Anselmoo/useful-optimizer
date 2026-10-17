@@ -170,8 +170,11 @@ class OspreyOptimizer(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Osprey Optimization Algorithm (2023). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Dehghani, M., Trojovský, P., & Hubálovský, Š. (2023). Osprey optimization
+            algorithm: A new bio-inspired metaheuristic algorithm for solving
+            engineering optimization problems. Frontiers in Mechanical Engineering, 8,
+            1126450.
+        https://doi.org/10.3389/fmech.2022.1126450
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

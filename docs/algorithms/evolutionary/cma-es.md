@@ -1,4 +1,4 @@
-# CMA-ES
+# Covariance Matrix Adaptation Evolution Strategy
 
 <span class="badge badge-evolutionary">Evolutionary</span>
 

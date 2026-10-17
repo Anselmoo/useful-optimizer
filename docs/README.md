@@ -56,7 +56,7 @@ docs/
 │   │   └── style.css          # Catppuccin Mocha theme
 │   └── components/            # Vue components
 ├── algorithms/                # Algorithm documentation
-│   ├── swarm-intelligence/    # 56+ swarm algorithms
+│   ├── swarm-intelligence/    # 56 swarm algorithms
 │   ├── evolutionary/          # Evolutionary algorithms
 │   ├── gradient-based/        # Gradient optimizers
 │   ├── classical/             # Classical methods
@@ -87,9 +87,9 @@ The site uses the **Catppuccin Mocha** color scheme, a soothing pastel theme wit
 
 ## Features
 
-### KaTeX Math Rendering
+### Math Rendering
 
-LaTeX equations are supported via KaTeX (fast, lightweight math renderer):
+LaTeX equations are rendered with MathJax (`markdown-it-mathjax3`):
 
 **Inline math**: `$f(x) = x^2$`
 
@@ -110,85 +110,50 @@ Syntax highlighting with line numbers is enabled for all code blocks.
 
 ## Dependencies
 
-- **vitepress**: `^1.5.0` - Documentation framework
-- **vue**: `^3.4.0` - Required by VitePress
-- **echarts**: `^6.0.0` - Charting library (actively maintained)
-- **vue-echarts**: `^8.0.0` - Vue wrapper for ECharts (actively maintained)
-- **@catppuccin/vitepress**: `^0.1.2` - Catppuccin theme support
-- **markdown-it-katex**: `^2.0.3` - Fast LaTeX math rendering with KaTeX
+The authoritative list is `package.json`; the packages that shape the site are:
+
+- **vitepress** - Documentation framework
+- **echarts** (v5) - 2D benchmark charts, wrapped by `theme/utils/useEChart.ts`
+- **three**, **@tresjs/core**, **@tresjs/cientos** - 3D fitness landscape
+- **d3** - Colour scales
+- **markdown-it-mathjax3** - LaTeX math rendering
 
 ### Dependency Notes
 
-- **Math rendering**: Migrated from `markdown-it-mathjax3` to `markdown-it-katex` for better performance, smaller bundle size, and active maintenance.
-- **Charts**: Using modern `echarts` v6.0.0 and `vue-echarts` v8.0.0, both actively maintained packages.
-- **Note**: `echarts-gl` was removed from the documentation dependencies due to lack of maintenance and incompatibility with recent ECharts releases (ECharts v6+).
-
-### TODO: 3D visualization (non-visible)
-
-- **Goal**: Provide 3D benchmark visualizations without shipping `echarts-gl` in the docs build.
-  - Consider server-side rendering or an export pipeline to produce PNG/SVG/GLTF assets for the docs.
-  - Alternatively, implement an optional, lazily-loaded 3D viewer (Three.js / Deck.gl / Plotly) that is not required for the default docs build.
-- **Tracking**: Create an issue `docs: implement non-visible 3D visualization pipeline` to track effort, tests, and compatibility requirements.
-- **CI**: Add a docs-specific npm check to catch dependency/peer-dependency issues early (see workflow).
-- **vue-echarts v7**: Compatible with echarts@5. Version 8 requires echarts@6.
+- **Charts**: ECharts is used directly through the `useEChart` composable; `vue-echarts` is not imported. Upgrading to ECharts v6 needs `vue-echarts` v8 only if that wrapper is adopted.
+- **3D**: `echarts-gl` is not used (unmaintained); the landscape is rendered with TresJS / Three.js.
+- **Math**: rendered with MathJax through `markdown-it-mathjax3` (see `validate:migration`).
 
 ## Dead Links
 
-The configuration currently sets `ignoreDeadLinks: true` because not all algorithm pages have been created yet. This allows the build to succeed while pages are being developed.
-
-**To check for dead links**, temporarily set `ignoreDeadLinks: false` in `.vitepress/config.ts` and run:
-
-```bash
-npm run docs:build
-```
-
-The build will fail and list all dead links that need to be addressed.
+`ignoreDeadLinks` is off: `npm run docs:build` fails and lists every dead link, so a broken
+link blocks CI instead of reaching the site.
 
 ## Contributing
 
 ### Adding Algorithm Pages
 
-1. Create a new markdown file in the appropriate category directory
-2. Follow the template structure of existing algorithm pages
-3. Include: description, mathematical formulation, parameters, usage example
-4. Reference benchmark functions from `/benchmarks/functions`
+Algorithm pages, category indexes, API pages and the sidebar are generated from the optimizer
+source files; do not edit them by hand. Add or change the optimizer (and its docstring) and run
 
-### Adding API Documentation
+```bash
+uv run python scripts/generate_docs.py --all --json --sidebar
+```
 
-1. Create markdown files in `api/` directory
-2. Use consistent structure: overview, interface, examples
-3. Cross-reference with algorithm pages
+See the [contributing guide](./contributing.md) for the naming rules.
 
 ## Testing
 
 ### Validate Migration
 
-To verify the documentation migration to KaTeX is working correctly:
+To verify the math rendering setup (MathJax) is working:
 
 ```bash
 npm run validate:migration
 ```
 
-This runs a comprehensive validation script that checks:
-- Correct dependencies in package.json
-- VitePress configuration for KaTeX
-- Built output contains KaTeX rendering
-- No MathJax traces remain
-
-### Full Integration Test
-
-To run a complete test including clean install and build:
-
-```bash
-./test-docs-migration.sh
-```
-
-This script:
-1. Performs a clean npm install (without `--legacy-peer-deps`)
-2. Validates all dependencies
-3. Builds the documentation
-4. Verifies KaTeX rendering in output
-5. Runs the validation script
+This validation script checks the dependencies in `package.json`, the VitePress configuration and
+that the built output contains rendered MathJax.
 
 ## CI/CD
 
@@ -220,7 +185,7 @@ If the dev server shows 404 errors:
 ### Dependency Conflicts
 
 If `npm install` fails:
-- Ensure you're not using `--legacy-peer-deps` (no longer needed after KaTeX migration)
+- `.npmrc` sets `legacy-peer-deps=true`, which hides peer-dependency conflicts; remove it temporarily to see them
 - Delete `node_modules/` and `package-lock.json`
 - Run `npm install` again
 - Run `npm run validate:migration` to verify the setup

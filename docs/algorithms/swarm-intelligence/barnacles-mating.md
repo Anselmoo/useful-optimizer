@@ -151,8 +151,7 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Barnacles Mating Optimizer (2018). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Barnacles Mating Optimizer (2018): *original publication not yet cited here.*
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."

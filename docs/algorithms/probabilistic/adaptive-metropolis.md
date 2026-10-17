@@ -1,4 +1,4 @@
-# Adaptive Metropolis Optimizer
+# Adaptive Metropolis Algorithm
 
 <span class="badge badge-probabilistic">Probabilistic</span>
 

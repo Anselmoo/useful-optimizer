@@ -10,8 +10,8 @@ When building the benchmark visualization system for `useful-optimizer`, we eval
 |---------|---------|----------|--------|
 | **SSR Support** | ✅ Native server-side rendering | ⚠️ Requires workarounds | ECharts |
 | **Large Datasets** | ✅ WebGL acceleration, 30K+ points | ⚠️ Degrades >5K points | ECharts |
-| **Vue Integration** | ✅ Official `vue-echarts` package | ❌ Manual wrapper needed | ECharts |
-| **3D Support** | ✅ Built-in `echarts-gl` | ❌ No native 3D | ECharts |
+| **Vue Integration** | ✅ `vue-echarts` exists; we use a small own composable (`useEChart`) | ❌ Manual wrapper needed | ECharts |
+| **3D Support** | ⚠️ `echarts-gl` (unmaintained; we use TresJS instead) | ❌ No native 3D | ECharts |
 | **Scientific Charts** | ✅ Heatmaps, parallel coords, radar | ⚠️ Limited | ECharts |
 | **Bundle Size** | ⚠️ ~900KB full, ~300KB tree-shaken | ✅ ~200KB | Chart.js |
 | **TypeScript** | ✅ First-class support | ✅ Good support | Tie |
@@ -60,7 +60,7 @@ Our visualization system follows a layered architecture that integrates VitePres
 
 1. **VitePress Markdown**: Authors write documentation with embedded component references
 2. **Vue 3 SFC Components**: Custom chart components receive data props and configure ECharts
-3. **vue-echarts Wrapper**: Official Vue 3 wrapper handles ECharts instance lifecycle
+3. **`useEChart` composable**: creates the ECharts instance, registers the theme, follows container resizes with a `ResizeObserver`, adds zoom/pan and disposes on unmount
 4. **Static Generation**: VitePress builds static HTML during SSR phase
 5. **Client-side Hydration**: Browser loads and activates interactive charts
 6. **ECharts Instance**: Renders interactive, responsive visualizations
@@ -81,11 +81,11 @@ export default defineConfig({
   vite: {
     ssr: {
       // Ensure ECharts is bundled for SSR, not treated as external
-      noExternal: ['echarts', 'vue-echarts', 'zrender']
+      noExternal: ['echarts', 'zrender']
     },
     optimizeDeps: {
-      // Pre-bundle these dependencies for faster dev server
-      include: ['echarts', 'vue-echarts']
+      // Pre-bundle everything the client-only chart components import
+      include: ['echarts', 'zrender', 'three', '@tresjs/core', '@tresjs/cientos', 'd3']
     }
   }
 })
@@ -356,7 +356,7 @@ const chart = echarts.init(chartRef.value, 'catppuccin-mocha')
 ```typescript
 vite: {
   ssr: {
-    noExternal: ['echarts', 'vue-echarts', 'zrender']
+    noExternal: ['echarts', 'zrender']
   }
 }
 ```
@@ -393,7 +393,6 @@ vite: {
 ## Resources
 
 - [ECharts Documentation](https://echarts.apache.org/en/index.html)
-- [vue-echarts GitHub](https://github.com/ecomfe/vue-echarts)
 - [VitePress SSR Guide](https://vitepress.dev/guide/ssr-compat)
 - [TresJS Documentation](https://tresjs.org/)
 - [COCO Platform](https://github.com/numbbo/coco)

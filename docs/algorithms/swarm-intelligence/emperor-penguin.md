@@ -145,8 +145,8 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Emperor Penguin Optimizer (2018). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Dhiman, G., & Kumar, V. (2018). Emperor penguin optimizer: A bio-inspired
+algorithm for engineering problems. Knowledge-Based Systems, 159, 20-50.
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."

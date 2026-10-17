@@ -37,6 +37,11 @@ jobs:
       - name: Run doctests
         run: uv run pytest --doctest-modules --doctest-glob="*.md" -v
 
+      - name: Run tooling and docs consistency tests
+        # Source files == docs pages == JSON == sidebar, and every import shown in
+        # the docs resolves. addopts is cleared: the project default runs doctests.
+        run: uv run pytest scripts/test -o addopts="" -v --tb=short
+
   lint:
     name: Lint
     runs-on: ubuntu-latest

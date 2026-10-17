@@ -19,7 +19,7 @@ class SquirrelSearchAlgorithm(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Squirrel Search Algorithm             |
-        | Acronym           | SSA                           |
+        | Acronym           | SQSA                           |
         | Year Introduced   | 2019                            |
         | Authors           | Various (see References)                |
         | Algorithm Class   | Swarm Intelligence |

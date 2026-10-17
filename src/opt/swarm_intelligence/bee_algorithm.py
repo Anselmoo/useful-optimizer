@@ -52,7 +52,7 @@ class BeeAlgorithm(AbstractOptimizer):
         | Property          | Value                                    |
         |-------------------|------------------------------------------|
         | Algorithm Name    | Bee Algorithm             |
-        | Acronym           | BA                           |
+        | Acronym           | BEEA                          |
         | Year Introduced   | 2005                            |
         | Authors           | Pham, D.T.; Ghanbarzadeh, A.                |
         | Algorithm Class   | Swarm Intelligence |

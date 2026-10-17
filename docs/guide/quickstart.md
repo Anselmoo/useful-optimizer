@@ -79,7 +79,7 @@ from opt.swarm_intelligence import (
 from opt.evolutionary import (
     GeneticAlgorithm,
     DifferentialEvolution,
-    CMAES
+    CMAESAlgorithm
 )
 ```
 
@@ -161,5 +161,5 @@ python -m opt.classical.simulated_annealing
 ## Next Steps
 
 - **[Advanced Usage](./advanced)** - Learn about history tracking, custom constraints, and more
-- **[Algorithm Reference](/algorithms/)** - Explore all 54+ algorithms
+- **[Algorithm Reference](/algorithms/)** - Explore all 117 algorithms
 - **[Benchmarks](/benchmarks/)** - See performance comparisons

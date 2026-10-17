@@ -1,6 +1,6 @@
 # Introduction
 
-Useful Optimizer is a comprehensive Python library containing **54+ optimization algorithms** for solving numeric problems. The library is designed to be easy to use while providing research-grade performance and flexibility.
+Useful Optimizer is a comprehensive Python library containing **117 optimization algorithms** for solving numeric problems. The library is designed to be easy to use while providing research-grade performance and flexibility.
 
 ## Why Useful Optimizer?
 

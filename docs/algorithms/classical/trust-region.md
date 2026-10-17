@@ -1,4 +1,4 @@
-# Trust Region
+# Trust Region Method
 
 <span class="badge badge-classical">Classical</span>
 

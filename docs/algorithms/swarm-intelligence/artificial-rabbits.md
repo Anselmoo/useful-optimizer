@@ -1,4 +1,4 @@
-# Artificial Rabbits Optimizer
+# Artificial Rabbits Optimization
 
 <span class="badge badge-swarm">Swarm Intelligence</span>
 
@@ -147,8 +147,11 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Artificial Rabbits Optimization (2022). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Wang, L., Cao, Q., Zhang, Z., Mirjalili, S., & Zhao, W. (2022). Artificial
+rabbits optimization: A new bio-inspired meta-heuristic algorithm for
+solving engineering optimization problems. Engineering Applications of
+Artificial Intelligence, 114, 105082.
+https://doi.org/10.1016/j.engappai.2022.105082
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."

@@ -1,4 +1,4 @@
-# MOEA/D
+# Multi-Objective Evolutionary Algorithm based on Decomposition
 
 <span class="badge badge-multi">Multi-Objective</span>
 

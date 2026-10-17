@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitepress'
+import { algorithmsSidebar, apiModuleLinks } from './algorithmsSidebar'
 
 const base = '/useful-optimizer/'
 
@@ -8,9 +9,12 @@ export default defineConfig({
 
   base,
 
-  // Selectively ignore dead links for pages not yet created
-  // These are referenced in index pages but algorithm pages don't exist yet
-  ignoreDeadLinks: true,  // Temporarily set to true until all pages are created
+  // Markdown under public/ is data documentation, not a page. The developer demo
+  // pages are available in `docs:dev` but not published.
+  srcExclude: [
+    'public/**/*.md',
+    ...(process.env.NODE_ENV === 'production' ? ['benchmark-demo.md', 'test-charts.md'] : [])
+  ],
 
   head: [
     // Must include base prefix; otherwise GitHub Pages serves this at /useful-optimizer/favicon.svg
@@ -18,7 +22,7 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#cba6f7' }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:title', content: 'Useful Optimizer' }],
-    ['meta', { name: 'og:description', content: 'A comprehensive collection of 54+ optimization algorithms for numeric problems' }],
+    ['meta', { name: 'og:description', content: 'A comprehensive collection of 117 optimization algorithms for numeric problems' }],
   ],
 
   themeConfig: {
@@ -50,67 +54,7 @@ export default defineConfig({
           ]
         }
       ],
-      '/algorithms/': [
-        {
-          text: 'Overview',
-          items: [
-            { text: 'Introduction', link: '/algorithms/' }
-          ]
-        },
-        {
-          text: 'Swarm Intelligence',
-          collapsed: false,
-          items: [
-            { text: 'Particle Swarm', link: '/algorithms/swarm-intelligence/particle-swarm' },
-            { text: 'Ant Colony', link: '/algorithms/swarm-intelligence/ant-colony' },
-            { text: 'Firefly Algorithm', link: '/algorithms/swarm-intelligence/firefly' },
-            { text: 'Bat Algorithm', link: '/algorithms/swarm-intelligence/bat' },
-            { text: 'Grey Wolf', link: '/algorithms/swarm-intelligence/grey-wolf' },
-            { text: 'Whale Optimization', link: '/algorithms/swarm-intelligence/whale' },
-            { text: 'Cuckoo Search', link: '/algorithms/swarm-intelligence/cuckoo' }
-          ]
-        },
-        {
-          text: 'Evolutionary',
-          collapsed: true,
-          items: [
-            { text: 'Genetic Algorithm', link: '/algorithms/evolutionary/genetic-algorithm' },
-            { text: 'Differential Evolution', link: '/algorithms/evolutionary/differential-evolution' },
-            { text: 'CMA-ES', link: '/algorithms/evolutionary/cma-es' },
-            { text: 'Cultural Algorithm', link: '/algorithms/evolutionary/cultural' }
-          ]
-        },
-        {
-          text: 'Gradient-Based',
-          collapsed: true,
-          items: [
-            { text: 'SGD Momentum', link: '/algorithms/gradient-based/sgd-momentum' },
-            { text: 'Adam', link: '/algorithms/gradient-based/adam' },
-            { text: 'AdamW', link: '/algorithms/gradient-based/adamw' },
-            { text: 'RMSprop', link: '/algorithms/gradient-based/rmsprop' },
-            { text: 'Adagrad', link: '/algorithms/gradient-based/adagrad' }
-          ]
-        },
-        {
-          text: 'Classical',
-          collapsed: true,
-          items: [
-            { text: 'BFGS', link: '/algorithms/classical/bfgs' },
-            { text: 'Nelder-Mead', link: '/algorithms/classical/nelder-mead' },
-            { text: 'Simulated Annealing', link: '/algorithms/classical/simulated-annealing' },
-            { text: 'Hill Climbing', link: '/algorithms/classical/hill-climbing' }
-          ]
-        },
-        {
-          text: 'Metaheuristic',
-          collapsed: true,
-          items: [
-            { text: 'Harmony Search', link: '/algorithms/metaheuristic/harmony-search' },
-            { text: 'Cross Entropy', link: '/algorithms/metaheuristic/cross-entropy' },
-            { text: 'Sine Cosine', link: '/algorithms/metaheuristic/sine-cosine' }
-          ]
-        }
-      ],
+      '/algorithms/': algorithmsSidebar,
       '/api/': [
         {
           text: 'API Reference',
@@ -122,13 +66,7 @@ export default defineConfig({
         {
           text: 'Modules',
           items: [
-            { text: 'Swarm Intelligence', link: '/api/swarm-intelligence' },
-            { text: 'Evolutionary', link: '/api/evolutionary' },
-            { text: 'Gradient-Based', link: '/api/gradient-based' },
-            { text: 'Classical', link: '/api/classical' },
-            { text: 'Metaheuristic', link: '/api/metaheuristic' },
-            { text: 'Constrained', link: '/api/constrained' },
-            { text: 'Probabilistic', link: '/api/probabilistic' },
+            ...apiModuleLinks,
             { text: 'Benchmark Functions', link: '/api/benchmark-functions' }
           ]
         }

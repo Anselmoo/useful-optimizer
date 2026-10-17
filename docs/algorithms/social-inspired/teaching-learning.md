@@ -1,4 +1,4 @@
-# Teaching Learning Optimizer
+# Teaching-Learning Based Optimization
 
 <span class="badge badge-social">Social-Inspired</span>
 

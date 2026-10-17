@@ -1,6 +1,6 @@
 """Useful optimizers, a set of optimization algorithms.
 
-This package provides 64+ optimization algorithms organized into categories:
+This package provides 117 optimization algorithms organized into categories:
 - gradient_based: Gradient-based optimizers (AdaDelta, AdaGrad, Adam, etc.)
 - swarm_intelligence: Nature-inspired swarm algorithms (PSO, ACO, HHO, MPA, etc.)
 - evolutionary: Evolutionary algorithms (GA, DE, CMA-ES, etc.)

@@ -22,7 +22,7 @@ from opt.metaheuristic.sine_cosine_algorithm import SineCosineAlgorithm
 from opt.metaheuristic.stochastic_diffusion_search import StochasticDiffusionSearch
 from opt.metaheuristic.stochastic_fractal_search import StochasticFractalSearch
 from opt.metaheuristic.variable_depth_search import VariableDepthSearch
-from opt.metaheuristic.variable_neighbourhood_search import VariableNeighborhoodSearch
+from opt.metaheuristic.variable_neighborhood_search import VariableNeighborhoodSearch
 from opt.metaheuristic.very_large_scale_neighborhood_search import (
     VeryLargeScaleNeighborhood,
 )

@@ -1,77 +1,37 @@
-# Classical Algorithms API
+# Classical API
 
-API reference for classical optimization algorithms in `opt.classical`.
+API reference for the 9 classes of `opt.classical`. This page is generated from the source; see the [algorithm pages](/algorithms/classical/) for formulations and references.
 
-## Module Overview
+## Imports
 
 ```python
 from opt.classical import (
     BFGS,
-    NelderMead,
-    SimulatedAnnealing,
+    ConjugateGradient,
     HillClimbing,
+    LBFGS,
+    NelderMead,
     Powell,
+    SimulatedAnnealing,
+    TabuSearch,
     TrustRegion,
 )
 ```
 
-## Common Interface
+## Common interface
 
-```python
-class ClassicalAlgorithm(AbstractOptimizer):
-    def __init__(
-        self,
-        func: Callable,
-        lower_bound: float,
-        upper_bound: float,
-        dim: int,
-        max_iter: int,
-        **kwargs
-    ):
-        pass
+Every class takes the objective `func`, the search-space `lower_bound`, `upper_bound` and `dim`, usually `max_iter` and `seed`, and implements `search() -> tuple[np.ndarray, float]`. See [AbstractOptimizer](./abstract-optimizer).
 
-    def search(self) -> tuple[np.ndarray, float]:
-        pass
-```
+## Classes
 
-## Available Algorithms
-
-- `BFGS` - Quasi-Newton method
-- `NelderMead` - Simplex-based derivative-free
-- `SimulatedAnnealing` - Probabilistic metaheuristic
-- `HillClimbing` - Local search
-- `Powell` - Conjugate direction method
-- `TrustRegion` - Constrained optimization
-
-## Example Usage
-
-```python
-from opt.classical import NelderMead, SimulatedAnnealing
-from opt.benchmark.functions import rosenbrock
-
-# Nelder-Mead
-nm = NelderMead(
-    func=rosenbrock,
-    lower_bound=-5,
-    upper_bound=10,
-    dim=10,
-    max_iter=1000
-)
-solution, fitness = nm.search()
-
-# Simulated Annealing
-sa = SimulatedAnnealing(
-    func=rosenbrock,
-    lower_bound=-5,
-    upper_bound=10,
-    dim=10,
-    max_iter=1000,
-    initial_temp=100,
-    cooling_rate=0.95
-)
-solution, fitness = sa.search()
-```
-
-## See Also
-
-- [Classical Algorithms](/algorithms/classical/) - Algorithm details
+| Class | Algorithm | Additional parameters |
+|-------|-----------|-----------------------|
+| [`BFGS`](/algorithms/classical/bfgs) | Broyden-Fletcher-Goldfarb-Shanno | `num_restarts=25` |
+| [`ConjugateGradient`](/algorithms/classical/conjugate-gradient) | Conjugate Gradient Method | `num_restarts=10` |
+| [`HillClimbing`](/algorithms/classical/hill-climbing) | Hill Climbing | `initial_step_sizes=1.0`, `acceleration=1.2`, `epsilon=1e-06` |
+| [`LBFGS`](/algorithms/classical/lbfgs) | Limited-memory BFGS | `num_restarts=25` |
+| [`NelderMead`](/algorithms/classical/nelder-mead) | Nelder-Mead Simplex Method | `num_restarts=25` |
+| [`Powell`](/algorithms/classical/powell) | Powell's Conjugate Direction Method | `num_restarts=10` |
+| [`SimulatedAnnealing`](/algorithms/classical/simulated-annealing) | Simulated Annealing | `init_temperature=1000`, `stopping_temperature=1e-08`, `cooling_rate=0.99` |
+| [`TabuSearch`](/algorithms/classical/tabu-search) | Tabu Search | `tabu_list_size=50`, `neighborhood_size=10` |
+| [`TrustRegion`](/algorithms/classical/trust-region) | Trust Region Method | `num_restarts=10`, `method='trust-constr'` |

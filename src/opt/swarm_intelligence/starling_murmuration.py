@@ -169,8 +169,11 @@ class StarlingMurmurationOptimizer(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Starling Murmuration Optimizer (2022). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Zamani, H., Nadimi-Shahraki, M. H., & Gandomi, A. H. (2022). Starling
+            murmuration optimizer: A novel bio-inspired algorithm for global and
+            engineering optimization. Computer Methods in Applied Mechanics and
+            Engineering, 392, 114616.
+        https://doi.org/10.1016/j.cma.2022.114616
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

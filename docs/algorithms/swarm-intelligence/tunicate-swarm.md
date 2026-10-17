@@ -145,8 +145,10 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Tunicate Swarm Algorithm (2020). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Kaur, S., Awasthi, L. K., Sangal, A. L., & Dhiman, G. (2020). Tunicate Swarm
+Algorithm: A new bio-inspired based metaheuristic paradigm for global
+optimization. Engineering Applications of Artificial Intelligence, 90,
+103541.
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."

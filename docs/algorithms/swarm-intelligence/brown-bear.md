@@ -1,4 +1,4 @@
-# Brown Bear Optimizer
+# Brown Bear Optimization Algorithm
 
 <span class="badge badge-swarm">Swarm Intelligence</span>
 
@@ -150,8 +150,7 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Brown Bear Optimization Algorithm (2021). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Brown Bear Optimization Algorithm (2021): *original publication not yet cited here.*
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."

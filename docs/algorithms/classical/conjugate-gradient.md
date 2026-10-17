@@ -1,4 +1,4 @@
-# Conjugate Gradient
+# Conjugate Gradient Method
 
 <span class="badge badge-classical">Classical</span>
 

@@ -1,4 +1,4 @@
-# L-BFGS
+# Limited-memory BFGS
 
 <span class="badge badge-classical">Classical</span>
 

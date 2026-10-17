@@ -1,4 +1,4 @@
-# RMSprop
+# Root Mean Square Propagation
 
 <span class="badge badge-gradient">Gradient-Based</span>
 

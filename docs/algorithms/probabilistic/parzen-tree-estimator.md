@@ -1,4 +1,4 @@
-# Parzen Tree Estimator
+# Tree-structured Parzen Estimator
 
 <span class="badge badge-probabilistic">Probabilistic</span>
 
@@ -27,7 +27,7 @@ selection strategy, and other parameters.
 ## Usage
 
 ```python
-from opt.probabilistic.parzen_tree_stimator import ParzenTreeEstimator
+from opt.probabilistic.parzen_tree_estimator import ParzenTreeEstimator
 from opt.benchmark.functions import sphere
 
 optimizer = ParzenTreeEstimator(
@@ -255,5 +255,5 @@ Convergence, distribution and ECDF charts appear here once this optimizer is inc
 ---
 
 ::: tip Source Code
-View the implementation: [`parzen_tree_stimator.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/probabilistic/parzen_tree_stimator.py)
+View the implementation: [`parzen_tree_estimator.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/probabilistic/parzen_tree_estimator.py)
 :::

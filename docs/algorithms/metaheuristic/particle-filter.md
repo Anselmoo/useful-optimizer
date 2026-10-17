@@ -1,4 +1,4 @@
-# Particle Filter
+# Sequential Monte Carlo Particle Filter
 
 <span class="badge badge-metaheuristic">Metaheuristic</span>
 

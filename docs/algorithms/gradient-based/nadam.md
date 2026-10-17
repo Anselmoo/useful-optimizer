@@ -1,4 +1,4 @@
-# NAdam
+# Nesterov-accelerated Adaptive Moment
 
 <span class="badge badge-gradient">Gradient-Based</span>
 

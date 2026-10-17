@@ -1,4 +1,4 @@
-# Fennec Fox Optimizer
+# Fennec Fox Optimization Algorithm
 
 <span class="badge badge-swarm">Swarm Intelligence</span>
 
@@ -147,8 +147,10 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Fennec Fox Optimization Algorithm (2022). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Trojovská, E., Dehghani, M., & Trojovský, P. (2023). Fennec Fox Optimization:
+A New Nature-Inspired Optimization Algorithm. IEEE Access, 10,
+84417-84443.
+https://doi.org/10.1109/ACCESS.2022.3197745
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."

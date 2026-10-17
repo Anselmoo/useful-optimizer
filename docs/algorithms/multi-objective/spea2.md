@@ -1,4 +1,4 @@
-# SPEA2
+# Strength Pareto Evolutionary Algorithm 2
 
 <span class="badge badge-multi">Multi-Objective</span>
 

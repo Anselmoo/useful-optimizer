@@ -155,8 +155,9 @@ class MantaRayForagingOptimization(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Manta Ray Foraging Optimization (2020). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Zhao, W., Zhang, Z., & Wang, L. (2020). Manta ray foraging optimization: An
+            effective bio-inspired optimizer for engineering applications. Engineering
+            Applications of Artificial Intelligence, 87, 103300.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

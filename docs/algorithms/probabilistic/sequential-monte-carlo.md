@@ -1,4 +1,4 @@
-# Sequential Monte Carlo Optimizer
+# Sequential Monte Carlo Optimization
 
 <span class="badge badge-probabilistic">Probabilistic</span>
 

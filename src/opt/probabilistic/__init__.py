@@ -11,7 +11,7 @@ from __future__ import annotations
 from opt.probabilistic.adaptive_metropolis import AdaptiveMetropolisOptimizer
 from opt.probabilistic.bayesian_optimizer import BayesianOptimizer
 from opt.probabilistic.linear_discriminant_analysis import LDAnalysis
-from opt.probabilistic.parzen_tree_stimator import ParzenTreeEstimator
+from opt.probabilistic.parzen_tree_estimator import ParzenTreeEstimator
 from opt.probabilistic.sequential_monte_carlo import SequentialMonteCarloOptimizer
 
 
