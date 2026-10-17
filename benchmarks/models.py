@@ -38,6 +38,10 @@ class History(BaseModel):
 
     best_fitness: list[float] | None = None
     mean_fitness: list[float] | None = None
+    # 0-based iteration of each kept point, and the length of the full history
+    # before downsampling. Absent in data produced before these were added.
+    iterations: list[int] | None = None
+    n_iterations: int | None = None
 
 
 class Run(BaseModel):

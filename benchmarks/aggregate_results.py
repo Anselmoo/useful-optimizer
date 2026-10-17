@@ -68,11 +68,34 @@ def downsample_convergence(
         >>> len(downsampled)
         3
     """
-    if len(history) <= target_points:
-        return history
+    return [history[i] for i in downsample_indices(len(history), target_points)]
 
-    indices = np.linspace(0, len(history) - 1, target_points, dtype=int)
-    return [history[i] for i in indices]
+
+def downsample_indices(n_points: int, target_points: int = 100) -> list[int]:
+    """Return the iteration indices kept when downsampling a history.
+
+    Keeping the indices lets the docs plot the true iteration on the x-axis
+    instead of the position within the downsampled array.
+
+    Args:
+        n_points: Length of the full history.
+        target_points: Maximum number of points to keep. Defaults to 100.
+
+    Returns:
+        Sorted, unique 0-based iteration indices that always include the first
+        and last iteration.
+
+    Example:
+        >>> downsample_indices(6, target_points=3)
+        [0, 2, 5]
+        >>> downsample_indices(3, target_points=10)
+        [0, 1, 2]
+    """
+    if n_points <= target_points:
+        return list(range(n_points))
+
+    indices = np.linspace(0, n_points - 1, target_points, dtype=int)
+    return [int(i) for i in dict.fromkeys(indices.tolist())]
 
 
 def calculate_ert(
@@ -239,10 +262,16 @@ def aggregate_results(input_file: Path, _output_dir: Path | None = None) -> dict
 
                     # Downsample convergence history if available
                     if run.get("convergence_history"):
-                        downsampled = downsample_convergence(
-                            run["convergence_history"], target_points=100
-                        )
-                        processed_run["history"] = {"best_fitness": downsampled}
+                        full_history = run["convergence_history"]
+                        kept = downsample_indices(len(full_history), target_points=100)
+                        processed_run["history"] = {
+                            "best_fitness": [full_history[i] for i in kept],
+                            # True 0-based iteration of every kept point, and
+                            # the full length, so charts can place them on a
+                            # real iteration / evaluation axis.
+                            "iterations": kept,
+                            "n_iterations": len(full_history),
+                        }
 
                     processed_runs.append(processed_run)
 

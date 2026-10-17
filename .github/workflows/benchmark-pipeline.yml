@@ -17,6 +17,7 @@ on:
 
 permissions:
   contents: write
+  actions: write # lets the job start the docs deployment after publishing data
 
 jobs:
   benchmark:
@@ -77,7 +78,12 @@ jobs:
           else
             git commit -m "chore: update benchmark results [skip ci]"
             git push
+            # A push made with GITHUB_TOKEN does not trigger other workflows, so
+            # without this the refreshed data never reaches the live site.
+            gh workflow run docs.yaml --ref "$GITHUB_REF_NAME"
           fi
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Upload benchmark artifact
         if: always()

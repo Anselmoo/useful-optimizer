@@ -147,30 +147,36 @@ class AbstractOptimizer(ABC):
         # Wrap function to count evaluations
         self.func = self._wrap_func(func)
 
-        self._history_buffer = (
-            OptimizationHistory(
-                max_iter=self.max_iter + 1,  # include final state
-                dim=self.dim,
-                population_size=self.population_size,
-                config=HistoryConfig(
-                    track_population=True,
-                    track_population_fitness=True,
-                    max_history_size=self.max_iter + 1,
-                ),
-            )
-            if track_history
-            else None
+        self._history_buffer: OptimizationHistory | None = None
+        self.history: dict[str, list] = {}
+        if track_history:
+            self.enable_history_tracking()
+
+    def enable_history_tracking(self) -> None:
+        """Turn on history tracking, also after construction.
+
+        Most subclasses define their own ``__init__`` without a ``track_history``
+        parameter, so callers such as the benchmark runner cannot request history
+        through the constructor. Calling this method before ``search()`` has the
+        same effect as passing ``track_history=True`` to the base class.
+        """
+        self.track_history = True
+        self._history_buffer = OptimizationHistory(
+            max_iter=self.max_iter + 1,  # include final state
+            dim=self.dim,
+            population_size=self.population_size,
+            config=HistoryConfig(
+                track_population=True,
+                track_population_fitness=True,
+                max_history_size=self.max_iter + 1,
+            ),
         )
-        self.history: dict[str, list] = (
-            {
-                "best_fitness": [],
-                "best_solution": [],
-                "population_fitness": [],
-                "population": [],
-            }
-            if track_history
-            else {}
-        )
+        self.history = {
+            "best_fitness": [],
+            "best_solution": [],
+            "population_fitness": [],
+            "population": [],
+        }
 
     def _wrap_func(
         self, func: Callable[[ndarray], float]
@@ -221,6 +227,14 @@ class AbstractOptimizer(ABC):
     ) -> None:
         """Record iteration history using preallocated storage."""
         if not self.track_history or self._history_buffer is None:
+            return
+        if (
+            best_solution is None
+            or np.size(best_solution) == 0
+            or not np.isfinite(best_fitness)
+        ):
+            # Nothing evaluated yet (many optimizers record before their first
+            # evaluation); an inf entry would also break log-scale charts.
             return
         self._history_buffer.record(
             best_fitness=best_fitness,

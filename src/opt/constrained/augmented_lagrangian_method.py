@@ -382,7 +382,16 @@ class AugmentedLagrangian(AbstractOptimizer):
                 best_fitness = res.fun
 
         self.solution = best_solution
-        return self.solution, self.func(self.solution)
+        final_fitness = self.func(self.solution)
+
+        # Track final state
+        if self.track_history:
+            self._record_history(
+                best_fitness=final_fitness, best_solution=best_solution
+            )
+            self._finalize_history()
+
+        return self.solution, final_fitness
 
 
 if __name__ == "__main__":

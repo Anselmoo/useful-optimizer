@@ -55,6 +55,15 @@
                         "mean_fitness": {
                           "type": "array",
                           "items": { "type": "number" }
+                        },
+                        "iterations": {
+                          "type": "array",
+                          "items": { "type": "integer" },
+                          "description": "0-based iteration of each kept point"
+                        },
+                        "n_iterations": {
+                          "type": "integer",
+                          "description": "Length of the full history before downsampling"
                         }
                       }
                     }

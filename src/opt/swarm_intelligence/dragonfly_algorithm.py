@@ -402,18 +402,15 @@ class DragonflyOptimizer(AbstractOptimizer):
 
             enemy = dragonflies[worst_idx].copy()
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=food_fitness, best_solution=food)
+            self._finalize_history()
+
         return food, food_fitness
 
     def _levy_flight(self, rng: np.random.Generator) -> np.ndarray:
         """Generate Levy flight step.
-
-        # Track final state
-        if self.track_history:
-            self._record_history(
-                best_fitness=food_fitness,
-                best_solution=food,
-            )
-            self._finalize_history()
 
         Args:
             rng: Random number generator.

@@ -8,6 +8,8 @@ export interface Benchmarks {
     history?: {
       best_fitness?: number[]
       mean_fitness?: number[]
+      iterations?: number[]
+      n_iterations?: number
     }
     status?: string
     [k: string]: unknown
@@ -57,6 +59,14 @@ export interface BenchmarkDataSchema {
             history?: {
               best_fitness?: number[];
               mean_fitness?: number[];
+              /**
+               * 0-based iteration of each kept point
+               */
+              iterations?: number[];
+              /**
+               * Length of the full history before downsampling
+               */
+              n_iterations?: number;
               [k: string]: unknown;
             };
             [k: string]: unknown;

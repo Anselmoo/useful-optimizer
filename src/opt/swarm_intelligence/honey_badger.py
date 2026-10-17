@@ -314,18 +314,15 @@ class HoneyBadgerAlgorithm(AbstractOptimizer):
                     prey = positions[i].copy()
                     prey_fitness = new_fitness
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=prey_fitness, best_solution=prey)
+            self._finalize_history()
+
         return prey, prey_fitness
 
     def _calculate_alpha(self, iteration: int) -> float:
         """Calculate alpha parameter that decreases over iterations.
-
-        # Track final state
-        if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
-            self._finalize_history()
 
         Args:
             iteration: Current iteration number.

@@ -256,6 +256,10 @@ def run_single_benchmark(
         }
 
         optimizer = optimizer_class(**kwargs)
+        # Most constructors do not forward track_history to the base class, so
+        # switch it on afterwards; otherwise the convergence charts get no data.
+        if not optimizer.track_history:
+            optimizer.enable_history_tracking()
     except TypeError as e:
         return {
             "error": str(e),

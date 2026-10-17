@@ -345,18 +345,15 @@ class DandelionOptimizer(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
+
         return best_solution, best_fitness
 
     def _levy_flight(self) -> np.ndarray:
         """Generate Levy flight step.
-
-        # Track final state
-        if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
-            self._finalize_history()
 
         Returns:
         Levy flight step vector.
