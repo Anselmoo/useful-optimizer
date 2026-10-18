@@ -23,7 +23,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Generated category index pages and an algorithm catalog (all 117 optimizers are in the
+- `RandomSearch` (`opt.classical`, acronym `RS`): pure uniform random search over the search box,
+  the reference baseline for the statistical tests in the benchmark suite. It forwards
+  `track_history`, `target_precision` and `f_opt` to the base class, uses one seeded generator
+  and spends exactly `population_size * iterations` evaluations. The library now has 118 optimizers.
+- Generated category index pages and an algorithm catalog (all 118 optimizers are in the
   sidebar, up from 23), generated API pages for all ten categories, a generated README
   catalog and package tree, and `changelog` and `contributing` pages.
 - `optimizers.json` carries the full `references` list (with DOIs) of every optimizer;

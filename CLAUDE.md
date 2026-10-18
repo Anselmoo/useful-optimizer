@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Python library of 117 optimization algorithms (PSO, DE, SGO, etc.) with a VitePress documentation site featuring scientific benchmark visualizations. Package name: `useful-optimizer`, import root: `opt`.
+Python library of 118 optimization algorithms (PSO, DE, SGO, etc.) with a VitePress documentation site featuring scientific benchmark visualizations. Package name: `useful-optimizer`, import root: `opt`.
 
 ## Tooling
 
@@ -40,12 +40,12 @@ uv run python benchmarks/run_benchmark_suite.py --output-dir benchmarks/output
 ## Repository Structure
 
 ```
-src/opt/                    # Python package (117 optimizers) — src layout since #144
+src/opt/                    # Python package (118 optimizers) — src layout since #144
   abstract/                 # AbstractOptimizer base class
   swarm_intelligence/       # 56 files
   evolutionary/             # 6 files
   gradient_based/           # 11 files
-  classical/                # 9 files
+  classical/                # 10 files
   metaheuristic/            # 15 files
   physics_inspired/         # 4 files
   probabilistic/            # 5 files

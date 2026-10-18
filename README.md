@@ -126,7 +126,7 @@ src/opt/
 ├── swarm_intelligence/  # 56 algorithms
 ├── evolutionary/        # 6 algorithms
 ├── gradient_based/      # 11 algorithms
-├── classical/           # 9 algorithms
+├── classical/           # 10 algorithms
 ├── metaheuristic/       # 14 algorithms
 ├── physics_inspired/    # 4 algorithms
 ├── probabilistic/       # 5 algorithms
@@ -142,7 +142,7 @@ src/opt/
 
 <!-- BEGIN GENERATED: readme-optimizers (scripts/generate_docs.py) -->
 
-Useful Optimizer includes 117 optimization algorithms in 10 categories, each implemented as a separate module. Every optimizer links to its documentation page, which carries the formulation, parameters, references and benchmark charts, and to its source code.
+Useful Optimizer includes 118 optimization algorithms in 10 categories, each implemented as a separate module. Every optimizer links to its documentation page, which carries the formulation, parameters, references and benchmark charts, and to its source code.
 
 <details>
 <summary><strong>🦋 Swarm Intelligence (56)</strong></summary>
@@ -242,7 +242,7 @@ Optimization using gradient information.
 </details>
 
 <details>
-<summary><strong>🎯 Classical (9)</strong></summary>
+<summary><strong>🎯 Classical (10)</strong></summary>
 
 Traditional mathematical optimization methods.
 
@@ -252,6 +252,7 @@ Traditional mathematical optimization methods.
 - **[Limited-memory BFGS](https://anselmoo.github.io/useful-optimizer/algorithms/classical/lbfgs)** ([source](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/lbfgs.py)) - Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS) optimization algorithm.
 - **[Nelder-Mead Simplex Method](https://anselmoo.github.io/useful-optimizer/algorithms/classical/nelder-mead)** ([source](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/nelder_mead.py)) - Nelder-Mead Simplex Method optimization algorithm.
 - **[Powell's Conjugate Direction Method](https://anselmoo.github.io/useful-optimizer/algorithms/classical/powell)** ([source](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/powell.py)) - Powell's Conjugate Direction Method optimization algorithm.
+- **[Random Search](https://anselmoo.github.io/useful-optimizer/algorithms/classical/random-search)** ([source](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/random_search.py)) - Random Search, the uniform sampling baseline for black-box optimization.
 - **[Simulated Annealing](https://anselmoo.github.io/useful-optimizer/algorithms/classical/simulated-annealing)** ([source](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/simulated_annealing.py)) - Simulated Annealing (SA) metaheuristic optimization algorithm.
 - **[Tabu Search](https://anselmoo.github.io/useful-optimizer/algorithms/classical/tabu-search)** ([source](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/tabu_search.py)) - Tabu Search metaheuristic optimization algorithm.
 - **[Trust Region Method](https://anselmoo.github.io/useful-optimizer/algorithms/classical/trust-region)** ([source](https://github.com/Anselmoo/useful-optimizer/blob/main/src/opt/classical/trust_region.py)) - Trust Region optimization algorithm.

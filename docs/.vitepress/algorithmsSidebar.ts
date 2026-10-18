@@ -334,7 +334,7 @@ export const algorithmsSidebar = [
     ]
   },
   {
-    "text": "\ud83c\udfaf Classical (9)",
+    "text": "\ud83c\udfaf Classical (10)",
     "collapsed": true,
     "items": [
       {
@@ -364,6 +364,10 @@ export const algorithmsSidebar = [
       {
         "text": "Powell's Conjugate Direction Method",
         "link": "/algorithms/classical/powell"
+      },
+      {
+        "text": "Random Search",
+        "link": "/algorithms/classical/random-search"
       },
       {
         "text": "Simulated Annealing",

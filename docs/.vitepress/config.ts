@@ -22,7 +22,7 @@ export default defineConfig({
     ['meta', { name: 'theme-color', content: '#cba6f7' }],
     ['meta', { name: 'og:type', content: 'website' }],
     ['meta', { name: 'og:title', content: 'Useful Optimizer' }],
-    ['meta', { name: 'og:description', content: 'A comprehensive collection of 117 optimization algorithms for numeric problems' }],
+    ['meta', { name: 'og:description', content: 'A comprehensive collection of 118 optimization algorithms for numeric problems' }],
   ],
 
   themeConfig: {

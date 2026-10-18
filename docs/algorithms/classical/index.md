@@ -2,7 +2,7 @@
 
 Traditional mathematical optimization methods.
 
-This category contains **9 algorithms**.
+This category contains **10 algorithms**.
 
 | Algorithm | Acronym | Year | Description |
 |-----------|---------|------|-------------|
@@ -12,6 +12,7 @@ This category contains **9 algorithms**.
 | [Limited-memory BFGS](./lbfgs) | L-BFGS | 1980 | Limited-memory Broyden-Fletcher-Goldfarb-Shanno (L-BFGS) optimization algorithm. |
 | [Nelder-Mead Simplex Method](./nelder-mead) | NM | 1965 | Nelder-Mead Simplex Method optimization algorithm. |
 | [Powell's Conjugate Direction Method](./powell) | POWELL | 1964 | Powell's Conjugate Direction Method optimization algorithm. |
+| [Random Search](./random-search) | RS | 1958 | Random Search, the uniform sampling baseline for black-box optimization. |
 | [Simulated Annealing](./simulated-annealing) | SA | 1983 | Simulated Annealing (SA) metaheuristic optimization algorithm. |
 | [Tabu Search](./tabu-search) | TS | 1986 | Tabu Search metaheuristic optimization algorithm. |
 | [Trust Region Method](./trust-region) | TR | 1983 | Trust Region optimization algorithm. |

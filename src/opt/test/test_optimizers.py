@@ -101,6 +101,7 @@ from opt import PoliticalOptimizer
 from opt import Powell
 from opt import RIMEOptimizer
 from opt import RMSprop
+from opt import RandomSearch
 from opt import ReptileSearchAlgorithm
 from opt import SGDMomentum
 from opt import SalpSwarmOptimizer
@@ -227,6 +228,7 @@ CLASSICAL_OPTIMIZERS = [
     LBFGS,
     NelderMead,
     Powell,
+    RandomSearch,
     SimulatedAnnealing,
     TabuSearch,
     TrustRegion,

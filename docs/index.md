@@ -4,7 +4,7 @@ layout: home
 hero:
   name: useful-optimizer
   text: Optimization Algorithms Library
-  tagline: 117 optimization algorithms for numeric problems
+  tagline: 118 optimization algorithms for numeric problems
   actions:
     - theme: brand
       text: Get Started

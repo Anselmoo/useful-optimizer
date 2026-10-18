@@ -2,7 +2,7 @@
 
 <!-- BEGIN GENERATED: catalog (scripts/generate_docs.py) -->
 
-Useful Optimizer provides **117 optimization algorithms** in 10 categories. Each one shares the same interface and is documented with its mathematical formulation, parameters, references and benchmark results.
+Useful Optimizer provides **118 optimization algorithms** in 10 categories. Each one shares the same interface and is documented with its mathematical formulation, parameters, references and benchmark results.
 
 ## Algorithm Categories
 
@@ -11,7 +11,7 @@ Useful Optimizer provides **117 optimization algorithms** in 10 categories. Each
 | [🦋 Swarm Intelligence](./swarm-intelligence/) | 56 | Nature-inspired algorithms based on collective behavior |
 | [🧬 Evolutionary](./evolutionary/) | 6 | Algorithms inspired by biological evolution |
 | [🧠 Gradient-Based](./gradient-based/) | 11 | Optimization using gradient information |
-| [🎯 Classical](./classical/) | 9 | Traditional mathematical optimization methods |
+| [🎯 Classical](./classical/) | 10 | Traditional mathematical optimization methods |
 | [🔧 Metaheuristic](./metaheuristic/) | 14 | High-level problem-independent algorithms |
 | [⚛️ Physics-Inspired](./physics-inspired/) | 4 | Algorithms based on physical phenomena |
 | [📊 Probabilistic](./probabilistic/) | 5 | Stochastic and Bayesian optimization methods |

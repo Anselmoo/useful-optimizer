@@ -12,7 +12,7 @@ opt/
 ├── swarm_intelligence/      # 56 algorithms
 ├── evolutionary/            # 6 algorithms
 ├── gradient_based/          # 11 algorithms
-├── classical/               # 9 algorithms
+├── classical/               # 10 algorithms
 ├── metaheuristic/           # 14 algorithms
 ├── physics_inspired/        # 4 algorithms
 ├── probabilistic/           # 5 algorithms
@@ -27,7 +27,7 @@ opt/
 - [Swarm Intelligence](./swarm-intelligence): 56 classes. Nature-inspired algorithms based on collective behavior.
 - [Evolutionary](./evolutionary): 6 classes. Algorithms inspired by biological evolution.
 - [Gradient-Based](./gradient-based): 11 classes. Optimization using gradient information.
-- [Classical](./classical): 9 classes. Traditional mathematical optimization methods.
+- [Classical](./classical): 10 classes. Traditional mathematical optimization methods.
 - [Metaheuristic](./metaheuristic): 14 classes. High-level problem-independent algorithms.
 - [Physics-Inspired](./physics-inspired): 4 classes. Algorithms based on physical phenomena.
 - [Probabilistic](./probabilistic): 5 classes. Stochastic and Bayesian optimization methods.

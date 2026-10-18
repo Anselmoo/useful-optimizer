@@ -1,6 +1,6 @@
 # Classical API
 
-API reference for the 9 classes of `opt.classical`. This page is generated from the source; see the [algorithm pages](/algorithms/classical/) for formulations and references.
+API reference for the 10 classes of `opt.classical`. This page is generated from the source; see the [algorithm pages](/algorithms/classical/) for formulations and references.
 
 ## Imports
 
@@ -12,6 +12,7 @@ from opt.classical import (
     LBFGS,
     NelderMead,
     Powell,
+    RandomSearch,
     SimulatedAnnealing,
     TabuSearch,
     TrustRegion,
@@ -32,6 +33,7 @@ Every class takes the objective `func`, the search-space `lower_bound`, `upper_b
 | [`LBFGS`](/algorithms/classical/lbfgs) | Limited-memory BFGS | `num_restarts=25` |
 | [`NelderMead`](/algorithms/classical/nelder-mead) | Nelder-Mead Simplex Method | `num_restarts=25` |
 | [`Powell`](/algorithms/classical/powell) | Powell's Conjugate Direction Method | `num_restarts=10` |
+| [`RandomSearch`](/algorithms/classical/random-search) | Random Search | - |
 | [`SimulatedAnnealing`](/algorithms/classical/simulated-annealing) | Simulated Annealing | `init_temperature=1000`, `stopping_temperature=1e-08`, `cooling_rate=0.99` |
 | [`TabuSearch`](/algorithms/classical/tabu-search) | Tabu Search | `tabu_list_size=50`, `neighborhood_size=10` |
 | [`TrustRegion`](/algorithms/classical/trust-region) | Trust Region Method | `num_restarts=10`, `method='trust-constr'` |
