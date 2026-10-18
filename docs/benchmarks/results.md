@@ -8,9 +8,9 @@ data in your browser; nothing on this page is typed in by hand.
 
 ## Average ranks
 
-Within each function and dimension the optimizers are ranked by their final precision
-$|f - f^*|$ in every run; the table shows the average rank over all of these blocks (1 is best,
-final errors below the precision floor tie). The Friedman test below the table checks whether the
+Within each function and dimension the optimizers are ranked by the median final precision
+$|f - f^*|$ over their runs; the table shows the average rank over all of these blocks (1 is best;
+ties, including every median below the precision floor of $10^{-8}$, share the average rank). The Friedman test below the table checks whether the
 differences between optimizers are larger than expected by chance.
 
 <ClientOnly>

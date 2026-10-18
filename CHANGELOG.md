@@ -9,6 +9,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- **Breaking: benchmark protocol and data.** Every run now gets the same budget of
+  $2000 \cdot n$ function evaluations (COCO style) instead of a fixed `max_iter`, which was not a
+  common budget (an iteration costs from 0.1 to about 3000 evaluations). The published data is a new
+  format (schema version 2: `index.json`, `cells/<function>-<dimension>.json`, `ranks.json`,
+  `trajectory-<function>-2.json`); `benchmark-results.json` and the demo data are gone. Dimensions
+  are 2, 5, 10 and 20 with 15 runs, as in BBOB.
 - **Breaking: documentation URLs.** A page's slug is now the optimizer's file stem
   (`whale_optimization_algorithm.py` is `/algorithms/swarm-intelligence/whale-optimization-algorithm`),
   and its title and acronym come from the *Algorithm Metadata* table. 65 of 117 pages moved
@@ -23,6 +29,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Benchmarks for every single-objective optimizer (115 with the baseline, up from 13), in a
+  pipeline that runs one job per category and function with resumable per-cell output. Scheduled
+  runs only upload an artifact; a manual run with `publish` commits the data and redeploys the docs.
+- Scientific metrics: success rate, COCO ERT and SP1, runtime ECDF, convergence median and
+  interquartile range, scaling with dimension, wall-clock cost, dispersion of the evaluated points,
+  a one-sided Mann-Whitney U test against `RandomSearch` (Holm-adjusted) with Cliff's delta, average
+  ranks and the Friedman test. `docs/benchmarks/methodology.md` documents the protocol, formulas and
+  limitations.
+- Every algorithm page has a benchmark panel with function and dimension selectors, compare-with
+  chips and tabs for convergence, distribution, ECDF, scaling, statistics (sortable, CSV export),
+  dispersion and the 2D landscape path. `benchmarks/results.md` shows the generated rank table.
+- A JSON schema (`docs/schemas/benchmark-data-schema.json`) and TypeScript types generated from
+  the Pydantic models in `benchmarks/models.py`.
 - `RandomSearch` (`opt.classical`, acronym `RS`): pure uniform random search over the search box,
   the reference baseline for the statistical tests in the benchmark suite. It forwards
   `track_history`, `target_precision` and `f_opt` to the base class, uses one seeded generator
@@ -75,8 +94,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The violin chart is a real density violin, its checkboxes work, and the points
   no longer move on every redraw. Charts reflow when their container resizes.
 - Refreshed benchmark data now triggers the docs deployment.
-- Docs CI no longer fails on pull requests after the weekly benchmark refresh:
-  the benchmark workflow now refreshes the artifact lock together with the data.
+- Docs CI no longer fails on pull requests after a benchmark refresh: generated pages no longer
+  depend on the benchmark data, which is not part of the artifact lock.
+- The documentation described benchmark settings the code did not use (30 runs, 100 iterations,
+  a Wilcoxon signed-rank test for unpaired runs); the methodology page now describes what runs.
+- Optimizers without a `seed` parameter, whose runs were not reproducible, are seeded by the runner;
+  a test checks reproducibility and run-to-run variability for every optimizer.
+
+### Removed
+
+- `benchmarks/generate_plots.py` and the `benchmark-visualizations` workflow (the charts are drawn
+  by the docs site), the hand-written result tables, the demo and test-chart pages and the `seaborn`
+  dependency of the `benchmark` extra.
 
 ## [0.1.2] - 2024-08-11
 

@@ -92,8 +92,9 @@ const download = () =>
         </table>
       </div>
       <p class="ranks__note">
-        Ranks are averaged over {{ data.blocks.length }} function × dimension blocks; final errors below the
-        precision floor tie.
+        In each of the {{ data.blocks.length }} function × dimension blocks the optimizers are ranked by their
+        median final precision over the runs; ties (including all errors below the precision floor) share the
+        average rank, and the table shows the mean over the blocks.
         <template v-if="data.friedman">
           Friedman test over the {{ data.friedman.blocks }} blocks with all
           {{ data.friedman.optimizers }} optimizers: χ² = {{ formatNumber(data.friedman.chi2, 4) }},

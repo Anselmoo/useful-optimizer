@@ -1,124 +1,76 @@
 # Benchmarks Overview
 
-This section provides comprehensive benchmark results comparing optimization algorithms on standard test functions, following research-grade standards inspired by COCO and IOHprofiler platforms.
+Every single-objective optimizer of the library is benchmarked with one protocol, following the
+standards of [COCO](https://github.com/numbbo/coco) and
+[IOHprofiler](https://iohprofiler.github.io/): the same budget of function evaluations for every
+run, independent runs with fixed seeds, runtime distributions, and statistical tests against a
+random search baseline.
 
-## Benchmark Suite
+## Benchmark suite
 
-Our benchmark suite evaluates algorithms across:
+- **Optimizers**: all single-objective optimizers of `opt`, plus [`RandomSearch`](/algorithms/classical/random-search) as the baseline
+- **6 functions**: Sphere, Rosenbrock, Rastrigin, Ackley, Shifted Ackley, Griewank
+- **4 dimensions**: 2, 5, 10, 20
+- **15 independent runs** per optimizer, function and dimension
+- **Budget**: 2000 × dimension function evaluations per run
 
-- **6 benchmark functions**: Sphere, Rosenbrock, Rastrigin, Ackley, Shifted Ackley, Griewank
-- **3 dimensions**: 2D, 10D, 30D
-- **30 independent runs**: Per algorithm-function-dimension combination
-- **13 algorithms**: Representing all major categories
-
-## Quick Results Summary
-
-| Algorithm | Category | Avg. Rank | Convergence | Robustness |
-|-----------|----------|-----------|-------------|------------|
-| Differential Evolution | Evolutionary | 2.1 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ |
-| Particle Swarm | Swarm | 2.8 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| Grey Wolf Optimizer | Swarm | 3.2 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
-| CMA-ES | Evolutionary | 3.5 | ⭐⭐⭐⭐⭐ | ⭐⭐⭐ |
-| AdamW | Gradient | 4.1 | ⭐⭐⭐ | ⭐⭐⭐⭐ |
-
-## Sections
-
-### [Methodology](./methodology)
-
-Detailed description of our benchmarking protocol:
-- Test function definitions
-- Parameter settings
-- Statistical testing procedures
-- ECDF curve generation
+## Where to look
 
 ### [Results](./results)
 
-Interactive visualizations including:
-- ECDF curves (Empirical Cumulative Distribution Function)
-- Convergence plots with confidence bands
-- Violin plots for fitness distribution
-- Friedman test heatmaps
-- Performance profiles
+The average rank of every optimizer over all functions and dimensions with the Friedman test, and the
+interactive panel described below.
+
+### Every algorithm page
+
+Each [algorithm page](/algorithms/) ends with the benchmark panel for that optimizer. Choose a
+function and a dimension, add optimizers to compare with, and switch between:
+
+| Tab | Shows |
+|-----|-------|
+| Convergence | median precision against evaluations per dimension, with the interquartile band |
+| Distribution | kernel density, boxplot and individual runs of the final precision |
+| ECDF | share of (run, target) pairs solved within a budget (COCO runtime ECDF) |
+| Scaling | median precision, expected running time or cost against the dimension |
+| Statistics | median, IQR, success rate, ERT, SP1, cost, Holm-adjusted p-value and Cliff's delta against the baseline; CSV export |
+| Dispersion | spread of the recently evaluated points |
+| Landscape (2D) | the best-so-far path of a run on the 3D surface of the function |
+
+### [Methodology](./methodology)
+
+The protocol, the formulas of every metric, the statistical tests and the limitations.
 
 ### [Benchmark Functions](./functions)
 
-Documentation of all test functions:
-- Mathematical definitions
-- Landscape characteristics
-- Optimal solutions
-- Implementation details
+Definitions, domains and optima of the test functions.
 
-## Visualization Types
+### [Visualization Architecture](./visualization)
 
-### ECDF Curves
+How the charts are built, for contributors.
 
-The gold standard for optimizer comparison:
-
-$$
-\text{ECDF}(t) = \frac{1}{n_f \cdot n_t} \sum_{f=1}^{n_f} \sum_{i=1}^{n_t} \mathbf{1}[\text{solved}(f, t_i)]
-$$
-
-Shows the proportion of (function, target) pairs solved as a function of budget.
-
-### Convergence Curves
-
-Track fitness improvement over iterations with:
-- Mean ± standard deviation bands
-- Median with IQR shading
-- Best/worst envelope
-
-### Statistical Tests
-
-- **Friedman Test**: Non-parametric ranking across functions
-- **Wilcoxon Signed-Rank**: Pairwise statistical significance
-- **Nemenyi Post-hoc**: Critical difference diagrams
-
-## Running Benchmarks
-
-To run the benchmark suite locally:
+## Running benchmarks
 
 ```bash
-# Run complete benchmark suite
-python benchmarks/run_benchmark_suite.py --output-dir benchmarks/output
+# a quick local check
+uv run python benchmarks/run_benchmark_suite.py --tier showcase \
+    --functions sphere --dimensions 2,5 --n-runs 5 --output-dir benchmarks/output
 
-# Generate visualization plots
-python benchmarks/generate_plots.py \
-    --results benchmarks/output/results.json \
-    --output-dir benchmarks/output
+# aggregate the raw cells into the published data format
+uv run python benchmarks/aggregate_results.py --input benchmarks/output \
+    --output-dir benchmarks/output/processed
 ```
 
-## Data Format
+The full suite runs in the [benchmark pipeline](https://github.com/Anselmoo/useful-optimizer/actions/workflows/benchmark-pipeline.yml),
+one job per category and function; see [`benchmarks/README.md`](https://github.com/Anselmoo/useful-optimizer/blob/main/benchmarks/README.md).
 
-Benchmark results are stored in IOHprofiler-compatible JSON format:
+## Data format
 
-```json
-{
-  "metadata": {
-    "max_iterations": 100,
-    "n_runs": 30,
-    "dimensions": [2, 10, 30],
-    "timestamp": "2024-01-01 00:00:00"
-  },
-  "benchmarks": {
-    "sphere": {
-      "2D": {
-        "ParticleSwarm": {
-          "statistics": {
-            "mean_fitness": 1.23e-5,
-            "std_fitness": 2.1e-6,
-            "min_fitness": 8.9e-6,
-            "max_fitness": 2.1e-5,
-            "median_fitness": 1.1e-5,
-            "mean_time": 0.42,
-            "std_time": 0.05
-          },
-          "success_rate": 1.0
-        }
-      }
-    }
-  }
-}
-```
+The browser reads `/benchmarks/index.json` (protocol, optimizers, available cells), one file per
+function and dimension (`/benchmarks/cells/<function>-<dimension>.json`), `/benchmarks/ranks.json`
+and `/benchmarks/trajectory-<function>-2.json`. The format is defined by the Pydantic models in
+`benchmarks/models.py`; the
+[JSON schema](https://github.com/Anselmoo/useful-optimizer/blob/main/docs/schemas/benchmark-data-schema.json)
+and the TypeScript types are generated from them.
 
 ## References
 

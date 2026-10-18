@@ -34,8 +34,8 @@ Our visualization system follows a layered architecture that integrates VitePres
 ├─────────────────────────────────────────────────────────────────┤
 │                                                                  │
 │  ┌──────────────┐    ┌──────────────┐    ┌──────────────┐       │
-│  │  VitePress   │───▶│  Vue 3 SFC   │───▶│  vue-echarts │       │
-│  │  Markdown    │    │  Components  │    │  Wrapper     │       │
+│  │  VitePress   │───▶│  Vue 3 SFC   │───▶│  useEChart   │       │
+│  │  Markdown    │    │  Components  │    │  composable  │       │
 │  └──────────────┘    └──────────────┘    └──────────────┘       │
 │         │                   │                   │                │
 │         ▼                   ▼                   ▼                │
@@ -158,23 +158,23 @@ interface ECDFData {
 }
 ```
 
-### ConvergenceChart - Fitness Over Iterations
+### ConvergenceChart - Precision Over Evaluations
 
-**Purpose**: Visualize optimization progress over iterations with confidence bands.
+**Purpose**: Visualize optimization progress with a variability band.
 
 **Features**:
-- Mean fitness trajectory with ±σ confidence bands
-- Log-scale y-axis for fitness values
-- Multiple algorithm comparison
-- Customizable axis labels
+- Median precision $f - f^*$ against function evaluations per dimension, with the interquartile band
+- Log-scale y-axis (values at or below `1e-12` are drawn at that floor and the chart says so)
+- Multiple algorithm comparison; the band toggles together with its curve in the legend
+- Zoom, pan, box zoom, reset and PNG export
 
 **Usage**:
 ```vue
 <ConvergenceChart
   :data="convergenceData"
   title="Convergence Curves"
-  :log-scale="true"
-  :show-confidence-band="true"
+  x-axis-label="Function evaluations / dimension"
+  band-label="interquartile range"
 />
 ```
 
@@ -182,40 +182,61 @@ interface ECDFData {
 ```typescript
 interface ConvergenceData {
   algorithm: string
-  iterations: number[]
-  mean: number[]
-  std?: number[]  // For confidence bands
+  iterations: number[]  // x values
+  mean: number[]        // centre line (the benchmark passes the median)
+  lower?: number[]      // band edges, or `std` for mean ± std
+  upper?: number[]
 }
 ```
 
 ### ViolinPlot - Final Fitness Distribution
 
-**Purpose**: Statistical distribution visualization for final fitness values across multiple runs.
+**Purpose**: Statistical distribution visualization for final values across runs.
 
 **Features**:
-- Boxplot with quartiles and outliers
-- Scatter points for individual runs
-- Summary statistics table (mean, std, best, worst)
-- Interactive controls for display options
+- Kernel density violin (Gaussian kernel, Silverman bandwidth) with boxplot
+- Individual runs as points
+- Interactive controls for log scale, boxplot and points
 
 **Usage**:
 ```vue
-<ViolinPlot
-  :data="violinData"
-  title="Final Fitness Distribution"
-  :log-scale="true"
-  :show-boxplot="true"
-  :show-points="true"
-/>
+<ViolinPlot :data="violinData" title="Final precision" :log-scale="true" />
 ```
 
 **Data Format**:
 ```typescript
 interface ViolinData {
   algorithm: string
-  values: number[]  // Fitness values from multiple runs
+  values: number[]  // final value of every run
 }
 ```
+
+### LineChart - Scaling and Dispersion
+
+A generic multi-series line chart with optional log axes, used for the scaling tab (metric against
+dimension) and the dispersion tab (dispersion of evaluated points against evaluations).
+
+### StatsTable and RankTable
+
+Plain HTML tables without ECharts. `StatsTable` shows the statistics of one function and dimension
+(median and IQR, success rate, ERT, SP1, cost, Holm-adjusted $p$ and Cliff's $\delta$ against the
+baseline) and can be sorted and exported as CSV. `RankTable` loads `ranks.json` and shows the average
+ranks with the Friedman test.
+
+### BenchmarkCharts - the panel on every algorithm page
+
+```vue
+<ClientOnly>
+  <BenchmarkCharts algorithm="ParticleSwarm" />
+</ClientOnly>
+```
+
+Loads `index.json` and one cell file (`cells/<function>-<dimension>.json`) from `/benchmarks/` and
+renders the tabs Convergence, Distribution, ECDF, Scaling, Statistics, Dispersion and Landscape (2D),
+with function and dimension selectors and compare-with chips (the baseline plus the best-ranked
+optimizers by default). The Scaling tab loads the other dimensions of the function and the Landscape tab
+the 2D trajectories only when opened. An optimizer without results (the multi-objective ones) gets an
+explanatory message instead of charts.
 
 ### FitnessLandscape3D - Interactive 3D Surface Plots
 
@@ -224,7 +245,7 @@ interface ViolinData {
 **Features**:
 - Interactive 3D surface with OrbitControls (rotate, zoom, pan)
 - Multiple benchmark functions (Sphere, Rosenbrock, Rastrigin, Ackley, etc.)
-- Optional optimization trajectory visualization
+- Optional best-so-far trajectory of a benchmark run (`trajectory`), `lock-function` hides the selector
 - Color scales: Viridis, Turbo, Plasma, Inferno, Catppuccin
 
 **Technology**: Uses **TresJS** (Vue wrapper for Three.js) instead of deprecated `echarts-gl`.

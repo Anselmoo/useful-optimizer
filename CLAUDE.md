@@ -54,10 +54,14 @@ src/opt/                    # Python package (118 optimizers) — src layout sin
   multi_objective/          # 3 files
   benchmark/                # benchmark functions (shifted_ackley, rosenbrock, sphere…)
 
-benchmarks/                 # CI benchmark pipeline
-  run_benchmark_suite.py    # main runner (produces benchmark-results.json)
-  generate_plots.py         # matplotlib plots from results
-  aggregate_results.py      # aggregation utilities
+benchmarks/                 # CI benchmark pipeline (see benchmarks/README.md)
+  protocol.py               # equal evaluation budget, BudgetedObjective, one run / one cell
+  run_benchmark_suite.py    # runner: tiers, shards, workers, resumable raw cells
+  metrics.py                # ERT/SP1, ECDF, Holm, Mann-Whitney U, Cliff's delta, ranks, Friedman
+  models.py                 # Pydantic models = source of the data schema
+  aggregate_results.py      # raw cells -> published data
+  export_schema.py          # models -> docs/schemas/*.json and TypeScript types
+  test/                     # tests (run in CI: pytest scripts/test benchmarks/test -o addopts="")
 
 docs/                       # VitePress documentation site
   .vitepress/
@@ -65,14 +69,15 @@ docs/                       # VitePress documentation site
     loaders/api.data.ts     # VitePress data loader: Griffe JSON → typed API
     theme/
       index.ts              # Theme entry — see SSR note below
-      components/           # ConvergenceChart, ECDFChart, ViolinPlot, FitnessLandscape3D, APIDoc
-      types/benchmark.ts    # TypeScript interfaces for benchmark JSON schema
-      utils/benchmarkTransforms.ts  # Transform benchmark JSON → ECharts series
+      components/           # BenchmarkCharts (tabbed panel), ConvergenceChart, ECDFChart, ViolinPlot,
+                            # LineChart, StatsTable, RankTable, FitnessLandscape3D, APIDoc
+      types/benchmark.ts    # generated from benchmarks/models.py (do not edit)
+      utils/benchmarkData.ts        # loader: index.json + one cell file per view
+      utils/benchmarkTransforms.ts  # cells → chart series and table rows
     types/griffe.d.ts        # TypeScript types for Griffe AST output
   api/                      # Griffe-generated JSON (*.json, gitignored output)
   public/
-    benchmarks/             # Benchmark JSON served to the browser
-      demo-benchmark-data.json
+    benchmarks/             # Published benchmark data (index.json, cells/, ranks.json, trajectory-*.json)
     optimizers/optimizers.json
   algorithms/               # Per-algorithm markdown pages
   benchmarks/               # Benchmark methodology docs
@@ -86,8 +91,7 @@ scripts/                    # Dev tooling scripts
   tests.yaml                # pytest matrix 3.12/3.13/3.14 + ruff lint (PRs + main)
   docs.yaml                 # VitePress build + Pages deploy (PRs + main; deploy skipped on PRs)
   docs-validation.yml       # Pydantic docstring schema validation
-  benchmark-pipeline.yml    # COCO/BBOB CI pipeline (schedule/dispatch only)
-  benchmark-visualizations.yaml  # Weekly benchmark run + artifact upload
+  benchmark-pipeline.yml    # plan → one job per category × function → aggregate; publishes only on manual `publish`
 ```
 
 ## Pre-commit Hooks
@@ -153,14 +157,21 @@ Always wrap chart components in `<ClientOnly>` in markdown.
 
 ### Benchmark Data Flow
 ```
-benchmarks/run_benchmark_suite.py
-  → benchmarks/output/results.json      (CI artifact)
-  → docs/public/benchmarks/*.json       (served to browser)
+benchmarks/run_benchmark_suite.py        (equal evaluation budget; one raw file per optimizer × function × dim)
+  → benchmarks/output/raw/<fn>/<dim>/<optimizer>.json     (CI artifact per shard)
+      ↓  benchmarks/aggregate_results.py (metrics.py, validated against models.py)
+  → docs/public/benchmarks/index.json, cells/<fn>-<dim>.json, ranks.json, trajectory-<fn>-2.json
       ↓
-  benchmarkTransforms.ts                (buildConvergenceSeries / buildECDFSeries / buildViolinSeries)
+  utils/benchmarkData.ts → benchmarkTransforms.ts → BenchmarkCharts.vue (tabs)
       ↓
-  ConvergenceChart / ECDFChart / ViolinPlot (ECharts, Catppuccin Mocha theme)
+  ConvergenceChart / ViolinPlot / ECDFChart / LineChart / StatsTable / FitnessLandscape3D
 ```
+
+- Every algorithm page embeds `<BenchmarkCharts algorithm="Class" />`; pages do not depend on the data, so a
+  data refresh changes no generated file.
+- Data format: change `benchmarks/models.py`, then `uv run python benchmarks/export_schema.py --types` and commit
+  models, `docs/schemas/benchmark-data-schema.json` and `types/benchmark.ts` together.
+- Scheduled benchmark runs only upload an artifact; a manual run with `publish` commits the data and redeploys.
 
 ### API Documentation Flow
 ```
