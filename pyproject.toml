@@ -280,7 +280,3 @@ description = "Generated optimizer metadata index"
 [[tool.rrt.artifact_targets]]
 path = "docs/.vitepress/algorithmsSidebar.ts"
 description = "Generated algorithms sidebar"
-
-[[tool.rrt.artifact_targets]]
-path = "docs/public/benchmarks/benchmark-results.json"
-description = "Aggregated benchmark results feeding the docs charts"

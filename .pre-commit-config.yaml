@@ -50,7 +50,7 @@ repos:
         entry: python scripts/generate_docs.py --all --json --sidebar
         language: system
         pass_filenames: false
-        files: ^(src/opt/.*\.py|scripts/generate_docs\.py|docs/public/benchmarks/benchmark-results\.json)$
+        files: ^(src/opt/.*\.py|scripts/generate_docs\.py)$
 
   # repo-release-tools: fail when a generated artifact drifts from its
   # committed fingerprint (.rrt/artifacts.lock.toml). Refresh the lock after

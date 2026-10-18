@@ -11,10 +11,7 @@ export default defineConfig({
 
   // Markdown under public/ is data documentation, not a page. The developer demo
   // pages are available in `docs:dev` but not published.
-  srcExclude: [
-    'public/**/*.md',
-    ...(process.env.NODE_ENV === 'production' ? ['benchmark-demo.md', 'test-charts.md'] : [])
-  ],
+  srcExclude: ['public/**/*.md'],
 
   head: [
     // Must include base prefix; otherwise GitHub Pages serves this at /useful-optimizer/favicon.svg

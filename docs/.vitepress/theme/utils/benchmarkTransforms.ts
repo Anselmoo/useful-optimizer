@@ -1,19 +1,18 @@
-import type { BenchmarkDataSchema } from '../types/benchmark'
+/**
+ * Pure transforms from the published benchmark cells to chart series and table rows.
+ * Everything here works on precomputed data: no run-level processing in the browser.
+ */
+import type { Cell, OptimizerCell } from '../types/benchmark'
 
-type Run = BenchmarkDataSchema['benchmarks'][string][string][string]['runs'][number]
-
-/** Convergence curve of one optimizer, aggregated over its runs. */
+/** Convergence curve of one optimizer: median with its interquartile band. */
 export interface ConvergenceSeries {
   algorithm: string
-  /** x values: iterations, or function evaluations when requested. */
+  /** x values: function evaluations per dimension. */
   iterations: number[]
-  /** Central curve: the median (default) or the mean. */
+  /** Median precision. */
   mean: number[]
-  /** Only for the mean statistic. */
-  std?: number[]
-  /** Lower / upper edge of the band (interquartile range for the median). */
-  lower?: number[]
-  upper?: number[]
+  lower: number[]
+  upper: number[]
 }
 
 export interface ViolinSeries {
@@ -23,10 +22,35 @@ export interface ViolinSeries {
 
 export interface ECDFSeries {
   algorithm: string
-  /** Function evaluations / dimension, strictly positive and increasing. */
   budget: number[]
-  /** Fraction of (run, target) pairs reached; a right-continuous step function. */
   proportion: number[]
+}
+
+export interface LineSeries {
+  algorithm: string
+  x: number[]
+  y: number[]
+}
+
+export type ScalingMetric = 'median' | 'ert' | 'time'
+
+export interface StatsRow {
+  name: string
+  runs: number
+  runsPlanned: number
+  truncated: number
+  median: number | null
+  q1: number | null
+  q3: number | null
+  best: number | null
+  worst: number | null
+  success: number | null
+  ert: number | null
+  sp1: number | null
+  microsecondsPerEval: number | null
+  p: number | null
+  pHolm: number | null
+  delta: number | null
 }
 
 export interface Summary {
@@ -40,49 +64,6 @@ export interface Summary {
   max: number
 }
 
-/** Default ECDF targets (absolute precision |f - f*|), COCO-style decades. */
-export const DEFAULT_TARGETS = [1e1, 1e0, 1e-1, 1e-2, 1e-3, 1e-5, 1e-8]
-
-const toDimKey = (dim: string | number) =>
-  typeof dim === 'string' ? dim : String(dim)
-
-const isNum = (value: unknown): value is number =>
-  typeof value === 'number' && Number.isFinite(value)
-
-const filterAlgorithms = (
-  optimizers: Record<string, { runs: Run[] }>,
-  algorithms?: string[]
-) => {
-  if (!algorithms || algorithms.length === 0) return optimizers
-  return Object.fromEntries(
-    Object.entries(optimizers).filter(([name]) => algorithms.includes(name))
-  )
-}
-
-const getOptimizerRuns = (
-  data: BenchmarkDataSchema | null,
-  funcName: string,
-  dim: string | number,
-  algorithms?: string[]
-): Record<string, Run[]> => {
-  if (!data?.benchmarks?.[funcName]) return {}
-  const dimKey = toDimKey(dim)
-  const funcEntry = data.benchmarks[funcName]
-  if (!funcEntry?.[dimKey]) return {}
-
-  const optimizers = filterAlgorithms(funcEntry[dimKey], algorithms)
-  return Object.fromEntries(
-    Object.entries(optimizers).map(([name, details]) => [
-      name,
-      details.runs ?? []
-    ])
-  )
-}
-
-// ---------------------------------------------------------------------------
-// Statistics
-// ---------------------------------------------------------------------------
-
 /** Linear-interpolated quantile of an ascending-sorted array (type 7). */
 export const quantileSorted = (sorted: number[], p: number) => {
   if (sorted.length === 0) return Number.NaN
@@ -93,7 +74,7 @@ export const quantileSorted = (sorted: number[], p: number) => {
 }
 
 export const summarize = (values: number[]): Summary | null => {
-  const clean = values.filter(isNum)
+  const clean = values.filter(v => typeof v === 'number' && Number.isFinite(v))
   if (clean.length === 0) return null
   const sorted = [...clean].sort((a, b) => a - b)
   const n = sorted.length
@@ -111,240 +92,138 @@ export const summarize = (values: number[]): Summary | null => {
   }
 }
 
-// ---------------------------------------------------------------------------
-// Run traces
-// ---------------------------------------------------------------------------
+/** Compare against the baseline at this alpha. */
+export const ALPHA = 0.05
 
-/** Best-so-far trace of one run with its real position on the iteration axis. */
-export interface RunTrace {
-  /** 0-based iteration of every kept point, ascending. */
-  iterations: number[]
-  /** Best fitness so far at each point. */
-  values: number[]
-  evalsPerIteration: number
-  totalEvaluations: number
-  /** False when only the final fitness is known. */
-  hasHistory: boolean
-}
+const present = (cell: Cell, names: string[]) =>
+  names.filter(name => cell.optimizers[name])
 
-/**
- * Turn a published run into a trace.
- *
- * Data written by the current aggregator carries `history.iterations`. Older
- * files only hold a 100-point downsample, so the positions are reconstructed
- * from `maxIterations` (the suite budget) when the length matches.
- */
-export const toTrace = (run: Run, maxIterations?: number): RunTrace => {
-  const totalEvaluations = isNum(run.n_evaluations) ? run.n_evaluations : 0
-  const history = (run.history?.best_fitness ?? []).filter(isNum)
+const evaluationsPerDim = (cell: Cell) => cell.checkpoints.map(c => c / cell.dim)
 
-  if (history.length > 0) {
-    let iterations = run.history?.iterations
-    let nIterations = run.history?.n_iterations
-
-    if (!iterations || iterations.length !== run.history?.best_fitness?.length) {
-      const legacyDownsample =
-        history.length >= 100 && isNum(maxIterations) && maxIterations + 1 > history.length
-      nIterations = legacyDownsample ? maxIterations! + 1 : history.length
-      const last = history.length - 1 || 1
-      iterations = history.map((_, i) =>
-        legacyDownsample ? Math.round((i * (nIterations! - 1)) / last) : i
-      )
-    }
-
-    const length = nIterations ?? history.length
-    return {
-      iterations,
-      values: history,
-      evalsPerIteration: length > 0 ? totalEvaluations / length : 0,
-      totalEvaluations,
-      hasHistory: true
-    }
-  }
-
-  return {
-    iterations: [0],
-    values: isNum(run.best_fitness) ? [run.best_fitness] : [],
-    evalsPerIteration: totalEvaluations,
-    totalEvaluations,
-    hasHistory: false
-  }
-}
-
-/** Index of the last element <= target (or 0 when target precedes the array). */
-const lastIndexAtOrBefore = (sorted: number[], target: number) => {
-  let lo = 0
-  let hi = sorted.length - 1
-  while (lo < hi) {
-    const mid = (lo + hi + 1) >> 1
-    if (sorted[mid] <= target) lo = mid
-    else hi = mid - 1
-  }
-  return lo
-}
-
-export interface ConvergenceOptions {
-  /** Central curve; `median` uses the interquartile range as band. */
-  statistic?: 'median' | 'mean'
-  /** Show the iteration or the number of function evaluations on x. */
-  xUnit?: 'iteration' | 'evaluation'
-  /** Suite budget, needed to place points in legacy data. */
-  maxIterations?: number
-  /** Upper limit of x positions per curve. */
-  maxPoints?: number
-}
-
-const thin = (values: number[], limit: number) => {
-  if (values.length <= limit) return values
-  const out: number[] = []
-  for (let i = 0; i < limit; i += 1) {
-    out.push(values[Math.round((i * (values.length - 1)) / (limit - 1))])
-  }
-  return Array.from(new Set(out))
-}
-
-export const buildConvergenceSeries = (
-  data: BenchmarkDataSchema | null,
-  funcName: string,
-  dim: string | number,
-  algorithms?: string[],
-  options: ConvergenceOptions = {}
-): ConvergenceSeries[] => {
-  const { statistic = 'median', xUnit = 'iteration', maxIterations, maxPoints = 300 } = options
-  const runsByOptimizer = getOptimizerRuns(data, funcName, dim, algorithms)
+export const convergenceSeries = (cell: Cell, names: string[]): ConvergenceSeries[] => {
+  const x = evaluationsPerDim(cell)
   const series: ConvergenceSeries[] = []
-
-  for (const [optimizer, runs] of Object.entries(runsByOptimizer)) {
-    const traces = runs.map(run => toTrace(run, maxIterations)).filter(t => t.hasHistory)
-    if (traces.length === 0) continue
-
-    // Common grid: every iteration at which at least one run has a point.
-    const grid = thin(
-      Array.from(new Set(traces.flatMap(t => t.iterations))).sort((a, b) => a - b),
-      maxPoints
-    )
-    const evalsPerIteration =
-      traces.reduce((sum, t) => sum + t.evalsPerIteration, 0) / traces.length
-
-    const x: number[] = []
-    const central: number[] = []
-    const lower: number[] = []
-    const upper: number[] = []
-    const std: number[] = []
-
-    for (const iteration of grid) {
-      // Best-so-far is a step function: hold the last recorded value.
-      const values = traces.map(t => t.values[lastIndexAtOrBefore(t.iterations, iteration)])
-      const stats = summarize(values)
-      if (!stats) continue
-      x.push(xUnit === 'evaluation' ? (iteration + 1) * evalsPerIteration : iteration)
-      if (statistic === 'median') {
-        central.push(stats.median)
-        lower.push(stats.q1)
-        upper.push(stats.q3)
-      } else {
-        central.push(stats.mean)
-        lower.push(stats.mean - stats.std)
-        upper.push(stats.mean + stats.std)
-        std.push(stats.std)
-      }
-    }
-
+  for (const name of present(cell, names)) {
+    const curve = cell.optimizers[name].convergence
+    if (!curve) continue
+    const keep = x
+      .map((_, i) => i)
+      .filter(i => curve.median[i] !== null && curve.q1[i] !== null && curve.q3[i] !== null)
+    if (keep.length === 0) continue
     series.push({
-      algorithm: optimizer,
-      iterations: x,
-      mean: central,
-      std: statistic === 'mean' && std.some(v => v > 0) ? std : undefined,
-      lower,
-      upper
+      algorithm: name,
+      iterations: keep.map(i => x[i]),
+      mean: keep.map(i => curve.median[i] as number),
+      lower: keep.map(i => curve.q1[i] as number),
+      upper: keep.map(i => curve.q3[i] as number)
     })
   }
   return series
 }
 
-export const buildViolinSeries = (
-  data: BenchmarkDataSchema | null,
-  funcName: string,
-  dim: string | number,
-  algorithms?: string[]
-): ViolinSeries[] => {
-  const runsByOptimizer = getOptimizerRuns(data, funcName, dim, algorithms)
-  return Object.entries(runsByOptimizer).map(([optimizer, runs]) => ({
-    algorithm: optimizer,
-    values: runs.map(run => run.best_fitness).filter(isNum)
-  }))
-}
+export const violinSeries = (cell: Cell, names: string[]): ViolinSeries[] =>
+  present(cell, names)
+    .map(name => ({ algorithm: name, values: cell.optimizers[name].finals }))
+    .filter(series => series.values.length > 0)
 
-/**
- * Empirical cumulative distribution of the budget needed to reach each target
- * (COCO "runtime ECDF"): for every (run, target) pair the first evaluation count
- * at which the best fitness is at or below the target; unreached pairs never
- * count. Runs without history only contribute their final result.
- */
-export const buildECDFSeries = (
-  data: BenchmarkDataSchema | null,
-  funcName: string,
-  dim: string | number,
-  targets: number[] = DEFAULT_TARGETS,
-  algorithms?: string[],
-  maxIterations?: number
-): ECDFSeries[] => {
-  const dimValue = Math.max(1, typeof dim === 'string' ? Number(dim) : dim)
-  const runsByOptimizer = getOptimizerRuns(data, funcName, dim, algorithms)
+export const ecdfSeries = (cell: Cell, names: string[]): ECDFSeries[] => {
   const series: ECDFSeries[] = []
-
-  for (const [optimizer, runs] of Object.entries(runsByOptimizer)) {
-    if (runs.length === 0 || targets.length === 0) continue
-    const traces = runs.map(run => toTrace(run, maxIterations))
-    const total = traces.length * targets.length
-
-    const hits: number[] = []
-    for (const trace of traces) {
-      for (const target of targets) {
-        const k = trace.values.findIndex(v => v <= target)
-        if (k >= 0) {
-          const evaluations = (trace.iterations[k] + 1) * trace.evalsPerIteration
-          if (evaluations > 0) hits.push(evaluations / dimValue)
-        }
-      }
-    }
-    hits.sort((a, b) => a - b)
-
-    const maxBudget = Math.max(
-      ...traces.map(t => t.totalEvaluations / dimValue),
-      hits[hits.length - 1] ?? 1
-    )
-    const start = Math.min(1, hits[0] ?? 1)
-
-    const points = new Map<number, number>([[start, 0]])
-    hits.forEach((budget, i) => points.set(budget, (i + 1) / total))
-    points.set(maxBudget, hits.length / total)
-
-    const budget = [...points.keys()].sort((a, b) => a - b)
-    series.push({
-      algorithm: optimizer,
-      budget,
-      proportion: budget.map(b => points.get(b) ?? 0)
-    })
+  for (const name of present(cell, names)) {
+    const ecdf = cell.optimizers[name].ecdf
+    if (ecdf) series.push({ algorithm: name, budget: cell.ecdf_budgets, proportion: ecdf })
   }
   return series
 }
 
-export const fetchBenchmarkData = async (
-  path: string
-): Promise<BenchmarkDataSchema> => {
-  const response = await fetch(path)
-  if (!response.ok) {
-    throw new Error(`Failed to load benchmark data from ${path}: ${response.status} ${response.statusText}`)
+export const dispersionSeries = (cell: Cell, names: string[]): LineSeries[] => {
+  const x = evaluationsPerDim(cell)
+  const series: LineSeries[] = []
+  for (const name of present(cell, names)) {
+    const values = cell.optimizers[name].dispersion
+    if (!values) continue
+    const keep = x.map((_, i) => i).filter(i => values[i] !== null)
+    if (keep.length > 0) {
+      series.push({ algorithm: name, x: keep.map(i => x[i]), y: keep.map(i => values[i] as number) })
+    }
   }
-  const contentType = response.headers.get('content-type') ?? ''
-  // The dev server answers a missing file with index.html and status 200.
-  if (contentType.includes('text/html')) {
-    throw new Error(`Failed to load benchmark data from ${path}: got HTML instead of JSON`)
+  return series
+}
+
+const metricOf = (data: OptimizerCell, metric: ScalingMetric, targetIndex: number) => {
+  if (metric === 'median') return data.stats?.median ?? null
+  if (metric === 'ert') return data.ert[targetIndex] ?? null
+  return data.time?.median_us_per_evaluation ?? null
+}
+
+/** One value per dimension for every optimizer, from the cells of that function. */
+export const scalingSeries = (
+  cells: Record<number, Cell>,
+  names: string[],
+  metric: ScalingMetric,
+  targetIndex: number
+): LineSeries[] => {
+  const dims = Object.keys(cells).map(Number).sort((a, b) => a - b)
+  const series: LineSeries[] = []
+  for (const name of names) {
+    const points = dims
+      .map(dim => ({ dim, value: cells[dim].optimizers[name] ? metricOf(cells[dim].optimizers[name], metric, targetIndex) : null }))
+      .filter((p): p is { dim: number; value: number } => p.value !== null)
+    if (points.length > 0) {
+      series.push({ algorithm: name, x: points.map(p => p.dim), y: points.map(p => p.value) })
+    }
   }
-  const json = (await response.json()) as BenchmarkDataSchema
-  if (!json || typeof json !== 'object' || !json.benchmarks) {
-    throw new Error(`Benchmark data at ${path} has no "benchmarks" section`)
-  }
-  return json
+  return series
+}
+
+export const statsRows = (cell: Cell, names: string[], targetIndex: number): StatsRow[] =>
+  present(cell, names).map(name => {
+    const d = cell.optimizers[name]
+    return {
+      name,
+      runs: d.runs,
+      runsPlanned: d.runs_planned,
+      truncated: d.truncated,
+      median: d.stats?.median ?? null,
+      q1: d.stats?.q1 ?? null,
+      q3: d.stats?.q3 ?? null,
+      best: d.stats?.min ?? null,
+      worst: d.stats?.max ?? null,
+      success: d.success[targetIndex] ?? null,
+      ert: d.ert[targetIndex] ?? null,
+      sp1: d.sp1[targetIndex] ?? null,
+      microsecondsPerEval: d.time?.median_us_per_evaluation ?? null,
+      p: d.test?.p ?? null,
+      pHolm: d.test?.p_holm ?? null,
+      delta: d.test?.delta ?? null
+    }
+  })
+
+/** `***` p < 0.001, `**` p < 0.01, `*` p < 0.05 (Holm-adjusted), empty otherwise. */
+export const significanceMarker = (pHolm: number | null) => {
+  if (pHolm === null) return ''
+  if (pHolm < 0.001) return '***'
+  if (pHolm < 0.01) return '**'
+  return pHolm < ALPHA ? '*' : ''
+}
+
+export const formatNumber = (value: number | null, digits = 3) => {
+  if (value === null || Number.isNaN(value)) return '–'
+  if (value === 0) return '0'
+  const abs = Math.abs(value)
+  return abs >= 1e4 || abs < 1e-3 ? value.toExponential(digits - 1) : String(Number(value.toPrecision(digits)))
+}
+
+export const toCsv = (header: string[], rows: (string | number | null)[][]) =>
+  [header, ...rows]
+    .map(row => row.map(cell => (cell === null ? '' : String(cell).includes(',') ? `"${cell}"` : cell)).join(','))
+    .join('\n')
+
+/** Trigger a client-side download of `text`. */
+export const downloadText = (filename: string, text: string, type = 'text/csv') => {
+  const url = URL.createObjectURL(new Blob([text], { type }))
+  const link = document.createElement('a')
+  link.href = url
+  link.download = filename
+  link.click()
+  URL.revokeObjectURL(url)
 }

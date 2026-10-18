@@ -30,7 +30,6 @@ import textwrap
 
 from dataclasses import dataclass
 from dataclasses import field
-from functools import cache
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -648,128 +647,37 @@ def parse_optimizer_file(file_path: Path) -> OptimizerDoc | None:
 # Benchmark chart integration
 # ---------------------------------------------------------------------------
 
-# Analytic surface shown on every algorithm page via FitnessLandscape3D
-# (real benchmark-function values, no run data required).
-_LANDSCAPE_FUNCTION = "rastrigin"
-
-# Preferred function/dimension for the run-based BenchmarkCharts embed, with
-# graceful fallback to whatever the optimizer actually has data for.
-_CHART_PREFERRED_FUNCS = ("rastrigin", "ackley", "rosenbrock", "sphere")
-_CHART_PREFERRED_DIM = "5"
-# Comparison baselines drawn alongside the page's own algorithm when they share
-# the same function/dimension. Capped for chart legibility. Ordered to favour
-# optimizers that record convergence history, so the convergence/ECDF charts
-# are populated with multiple curves rather than a single line.
-_COMPARE_PRIORITY = (
-    "GreyWolfOptimizer",
-    "ParticleSwarm",
-    "AntColony",
-    "FireflyAlgorithm",
-    "DifferentialEvolution",
-    "GeneticAlgorithm",
-    "AdamW",
-)
-_COMPARE_LIMIT = 3
-
-
-@cache
-def _load_benchmark_index() -> dict:
-    """Load published benchmark data and index optimizer coverage.
-
-    Prefers the real ``benchmark-results.json``; falls back to the committed
-    demo data; returns empty indexes when neither is present. Result is cached.
-    """
-    repo_root = Path(__file__).resolve().parent.parent
-    bench_dir = repo_root / "docs" / "public" / "benchmarks"
-    data: dict = {}
-    for candidate in ("benchmark-results.json", "demo-benchmark-data.json"):
-        path = bench_dir / candidate
-        if path.exists():
-            try:
-                data = json.loads(path.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError):
-                data = {}
-            break
-
-    locations: dict[str, list[tuple[str, str]]] = {}
-    by_func_dim: dict[tuple[str, str], set[str]] = {}
-    for func, dims in data.get("benchmarks", {}).items():
-        for dim, opts in dims.items():
-            for algo in opts:
-                locations.setdefault(algo, []).append((func, dim))
-                by_func_dim.setdefault((func, dim), set()).add(algo)
-
-    return {"locations": locations, "by_func_dim": by_func_dim}
-
-
-def _pick_chart_target(algorithm: str) -> tuple[str, str] | None:
-    """Choose a representative (function, dimension) the algorithm has data for."""
-    locations = _load_benchmark_index()["locations"].get(algorithm)
-    if not locations:
-        return None
-    location_set = set(locations)
-    for func in _CHART_PREFERRED_FUNCS:
-        if (func, _CHART_PREFERRED_DIM) in location_set:
-            return func, _CHART_PREFERRED_DIM
-    for func in _CHART_PREFERRED_FUNCS:
-        for loc_func, loc_dim in locations:
-            if loc_func == func:
-                return loc_func, loc_dim
-    return locations[0]
-
-
-def _pick_compare(algorithm: str, func: str, dim: str) -> list[str]:
-    """Pick up to ``_COMPARE_LIMIT`` baseline optimizers sharing this func/dim."""
-    others = _load_benchmark_index()["by_func_dim"].get((func, dim), set()) - {
-        algorithm
-    }
-    ordered = [a for a in _COMPARE_PRIORITY if a in others]
-    ordered += [a for a in sorted(others) if a not in ordered]
-    return ordered[:_COMPARE_LIMIT]
-
 
 def _benchmark_section_lines(doc: OptimizerDoc) -> list[str]:
-    """Build the '## Benchmark Performance' Markdown block for an optimizer."""
-    lines = ["## Benchmark Performance", ""]
-    lines.append(
-        "Interactive fitness landscape of a representative multimodal benchmark "
-        "function (drag to rotate, scroll to zoom):"
-    )
-    lines.append("")
-    lines.append("<ClientOnly>")
-    lines.append(f'  <FitnessLandscape3D functionName="{_LANDSCAPE_FUNCTION}" />')
-    lines.append("</ClientOnly>")
-    lines.append("")
+    """Build the '## Benchmark Performance' Markdown block for an optimizer.
 
-    target = _pick_chart_target(doc.class_name)
-    if target is not None:
-        func, dim = target
-        compare = _pick_compare(doc.class_name, func, dim)
-        suffix = " (compared against representative baselines):" if compare else ":"
+    Every page embeds the same component, which reads the published benchmark
+    data in the browser. The page therefore does not depend on the data files,
+    and refreshing the benchmark data does not change any generated page.
+    """
+    lines = ["## Benchmark Performance", ""]
+    if doc.category == "multi_objective":
+        lines.append("::: info Not covered by the benchmark suite")
         lines.append(
-            f"Convergence, final-fitness distribution and performance profile on "
-            f"`{func}` ({dim}D), averaged over independent runs{suffix}"
-        )
-        lines.append("")
-        lines.append("<ClientOnly>")
-        lines.append("  <BenchmarkCharts")
-        lines.append(f'    algorithm="{doc.class_name}"')
-        lines.append(f'    functionName="{func}"')
-        lines.append(f'    :dimension="{dim}"')
-        if compare:
-            compare_list = ", ".join(f"'{c}'" for c in compare)
-            lines.append(f'    :compareWith="[{compare_list}]"')
-        lines.append("  />")
-        lines.append("</ClientOnly>")
-        lines.append("")
-    else:
-        lines.append("::: tip Run-based charts")
-        lines.append(
-            "Convergence, distribution and ECDF charts appear here once this "
-            "optimizer is included in the benchmark suite."
+            "The benchmark suite compares single-objective optimizers on one "
+            "scalar fitness. Multi-objective optimizers return a Pareto front "
+            "and are not part of it."
         )
         lines.append(":::")
         lines.append("")
+        return lines
+
+    lines.append(
+        "Results of the benchmark suite for this optimizer, on the same "
+        "evaluation budget as every other optimizer and compared with a random "
+        "search baseline. See the [methodology](/benchmarks/methodology) for the "
+        "protocol and statistics."
+    )
+    lines.append("")
+    lines.append("<ClientOnly>")
+    lines.append(f'  <BenchmarkCharts algorithm="{doc.class_name}" />')
+    lines.append("</ClientOnly>")
+    lines.append("")
     return lines
 
 

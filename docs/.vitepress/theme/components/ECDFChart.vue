@@ -34,6 +34,8 @@ interface Props {
   logXAxis?: boolean
   targetPrecisions?: number[]
   height?: string | number
+  /** One color per data entry; defaults to the shared palette. */
+  colors?: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -46,6 +48,8 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const chartRef = ref<HTMLElement | null>(null)
+
+const colorOf = (index: number) => props.colors?.[index] ?? colorFor(index)
 
 const chartHeight = computed(() =>
   typeof props.height === 'number' ? `${props.height}px` : props.height
@@ -62,8 +66,8 @@ const chartOption = computed<EChartsOption>(() => {
     step: 'end',
     smooth: false,
     symbol: 'none',
-    lineStyle: { color: colorFor(index), width: 2.5 },
-    itemStyle: { color: colorFor(index) }
+    lineStyle: { color: colorOf(index), width: 2.5 },
+    itemStyle: { color: colorOf(index) }
   }))
 
   const names = props.data.map(d => d.algorithm)

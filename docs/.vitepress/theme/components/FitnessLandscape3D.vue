@@ -73,6 +73,14 @@ const FUNCTIONS: Record<string, FunctionSpec> = {
     yRange: [-5, 5],
     defaultScale: 'linear'
   },
+  shifted_ackley: {
+    label: 'Shifted Ackley',
+    // Optimum at (1, 0.5), as in opt.benchmark.shifted_ackley.
+    fn: (x, y) => FUNCTIONS.ackley.fn(x - 1, y - 0.5),
+    xRange: [-5, 5],
+    yRange: [-5, 5],
+    defaultScale: 'linear'
+  },
   griewank: {
     label: 'Griewank',
     fn: (x, y) => (x * x + y * y) / 4000 - Math.cos(x) * Math.cos(y / Math.SQRT2) + 1,
@@ -97,9 +105,12 @@ interface Props {
   trajectory?: TrajectoryPoint[]
   colorScale?: 'viridis' | 'turbo' | 'plasma' | 'inferno' | 'catppuccin'
   height?: string | number
+  /** Hide the function selector (the page fixes the function). */
+  lockFunction?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
+  lockFunction: false,
   resolution: 100,
   colorScale: 'viridis',
   height: 500
@@ -245,10 +256,12 @@ const CAMERA_TARGET: [number, number, number] = [0, 0.35, 0]
   <div class="landscape-container">
     <div class="controls">
       <div class="control-group">
-        <label>Function:</label>
-        <select :value="current" class="select" @change="onFunctionChange">
-          <option v-for="(f, key) in FUNCTIONS" :key="key" :value="key">{{ f.label }}</option>
-        </select>
+        <template v-if="!lockFunction">
+          <label>Function:</label>
+          <select :value="current" class="select" @change="onFunctionChange">
+            <option v-for="(f, key) in FUNCTIONS" :key="key" :value="key">{{ f.label }}</option>
+          </select>
+        </template>
         <label>Height:</label>
         <select v-model="heightScale" class="select">
           <option value="linear">Linear</option>

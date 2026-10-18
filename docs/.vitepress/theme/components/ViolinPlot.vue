@@ -38,6 +38,8 @@ interface Props {
   showBoxplot?: boolean
   showPoints?: boolean
   height?: string | number
+  /** One color per data entry; defaults to the shared palette. */
+  colors?: string[]
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -65,6 +67,8 @@ watch(() => props.showBoxplot, v => (showBoxplot.value = v))
 watch(() => props.showPoints, v => (showPoints.value = v))
 
 const chartRef = ref<HTMLElement | null>(null)
+
+const colorOf = (index: number) => props.colors?.[index] ?? colorFor(index)
 
 const chartHeight = computed(() =>
   typeof props.height === 'number' ? `${props.height}px` : props.height
@@ -133,7 +137,7 @@ const chartOption = computed<EChartsOption>(() => {
       const idx = params.dataIndex as number
       const violin = violins[idx]
       const half = api.size([1, 0])[0] * 0.42
-      const color = colorFor(entries[idx].index)
+      const color = colorOf(entries[idx].index)
       const right: number[][] = []
       const left: number[][] = []
       violin.ys.forEach((yy, k) => {
@@ -176,7 +180,7 @@ const chartOption = computed<EChartsOption>(() => {
       e.values.forEach((value, i) => {
         points.push({
           value: [ci + jitter(ci * 1009 + i + 1), y(value)],
-          itemStyle: { color: colorFor(e.index), opacity: 0.75 }
+          itemStyle: { color: colorOf(e.index), opacity: 0.75 }
         })
       })
     })
@@ -247,15 +251,9 @@ const chartOption = computed<EChartsOption>(() => {
 
 useEChart(chartRef, chartOption)
 
-const rows = computed(() =>
-  usable.value.map(e => ({ algorithm: e.algorithm, stats: summarize(e.values)! }))
-)
-
 const clamped = computed(
   () => logScale.value && usable.value.some(e => e.values.some(v => !(v > LOG_FLOOR)))
 )
-
-const fmt = (v: number) => v.toExponential(2)
 
 const toggle = (key: 'logScale' | 'showBoxplot' | 'showPoints', event: Event) => {
   const checked = (event.target as HTMLInputElement).checked
@@ -294,34 +292,6 @@ const toggle = (key: 'logScale' | 'showBoxplot' | 'showPoints', event: Event) =>
         On the log axis, values at or below {{ LOG_FLOOR.toExponential(0) }} (including exact
         zeros) are drawn at {{ LOG_FLOOR.toExponential(0) }}.
       </p>
-      <div class="chart-stats">
-        <table class="stats-table">
-          <thead>
-            <tr>
-              <th>Algorithm</th>
-              <th>Runs</th>
-              <th>Median</th>
-              <th>IQR</th>
-              <th>Mean</th>
-              <th>Std</th>
-              <th>Best</th>
-              <th>Worst</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="row in rows" :key="row.algorithm">
-              <td>{{ row.algorithm }}</td>
-              <td>{{ row.stats.n }}</td>
-              <td>{{ fmt(row.stats.median) }}</td>
-              <td>{{ fmt(row.stats.q3 - row.stats.q1) }}</td>
-              <td>{{ fmt(row.stats.mean) }}</td>
-              <td>{{ fmt(row.stats.std) }}</td>
-              <td class="good">{{ fmt(row.stats.min) }}</td>
-              <td>{{ fmt(row.stats.max) }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
     </template>
   </ChartFrame>
 </template>
@@ -355,37 +325,5 @@ const toggle = (key: 'logScale' | 'showBoxplot' | 'showPoints', event: Event) =>
   margin: 0 0 12px;
   color: var(--ctp-mocha-overlay1, #7f849c);
   font-size: 0.75rem;
-}
-
-.chart-stats {
-  overflow-x: auto;
-}
-
-.stats-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.875rem;
-}
-
-.stats-table th,
-.stats-table td {
-  padding: 8px 12px;
-  text-align: left;
-  border: 1px solid var(--ctp-mocha-surface1, #45475a);
-}
-
-.stats-table th {
-  background-color: var(--ctp-mocha-surface1, #45475a);
-  color: var(--ctp-mocha-text, #cdd6f4);
-  font-weight: 600;
-}
-
-.stats-table td {
-  color: var(--ctp-mocha-subtext1, #bac2de);
-  font-family: monospace;
-}
-
-.stats-table td.good {
-  color: var(--ctp-mocha-green, #a6e3a1);
 }
 </style>
