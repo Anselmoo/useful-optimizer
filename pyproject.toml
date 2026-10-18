@@ -22,8 +22,7 @@ visualization = [
     "matplotlib>=3.7.0",
 ]
 benchmark = [
-    "matplotlib>=3.7.0",
-    "seaborn>=0.12.0",
+    "pydantic>=2.12.5",
 ]
 
 [build-system]
