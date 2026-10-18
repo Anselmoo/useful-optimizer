@@ -142,6 +142,14 @@ which pairs differ. For that use the per-block tests against the baseline.
 - **Budget**: $2000 \cdot n$ evaluations favours optimizers that converge quickly; some
   population-based methods are designed for much longer runs. Rankings can change with the budget.
 - **Default parameters**: the comparison measures the library defaults, not the best each method can do.
+- **Early stopping**: the budget is a cap, not a quota. About a dozen optimizers (the quasi-Newton and
+  trust-region methods, `HillClimbing`, `NelderMead`, `PenaltyMethodOptimizer`, `BarrierMethodOptimizer`
+  and a few others) stop on their own convergence criterion and use only part of it, often on the
+  multimodal functions where a local method stalls. Their runs are not extended or restarted.
+- **Time caps**: `BayesianOptimizer`, `LDAnalysis` and `StochasticFractalSearch` hit the wall-clock cap
+  in every or nearly every cell, `ParzenTreeEstimator` in about half of them (and `AntLionOptimizer`, `HarmonySearch` and `SineCosineAlgorithm` in
+  20D), so they used far less than the evaluation budget and completed fewer than 15 runs; the statistics
+  table marks them. Their ranks mostly say how expensive they are per evaluation.
 - **Five functions**: the results say little about problems unlike these (noise, constraints,
   expensive evaluations, structure).
 - **15 runs**: enough to see large effects; small differences stay inconclusive, which is why the effect
