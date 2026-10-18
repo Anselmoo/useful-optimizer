@@ -1,555 +1,451 @@
-r"""Benchmark suite runner for optimization algorithms.
+r"""Benchmark suite runner for the optimization algorithms.
 
-This script runs optimization algorithms on standard benchmark functions with
-tiered optimizer selection for different use cases:
+Every optimizer runs on standard benchmark functions under the same evaluation
+budget (see :mod:`benchmarks.protocol`). The unit of work is a **cell**: one
+optimizer on one function in one dimension, with ``--n-runs`` independent runs.
+Each finished cell is written to its own file,
 
-- SHOWCASE (4 optimizers): Fast PR validation, ~15-30 min
-- STANDARD (13 optimizers): Comprehensive testing, ~6-8 hours
-- COMPREHENSIVE (120+ optimizers): Deep analysis, ~55-70 hours [future work]
+    <output-dir>/raw/<function>/<dim>/<optimizer>.json
 
-Why not all 120+ optimizers by default?
-- 43,200+ benchmark runs (120 $\times$ 6 functions $\times$ 4 dims $\times$ 15 runs)
-- 55-70 hour runtime makes CI impractical
-- 500MB-1GB artifact size exceeds GitHub limits
-- The 13-optimizer standard tier provides representative coverage
-  across all algorithm families (classical, evolutionary, gradient-based,
-  metaheuristic, swarm intelligence)
+so a timeout or crash loses nothing (``--resume`` skips the finished cells) and the
+work can be split across CI jobs (``--category``, ``--functions``, ``--shard i/n``)
+and merged afterwards by ``aggregate_results.py``.
 
-Usage:
-    # Quick PR check
-    python benchmarks/run_benchmark_suite.py --tier showcase
+Tiers:
 
-    # Daily comprehensive testing
-    python benchmarks/run_benchmark_suite.py --tier standard
+- ``showcase``: 4 representative optimizers, for quick checks.
+- ``standard``: 13 optimizers across all major families.
+- ``comprehensive``: every single-objective optimizer of the library.
+
+The baseline (``RandomSearch``) is part of every tier, because the statistical tests
+compare against it.
+
+Examples:
+    # Quick local check
+    python benchmarks/run_benchmark_suite.py --tier showcase --functions sphere \
+        --dimensions 2 --n-runs 5
+
+    # One CI shard of the full suite
+    python benchmarks/run_benchmark_suite.py --tier comprehensive \
+        --category swarm_intelligence --functions rastrigin --workers 4 --resume
+
+    # The matrix for CI
+    python benchmarks/run_benchmark_suite.py --tier comprehensive --list-shards
 """
 
+# ruff: noqa: E402
+# (the environment and sys.path setup below must run before the imports that need it)
 from __future__ import annotations
 
+import os
+
+
+# One BLAS thread per process: the workers already use every core, and oversubscribed
+# BLAS threads make small matrix operations slower. Must happen before numpy loads.
+for _var in ("OMP_NUM_THREADS", "OPENBLAS_NUM_THREADS", "MKL_NUM_THREADS"):
+    os.environ.setdefault(_var, "1")
+
+import argparse
 import json
+import platform
+import subprocess
+import sys
 import time
 
+from concurrent.futures import ProcessPoolExecutor
+from concurrent.futures import as_completed
+from dataclasses import asdict
+from dataclasses import dataclass
+from datetime import UTC
+from datetime import datetime
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import Any
 
 import numpy as np
-
-from pydantic import BaseModel
-from pydantic import Field
-
-from opt.benchmark.functions import ackley
-from opt.benchmark.functions import griewank
-from opt.benchmark.functions import rastrigin
-from opt.benchmark.functions import rosenbrock
-from opt.benchmark.functions import shifted_ackley
-from opt.benchmark.functions import sphere
-
-# Optimizers
-from opt.classical.hill_climbing import HillClimbing
-from opt.classical.nelder_mead import NelderMead
-from opt.classical.simulated_annealing import SimulatedAnnealing
-from opt.evolutionary.differential_evolution import DifferentialEvolution
-from opt.evolutionary.genetic_algorithm import GeneticAlgorithm
-from opt.gradient_based.adamw import AdamW
-from opt.gradient_based.sgd_momentum import SGDMomentum
-from opt.metaheuristic.harmony_search import HarmonySearch
-from opt.swarm_intelligence.ant_colony import AntColony
-from opt.swarm_intelligence.bat_algorithm import BatAlgorithm
-from opt.swarm_intelligence.firefly_algorithm import FireflyAlgorithm
-from opt.swarm_intelligence.grey_wolf_optimizer import GreyWolfOptimizer
-from opt.swarm_intelligence.particle_swarm import ParticleSwarm
+import scipy
 
 
-if TYPE_CHECKING:
-    from collections.abc import Callable
+# Run as a script (`python benchmarks/run_benchmark_suite.py`) the repo root is not
+# on sys.path, but the shared protocol lives in the `benchmarks` package.
+_ROOT = Path(__file__).resolve().parents[1]
+if str(_ROOT) not in sys.path:
+    sys.path.insert(0, str(_ROOT))
 
-    from numpy import ndarray
+from benchmarks.protocol import BASELINE
+from benchmarks.protocol import BUDGET_PER_DIM
+from benchmarks.protocol import DEFAULT_CELL_TIME
+from benchmarks.protocol import DEFAULT_TIME_CAP
+from benchmarks.protocol import FUNCTIONS
+from benchmarks.protocol import TARGETS
+from benchmarks.protocol import category_of
+from benchmarks.protocol import discover_optimizers
+from benchmarks.protocol import run_cell
 
-
-# Pydantic models for structured results
-class BenchmarkMetadata(BaseModel):
-    """Metadata for benchmark execution."""
-
-    max_iterations: int = Field(ge=1)
-    n_runs: int = Field(ge=1)
-    dimensions: list[int]
-    timestamp: str
-    target_precision: float = Field(gt=0)
-    tier: str
-    n_optimizers: int = Field(ge=1)
-    estimated_runtime: str
-    python_version: str | None = None
-    numpy_version: str | None = None
-
-
-class RunResult(BaseModel):
-    """Individual run result."""
-
-    optimizer: str
-    best_fitness: float | None = None
-    best_solution: list[float] | None = None
-    elapsed_time: float | None = None
-    n_evaluations: int | None = None
-    converged: bool | None = None
-    evaluations_to_target: int | None = None
-    convergence_history: list[float] | None = None
-    status: str
-    error: str | None = None
-
-
-class OptimizerStatistics(BaseModel):
-    """Statistics for an optimizer on a function."""
-
-    mean_fitness: float
-    std_fitness: float
-    min_fitness: float
-    max_fitness: float
-    median_fitness: float
-    mean_time: float
-    std_time: float
-    mean_evaluations: float
-    std_evaluations: float
-
-
-class OptimizerResults(BaseModel):
-    """Results for an optimizer on a specific function and dimension."""
-
-    runs: list[RunResult]
-    statistics: OptimizerStatistics | None = None
-    success_rate: float = Field(ge=0.0, le=1.0)
-
-
-class BenchmarkResults(BaseModel):
-    """Complete benchmark results."""
-
-    metadata: BenchmarkMetadata
-    benchmarks: dict[str, dict[str, dict[str, OptimizerResults]]]
-
-
-# Configuration
-BENCHMARK_FUNCTIONS = {
-    "sphere": {"func": sphere, "bounds": (-5.12, 5.12), "f_opt": 0.0},
-    "rosenbrock": {"func": rosenbrock, "bounds": (-5.0, 10.0), "f_opt": 0.0},
-    "rastrigin": {"func": rastrigin, "bounds": (-5.12, 5.12), "f_opt": 0.0},
-    "ackley": {"func": ackley, "bounds": (-32.768, 32.768), "f_opt": 0.0},
-    "shifted_ackley": {
-        "func": shifted_ackley,
-        "bounds": (-32.768, 32.768),
-        "f_opt": 0.0,
-    },
-    "griewank": {"func": griewank, "bounds": (-600.0, 600.0), "f_opt": 0.0},
-}
-
-# Tiered optimizer configuration for different benchmark scenarios
-# Tiers balance computation time vs comprehensive coverage
-OPTIMIZER_TIERS = {
-    # SHOWCASE: 4 algorithms, ~15-30 min runtime
-    # Purpose: Fast PR validation, CI checks
-    # Coverage: One representative from each major category
-    "showcase": {
-        "ParticleSwarm": ParticleSwarm,  # Swarm Intelligence
-        "DifferentialEvolution": DifferentialEvolution,  # Evolutionary
-        "AdamW": AdamW,  # Gradient-based
-        "HarmonySearch": HarmonySearch,  # Metaheuristic
-    },
-    # STANDARD: 13 algorithms, ~6-8 hours runtime
-    # Purpose: Daily validation, comprehensive testing
-    # Coverage: Representative sample across all algorithm families
-    "standard": {
-        "ParticleSwarm": ParticleSwarm,
-        "AntColony": AntColony,
-        "FireflyAlgorithm": FireflyAlgorithm,
-        "BatAlgorithm": BatAlgorithm,
-        "GreyWolfOptimizer": GreyWolfOptimizer,
-        "GeneticAlgorithm": GeneticAlgorithm,
-        "DifferentialEvolution": DifferentialEvolution,
-        "HarmonySearch": HarmonySearch,
-        "SimulatedAnnealing": SimulatedAnnealing,
-        "HillClimbing": HillClimbing,
-        "NelderMead": NelderMead,
-        "AdamW": AdamW,
-        "SGDMomentum": SGDMomentum,
-    },
-    # COMPREHENSIVE: All 120+ algorithms, ~55-70 hours runtime
-    # Purpose: Monthly/quarterly deep analysis
-    # Coverage: Complete algorithm library
-    # Note: Requires dynamic import of all optimizer classes
-    "comprehensive": "all",  # Placeholder - requires dynamic loading
-}
-
-# Runtime estimates (6 functions $\times$ [2,5,10,20] dims $\times$ 15 runs)
-TIER_RUNTIMES = {
-    "showcase": "15-30 minutes (4 optimizers, 1,440 runs)",
-    "standard": "6-8 hours (13 optimizers, 4,680 runs)",
-    "comprehensive": "55-70 hours (120+ optimizers, 43,200+ runs)",
-}
-
-# Legacy aliases for backward compatibility
-OPTIMIZERS = OPTIMIZER_TIERS["standard"]  # Default to standard tier
-SHOWCASE_OPTIMIZERS = OPTIMIZER_TIERS["showcase"]  # Deprecated
 
 DIMENSIONS = [2, 5, 10, 20]  # BBOB standard dimensions
-MAX_ITERATIONS = 1000  # Increased for better convergence
 N_RUNS = 15  # BBOB standard: 15 independent runs
-TARGET_PRECISION = 1e-8  # BBOB standard target precision
+RAW_SCHEMA = "raw-cell-1"
+
+TIER_OPTIMIZERS: dict[str, list[str] | None] = {
+    "showcase": ["ParticleSwarm", "DifferentialEvolution", "AdamW", "HarmonySearch"],
+    "standard": [
+        "ParticleSwarm",
+        "AntColony",
+        "FireflyAlgorithm",
+        "BatAlgorithm",
+        "GreyWolfOptimizer",
+        "GeneticAlgorithm",
+        "DifferentialEvolution",
+        "HarmonySearch",
+        "SimulatedAnnealing",
+        "HillClimbing",
+        "NelderMead",
+        "AdamW",
+        "SGDMomentum",
+    ],
+    "comprehensive": None,  # everything discover_optimizers() finds
+}
 
 
-def run_single_benchmark(
-    optimizer_class: type,
-    func: Callable[[ndarray], float],
-    lower_bound: float,
-    upper_bound: float,
-    dim: int,
-    max_iter: int = MAX_ITERATIONS,
-    seed: int | None = None,
-    f_opt: float = 0.0,
-    target_precision: float = TARGET_PRECISION,
-) -> dict:
-    """Run a single benchmark test.
+@dataclass(frozen=True)
+class Cell:
+    """One optimizer on one function and dimension."""
 
-    Args:
-        optimizer_class: Optimizer class to instantiate
-        func: Benchmark function
-        lower_bound: Lower bound of search space
-        upper_bound: Upper bound of search space
-        dim: Dimensionality of the problem
-        max_iter: Maximum iterations
-        seed: Random seed for reproducibility
-        f_opt: Known optimal value for convergence checking
-        target_precision: Target precision for early stopping
+    function: str
+    dim: int
+    optimizer: str
+    category: str
 
-    Returns:
-        dict: Results containing solution, fitness, evaluations, and timing information
-    """
-    if seed is not None:
-        np.random.seed(seed)
-
-    # Create optimizer, passing only the COCO/BBOB parameters its __init__
-    # actually accepts. Optimizer subclasses override __init__ with varying
-    # signatures (some omit track_history / target_precision / f_opt); passing
-    # an unsupported kwarg would raise TypeError and drop the whole run.
-    try:
-        import inspect
-
-        sig = inspect.signature(optimizer_class.__init__)
-        accepted = set(sig.parameters)
-        has_varkw = any(
-            p.kind is inspect.Parameter.VAR_KEYWORD for p in sig.parameters.values()
+    def path(self, output_dir: Path) -> Path:
+        """Location of the raw result file of this cell."""
+        return (
+            output_dir
+            / "raw"
+            / self.function
+            / str(self.dim)
+            / f"{self.optimizer}.json"
         )
 
-        candidate_kwargs = {
-            "func": func,
-            "lower_bound": lower_bound,
-            "upper_bound": upper_bound,
-            "dim": dim,
-            "max_iter": max_iter,
-            "track_history": True,
-            "target_precision": target_precision,
-            "f_opt": f_opt,
-            "seed": seed,
-            "population_size": 30,  # Moderate population size where supported
-            "n_bats": 30,  # BatAlgorithm names its population parameter n_bats
-        }
-        kwargs = {
-            key: value
-            for key, value in candidate_kwargs.items()
-            if has_varkw or key in accepted
-        }
 
-        optimizer = optimizer_class(**kwargs)
-        # Most constructors do not forward track_history to the base class, so
-        # switch it on afterwards; otherwise the convergence charts get no data.
-        if not optimizer.track_history:
-            optimizer.enable_history_tracking()
-    except TypeError as e:
-        return {
-            "error": str(e),
-            "optimizer": optimizer_class.__name__,
-            "status": "failed",
-        }
+@dataclass(frozen=True)
+class Settings:
+    """Everything that defines how a cell is run (and when a stored one is stale)."""
 
-    # Run optimization
-    start_time = time.time()
-    try:
-        best_solution, best_fitness = optimizer.search()
-        elapsed_time = time.time() - start_time
-
-        # Extract convergence history if available
-        convergence_history = None
-        if optimizer.track_history and optimizer.history.get("best_fitness"):
-            convergence_history = optimizer.history["best_fitness"]
-
-        return {
-            "optimizer": optimizer_class.__name__,
-            "best_fitness": float(best_fitness),
-            "best_solution": best_solution.tolist(),
-            "elapsed_time": elapsed_time,
-            "n_evaluations": optimizer.n_evaluations,
-            "converged": optimizer.converged,
-            "evaluations_to_target": optimizer.evaluations_to_target,
-            "convergence_history": convergence_history,
-            "status": "success",
-        }
-    except Exception as e:
-        return {
-            "error": str(e),
-            "optimizer": optimizer_class.__name__,
-            "status": "failed",
-        }
+    n_runs: int = N_RUNS
+    budget_per_dim: int = BUDGET_PER_DIM
+    time_cap: float = DEFAULT_TIME_CAP
+    cell_time: float = DEFAULT_CELL_TIME
+    population_size: int = 30
 
 
-def run_benchmark_suite(
-    output_dir: str | Path = "benchmarks/output",
-    tier: str = "standard",
-    subset: bool | None = None,  # Deprecated - use tier instead  # noqa: FBT001
-) -> dict:
-    """Run complete benchmark suite with tiered optimizer selection.
+def plan_cells(
+    tier: str,
+    *,
+    categories: set[str] | None = None,
+    optimizer_names: set[str] | None = None,
+    functions: list[str] | None = None,
+    dimensions: list[int] | None = None,
+) -> list[Cell]:
+    """List the cells of a tier, ordered by function, dimension and optimizer."""
+    if tier not in TIER_OPTIMIZERS:
+        msg = f"Unknown tier '{tier}'. Choose one of: {', '.join(TIER_OPTIMIZERS)}"
+        raise ValueError(msg)
 
-    Args:
-        output_dir: Directory to save results
-        tier: Optimizer tier - 'showcase' (4 algos, ~30min), 'standard' (13 algos, ~6h),
-              or 'comprehensive' (120+ algos, ~60h). See TIER_RUNTIMES for details.
-        subset: Deprecated - use tier='showcase' instead. Kept for backward compatibility.
+    available = discover_optimizers()
+    wanted = TIER_OPTIMIZERS[tier]
+    names = sorted(available) if wanted is None else sorted({*wanted, BASELINE})
+    missing = [n for n in names if n not in available]
+    if missing:
+        msg = f"Tier '{tier}' lists unknown optimizer(s): {', '.join(missing)}"
+        raise ValueError(msg)
+    if optimizer_names is not None:
+        unknown = optimizer_names - set(available)
+        if unknown:
+            msg = f"Unknown optimizer(s): {', '.join(sorted(unknown))}"
+            raise ValueError(msg)
+        names = [n for n in names if n in optimizer_names]
+    if categories is not None:
+        names = [n for n in names if category_of(available[n]) in categories]
 
-    Returns:
-        dict: Complete benchmark results with metadata about tier used
-
-    Raises:
-        ValueError: If tier is invalid or 'comprehensive' tier not yet implemented
-    """
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
-
-    # Handle backward compatibility with deprecated --subset flag
-    if subset is not None:
-        tier = "showcase" if subset else "standard"
-        print(
-            "Warning: --subset flag is deprecated. Use --tier showcase/standard/comprehensive instead."
-        )
-
-    # Validate and select optimizer set
-    if tier not in OPTIMIZER_TIERS:
+    function_names = functions if functions is not None else list(FUNCTIONS)
+    unknown_functions = set(function_names) - set(FUNCTIONS)
+    if unknown_functions:
         msg = (
-            f"Invalid tier '{tier}'. "
-            f"Must be one of: {', '.join(OPTIMIZER_TIERS.keys())}"
+            f"Unknown function(s): {', '.join(sorted(unknown_functions))}. "
+            f"Available: {', '.join(FUNCTIONS)}"
         )
         raise ValueError(msg)
 
-    if tier == "comprehensive":
-        msg = (
-            "Comprehensive tier (120+ optimizers) not yet implemented.\n"
-            "This requires dynamic loading of all optimizer classes.\n"
-            "Use 'standard' tier for now (13 representative optimizers)."
-        )
-        raise NotImplementedError(msg)
+    return [
+        Cell(function, dim, name, category_of(available[name]))
+        for function in function_names
+        for dim in (dimensions if dimensions is not None else DIMENSIONS)
+        for name in names
+    ]
 
-    optimizers = OPTIMIZER_TIERS[tier]
-    print(f"\nRunning {tier.upper()} tier: {len(optimizers)} optimizers")
-    print(f"Estimated runtime: {TIER_RUNTIMES[tier]}\n")
 
-    results = {
-        "metadata": {
-            "max_iterations": MAX_ITERATIONS,
-            "n_runs": N_RUNS,
-            "dimensions": DIMENSIONS,
-            "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
-            "target_precision": TARGET_PRECISION,
-            "tier": tier,
-            "n_optimizers": len(optimizers),
-            "estimated_runtime": TIER_RUNTIMES[tier],
-        },
-        "benchmarks": {},
+def list_shards(cells: list[Cell]) -> list[dict[str, str]]:
+    """Return the ``category x function`` combinations present in ``cells``.
+
+    This is the job matrix for CI: one job per combination keeps every job well
+    under the six hour limit of a GitHub-hosted runner.
+    """
+    combos = sorted({(c.category, c.function) for c in cells})
+    return [{"category": cat, "function": fn} for cat, fn in combos]
+
+
+def shard_cells(cells: list[Cell], index: int, count: int) -> list[Cell]:
+    """Return slice ``index`` of ``count``: every ``count``-th cell, round robin.
+
+    Round robin spreads the expensive optimizers (which sit next to each other in
+    the ordered list) over the slices; the slices are disjoint and cover all cells.
+    """
+    return [cell for position, cell in enumerate(cells) if position % count == index]
+
+
+def is_done(cell: Cell, output_dir: Path, settings: Settings) -> bool:
+    """Whether a valid result with the same settings is already stored."""
+    path = cell.path(output_dir)
+    if not path.exists():
+        return False
+    try:
+        stored = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False
+    protocol = stored.get("protocol", {})
+    return (
+        stored.get("schema") == RAW_SCHEMA
+        and protocol.get("budget_per_dim") == settings.budget_per_dim
+        and protocol.get("n_runs") == settings.n_runs
+        and protocol.get("targets") == list(TARGETS)
+    )
+
+
+def run_and_store(cell: Cell, output_dir: str, settings: Settings) -> dict[str, Any]:
+    """Run one cell and write its raw file atomically. Executed in worker processes."""
+    started = time.perf_counter()
+    cls = discover_optimizers()[cell.optimizer]
+    result = run_cell(
+        cls,
+        FUNCTIONS[cell.function],
+        cell.dim,
+        n_runs=settings.n_runs,
+        function_index=list(FUNCTIONS).index(cell.function),
+        budget_per_dim=settings.budget_per_dim,
+        population_size=settings.population_size,
+        time_cap=settings.time_cap,
+        cell_time=settings.cell_time,
+    )
+    path = cell.path(Path(output_dir))
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_suffix(".json.tmp")
+    temporary.write_text(json.dumps(result, separators=(",", ":")), encoding="utf-8")
+    temporary.replace(path)
+
+    runs = result["runs"]
+    finals = [r["best_fitness"] for r in runs if r["best_fitness"] is not None]
+    return {
+        "cell": asdict(cell),
+        "runs": len(runs),
+        "failed": sum(r["status"] == "failed" for r in runs),
+        "truncated": sum(r["status"] == "truncated_time" for r in runs),
+        "median_best": float(np.median(finals)) if finals else None,
+        "seconds": time.perf_counter() - started,
     }
 
-    benchmarks_dict: dict[str, dict[str, dict[str, OptimizerResults]]] = {}
 
-    total_tests = len(BENCHMARK_FUNCTIONS) * len(optimizers) * len(DIMENSIONS) * N_RUNS
-    test_count = 0
+def _git_sha() -> str | None:
+    try:
+        out = subprocess.run(
+            ["git", "rev-parse", "HEAD"],  # noqa: S607
+            capture_output=True,
+            text=True,
+            check=True,
+            timeout=10,
+        )
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return out.stdout.strip() or None
 
-    for func_name, func_config in BENCHMARK_FUNCTIONS.items():
-        benchmarks_dict[func_name] = {}
 
-        for dim in DIMENSIONS:
-            benchmarks_dict[func_name][f"{dim}D"] = {}
+def write_run_meta(
+    output_dir: Path, tier: str, settings: Settings, started: str, cells: int
+) -> Path:
+    """Write ``run-meta.json`` describing this invocation (merged later by CI)."""
+    meta = {
+        "tier": tier,
+        "settings": asdict(settings),
+        "targets": list(TARGETS),
+        "functions": list(FUNCTIONS),
+        "cells": cells,
+        "started": started,
+        "finished": datetime.now(UTC).isoformat(timespec="seconds"),
+        "git_sha": _git_sha(),
+        "python": platform.python_version(),
+        "numpy": np.__version__,
+        "scipy": scipy.__version__,
+        "platform": platform.platform(),
+    }
+    path = output_dir / "run-meta.json"
+    output_dir.mkdir(parents=True, exist_ok=True)
+    path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+    return path
 
-            for optimizer_name, optimizer_class in optimizers.items():
-                print(
-                    f"Running {optimizer_name} on {func_name} ({dim}D) "
-                    f"[{test_count}/{total_tests}]..."
-                )
 
-                run_results = []
-                for run_idx in range(N_RUNS):
-                    result_dict = run_single_benchmark(
-                        optimizer_class=optimizer_class,
-                        func=func_config["func"],
-                        lower_bound=func_config["bounds"][0],
-                        upper_bound=func_config["bounds"][1],
-                        dim=dim,
-                        max_iter=MAX_ITERATIONS,
-                        seed=run_idx,  # Use run index as seed for reproducibility
-                        f_opt=func_config.get("f_opt", 0.0),
-                        target_precision=TARGET_PRECISION,
-                    )
-                    # Convert dict to Pydantic model
-                    run_result = RunResult(**result_dict)
-                    run_results.append(run_result)
-                    test_count += 1
-
-                # Compute statistics across runs
-                successful_runs = [r for r in run_results if r.status == "success"]
-
-                if successful_runs:
-                    fitness_values = [r.best_fitness for r in successful_runs]
-                    time_values = [r.elapsed_time for r in successful_runs]
-                    eval_values = [r.n_evaluations for r in successful_runs]
-
-                    statistics = OptimizerStatistics(
-                        mean_fitness=float(np.mean(fitness_values)),
-                        std_fitness=float(np.std(fitness_values)),
-                        min_fitness=float(np.min(fitness_values)),
-                        max_fitness=float(np.max(fitness_values)),
-                        median_fitness=float(np.median(fitness_values)),
-                        mean_time=float(np.mean(time_values)),
-                        std_time=float(np.std(time_values)),
-                        mean_evaluations=float(np.mean(eval_values)),
-                        std_evaluations=float(np.std(eval_values)),
-                    )
-                    success_rate = len(successful_runs) / N_RUNS
-                else:
-                    statistics = None
-                    success_rate = 0.0
-
-                optimizer_results = OptimizerResults(
-                    runs=run_results, statistics=statistics, success_rate=success_rate
-                )
-
-                benchmarks_dict[func_name][f"{dim}D"][optimizer_name] = (
-                    optimizer_results
-                )
-
-    # Create final Pydantic model
-    import platform
-
-    metadata = BenchmarkMetadata(
-        max_iterations=MAX_ITERATIONS,
-        n_runs=N_RUNS,
-        dimensions=DIMENSIONS,
-        timestamp=time.strftime("%Y-%m-%d %H:%M:%S"),
-        target_precision=TARGET_PRECISION,
-        tier=tier,
-        n_optimizers=len(optimizers),
-        estimated_runtime=TIER_RUNTIMES[tier],
-        python_version=platform.python_version(),
-        numpy_version=np.__version__,
+def _progress(done: int, total: int, summary: dict[str, Any]) -> None:
+    cell = summary["cell"]
+    flags = ""
+    if summary["failed"]:
+        flags += f" failed={summary['failed']}"
+    if summary["truncated"]:
+        flags += f" truncated={summary['truncated']}"
+    best = summary["median_best"]
+    best_text = "n/a" if best is None else f"{best:.3e}"
+    print(
+        f"[{done}/{total}] {cell['function']} {cell['dim']}D {cell['optimizer']}: "
+        f"{summary['runs']} runs, median best {best_text}, "
+        f"{summary['seconds']:.1f}s{flags}",
+        flush=True,
     )
-    results = BenchmarkResults(metadata=metadata, benchmarks=benchmarks_dict)
 
-    # Save results to JSON
-    output_file = output_dir / "results.json"
-    with output_file.open("w") as f:
-        json.dump(results.model_dump(exclude_none=True), f, indent=2)
 
-    print(f"\nBenchmark suite completed. Results saved to {output_file}")
-    return results
+def run_cells(
+    cells: list[Cell], output_dir: Path, settings: Settings, workers: int
+) -> list[dict[str, Any]]:
+    """Run ``cells``, in this process or in a pool, and return their summaries."""
+    summaries: list[dict[str, Any]] = []
+    total = len(cells)
+    if workers <= 1:
+        for index, cell in enumerate(cells, start=1):
+            summary = run_and_store(cell, str(output_dir), settings)
+            summaries.append(summary)
+            _progress(index, total, summary)
+        return summaries
+
+    with ProcessPoolExecutor(max_workers=workers) as pool:
+        futures = [
+            pool.submit(run_and_store, c, str(output_dir), settings) for c in cells
+        ]
+        for index, future in enumerate(as_completed(futures), start=1):
+            summary = future.result()
+            summaries.append(summary)
+            _progress(index, total, summary)
+    return summaries
+
+
+def parse_shard(text: str) -> tuple[int, int]:
+    """Parse ``"i/n"`` (0-based ``i``) into ``(i, n)``."""
+    try:
+        index_text, count_text = text.split("/")
+        index, count = int(index_text), int(count_text)
+    except ValueError as exc:
+        msg = f"--shard must look like 0/4, got '{text}'"
+        raise argparse.ArgumentTypeError(msg) from exc
+    if count < 1 or not 0 <= index < count:
+        msg = f"--shard {text}: need 0 <= i < n"
+        raise argparse.ArgumentTypeError(msg)
+    return index, count
+
+
+def _csv(text: str | None) -> list[str] | None:
+    return [part.strip() for part in text.split(",") if part.strip()] if text else None
+
+
+def build_parser() -> argparse.ArgumentParser:
+    """Create the command line parser."""
+    parser = argparse.ArgumentParser(
+        description="Run the optimizer benchmark suite under an evaluation budget.",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog=__doc__,
+    )
+    parser.add_argument("--output-dir", default="benchmarks/output")
+    parser.add_argument("--tier", choices=list(TIER_OPTIMIZERS), default="standard")
+    parser.add_argument("--category", help="comma-separated optimizer categories")
+    parser.add_argument("--optimizers", help="comma-separated optimizer class names")
+    parser.add_argument(
+        "--functions", help=f"comma-separated, from: {', '.join(FUNCTIONS)}"
+    )
+    parser.add_argument("--dimensions", help="comma-separated, default 2,5,10,20")
+    parser.add_argument("--n-runs", type=int, default=N_RUNS)
+    parser.add_argument("--budget-per-dim", type=int, default=BUDGET_PER_DIM)
+    parser.add_argument(
+        "--time-cap",
+        type=float,
+        default=DEFAULT_TIME_CAP,
+        help="seconds after which one run is cut off",
+    )
+    parser.add_argument(
+        "--cell-time",
+        type=float,
+        default=DEFAULT_CELL_TIME,
+        help="seconds after which a cell stops starting new runs",
+    )
+    parser.add_argument(
+        "--shard", type=parse_shard, help="run only slice i of n (0-based)"
+    )
+    parser.add_argument("--workers", type=int, default=1, help="parallel processes")
+    parser.add_argument("--resume", action="store_true", help="skip finished cells")
+    parser.add_argument(
+        "--list-shards",
+        action="store_true",
+        help="print the CI job matrix (category x function) as JSON and exit",
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="count the cells and exit"
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    """Command line entry point."""
+    args = build_parser().parse_args(argv)
+    try:
+        cells = plan_cells(
+            args.tier,
+            categories=set(_csv(args.category) or []) or None,
+            optimizer_names=set(_csv(args.optimizers) or []) or None,
+            functions=_csv(args.functions),
+            dimensions=[int(d) for d in _csv(args.dimensions) or []] or None,
+        )
+    except ValueError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
+
+    if args.list_shards:
+        print(json.dumps(list_shards(cells)))
+        return 0
+
+    if args.shard is not None:
+        index, count = args.shard
+        cells = [
+            cell for position, cell in enumerate(cells) if position % count == index
+        ]
+
+    settings = Settings(
+        n_runs=args.n_runs,
+        budget_per_dim=args.budget_per_dim,
+        time_cap=args.time_cap,
+        cell_time=args.cell_time,
+    )
+    output_dir = Path(args.output_dir)
+    pending = [
+        c for c in cells if not (args.resume and is_done(c, output_dir, settings))
+    ]
+    print(
+        f"{args.tier}: {len(cells)} cells planned, {len(cells) - len(pending)} already "
+        f"done, {len(pending)} to run, budget {settings.budget_per_dim} x dim, "
+        f"{settings.n_runs} runs each, {args.workers} worker(s)",
+        flush=True,
+    )
+    if args.dry_run:
+        return 0
+
+    started = datetime.now(UTC).isoformat(timespec="seconds")
+    run_cells(pending, output_dir, settings, args.workers)
+    meta = write_run_meta(output_dir, args.tier, settings, started, len(cells))
+    print(f"Done. Raw results in {output_dir / 'raw'}, run metadata in {meta}")
+    return 0
 
 
 if __name__ == "__main__":
-    import argparse
-
-    parser = argparse.ArgumentParser(
-        description="Run optimization benchmark suite with tiered optimizer selection",
-        formatter_class=argparse.RawDescriptionHelpFormatter,
-        epilog="""
-Tier Details:
-  showcase      : 4 optimizers, ~15-30 min   (PR checks, quick validation)
-  standard      : 13 optimizers, ~6-8 hours  (daily/weekly comprehensive testing)
-  comprehensive : 120+ optimizers, ~55-70h   (monthly deep analysis) [NOT YET IMPLEMENTED]
-
-Examples:
-  # Quick PR validation
-  python benchmarks/run_benchmark_suite.py --tier showcase
-
-  # Daily comprehensive testing
-  python benchmarks/run_benchmark_suite.py --tier standard
-
-  # Custom output directory
-  python benchmarks/run_benchmark_suite.py --tier showcase --output-dir /tmp/bench
-        """,
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=str,
-        default="benchmarks/output",
-        help="Output directory for results (default: benchmarks/output)",
-    )
-    parser.add_argument(
-        "--tier",
-        type=str,
-        choices=["showcase", "standard", "comprehensive"],
-        default="standard",
-        help="Optimizer tier selection (default: standard)",
-    )
-    parser.add_argument(
-        "--max-iter",
-        type=int,
-        default=None,
-        help="Override maximum iterations per run (default: module MAX_ITERATIONS)",
-    )
-    parser.add_argument(
-        "--n-runs",
-        type=int,
-        default=None,
-        help="Override number of independent runs (default: module N_RUNS)",
-    )
-    parser.add_argument(
-        "--dimensions",
-        type=str,
-        default=None,
-        help="Override dimensions as a comma-separated list, e.g. '2,5,10'",
-    )
-    parser.add_argument(
-        "--functions",
-        type=str,
-        default=None,
-        help="Restrict to a comma-separated subset of benchmark function names",
-    )
-    # Deprecated - kept for backward compatibility
-    parser.add_argument(
-        "--subset", action="store_true", help="[DEPRECATED] Use --tier showcase instead"
-    )
-    args = parser.parse_args()
-
-    # Apply lightweight overrides for fast/custom runs by adjusting the module
-    # constants the suite reads. Enables e.g. --max-iter 150 --n-runs 10.
-    if args.max_iter is not None:
-        MAX_ITERATIONS = args.max_iter
-    if args.n_runs is not None:
-        N_RUNS = args.n_runs
-    if args.dimensions is not None:
-        DIMENSIONS = [int(d) for d in args.dimensions.split(",") if d.strip()]
-    if args.functions is not None:
-        wanted = {f.strip() for f in args.functions.split(",") if f.strip()}
-        unknown = wanted - set(BENCHMARK_FUNCTIONS)
-        if unknown:
-            msg = (
-                f"Unknown function(s): {', '.join(sorted(unknown))}. "
-                f"Available: {', '.join(sorted(BENCHMARK_FUNCTIONS))}"
-            )
-            raise SystemExit(msg)
-        BENCHMARK_FUNCTIONS = {
-            name: cfg for name, cfg in BENCHMARK_FUNCTIONS.items() if name in wanted
-        }
-
-    results = run_benchmark_suite(
-        output_dir=args.output_dir,
-        tier=args.tier,
-        subset=args.subset if args.subset else None,
-    )
-
-    print(
-        f"\nCompleted {len(results.benchmarks)} functions x "
-        f"{results.metadata.n_optimizers} optimizers x "
-        f"{len(DIMENSIONS)} dimensions x {N_RUNS} runs"
-    )
-    print(f"Tier: {results.metadata.tier.upper()}")
-    print(f"Estimated runtime: {results.metadata.estimated_runtime}")
+    sys.exit(main())

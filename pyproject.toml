@@ -154,6 +154,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 "scripts/docstring_models.py" = ["D200", "D415", "FBT003", "D101", "TC002"]  # Generated code - ignore docstring style
 "scripts/unified_validator.py" = ["FBT001", "FBT002", "TRY300"]  # CLI script
 "scripts/test/*" = ["S101"]  # Test files - allow assert
+"benchmarks/test/*" = ["S101", "PLR2004", "D101", "D102", "D103", "ARG005", "PT012", "SIM105", "S110", "BLE001"]  # Test files
 
 
 
