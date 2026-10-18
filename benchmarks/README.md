@@ -50,7 +50,7 @@ written to `raw/<function>/<dimension>/<optimizer>.json`, so an interrupted run 
 --tier {showcase,standard,comprehensive}
 --category CAT[,CAT]       only these optimizer categories
 --optimizers NAME[,NAME]   only these optimizers
---functions NAME[,NAME]    default: all six
+--functions NAME[,NAME]    default: all five
 --dimensions D[,D]         default: 2,5,10,20
 --n-runs N                 default: 15
 --budget-per-dim N         default: 2000

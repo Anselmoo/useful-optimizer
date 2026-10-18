@@ -24,6 +24,7 @@ import contextlib
 import inspect
 import math
 import time
+import zlib
 
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
@@ -38,7 +39,6 @@ from opt.benchmark.functions import ackley
 from opt.benchmark.functions import griewank
 from opt.benchmark.functions import rastrigin
 from opt.benchmark.functions import rosenbrock
-from opt.benchmark.functions import shifted_ackley
 from opt.benchmark.functions import sphere
 
 
@@ -70,25 +70,59 @@ BASELINE = "RandomSearch"
 """Class name of the baseline every other optimizer is tested against."""
 
 
+SHIFT_FRACTION = 0.8
+"""The optimum is placed uniformly within this fraction of the half-width of the domain."""
+
+
 @dataclass(frozen=True)
 class FunctionConfig:
-    """A benchmark function with its search domain and known optimum."""
+    """A benchmark function with its search domain and known optimum.
+
+    The optimum of every function is moved away from the centre of the domain (as
+    COCO does): optimizers that average, shrink or scale positions towards the
+    origin or the centre of the box would otherwise find the optimum of Sphere,
+    Rastrigin or Ackley by construction. The evaluated function is
+    ``func(x - shift(dim))``; the shift is fixed per function and dimension, the
+    same for every optimizer and run.
+    """
 
     name: str
     func: Callable[[ndarray], float]
     lower: float
     upper: float
     f_opt: float = 0.0
+    x_native: float = 0.0
+    """Coordinate of the optimum of ``func`` itself (1 for Rosenbrock, else 0)."""
+
+    def optimum(self, dim: int) -> ndarray:
+        """Return the location of the optimum of the shifted function."""
+        rng = np.random.default_rng([zlib.crc32(self.name.encode()), dim])
+        half = (self.upper - self.lower) / 2
+        centre = (self.upper + self.lower) / 2
+        return centre + rng.uniform(-SHIFT_FRACTION, SHIFT_FRACTION, dim) * half
+
+    def shift(self, dim: int) -> ndarray:
+        """Return the translation ``s`` with ``f_shifted(x) = func(x - s)``."""
+        return self.optimum(dim) - self.x_native
+
+    def objective(self, dim: int) -> Callable[[ndarray], float]:
+        """Return the function the optimizers minimise in ``dim`` dimensions."""
+        shift = self.shift(dim)
+        func = self.func
+
+        def shifted(x: ndarray) -> float:
+            return func(np.asarray(x) - shift)
+
+        return shifted
 
 
 FUNCTIONS: dict[str, FunctionConfig] = {
     cfg.name: cfg
     for cfg in (
         FunctionConfig("sphere", sphere, -5.12, 5.12),
-        FunctionConfig("rosenbrock", rosenbrock, -5.0, 10.0),
+        FunctionConfig("rosenbrock", rosenbrock, -5.0, 10.0, x_native=1.0),
         FunctionConfig("rastrigin", rastrigin, -5.12, 5.12),
         FunctionConfig("ackley", ackley, -32.768, 32.768),
-        FunctionConfig("shifted_ackley", shifted_ackley, -32.768, 32.768),
         FunctionConfig("griewank", griewank, -600.0, 600.0),
     )
 }
@@ -354,7 +388,7 @@ def run_once(
     """
     budget = budget if budget is not None else budget_for(dim)
     objective = BudgetedObjective(
-        config.func,
+        config.objective(dim),
         config.lower,
         config.upper,
         dim,
@@ -411,7 +445,7 @@ def _evaluations_after(
 ) -> int:
     """Evaluations a run of ``iterations`` iterations needs (capped at ``cap``)."""
     objective = BudgetedObjective(
-        config.func,
+        config.objective(dim),
         config.lower,
         config.upper,
         dim,

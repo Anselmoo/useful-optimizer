@@ -14,7 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   common budget (an iteration costs from 0.1 to about 3000 evaluations). The published data is a new
   format (schema version 2: `index.json`, `cells/<function>-<dimension>.json`, `ranks.json`,
   `trajectory-<function>-2.json`); `benchmark-results.json` and the demo data are gone. Dimensions
-  are 2, 5, 10 and 20 with 15 runs, as in BBOB.
+  are 2, 5, 10 and 20 with 15 runs, as in BBOB, on five functions whose optimum is moved away
+  from the centre of the domain (as COCO does), because several optimizers find the optimum of
+  the unshifted functions by construction.
 - **Breaking: documentation URLs.** A page's slug is now the optimizer's file stem
   (`whale_optimization_algorithm.py` is `/algorithms/swarm-intelligence/whale-optimization-algorithm`),
   and its title and acronym come from the *Algorithm Metadata* table. 65 of 117 pages moved

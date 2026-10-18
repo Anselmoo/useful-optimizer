@@ -40,6 +40,12 @@ class FunctionInfo(_Model):
     lower: float
     upper: float
     f_opt: float
+    shifts: dict[str, list[float]] = Field(
+        description=(
+            "Translation s per dimension (key: dimension): the optimizers minimise "
+            "f(x - s), so the optimum is not at the centre of the domain"
+        )
+    )
 
 
 class Versions(_Model):

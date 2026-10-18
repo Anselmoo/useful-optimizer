@@ -9,7 +9,7 @@ random search baseline.
 ## Benchmark suite
 
 - **Optimizers**: all single-objective optimizers of `opt`, plus [`RandomSearch`](/algorithms/classical/random-search) as the baseline
-- **6 functions**: Sphere, Rosenbrock, Rastrigin, Ackley, Shifted Ackley, Griewank
+- **5 functions**: Sphere, Rosenbrock, Rastrigin, Ackley, Griewank, each with the optimum moved away from the centre of the domain
 - **4 dimensions**: 2, 5, 10, 20
 - **15 independent runs** per optimizer, function and dimension
 - **Budget**: 2000 × dimension function evaluations per run

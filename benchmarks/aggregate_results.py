@@ -263,7 +263,13 @@ def aggregate(
             "n_runs": sample["n_runs"],
             "dimensions": dims,
             "functions": [
-                {"name": f.name, "lower": f.lower, "upper": f.upper, "f_opt": f.f_opt}
+                {
+                    "name": f.name,
+                    "lower": f.lower,
+                    "upper": f.upper,
+                    "f_opt": f.f_opt,
+                    "shifts": {str(d): [float(v) for v in f.shift(d)] for d in dims},
+                }
                 for f in FUNCTIONS.values()
                 if any(fn == f.name for fn, _ in grouped)
             ],

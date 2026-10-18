@@ -105,6 +105,8 @@ interface Props {
   trajectory?: TrajectoryPoint[]
   colorScale?: 'viridis' | 'turbo' | 'plasma' | 'inferno' | 'catppuccin'
   height?: string | number
+  /** Translation s of the displayed function f(x - s), e.g. the benchmark's shifted optimum. */
+  shift?: [number, number]
   /** Hide the function selector (the page fixes the function). */
   lockFunction?: boolean
 }
@@ -134,6 +136,9 @@ const heightScale = ref<HeightScale>(spec.value.defaultScale)
 watch(current, () => {
   heightScale.value = spec.value.defaultScale
 })
+
+const shiftX = computed(() => props.shift?.[0] ?? 0)
+const shiftY = computed(() => props.shift?.[1] ?? 0)
 
 const xRange = computed<Range>(() => props.xRange ?? spec.value.xRange)
 const yRange = computed<Range>(() => props.yRange ?? spec.value.yRange)
@@ -184,7 +189,7 @@ const surface = computed(() => {
   for (let i = 0; i < positions.count; i += 1) {
     const x = xMin + ((positions.getX(i) + 1) / 2) * (xMax - xMin)
     const y = yMin + ((positions.getY(i) + 1) / 2) * (yMax - yMin)
-    const h = heightTransform(spec.value.fn(x, y))
+    const h = heightTransform(spec.value.fn(x - shiftX.value, y - shiftY.value))
     heights[i] = h
     hMin = Math.min(hMin, h)
     hMax = Math.max(hMax, h)

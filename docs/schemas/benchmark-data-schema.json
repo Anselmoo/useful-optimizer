@@ -226,13 +226,25 @@
         "f_opt": {
           "title": "F Opt",
           "type": "number"
+        },
+        "shifts": {
+          "additionalProperties": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "description": "Translation s per dimension (key: dimension): the optimizers minimise f(x - s), so the optimum is not at the centre of the domain",
+          "title": "Shifts",
+          "type": "object"
         }
       },
       "required": [
         "name",
         "lower",
         "upper",
-        "f_opt"
+        "f_opt",
+        "shifts"
       ],
       "title": "FunctionInfo",
       "type": "object"

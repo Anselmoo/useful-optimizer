@@ -12,7 +12,7 @@ produces is described by a [JSON schema](https://github.com/Anselmoo/useful-opti
 | Item | Value |
 |------|-------|
 | Optimizers | every single-objective optimizer of `opt` (see [Scope](#scope)) |
-| Functions | Sphere, Rosenbrock, Rastrigin, Ackley, Shifted Ackley, Griewank |
+| Functions | Sphere, Rosenbrock, Rastrigin, Ackley, Griewank, each with a shifted optimum |
 | Dimensions | 2, 5, 10, 20 |
 | Independent runs | 15 per optimizer, function and dimension |
 | Budget | $2000 \cdot n$ function evaluations per run ($n$ = dimension) |
@@ -45,7 +45,7 @@ The suite covers optimizers that minimise one scalar function. The multi-objecti
 (`MOEAD`, `NSGAII`, `SPEA2`) return a Pareto front, which needs different problems and indicators;
 their pages say so. The constrained optimizers are benchmarked on the unconstrained functions.
 
-### Search domains and optima
+### Search domains and shifted optima
 
 | Function | Domain | $f^*$ |
 |----------|--------|-------|
@@ -53,10 +53,18 @@ their pages say so. The constrained optimizers are benchmarked on the unconstrai
 | Rosenbrock | $[-5, 10]^n$ | 0 |
 | Rastrigin | $[-5.12, 5.12]^n$ | 0 |
 | Ackley | $[-32.768, 32.768]^n$ | 0 |
-| Shifted Ackley | $[-32.768, 32.768]^n$, optimum at $(1, 0.5, 1, \dots)$ | 0 |
 | Griewank | $[-600, 600]^n$ | 0 |
 
 See [Benchmark Functions](./functions) for the definitions.
+
+The optimizers do not minimise $f(\mathbf{x})$ but $f(\mathbf{x} - \mathbf{s})$, where the shift
+$\mathbf{s}$ places the optimum uniformly inside 80% of the half-width of the domain around its
+centre, as COCO does for its instances. It is fixed per function and dimension, the same for every
+optimizer and run, and published in `index.json`. Without it, an optimizer that averages, scales or
+shrinks positions towards the origin or the centre of the box finds the optimum of Sphere, Rastrigin
+or Ackley by construction: in a test, `ArithmeticOptimizationAlgorithm` and
+`SeagullOptimizationAlgorithm` reached exactly 0 on the unshifted 10D sphere but 5.9 and 11.4 once the
+optimum was moved.
 
 ## Metrics
 
@@ -134,7 +142,7 @@ which pairs differ. For that use the per-block tests against the baseline.
 - **Budget**: $2000 \cdot n$ evaluations favours optimizers that converge quickly; some
   population-based methods are designed for much longer runs. Rankings can change with the budget.
 - **Default parameters**: the comparison measures the library defaults, not the best each method can do.
-- **Six functions**: the results say little about problems unlike these (noise, constraints,
+- **Five functions**: the results say little about problems unlike these (noise, constraints,
   expensive evaluations, structure).
 - **15 runs**: enough to see large effects; small differences stay inconclusive, which is why the effect
   size is reported.

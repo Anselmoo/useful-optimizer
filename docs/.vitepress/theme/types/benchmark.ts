@@ -196,6 +196,13 @@ export interface FunctionInfo {
   lower: Lower;
   upper: Upper;
   f_opt: FOpt;
+  shifts: Shifts;
+}
+/**
+ * Translation s per dimension (key: dimension): the optimizers minimise f(x - s), so the optimum is not at the centre of the domain
+ */
+export interface Shifts {
+  [k: string]: number[];
 }
 /**
  * One benchmarked optimizer.

@@ -1,7 +1,7 @@
 # Benchmark Tier System
 
 A tier selects which optimizers a benchmark run covers. All tiers use the same
-[protocol](../docs/benchmarks/methodology.md) (equal evaluation budget, 15 runs, 6 functions,
+[protocol](../docs/benchmarks/methodology.md) (equal evaluation budget, 15 runs, 5 functions (shifted optima),
 dimensions 2, 5, 10 and 20) and always include the baseline `RandomSearch`, because the statistical
 tests compare against it.
 
@@ -25,8 +25,8 @@ protocol now gives every run the same budget of $2000 \cdot n$ evaluations and c
 so the cost per cell is bounded. Costly optimizers are additionally limited by a wall-clock cap per run and
 per cell and are flagged in the data when it applies.
 
-The full suite is 115 optimizers x 6 functions x 4 dimensions x 15 runs. The pipeline splits it into
-one job per category and function (54 jobs), each of which writes every finished cell to its own file.
+The full suite is 115 optimizers x 5 functions x 4 dimensions x 15 runs. The pipeline splits it into
+one job per category and function (45 jobs), each of which writes every finished cell to its own file.
 A job that is cut off loses nothing and `--resume` continues it.
 
 ## Tiers

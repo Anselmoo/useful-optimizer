@@ -43,6 +43,38 @@ class _Swallower(AbstractOptimizer):
         return best, 0.0
 
 
+class TestShiftedFunctions:
+    @pytest.mark.parametrize("name", list(FUNCTIONS))
+    @pytest.mark.parametrize("dim", [2, 5, 20])
+    def test_optimum_is_where_the_shift_puts_it(self, name: str, dim: int) -> None:
+        config = FUNCTIONS[name]
+        objective = config.objective(dim)
+        assert objective(config.optimum(dim)) == pytest.approx(config.f_opt, abs=1e-9)
+
+    @pytest.mark.parametrize("name", list(FUNCTIONS))
+    def test_optimum_is_inside_the_domain_and_off_centre(self, name: str) -> None:
+        config = FUNCTIONS[name]
+        optimum = config.optimum(10)
+        centre = (config.upper + config.lower) / 2
+        half = (config.upper - config.lower) / 2
+        assert np.all(np.abs(optimum - centre) <= 0.8 * half + 1e-12)
+        # The optimum is not at the origin or the centre, where averaging
+        # optimizers would find it by construction.
+        assert np.linalg.norm(optimum - centre) > 0.1 * half
+        assert config.objective(10)(np.full(10, centre)) > 1e-3
+
+    def test_shift_is_deterministic_and_differs_between_functions(self) -> None:
+        a = FUNCTIONS["sphere"]
+        assert np.array_equal(a.optimum(5), a.optimum(5))
+        assert not np.array_equal(a.optimum(5), FUNCTIONS["rastrigin"].optimum(5))
+        assert not np.array_equal(a.optimum(5)[:2], a.optimum(2))
+
+    def test_shift_translates_the_native_function(self) -> None:
+        config = FUNCTIONS["rosenbrock"]
+        x = np.array([0.3, -1.2, 2.0])
+        assert config.objective(3)(x) == pytest.approx(config.func(x - config.shift(3)))
+
+
 class TestBudgetedObjective:
     def test_cuts_off_exactly_at_the_budget(self) -> None:
         obj = BudgetedObjective(_sphere, -5, 5, 2, budget=5)

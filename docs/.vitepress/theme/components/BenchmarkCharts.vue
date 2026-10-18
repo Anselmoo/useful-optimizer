@@ -156,7 +156,11 @@ const SCALING = {
   time: { y: 'µs per evaluation', log: true, title: 'Wall-clock cost vs dimension' }
 } as const
 
-const landscapeFunctions = ['sphere', 'rosenbrock', 'rastrigin', 'ackley', 'shifted_ackley', 'griewank']
+const landscapeFunctions = ['sphere', 'rosenbrock', 'rastrigin', 'ackley', 'griewank']
+const shift2d = computed<[number, number] | undefined>(() => {
+  const s = functionInfo.value?.shifts['2']
+  return s ? [s[0], s[1]] : undefined
+})
 const pathNames = computed(() => Object.keys(trajectory.value?.optimizers ?? {}).sort())
 const path = computed(() => {
   const rows = trajectory.value?.optimizers[pathOwner.value] ?? []
@@ -441,11 +445,12 @@ const evaluationBudget = computed(() => (cell.value ? cell.value.budget.toLocale
                 :x-range="[functionInfo?.lower ?? -5, functionInfo?.upper ?? 5]"
                 :y-range="[functionInfo?.lower ?? -5, functionInfo?.upper ?? 5]"
                 :trajectory="path"
+                :shift="shift2d"
                 lock-function
               />
               <p class="bench__note">
                 Best-so-far path of the first run on the 2D function, from its first evaluation to the end of
-                the budget.
+                the budget. Like every benchmark function it is shifted, so the minimum is not at the centre.
               </p>
             </template>
             <p v-else class="bench__state">No 2D landscape data for {{ label(functionName) }}.</p>
