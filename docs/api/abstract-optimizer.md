@@ -76,10 +76,10 @@ When `track_history=True`, the optimizer records:
 
 ```python
 history = {
-    "best_fitness": [],      # Best fitness at each iteration
-    "best_solution": [],     # Best solution at each iteration
-    "population_fitness": [],# All fitness values per iteration
-    "population": []         # All solutions per iteration
+    "best_fitness": [],  # Best fitness at each iteration
+    "best_solution": [],  # Best solution at each iteration
+    "population_fitness": [],  # All fitness values per iteration
+    "population": [],  # All solutions per iteration
 }
 ```
 
@@ -95,7 +95,7 @@ optimizer = ParticleSwarm(
     upper_bound=10.0,
     dim=10,
     max_iter=100,
-    track_history=True
+    track_history=True,
 )
 
 best_solution, best_fitness = optimizer.search()
@@ -119,22 +119,19 @@ To create a custom optimizer, inherit from `AbstractOptimizer` and implement the
 from opt.abstract_optimizer import AbstractOptimizer
 import numpy as np
 
+
 class RandomSearch(AbstractOptimizer):
     """Simple random search optimizer."""
 
     def search(self) -> tuple[np.ndarray, float]:
         best_solution = None
-        best_fitness = float('inf')
+        best_fitness = float("inf")
 
         rng = np.random.default_rng(self.seed)
 
         for _ in range(self.max_iter):
             # Generate random solution
-            candidate = rng.uniform(
-                self.lower_bound,
-                self.upper_bound,
-                self.dim
-            )
+            candidate = rng.uniform(self.lower_bound, self.upper_bound, self.dim)
 
             fitness = self.func(candidate)
 
@@ -157,7 +154,7 @@ The `AbstractOptimizer` uses constants defined in `opt.constants`:
 ```python
 from opt.constants import (
     DEFAULT_MAX_ITERATIONS,  # 1000
-    DEFAULT_POPULATION_SIZE, # 30
-    DEFAULT_SEED             # 42
+    DEFAULT_POPULATION_SIZE,  # 30
+    DEFAULT_SEED,  # 42
 )
 ```
