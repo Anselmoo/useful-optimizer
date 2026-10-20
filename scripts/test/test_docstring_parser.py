@@ -136,7 +136,9 @@ class TestDocstringParser:
         parser = DocstringParser()
 
         # Create a temporary file with no docstring
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
+        with tempfile.NamedTemporaryFile(
+            encoding="utf-8", mode="w", suffix=".py", delete=False
+        ) as f:
             f.write("class TestClass:\n    pass\n")
             temp_path = Path(f.name)
 

@@ -14,9 +14,9 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
-    "ruff>=0.9.0",
+    "ruff>=0.17.1",
     "pytest>=8.0.0",
-    "pre-commit>=4.0.0",
+    "pre-commit>=4.7.0",
 ]
 visualization = [
     "matplotlib>=3.7.0",
@@ -34,9 +34,9 @@ module-name = "opt"
 
 [dependency-groups]
 dev = [
-    "ruff>=0.9.0",
+    "ruff>=0.17.1",
     "pytest>=8.0.0",
-    "pre-commit>=4.0.0",
+    "pre-commit>=4.7.0",
     "ty>=0.0.1",
     "datamodel-code-generator>=0.48.0",
     "griffe>=1.15.0",
@@ -55,6 +55,11 @@ addopts = [
 testpaths = ["src/opt"]
 
 [tool.ruff]
+# Markdown is documentation here: the generated pages are fingerprinted by rrt, so ruff
+# must not rewrite their code blocks (ruff >= 0.15 lints and formats *.md).
+extend-exclude = ["*.md"]
+force-exclude = true
+
 # Exclude a variety of commonly ignored directories.
 exclude = [
     ".bzr",
@@ -102,6 +107,23 @@ preview = false
 # McCabe complexity (`C901`) by default.
 # Set to all
 select = ["ALL"]
+# Preview rules are opt-in one by one: ALL does not pull in unstable rules, so a ruff
+# upgrade cannot suddenly add dozens of findings. Left out on purpose: PLR6104 (an
+# in-place `+=` on a numpy array changes aliasing and dtype behaviour of the optimizers),
+# RUF069 (exact float comparisons are what the tests assert) and the design/docstring
+# preview rules (PLR6301, PLR0914, PLW0717, PLR1702, DOC*).
+preview = true
+explicit-preview-rules = true
+extend-select = [
+    "PLW1514",   # open() without encoding
+    "PLR6201",  # membership test against a list/tuple literal -> set literal
+    "FURB113",   # repeated .append() -> .extend()
+    "FURB118",   # lambda that reimplements an operator -> operator.*
+    "PLC1901",   # `x == ""` -> `not x`
+    "RUF052",    # underscore-prefixed local that is used
+    "PYI033",    # legacy type comments
+    "F822",      # name in __all__ that is not defined
+]
 # What stays ignored, and why. Everything else is enforced (issue #82).
 ignore = [
     "PLR0913",   # Too many arguments: the optimizers' public constructors are their hyperparameters

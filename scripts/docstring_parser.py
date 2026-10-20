@@ -161,7 +161,7 @@ class DocstringParser:
                 elif key == "Implementation":
                     metadata["implementation"] = value
                 elif key == "COCO Compatible":
-                    metadata["coco_compatible"] = value.lower() in ("yes", "true")
+                    metadata["coco_compatible"] = value.lower() in {"yes", "true"}
 
         return metadata or None
 

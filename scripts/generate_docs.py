@@ -24,6 +24,7 @@ from __future__ import annotations
 import argparse
 import ast
 import json
+import operator
 import re
 import subprocess
 import textwrap
@@ -243,13 +244,12 @@ def _normalize_section_body(body_lines: list[str]) -> str:
         line = raw.strip()
         if line == "$$":
             if not in_math:
-                if out and out[-1] != "":
+                if out and out[-1]:
                     out.append("")  # blank line before opening delimiter
                 out.append("$$")
                 in_math = True
             else:
-                out.append("$$")
-                out.append("")  # blank line after closing delimiter
+                out.extend(("$$", ""))  # blank line after closing delimiter
                 in_math = False
             continue
         out.append(line)
@@ -657,27 +657,35 @@ def _benchmark_section_lines(doc: OptimizerDoc) -> list[str]:
     """
     lines = ["## Benchmark Performance", ""]
     if doc.category == "multi_objective":
-        lines.append("::: info Not covered by the benchmark suite")
-        lines.append(
-            "The benchmark suite compares single-objective optimizers on one "
-            "scalar fitness. Multi-objective optimizers return a Pareto front "
-            "and are not part of it."
+        lines.extend(
+            (
+                "::: info Not covered by the benchmark suite",
+                (
+                    "The benchmark suite compares single-objective optimizers on one "
+                    "scalar fitness. Multi-objective optimizers return a Pareto front "
+                    "and are not part of it."
+                ),
+                ":::",
+                "",
+            )
         )
-        lines.append(":::")
-        lines.append("")
         return lines
 
-    lines.append(
-        "Results of the benchmark suite for this optimizer, on the same "
-        "evaluation budget as every other optimizer and compared with a random "
-        "search baseline. See the [methodology](/benchmarks/methodology) for the "
-        "protocol and statistics."
+    lines.extend(
+        (
+            (
+                "Results of the benchmark suite for this optimizer, on the same "
+                "evaluation budget as every other optimizer and compared with a random "
+                "search baseline. See the [methodology](/benchmarks/methodology) for the "
+                "protocol and statistics."
+            ),
+            "",
+            "<ClientOnly>",
+            f'  <BenchmarkCharts algorithm="{doc.class_name}" />',
+            "</ClientOnly>",
+            "",
+        )
     )
-    lines.append("")
-    lines.append("<ClientOnly>")
-    lines.append(f'  <BenchmarkCharts algorithm="{doc.class_name}" />')
-    lines.append("</ClientOnly>")
-    lines.append("")
     return lines
 
 
@@ -691,10 +699,14 @@ def generate_markdown(doc: OptimizerDoc) -> str:
     lines: list[str] = []
 
     # Title and badge
-    lines.append(f"# {doc.name}")
-    lines.append("")
-    lines.append(f'<span class="badge {badge_class}">{badge_name}</span>')
-    lines.append("")
+    lines.extend(
+        (
+            f"# {doc.name}",
+            "",
+            f'<span class="badge {badge_class}">{badge_name}</span>',
+            "",
+        )
+    )
 
     # Short description - clean it up
     if doc.docstring_info.short_description:
@@ -707,15 +719,13 @@ def generate_markdown(doc: OptimizerDoc) -> str:
             flags=re.IGNORECASE,
         )
         desc = desc[0].upper() + desc[1:] if desc else desc
-        lines.append(desc)
-        lines.append("")
+        lines.extend((desc, ""))
 
     # Algorithm Overview
     if doc.docstring_info.long_description:
-        lines.append("## Algorithm Overview")
-        lines.append("")
-        lines.append(doc.docstring_info.long_description)
-        lines.append("")
+        lines.extend(
+            ("## Algorithm Overview", "", doc.docstring_info.long_description, "")
+        )
 
     # Titles of the rich narrative sections captured from the class docstring.
     raw_titles = {title.lower() for title, _ in doc.docstring_info.raw_sections}
@@ -723,50 +733,62 @@ def generate_markdown(doc: OptimizerDoc) -> str:
     # Reference with proper citation format (skip when the class docstring
     # already provides a richer "References" section rendered further below).
     if doc.docstring_info.reference and "references" not in raw_titles:
-        lines.append("## Reference")
-        lines.append("")
+        lines.extend(("## Reference", ""))
         ref = doc.docstring_info.reference
         ref = re.sub(r"\s+", " ", ref)  # Normalize whitespace
         lines.append(f"> {ref}")
         if doc.docstring_info.reference_doi:
-            lines.append("")
-            lines.append(
-                f"[📄 View Paper (DOI: {doc.docstring_info.reference_doi})](https://doi.org/{doc.docstring_info.reference_doi})"
+            lines.extend(
+                (
+                    "",
+                    f"[📄 View Paper (DOI: {doc.docstring_info.reference_doi})](https://doi.org/{doc.docstring_info.reference_doi})",
+                )
             )
         lines.append("")
 
     # Usage section with import statement
-    lines.append("## Usage")
-    lines.append("")
+    lines.extend(("## Usage", ""))
 
     module_name = Path(doc.module_path).stem
 
     # Always generate a standardized example with correct imports
-    lines.append("```python")
-    lines.append(f"from opt.{doc.category}.{module_name} import {doc.class_name}")
-    lines.append("from opt.benchmark.functions import sphere")
-    lines.append("")
-    lines.append(f"optimizer = {doc.class_name}(")
-    lines.append("    func=sphere,")
-    lines.append("    lower_bound=-5.12,")
-    lines.append("    upper_bound=5.12,")
-    lines.append("    dim=10,")
-    lines.append("    max_iter=500,")
+    lines.extend(
+        (
+            "```python",
+            f"from opt.{doc.category}.{module_name} import {doc.class_name}",
+            "from opt.benchmark.functions import sphere",
+            "",
+            f"optimizer = {doc.class_name}(",
+            "    func=sphere,",
+            "    lower_bound=-5.12,",
+            "    upper_bound=5.12,",
+            "    dim=10,",
+            "    max_iter=500,",
+        )
+    )
     if any(p.name == "population_size" for p in doc.init_params):
         lines.append("    population_size=50,")
-    lines.append(")")
-    lines.append("")
-    lines.append("best_solution, best_fitness = optimizer.search()")
-    lines.append('print(f"Best solution: {best_solution}")')
-    lines.append('print(f"Best fitness: {best_fitness:.6e}")')
-    lines.append("```")
-    lines.append("")
+    lines.extend(
+        (
+            ")",
+            "",
+            "best_solution, best_fitness = optimizer.search()",
+            'print(f"Best solution: {best_solution}")',
+            'print(f"Best fitness: {best_fitness:.6e}")',
+            "```",
+            "",
+        )
+    )
 
     # Parameters table
-    lines.append("## Parameters")
-    lines.append("")
-    lines.append("| Parameter | Type | Default | Description |")
-    lines.append("|-----------|------|---------|-------------|")
+    lines.extend(
+        (
+            "## Parameters",
+            "",
+            "| Parameter | Type | Default | Description |",
+            "|-----------|------|---------|-------------|",
+        )
+    )
 
     for param in doc.init_params:
         default_str = "Required" if param.is_required else f"`{param.default}`"
@@ -802,10 +824,7 @@ def generate_markdown(doc: OptimizerDoc) -> str:
             if section_title.lower() == "references"
             else raw_body
         )
-        lines.append(f"## {section_title}")
-        lines.append("")
-        lines.append(section_body)
-        lines.append("")
+        lines.extend((f"## {section_title}", "", section_body, ""))
 
     # Benchmark performance charts: analytic fitness landscape on every page,
     # plus real convergence/distribution/ECDF charts when run data exists.
@@ -814,22 +833,28 @@ def generate_markdown(doc: OptimizerDoc) -> str:
     # Navigation links. When the class docstring supplies its own "See Also"
     # section (rendered above), use a distinct heading to avoid a duplicate.
     nav_heading = "Related Pages" if "see also" in raw_titles else "See Also"
-    lines.append(f"## {nav_heading}")
-    lines.append("")
-    lines.append(f"- [{badge_name} Algorithms](/algorithms/{cat_slug}/)")
-    lines.append("- [All Algorithms](/algorithms/)")
-    lines.append("- [Benchmark Functions](/api/benchmark-functions)")
-    lines.append("")
+    lines.extend(
+        (
+            f"## {nav_heading}",
+            "",
+            f"- [{badge_name} Algorithms](/algorithms/{cat_slug}/)",
+            "- [All Algorithms](/algorithms/)",
+            "- [Benchmark Functions](/api/benchmark-functions)",
+            "",
+        )
+    )
 
     # Footer
-    lines.append("---")
-    lines.append("")
-    lines.append("::: tip Source Code")
-    lines.append(
-        f"View the implementation: [`{module_name}.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/{doc.module_path})"
+    lines.extend(
+        (
+            "---",
+            "",
+            "::: tip Source Code",
+            f"View the implementation: [`{module_name}.py`](https://github.com/Anselmoo/useful-optimizer/blob/main/{doc.module_path})",
+            ":::",
+            "",
+        )
     )
-    lines.append(":::")
-    lines.append("")
 
     return "\n".join(lines)
 
@@ -1285,7 +1310,7 @@ def generate_json_metadata(docs: list[OptimizerDoc], output_path: Path) -> None:
         optimizers.append(optimizer_data)
 
     # Sort by category then name
-    optimizers.sort(key=lambda x: (x["category"], x["name"]))
+    optimizers.sort(key=operator.itemgetter("category", "name"))
 
     output_data = {
         "version": "1.0.0",

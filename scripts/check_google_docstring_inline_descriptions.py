@@ -62,7 +62,7 @@ _ITEM_MISSING_INLINE_SUMMARY_RE = re.compile(r"^\s{8,}[A-Za-z_]\w*\s*\([^)]*\):\
 _RETURNS_TYPE_MISSING_INLINE_RE = re.compile(r"^\s{12,}[\w\[\],\s|]+:\s*$")
 
 # For Returns/Raises sections - Match lines like:
-#     type: Description... (CORRECT)
+#     <type>: Description... (CORRECT)
 _RETURNS_TYPE_WITH_INLINE_RE = re.compile(r"^\s{12,}[\w\[\],\s|]+:\s*\S")
 
 
@@ -90,9 +90,9 @@ def _check_file(path: Path) -> list[str]:
         if in_target_section:
             # End the section when we hit a blank line, a new section header, or closing docstring.
             if (
-                stripped == ""
+                not stripped
                 or _NEXT_SECTION_HEADER_RE.match(line)
-                or stripped in ('"""', "'''")
+                or stripped in {'"""', "'''"}
             ):
                 in_target_section = False
                 current_section = None
@@ -103,7 +103,7 @@ def _check_file(path: Path) -> list[str]:
                 continue
 
             # For Args/Attributes sections (parameter-style)
-            if current_section in ("args", "arguments", "attributes"):
+            if current_section in {"args", "arguments", "attributes"}:
                 if _ITEM_MISSING_INLINE_SUMMARY_RE.match(line):
                     errors.append(
                         f"{path}:{idx}: Docstring entry missing inline summary after type: {line.strip()}"
@@ -127,7 +127,7 @@ def _check_file(path: Path) -> list[str]:
                         )
 
             # For Returns/Raises/Yields sections (type-style)
-            elif current_section in ("returns", "raises", "yields"):
+            elif current_section in {"returns", "raises", "yields"}:
                 # Check for type declarations missing inline summaries
                 # Lines with just "type:" and nothing after should have description on same line
                 # Avoid false positives on continuation lines (those starting with -)

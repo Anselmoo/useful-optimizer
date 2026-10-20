@@ -32,22 +32,22 @@ def fix_docstring_indentation(file_path: Path) -> bool:
         stripped = line.strip().lower()
 
         # Check if this is a section header (Returns:, Raises:, Notes:, etc.)
-        if stripped in (
+        if stripped in {
             "returns:",
             "raises:",
             "yields:",
             "notes:",
             "examples:",
             "references:",
-        ):
+        }:
             in_section = True
             modified_lines.append(line)
             continue
 
         # Exit section on blank line, closing quotes, or new section header
         if in_section and (
-            stripped == ""
-            or stripped in ('"""', "'''")
+            not stripped
+            or stripped in {'"""', "'''"}
             or re.match(r"^[A-Z][A-Za-z0-9_\- ]*:\s*$", stripped)
         ):
             in_section = False

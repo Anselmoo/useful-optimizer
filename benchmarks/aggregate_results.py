@@ -18,6 +18,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import operator
 import sys
 
 from datetime import UTC
@@ -244,7 +245,7 @@ def aggregate(
                 }
                 for name in per_optimizer
             ),
-            key=lambda e: e["mean_rank"],
+            key=operator.itemgetter("mean_rank"),
         ),
         "friedman": metrics.friedman(medians),
     }

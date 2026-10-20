@@ -32,7 +32,9 @@ if TYPE_CHECKING:
 @pytest.fixture
 def temp_optimizer_file() -> Generator[Path, None, None]:
     """Create a temporary optimizer file for testing."""
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as tmp:
+    with tempfile.NamedTemporaryFile(
+        encoding="utf-8", mode="w", suffix=".py", delete=False
+    ) as tmp:
         tmp.write(
             '''"""Test optimizer module."""
 from __future__ import annotations
@@ -95,7 +97,9 @@ class TestOptimizer(AbstractOptimizer):
 @pytest.fixture
 def temp_multi_objective_file() -> Generator[Path, None, None]:
     """Create a temporary multi-objective optimizer file for testing."""
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as tmp:
+    with tempfile.NamedTemporaryFile(
+        encoding="utf-8", mode="w", suffix=".py", delete=False
+    ) as tmp:
         tmp.write(
             '''"""Test multi-objective optimizer module."""
 from __future__ import annotations
@@ -161,7 +165,7 @@ def test_extract_optimizer_info_basic(temp_optimizer_file: Path) -> None:
     category_dir = temp_optimizer_file.parent / "test_category"
     category_dir.mkdir(exist_ok=True)
     test_file = category_dir / "test_optimizer.py"
-    test_file.write_text(temp_optimizer_file.read_text())
+    test_file.write_text(temp_optimizer_file.read_text(encoding="utf-8"))
 
     try:
         info = extract_optimizer_info(test_file)
@@ -189,7 +193,7 @@ def test_extract_optimizer_info_multi_objective(
     category_dir = temp_multi_objective_file.parent / "multi_objective"
     category_dir.mkdir(exist_ok=True)
     test_file = category_dir / "test_mo_optimizer.py"
-    test_file.write_text(temp_multi_objective_file.read_text())
+    test_file.write_text(temp_multi_objective_file.read_text(encoding="utf-8"))
 
     try:
         info = extract_optimizer_info(test_file)
@@ -207,7 +211,9 @@ def test_extract_optimizer_info_multi_objective(
 
 def test_extract_optimizer_info_invalid_file() -> None:
     """Test extraction from an invalid Python file."""
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as tmp:
+    with tempfile.NamedTemporaryFile(
+        encoding="utf-8", mode="w", suffix=".py", delete=False
+    ) as tmp:
         tmp.write("This is not valid Python code {{{")
         tmp_path = Path(tmp.name)
 
