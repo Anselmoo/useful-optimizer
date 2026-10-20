@@ -161,11 +161,11 @@ def _check_required_sections(docstring: str, file_path: Path) -> list[str]:
     """
     errors = []
 
-    for section in REQUIRED_SECTIONS:
-        if section not in docstring:
-            errors.append(
-                f"{file_path}: Missing required section '{section}' in class docstring"
-            )
+    errors.extend(
+        f"{file_path}: Missing required section '{section}' in class docstring"
+        for section in REQUIRED_SECTIONS
+        if section not in docstring
+    )
 
     return errors
 
@@ -197,9 +197,11 @@ def _check_algorithm_metadata(docstring: str, file_path: Path) -> list[str]:
         "COCO Compatible",
     ]
 
-    for field in required_metadata_fields:
-        if field not in docstring:
-            errors.append(f"{file_path}: Algorithm Metadata missing field '{field}'")
+    errors.extend(
+        f"{file_path}: Algorithm Metadata missing field '{field}'"
+        for field in required_metadata_fields
+        if field not in docstring
+    )
 
     return errors
 
@@ -234,11 +236,11 @@ def _check_bbob_settings(docstring: str, file_path: Path) -> list[str]:
     # Check for required subsections
     required_subsections = ["Search Space", "Evaluation Budget", "Performance Metrics"]
 
-    for subsection in required_subsections:
-        if subsection not in bbob_section:
-            errors.append(
-                f"{file_path}: BBOB Benchmark Settings missing '{subsection}' subsection"
-            )
+    errors.extend(
+        f"{file_path}: BBOB Benchmark Settings missing '{subsection}' subsection"
+        for subsection in required_subsections
+        if subsection not in bbob_section
+    )
 
     # Check for standard dimensions
     if (

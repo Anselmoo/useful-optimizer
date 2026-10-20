@@ -313,7 +313,7 @@ class ArtificialFishSwarm(AbstractOptimizer):
         np.ndarray: The updated position of the fish.
         """
         # Prey behavior
-        for i in range(self.try_number):
+        for i in range(self.try_number):  # noqa: PLR1704 - kept as is: changing it changes results
             new_solution = self.fishes[i] + self.step * np.random.default_rng(
                 self.seed + i
             ).uniform(-1, 1, self.dim)

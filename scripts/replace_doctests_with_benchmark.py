@@ -81,7 +81,6 @@ def replace_doctests_in_file(file_path: Path) -> bool:
         True if file was modified, False otherwise
     """
     content = file_path.read_text()
-    original_content = content
 
     # Get class name
     class_name = get_optimizer_class_name(file_path)

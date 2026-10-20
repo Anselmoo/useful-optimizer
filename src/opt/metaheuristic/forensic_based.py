@@ -283,7 +283,7 @@ class ForensicBasedInvestigationOptimizer(AbstractOptimizer):
                     r1, r2 = np.random.choice(
                         self.population_size, size=2, replace=False
                     )
-                    while r1 == i or r2 == i:
+                    while i in (r1, r2):
                         r1, r2 = np.random.choice(
                             self.population_size, size=2, replace=False
                         )

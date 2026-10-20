@@ -30,7 +30,6 @@ def fix_doctest_bool_in_file(file_path: Path) -> bool:
         True if file was modified, False otherwise
     """
     content = file_path.read_text()
-    original_content = content
 
     # Pattern 1: isinstance(fitness, float) and fitness >= 0
     # Find the doctest line and wrap it in bool()

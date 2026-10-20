@@ -12,6 +12,8 @@ The algorithm mimics the phototaxis behavior of moths toward light sources
 
 from __future__ import annotations
 
+import math
+
 from typing import TYPE_CHECKING
 
 import numpy as np
@@ -262,7 +264,7 @@ class MothSearchAlgorithm(AbstractOptimizer):
         best_solution = positions[0].copy()
         best_fitness = fitness[0]
 
-        for iteration in range(self.max_iter):
+        for _ in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
                 self._record_history(
@@ -330,8 +332,6 @@ class MothSearchAlgorithm(AbstractOptimizer):
         Returns:
         Step vector following Lévy distribution.
         """
-        import math
-
         beta = _LEVY_BETA
 
         # Mantegna's algorithm

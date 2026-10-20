@@ -293,7 +293,7 @@ class GrasshopperOptimizer(AbstractOptimizer):
         c_max: float = _C_MAX,
         c_min: float = _C_MIN,
         f: float = _ATTRACTION_INTENSITY,
-        l: float = _ATTRACTIVE_LENGTH_SCALE,
+        l: float = _ATTRACTIVE_LENGTH_SCALE,  # noqa: E741 - public name, the symbol of the paper
     ) -> None:
         """Initialize the Grasshopper Optimizer.
 

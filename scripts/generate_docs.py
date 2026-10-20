@@ -1191,11 +1191,10 @@ def generate_sidebar_config(docs: list[OptimizerDoc], output_path: Path) -> None
         cat_slug = cat_info.get("slug", category.replace("_", "-"))
         icon = cat_info.get("icon", "")
 
-        items = []
-        for doc in by_category[category]:
-            items.append(
-                {"text": doc.name, "link": f"/algorithms/{cat_slug}/{doc.file_slug}"}
-            )
+        items = [
+            {"text": doc.name, "link": f"/algorithms/{cat_slug}/{doc.file_slug}"}
+            for doc in by_category[category]
+        ]
         # The category page itself comes first so it stays reachable.
         items.insert(0, {"text": "Overview", "link": f"/algorithms/{cat_slug}/"})
 

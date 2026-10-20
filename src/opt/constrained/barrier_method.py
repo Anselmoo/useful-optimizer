@@ -346,10 +346,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
         Returns:
         True if strictly feasible.
         """
-        for g in self.constraints:
-            if g(x) >= 0:
-                return False
-        return True
+        return all(g(x) < 0 for g in self.constraints)
 
     def search(self) -> tuple[np.ndarray, float]:
         """Execute the Barrier Method optimization.
@@ -383,7 +380,7 @@ class BarrierMethodOptimizer(AbstractOptimizer):
             # Minimize barrier objective
             try:
                 result = minimize(
-                    lambda x: self._barrier_objective(x, mu),
+                    lambda x, mu=mu: self._barrier_objective(x, mu),
                     current,
                     method="L-BFGS-B",
                     bounds=bounds,

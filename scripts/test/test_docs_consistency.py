@@ -128,9 +128,11 @@ def _link_target_exists(link: str) -> bool:
 def test_internal_links_in_generated_pages_resolve() -> None:
     broken = []
     for page in (DOCS / "algorithms").glob("**/*.md"):
-        for link in LINK_RE.findall(page.read_text(encoding="utf-8")):
-            if not _link_target_exists(link):
-                broken.append(f"{page.relative_to(DOCS)} -> {link}")
+        broken.extend(
+            f"{page.relative_to(DOCS)} -> {link}"
+            for link in LINK_RE.findall(page.read_text(encoding="utf-8"))
+            if not _link_target_exists(link)
+        )
     assert not broken, "\n".join(broken)
 
 
@@ -207,9 +209,9 @@ def test_advertised_algorithm_count_matches() -> None:
     for path in files:
         # Generated blocks cannot drift, and list per-category counts.
         text = generated.sub("", path.read_text(encoding="utf-8"))
-        for number in COUNT_RE.findall(text):
-            if int(number) > 20 and int(number) != total:
-                wrong.append(
-                    f"{path.relative_to(ROOT)}: says {number}, there are {total}"
-                )
+        wrong.extend(
+            f"{path.relative_to(ROOT)}: says {number}, there are {total}"
+            for number in COUNT_RE.findall(text)
+            if int(number) > 20 and int(number) != total
+        )
     assert not wrong, "\n".join(wrong)

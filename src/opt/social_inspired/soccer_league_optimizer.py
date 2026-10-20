@@ -313,9 +313,6 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
         best_solution = teams[best_idx].copy()
         best_fitness = fitness[best_idx]
 
-        # Sort teams by fitness
-        sorted_indices = np.argsort(fitness)
-
         for iteration in range(self.max_iter):
             # Track history if enabled
             if self.track_history:
@@ -366,9 +363,6 @@ class SoccerLeagueOptimizer(AbstractOptimizer):
                     if new_fitness < best_fitness:
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
-
-            # Update rankings
-            sorted_indices = np.argsort(fitness)
 
         # Track final state
         if self.track_history:

@@ -33,6 +33,8 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 
+from scipy.special import gamma
+
 from opt.abstract import AbstractOptimizer
 
 
@@ -360,8 +362,6 @@ class DandelionOptimizer(AbstractOptimizer):
         Returns:
         Levy flight step vector.
         """
-        from scipy.special import gamma
-
         beta = 1.5
         sigma = (
             gamma(1 + beta)

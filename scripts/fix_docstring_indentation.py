@@ -26,7 +26,6 @@ def fix_docstring_indentation(file_path: Path) -> bool:
 
     # Track if we're in a docstring section that needs fixing
     in_section = False
-    section_name = None
     modified_lines = []
 
     for line in lines:
@@ -42,7 +41,6 @@ def fix_docstring_indentation(file_path: Path) -> bool:
             "references:",
         ):
             in_section = True
-            section_name = stripped.rstrip(":")
             modified_lines.append(line)
             continue
 
@@ -53,7 +51,6 @@ def fix_docstring_indentation(file_path: Path) -> bool:
             or re.match(r"^[A-Z][A-Za-z0-9_\- ]*:\s*$", stripped)
         ):
             in_section = False
-            section_name = None
             modified_lines.append(line)
             continue
 

@@ -25,7 +25,6 @@ def fix_multiline_descriptions(file_path: Path) -> bool:
     lines = content.splitlines(keepends=True)
 
     in_section = False
-    section_name = None
     modified_lines = []
     i = 0
 
@@ -36,7 +35,6 @@ def fix_multiline_descriptions(file_path: Path) -> bool:
         # Check if this is a section header
         if stripped in ("returns:", "raises:", "yields:"):
             in_section = True
-            section_name = stripped.rstrip(":")
             modified_lines.append(line)
             i += 1
             continue
@@ -48,7 +46,6 @@ def fix_multiline_descriptions(file_path: Path) -> bool:
             or re.match(r"^[A-Z][A-Za-z0-9_\- ]*:\s*$", stripped)
         ):
             in_section = False
-            section_name = None
             modified_lines.append(line)
             i += 1
             continue

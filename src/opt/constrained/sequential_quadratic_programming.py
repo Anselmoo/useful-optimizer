@@ -338,16 +338,11 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
         # Build scipy constraint dictionaries
         scipy_constraints = []
 
-        for g in self.constraints:
-            scipy_constraints.append(
-                {
-                    "type": "ineq",
-                    "fun": lambda x, g=g: -g(x),  # scipy uses g(x) >= 0
-                }
-            )
-
-        for h in self.eq_constraints:
-            scipy_constraints.append({"type": "eq", "fun": h})
+        # scipy uses g(x) >= 0 for inequality constraints
+        scipy_constraints.extend(
+            {"type": "ineq", "fun": lambda x, g=g: -g(x)} for g in self.constraints
+        )
+        scipy_constraints.extend({"type": "eq", "fun": h} for h in self.eq_constraints)
 
         bounds = [(self.lower_bound, self.upper_bound)] * self.dim
 
@@ -375,7 +370,7 @@ class SequentialQuadraticProgramming(AbstractOptimizer):
                     best_solution = result.x.copy()
                     best_fitness = result.fun
 
-            except Exception:
+            except Exception:  # noqa: BLE001, S112 - a failed local solve only skips this start
                 continue
 
         if best_solution is None:
