@@ -994,10 +994,12 @@ def generate_overview_catalog(docs: list[OptimizerDoc]) -> str:
     """Generate the catalog block of ``algorithms/index.md``."""
     grouped = _group_by_category(docs)
     lines = [
-        f"Useful Optimizer provides **{len(docs)} optimization algorithms** in "
-        f"{len(grouped)} categories. Each one shares the same interface and is "
-        "documented with its mathematical formulation, parameters, references and "
-        "benchmark results.",
+        (
+            f"Useful Optimizer provides **{len(docs)} optimization algorithms** in "
+            f"{len(grouped)} categories. Each one shares the same interface and is "
+            "documented with its mathematical formulation, parameters, references and "
+            "benchmark results."
+        ),
         "",
         "## Algorithm Categories",
         "",
@@ -1046,9 +1048,11 @@ def generate_api_page(category: str, docs: list[OptimizerDoc]) -> str:
     lines = [
         f"# {name} API",
         "",
-        f"API reference for the {len(docs)} classes of `opt.{category}`. "
-        "This page is generated from the source; see the "
-        f"[algorithm pages](/algorithms/{slug}/) for formulations and references.",
+        (
+            f"API reference for the {len(docs)} classes of `opt.{category}`. "
+            "This page is generated from the source; see the "
+            f"[algorithm pages](/algorithms/{slug}/) for formulations and references."
+        ),
         "",
         "## Imports",
         "",
@@ -1060,10 +1064,12 @@ def generate_api_page(category: str, docs: list[OptimizerDoc]) -> str:
         "",
         "## Common interface",
         "",
-        "Every class takes the objective `func`, the search-space `lower_bound`, "
-        "`upper_bound` and `dim`, usually `max_iter` and `seed`, and implements "
-        "`search() -> tuple[np.ndarray, float]`. See "
-        "[AbstractOptimizer](./abstract-optimizer).",
+        (
+            "Every class takes the objective `func`, the search-space `lower_bound`, "
+            "`upper_bound` and `dim`, usually `max_iter` and `seed`, and implements "
+            "`search() -> tuple[np.ndarray, float]`. See "
+            "[AbstractOptimizer](./abstract-optimizer)."
+        ),
         "",
         "## Classes",
         "",
@@ -1146,18 +1152,22 @@ def generate_readme_optimizers(docs: list[OptimizerDoc]) -> str:
     """Generate the per-category optimizer lists of the README."""
     grouped = _group_by_category(docs)
     lines = [
-        f"Useful Optimizer includes {len(docs)} optimization algorithms in "
-        f"{len(grouped)} categories, each implemented as a separate module. Every "
-        "optimizer links to its documentation page, which carries the formulation, "
-        "parameters, references and benchmark charts, and to its source code.",
+        (
+            f"Useful Optimizer includes {len(docs)} optimization algorithms in "
+            f"{len(grouped)} categories, each implemented as a separate module. Every "
+            "optimizer links to its documentation page, which carries the formulation, "
+            "parameters, references and benchmark charts, and to its source code."
+        ),
         "",
     ]
     for category, members in grouped.items():
         info = CATEGORY_INFO.get(category, {})
         lines += [
             "<details>",
-            f"<summary><strong>{info.get('icon', '')} {info.get('name', category)} "
-            f"({len(members)})</strong></summary>",
+            (
+                f"<summary><strong>{info.get('icon', '')} {info.get('name', category)} "
+                f"({len(members)})</strong></summary>"
+            ),
             "",
             f"{info.get('description', '')}.",
             "",

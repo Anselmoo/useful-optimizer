@@ -105,6 +105,8 @@ select = ["ALL"]
 # What stays ignored, and why. Everything else is enforced (issue #82).
 ignore = [
     "PLR0913",   # Too many arguments: the optimizers' public constructors are their hyperparameters
+    "PLR0917",   # Too many positional arguments: same constructors (keyword-only would break callers)
+    "CPY001",    # Missing copyright notice: no per-file headers; the licence lives in LICENSE
     "N803",      # Argument name not lowercase: public API (renaming breaks keyword callers)
     "E501",      # Line too long: ruff format wraps code; long lines left are docstring tables and formulas
     "COM812",    # Missing trailing comma: conflicts with the formatter (ruff warns about the pair)

@@ -13,7 +13,11 @@ repos:
     hooks:
       - id: ruff
         types_or: [python, pyi, jupyter]
+      # Python only: ruff >= 0.15 also formats Markdown code blocks, which would
+      # rewrite the generated docs/algorithms/** and docs/api/** pages that
+      # `regenerate-optimizer-docs` and the .rrt artifact lock keep stable.
       - id: ruff-format
+        types_or: [python, pyi, jupyter]
 
   - repo: local
     hooks:
