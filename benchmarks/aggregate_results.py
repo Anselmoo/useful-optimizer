@@ -141,12 +141,15 @@ def thin(rows: list[list[float]], limit: int) -> list[list[float]]:
 
 
 def write_json(path: Path, model: Any, *, validate: type | None = None) -> None:  # noqa: ANN401
-    """Round, validate against ``validate`` and write ``model`` as compact JSON."""
+    """Round, validate against ``validate`` and write ``model`` as compact JSON.
+
+    The file ends with a newline, as the ``end-of-file-fixer`` hook requires.
+    """
     payload = round_numbers(model)
     if validate is not None:
         validate.model_validate(payload)
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, separators=(",", ":")), encoding="utf-8")
+    path.write_text(json.dumps(payload, separators=(",", ":")) + "\n", encoding="utf-8")
 
 
 def page_links(optimizers_json: Path | None) -> dict[str, str]:
