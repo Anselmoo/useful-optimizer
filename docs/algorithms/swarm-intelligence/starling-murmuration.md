@@ -147,8 +147,11 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Starling Murmuration Optimizer (2022). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Zamani, H., Nadimi-Shahraki, M. H., & Gandomi, A. H. (2022). Starling
+murmuration optimizer: A novel bio-inspired algorithm for global and
+engineering optimization. Computer Methods in Applied Mechanics and
+Engineering, 392, 114616.
+https://doi.org/10.1016/j.cma.2022.114616
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -180,15 +183,11 @@ Related BBOB Algorithm Classes:
 
 ## Benchmark Performance
 
-Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+Results of the benchmark suite for this optimizer, on the same evaluation budget as every other optimizer and compared with a random search baseline. See the [methodology](/benchmarks/methodology) for the protocol and statistics.
 
 <ClientOnly>
-  <FitnessLandscape3D functionName="rastrigin" />
+  <BenchmarkCharts algorithm="StarlingMurmurationOptimizer" />
 </ClientOnly>
-
-::: tip Run-based charts
-Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
-:::
 
 ## Related Pages
 

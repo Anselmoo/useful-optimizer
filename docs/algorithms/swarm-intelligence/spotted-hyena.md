@@ -145,8 +145,9 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Spotted Hyena Optimizer (2017). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Dhiman, G., & Kumar, V. (2017). Spotted hyena optimizer: A novel bio-inspired
+based metaheuristic technique for engineering applications. Advances in
+Engineering Software, 114, 48-70.
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -178,15 +179,11 @@ Related BBOB Algorithm Classes:
 
 ## Benchmark Performance
 
-Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+Results of the benchmark suite for this optimizer, on the same evaluation budget as every other optimizer and compared with a random search baseline. See the [methodology](/benchmarks/methodology) for the protocol and statistics.
 
 <ClientOnly>
-  <FitnessLandscape3D functionName="rastrigin" />
+  <BenchmarkCharts algorithm="SpottedHyenaOptimizer" />
 </ClientOnly>
-
-::: tip Run-based charts
-Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
-:::
 
 ## Related Pages
 

@@ -161,33 +161,37 @@ print(f"Worst: {np.max(fitness_values):.6e}")
 For problems with constraints, use the constrained optimization methods:
 
 ```python
-from opt.constrained import AugmentedLagrangianMethod
+from opt.constrained import BarrierMethodOptimizer
 
 def objective(x):
     return x[0]**2 + x[1]**2
 
 def constraint1(x):
-    """Inequality constraint: g(x) <= 0"""
-    return x[0] + x[1] - 1  # x[0] + x[1] <= 1
+    """Inequality constraint in the form g(x) <= 0."""
+    return 1 - x[0] - x[1]  # x[0] + x[1] >= 1
 
-optimizer = AugmentedLagrangianMethod(
+optimizer = BarrierMethodOptimizer(
     func=objective,
     lower_bound=-10.0,
     upper_bound=10.0,
     dim=2,
     max_iter=100,
-    constraints=[constraint1]
+    constraints=[constraint1],
 )
 
-best_solution, best_fitness = optimizer.search()
+best_solution, best_fitness = optimizer.search()  # ≈ [0.5, 0.5], 0.5
 ```
+
+`PenaltyMethodOptimizer`, `SequentialQuadraticProgramming` and
+`SuccessiveLinearProgramming` take constraints the same way. `AugmentedLagrangian`
+currently minimizes against a fixed built-in constraint (`sum(x) <= 1`).
 
 ## Extending the Library
 
 ### Creating a Custom Optimizer
 
 ```python
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 import numpy as np
 
 class MyOptimizer(AbstractOptimizer):

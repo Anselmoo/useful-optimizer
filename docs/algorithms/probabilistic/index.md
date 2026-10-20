@@ -1,34 +1,36 @@
-# Probabilistic Optimization Algorithms
+# 📊 Probabilistic Algorithms
 
-Algorithms that use probabilistic models to guide the search.
+Stochastic and Bayesian optimization methods.
 
-## Overview
+This category contains **5 algorithms**.
 
-Probabilistic optimization algorithms build and update probability distributions over the solution space, using statistical methods to explore and exploit promising regions.
+| Algorithm | Acronym | Year | Description |
+|-----------|---------|------|-------------|
+| [Adaptive Metropolis Algorithm](./adaptive-metropolis) | AM | 2001 | Adaptive Metropolis (AM) algorithm with covariance adaptation. |
+| [Bayesian Optimization](./bayesian-optimizer) | BO | 2012 | Bayesian Optimization (BO) using Gaussian Process surrogates. |
+| [Linear Discriminant Analysis Optimizer](./linear-discriminant-analysis) | LDA-OPT | 1936 | LDA-guided Optimization using Linear Discriminant Analysis. |
+| [Sequential Monte Carlo Optimization](./sequential-monte-carlo) | SMC | 2006 | Sequential Monte Carlo (SMC) optimization with particle filtering. |
+| [Tree-structured Parzen Estimator](./parzen-tree-estimator) | TPE | 2011 | Tree-structured Parzen Estimator (TPE) for hyperparameter optimization. |
 
-## Available Algorithms
+## Usage
 
-- [Estimation of Distribution Algorithm (EDA)](./eda) - Builds probability distribution of good solutions
-- [Cross Entropy Method](../metaheuristic/cross-entropy) - Adaptive importance sampling
-- [Bayesian Optimization](./bayesian) - Gaussian process-based optimization
-- [Simulated Annealing](../classical/simulated-annealing) - Probabilistic acceptance criterion
-
-## Usage Example
+Every optimizer shares the same interface:
 
 ```python
-from opt.probabilistic import EstimationOfDistribution
-from opt.benchmark.functions import rastrigin
+from opt.probabilistic.adaptive_metropolis import AdaptiveMetropolisOptimizer
+from opt.benchmark.functions import sphere
 
-optimizer = EstimationOfDistribution(
-    func=rastrigin,
+optimizer = AdaptiveMetropolisOptimizer(
+    func=sphere,
     lower_bound=-5.12,
     upper_bound=5.12,
     dim=10,
-    max_iter=100
+    max_iter=500,
 )
 best_solution, best_fitness = optimizer.search()
 ```
 
 ## See Also
 
-- [API Reference](/api/probabilistic) - Complete API documentation
+- [All Algorithms](/algorithms/)
+- [Benchmark Functions](/api/benchmark-functions)

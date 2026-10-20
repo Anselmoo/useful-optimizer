@@ -79,7 +79,7 @@ jobs:
         run: uv run pre-commit run rrt-artifacts-check --hook-stage pre-push --all-files
 
       - name: Regenerate Griffe API JSON
-        run: uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
+        run: uv run python scripts/generate_docs.py --all --json --full-api --sidebar
 
       - name: Install Node dependencies
         working-directory: docs

@@ -1,0 +1,17 @@
+# Optimizers whose class docstring still lacks a real citation for the original
+# publication ('Available in scientific literature'). scripts/unified_validator.py
+# lets these through and fails for any new one. Remove a stem once its reference is added.
+artificial_hummingbird
+barnacles_mating
+black_widow
+brown_bear
+coati_optimizer
+dingo_optimizer
+honey_badger
+mayfly_optimizer
+moth_search
+mountain_gazelle
+orca_predator
+sand_cat
+squirrel_search
+wild_horse

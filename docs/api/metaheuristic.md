@@ -1,77 +1,47 @@
-# Metaheuristic Algorithms API
+# Metaheuristic API
 
-API reference for metaheuristic algorithms in `opt.metaheuristic`.
+API reference for the 14 classes of `opt.metaheuristic`. This page is generated from the source; see the [algorithm pages](/algorithms/metaheuristic/) for formulations and references.
 
-## Module Overview
+## Imports
 
 ```python
 from opt.metaheuristic import (
+    ArithmeticOptimizationAlgorithm,
+    CollidingBodiesOptimization,
+    CrossEntropyMethod,
+    EagleStrategy,
+    ForensicBasedInvestigationOptimizer,
     HarmonySearch,
-    CrossEntropy,
-    SineCosine,
-    TabuSearch,
-    VariableNeighborhood,
+    ParticleFilter,
+    ShuffledFrogLeapingAlgorithm,
+    SineCosineAlgorithm,
+    StochasticDiffusionSearch,
+    StochasticFractalSearch,
+    VariableDepthSearch,
+    VariableNeighborhoodSearch,
+    VeryLargeScaleNeighborhood,
 )
 ```
 
-## Common Interface
+## Common interface
 
-```python
-class MetaheuristicAlgorithm(AbstractOptimizer):
-    def __init__(
-        self,
-        func: Callable,
-        lower_bound: float,
-        upper_bound: float,
-        dim: int,
-        max_iter: int,
-        **kwargs
-    ):
-        pass
+Every class takes the objective `func`, the search-space `lower_bound`, `upper_bound` and `dim`, usually `max_iter` and `seed`, and implements `search() -> tuple[np.ndarray, float]`. See [AbstractOptimizer](./abstract-optimizer).
 
-    def search(self) -> tuple[np.ndarray, float]:
-        pass
-```
+## Classes
 
-## Available Algorithms
-
-- `HarmonySearch` - Music-inspired optimization
-- `CrossEntropy` - Adaptive importance sampling
-- `SineCosine` - Mathematical function-based
-- `TabuSearch` - Memory-based search
-- `VariableNeighborhood` - Local search strategy
-
-## Example Usage
-
-```python
-from opt.metaheuristic import HarmonySearch, SineCosine
-from opt.benchmark.functions import ackley
-
-# Harmony Search
-hs = HarmonySearch(
-    func=ackley,
-    lower_bound=-32.768,
-    upper_bound=32.768,
-    dim=10,
-    max_iter=100,
-    harmony_memory_size=30,
-    hmcr=0.9,  # Harmony memory consideration rate
-    par=0.3    # Pitch adjustment rate
-)
-solution, fitness = hs.search()
-
-# Sine Cosine Algorithm
-sca = SineCosine(
-    func=ackley,
-    lower_bound=-32.768,
-    upper_bound=32.768,
-    dim=10,
-    max_iter=100,
-    population_size=30
-)
-solution, fitness = sca.search()
-```
-
-## See Also
-
-- [Metaheuristic Algorithms](/algorithms/metaheuristic/) - Algorithm details
+| Class | Algorithm | Additional parameters |
+|-------|-----------|-----------------------|
+| [`ArithmeticOptimizationAlgorithm`](/algorithms/metaheuristic/arithmetic-optimization) | Arithmetic Optimization Algorithm | - |
+| [`CollidingBodiesOptimization`](/algorithms/metaheuristic/colliding-bodies-optimization) | Colliding Bodies Optimization | - |
+| [`CrossEntropyMethod`](/algorithms/metaheuristic/cross-entropy-method) | Cross-Entropy Method | `elite_frac=0.2`, `noise_decay=0.99` |
+| [`EagleStrategy`](/algorithms/metaheuristic/eagle-strategy) | Eagle Strategy | - |
+| [`ForensicBasedInvestigationOptimizer`](/algorithms/metaheuristic/forensic-based) | Forensic-Based Investigation Optimizer | - |
+| [`HarmonySearch`](/algorithms/metaheuristic/harmony-search) | Harmony Search | `harmony_memory_accepting_rate=0.95`, `pitch_adjusting_rate=0.7`, `bandwidth=0.01` |
+| [`ParticleFilter`](/algorithms/metaheuristic/particle-filter) | Sequential Monte Carlo Particle Filter | `inertia=0.7`, `cognitive=1.5`, `social=1.5` |
+| [`ShuffledFrogLeapingAlgorithm`](/algorithms/metaheuristic/shuffled-frog-leaping-algorithm) | Shuffled Frog Leaping Algorithm | `cut=2` |
+| [`SineCosineAlgorithm`](/algorithms/metaheuristic/sine-cosine-algorithm) | Sine Cosine Algorithm | `r1_cut=0.5`, `r2_cut=0.5` |
+| [`StochasticDiffusionSearch`](/algorithms/metaheuristic/stochastic-diffusion-search) | Stochastic Diffusion Search | - |
+| [`StochasticFractalSearch`](/algorithms/metaheuristic/stochastic-fractal-search) | Stochastic Fractal Search | `diffusion_parameter=0.5` |
+| [`VariableDepthSearch`](/algorithms/metaheuristic/variable-depth-search) | Variable Depth Search | `max_depth=20` |
+| [`VariableNeighborhoodSearch`](/algorithms/metaheuristic/variable-neighborhood-search) | Variable Neighborhood Search | `neighborhood_size=10` |
+| [`VeryLargeScaleNeighborhood`](/algorithms/metaheuristic/very-large-scale-neighborhood-search) | Very Large Scale Neighborhood Search | `neighborhood_size=10` |

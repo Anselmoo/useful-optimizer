@@ -156,8 +156,9 @@ class ReptileSearchAlgorithm(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Reptile Search Algorithm (2022). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Abualigah, L., Abd Elaziz, M., Sumari, P., Geem, Z. W., & Gandomi, A. H.
+            (2022). Reptile Search Algorithm (RSA): A nature-inspired meta-heuristic
+            optimizer. Expert Systems with Applications, 191, 116158.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

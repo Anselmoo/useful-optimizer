@@ -1,6 +1,6 @@
 """Useful optimizers, a set of optimization algorithms.
 
-This package provides 64+ optimization algorithms organized into categories:
+This package provides 118 optimization algorithms organized into categories:
 - gradient_based: Gradient-based optimizers (AdaDelta, AdaGrad, Adam, etc.)
 - swarm_intelligence: Nature-inspired swarm algorithms (PSO, ACO, HHO, MPA, etc.)
 - evolutionary: Evolutionary algorithms (GA, DE, CMA-ES, etc.)
@@ -28,6 +28,7 @@ from opt.classical import ConjugateGradient
 from opt.classical import HillClimbing
 from opt.classical import NelderMead
 from opt.classical import Powell
+from opt.classical import RandomSearch
 from opt.classical import SimulatedAnnealing
 from opt.classical import TabuSearch
 from opt.classical import TrustRegion
@@ -253,6 +254,7 @@ __all__: list[str] = [
     "Powell",
     "RIMEOptimizer",
     "RMSprop",
+    "RandomSearch",
     "ReptileSearchAlgorithm",
     "SGDMomentum",
     "SalpSwarmOptimizer",

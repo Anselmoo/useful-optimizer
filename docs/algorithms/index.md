@@ -1,64 +1,25 @@
 # Algorithms Overview
 
-Useful Optimizer provides **54+ optimization algorithms** organized into logical categories. Each algorithm is designed to solve numeric optimization problems with different characteristics.
+<!-- BEGIN GENERATED: catalog (scripts/generate_docs.py) -->
+
+Useful Optimizer provides **118 optimization algorithms** in 10 categories. Each one shares the same interface and is documented with its mathematical formulation, parameters, references and benchmark results.
 
 ## Algorithm Categories
 
-### 🦋 Swarm Intelligence (57+ algorithms)
+| Category | Algorithms | Description |
+|----------|-----------|-------------|
+| [🦋 Swarm Intelligence](./swarm-intelligence/) | 56 | Nature-inspired algorithms based on collective behavior |
+| [🧬 Evolutionary](./evolutionary/) | 6 | Algorithms inspired by biological evolution |
+| [🧠 Gradient-Based](./gradient-based/) | 11 | Optimization using gradient information |
+| [🎯 Classical](./classical/) | 10 | Traditional mathematical optimization methods |
+| [🔧 Metaheuristic](./metaheuristic/) | 14 | High-level problem-independent algorithms |
+| [⚛️ Physics-Inspired](./physics-inspired/) | 4 | Algorithms based on physical phenomena |
+| [📊 Probabilistic](./probabilistic/) | 5 | Stochastic and Bayesian optimization methods |
+| [👥 Social-Inspired](./social-inspired/) | 4 | Algorithms inspired by social behaviors |
+| [🔒 Constrained](./constrained/) | 5 | Optimization with constraints |
+| [📈 Multi-Objective](./multi-objective/) | 3 | Pareto-optimal solutions for multiple objectives |
 
-Nature-inspired algorithms based on collective behavior of decentralized, self-organized systems.
-
-| Algorithm | Inspiration | Best For |
-|-----------|-------------|----------|
-| [Particle Swarm](./swarm-intelligence/particle-swarm) | Bird flocking | General-purpose, fast convergence |
-| [Ant Colony](./swarm-intelligence/ant-colony) | Ant behavior | Discrete/continuous optimization |
-| [Firefly Algorithm](./swarm-intelligence/firefly) | Firefly flashing | Multi-modal problems |
-| [Grey Wolf](./swarm-intelligence/grey-wolf) | Wolf pack hunting | Exploration-exploitation balance |
-| [Whale Optimization](./swarm-intelligence/whale) | Humpback whales | Large-scale problems |
-| [Cuckoo Search](./swarm-intelligence/cuckoo) | Cuckoo birds | Global optimization |
-
-### 🧬 Evolutionary (6 algorithms)
-
-Algorithms inspired by biological evolution and natural selection.
-
-| Algorithm | Key Feature | Best For |
-|-----------|-------------|----------|
-| [Genetic Algorithm](./evolutionary/genetic-algorithm) | Crossover, mutation | Discrete and continuous |
-| [Differential Evolution](./evolutionary/differential-evolution) | Vector differences | Robust global search |
-| [CMA-ES](./evolutionary/cma-es) | Covariance adaptation | High-dimensional |
-| Cultural Algorithm | Belief space | Knowledge-based optimization |
-
-### 🧠 Gradient-Based (11 algorithms)
-
-Optimizers using gradient information for smooth landscapes.
-
-| Algorithm | Key Feature | Best For |
-|-----------|-------------|----------|
-| [SGD Momentum](./gradient-based/sgd-momentum) | Momentum term | Simple problems |
-| [Adam](./gradient-based/adam) | Adaptive moments | Deep learning |
-| [AdamW](./gradient-based/adamw) | Weight decay | Regularized optimization |
-| [RMSprop](./gradient-based/rmsprop) | RMS scaling | Non-stationary |
-
-### 🎯 Classical (9 algorithms)
-
-Traditional mathematical optimization methods.
-
-| Algorithm | Type | Best For |
-|-----------|------|----------|
-| [BFGS](./classical/bfgs) | Quasi-Newton | Smooth functions |
-| [Nelder-Mead](./classical/nelder-mead) | Direct search | Derivative-free |
-| [Simulated Annealing](./classical/simulated-annealing) | Probabilistic | Global optimization |
-| Hill Climbing | Local search | Unimodal problems |
-
-### 🔬 Metaheuristic (12 algorithms)
-
-High-level problem-independent algorithmic frameworks.
-
-| Algorithm | Inspiration | Best For |
-|-----------|-------------|----------|
-| [Harmony Search](./metaheuristic/harmony-search) | Music improvisation | Discrete/continuous |
-| Cross Entropy | Information theory | Rare event simulation |
-| Sine Cosine | Mathematical functions | Multi-modal |
+<!-- END GENERATED: catalog -->
 
 ## Choosing an Algorithm
 

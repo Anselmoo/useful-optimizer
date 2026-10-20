@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-Python library of 120+ optimization algorithms (PSO, DE, SGO, etc.) with a VitePress documentation site featuring scientific benchmark visualizations. Package name: `useful-optimizer`, import root: `opt`.
+Python library of 118 optimization algorithms (PSO, DE, SGO, etc.) with a VitePress documentation site featuring scientific benchmark visualizations. Package name: `useful-optimizer`, import root: `opt`.
 
 ## Tooling
 
@@ -30,7 +30,7 @@ cd docs && npm run docs:build  # production build (runs SSR — must be SSR-safe
 cd docs && npm run docs:api    # regenerate Griffe JSON API files
 
 # Full docs CI pipeline locally (mirrors docs.yaml build job):
-uv run python scripts/generate_docs.py --all --json --griffe --full-api --sidebar
+uv run python scripts/generate_docs.py --all --json --full-api --sidebar
 cd docs && npm ci && npm run docs:build && npm run validate:migration
 
 # Benchmarks
@@ -40,12 +40,12 @@ uv run python benchmarks/run_benchmark_suite.py --output-dir benchmarks/output
 ## Repository Structure
 
 ```
-src/opt/                    # Python package (120+ optimizers) — src layout since #144
+src/opt/                    # Python package (118 optimizers) — src layout since #144
   abstract/                 # AbstractOptimizer base class
   swarm_intelligence/       # 56 files
   evolutionary/             # 6 files
   gradient_based/           # 11 files
-  classical/                # 9 files
+  classical/                # 10 files
   metaheuristic/            # 15 files
   physics_inspired/         # 4 files
   probabilistic/            # 5 files
@@ -54,10 +54,14 @@ src/opt/                    # Python package (120+ optimizers) — src layout si
   multi_objective/          # 3 files
   benchmark/                # benchmark functions (shifted_ackley, rosenbrock, sphere…)
 
-benchmarks/                 # CI benchmark pipeline
-  run_benchmark_suite.py    # main runner (produces benchmark-results.json)
-  generate_plots.py         # matplotlib plots from results
-  aggregate_results.py      # aggregation utilities
+benchmarks/                 # CI benchmark pipeline (see benchmarks/README.md)
+  protocol.py               # equal evaluation budget, BudgetedObjective, one run / one cell
+  run_benchmark_suite.py    # runner: tiers, shards, workers, resumable raw cells
+  metrics.py                # ERT/SP1, ECDF, Holm, Mann-Whitney U, Cliff's delta, ranks, Friedman
+  models.py                 # Pydantic models = source of the data schema
+  aggregate_results.py      # raw cells -> published data
+  export_schema.py          # models -> docs/schemas/*.json and TypeScript types
+  test/                     # tests (run in CI: pytest scripts/test benchmarks/test -o addopts="")
 
 docs/                       # VitePress documentation site
   .vitepress/
@@ -65,14 +69,15 @@ docs/                       # VitePress documentation site
     loaders/api.data.ts     # VitePress data loader: Griffe JSON → typed API
     theme/
       index.ts              # Theme entry — see SSR note below
-      components/           # ConvergenceChart, ECDFChart, ViolinPlot, FitnessLandscape3D, APIDoc
-      types/benchmark.ts    # TypeScript interfaces for benchmark JSON schema
-      utils/benchmarkTransforms.ts  # Transform benchmark JSON → ECharts series
+      components/           # BenchmarkCharts (tabbed panel), ConvergenceChart, ECDFChart, ViolinPlot,
+                            # LineChart, StatsTable, RankTable, FitnessLandscape3D, APIDoc
+      types/benchmark.ts    # generated from benchmarks/models.py (do not edit)
+      utils/benchmarkData.ts        # loader: index.json + one cell file per view
+      utils/benchmarkTransforms.ts  # cells → chart series and table rows
     types/griffe.d.ts        # TypeScript types for Griffe AST output
   api/                      # Griffe-generated JSON (*.json, gitignored output)
   public/
-    benchmarks/             # Benchmark JSON served to the browser
-      demo-benchmark-data.json
+    benchmarks/             # Published benchmark data (index.json, cells/, ranks.json, trajectory-*.json)
     optimizers/optimizers.json
   algorithms/               # Per-algorithm markdown pages
   benchmarks/               # Benchmark methodology docs
@@ -86,8 +91,7 @@ scripts/                    # Dev tooling scripts
   tests.yaml                # pytest matrix 3.12/3.13/3.14 + ruff lint (PRs + main)
   docs.yaml                 # VitePress build + Pages deploy (PRs + main; deploy skipped on PRs)
   docs-validation.yml       # Pydantic docstring schema validation
-  benchmark-pipeline.yml    # COCO/BBOB CI pipeline (schedule/dispatch only)
-  benchmark-visualizations.yaml  # Weekly benchmark run + artifact upload
+  benchmark-pipeline.yml    # plan → one job per category × function → aggregate; publishes only on manual `publish`
 ```
 
 ## Pre-commit Hooks
@@ -101,6 +105,20 @@ Runs automatically on `git commit`:
 6. `validate-optimizer-docstrings` — Pydantic schema validation
 
 **When ruff-format fires and fails a commit:** re-stage the modified files and commit again — it auto-fixed them.
+
+## Docs generation and naming
+
+- One rule links source, docs and sidebar: slug = optimizer file stem with `_` as `-`; title and
+  acronym come from the *Algorithm Metadata* table of the class docstring (acronyms are unique).
+- Never hand-edit generated files: `docs/algorithms/**` (pages and category `index.md`), `docs/api/<category>.md`,
+  `docs/.vitepress/algorithmsSidebar.ts`, `docs/public/optimizers/optimizers.json`, and the
+  `<!-- BEGIN GENERATED ... -->` blocks in `README.md`, `docs/algorithms/index.md` and `docs/api/index.md`.
+  Regenerate with `uv run python scripts/generate_docs.py --all --json --sidebar`, then
+  `rrt artifacts --snapshot`.
+- `scripts/test/test_docs_consistency.py` (run in CI with `pytest scripts/test -o addopts=""`) fails when pages,
+  JSON, sidebar, docs imports or advertised counts drift. `scripts/unified_validator.py --all` is blocking;
+  `scripts/placeholder_references.txt` is a ratchet that may only shrink.
+- `docs/api/full_api.json` (Griffe) is generated by CI and git-ignored. `ignoreDeadLinks` is off.
 
 ## Python Conventions
 
@@ -127,21 +145,38 @@ if (typeof window !== 'undefined') {
 
 Always wrap chart components in `<ClientOnly>` in markdown.
 
+### Chart components
+- ECharts charts share `theme/utils/useEChart.ts` (theme registration, `notMerge`
+  updates, `ResizeObserver`, disposal, zoom/toolbox options, log-axis helpers) and the
+  `ChartFrame.vue` card. New charts should use them rather than calling `echarts.init`.
+- Do not use ECharts' built-in wheel zoom: an `inside` dataZoom swallows every wheel
+  event over the plot, so the page cannot scroll. `zoomComponents()` keeps the inside
+  zoom pan-only (`zoomLock`) and `useEChart` adds Ctrl/⌘ + wheel zoom itself.
+- Log axes cannot show 0; values are clamped to `LOG_FLOOR` and the chart says so.
+- Do not stack line series on two value axes (ECharts stacks x); use a custom polygon.
+
 ### Benchmark Data Flow
 ```
-benchmarks/run_benchmark_suite.py
-  → benchmarks/output/results.json      (CI artifact)
-  → docs/public/benchmarks/*.json       (served to browser)
+benchmarks/run_benchmark_suite.py        (equal evaluation budget; one raw file per optimizer × function × dim)
+  → benchmarks/output/raw/<fn>/<dim>/<optimizer>.json     (CI artifact per shard)
+      ↓  benchmarks/aggregate_results.py (metrics.py, validated against models.py)
+  → docs/public/benchmarks/index.json, cells/<fn>-<dim>.json, ranks.json, trajectory-<fn>-2.json
       ↓
-  benchmarkTransforms.ts                (buildConvergenceSeries / buildECDFSeries / buildViolinSeries)
+  utils/benchmarkData.ts → benchmarkTransforms.ts → BenchmarkCharts.vue (tabs)
       ↓
-  ConvergenceChart / ECDFChart / ViolinPlot (ECharts, Catppuccin Mocha theme)
+  ConvergenceChart / ViolinPlot / ECDFChart / LineChart / StatsTable / FitnessLandscape3D
 ```
+
+- Every algorithm page embeds `<BenchmarkCharts algorithm="Class" />`; pages do not depend on the data, so a
+  data refresh changes no generated file.
+- Data format: change `benchmarks/models.py`, then `uv run python benchmarks/export_schema.py --types` and commit
+  models, `docs/schemas/benchmark-data-schema.json` and `types/benchmark.ts` together.
+- Scheduled benchmark runs only upload an artifact; a manual run with `publish` commits the data and redeploys.
 
 ### API Documentation Flow
 ```
 src/opt/ (Python source)
-  → griffe dump → docs/api/*.json
+  → griffe dump → docs/api/full_api.json
       ↓
   docs/.vitepress/loaders/api.data.ts   (VitePress data loader)
       ↓

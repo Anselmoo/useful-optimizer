@@ -1,4 +1,4 @@
-# Powell's Method
+# Powell's Conjugate Direction Method
 
 <span class="badge badge-classical">Classical</span>
 
@@ -175,15 +175,11 @@ BBOB Comparison: CG faster when gradients available
 
 ## Benchmark Performance
 
-Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+Results of the benchmark suite for this optimizer, on the same evaluation budget as every other optimizer and compared with a random search baseline. See the [methodology](/benchmarks/methodology) for the protocol and statistics.
 
 <ClientOnly>
-  <FitnessLandscape3D functionName="rastrigin" />
+  <BenchmarkCharts algorithm="Powell" />
 </ClientOnly>
-
-::: tip Run-based charts
-Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
-:::
 
 ## Related Pages
 

@@ -169,8 +169,10 @@ class PelicanOptimizer(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Pelican Optimization Algorithm (2023). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Trojovský, P., & Dehghani, M. (2022). Pelican Optimization Algorithm: A Novel
+            Nature-Inspired Algorithm for Engineering Applications. Sensors, 22(3),
+            855.
+        https://doi.org/10.3390/s22030855
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

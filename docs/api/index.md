@@ -2,98 +2,45 @@
 
 This section provides detailed API documentation for all modules in Useful Optimizer.
 
+<!-- BEGIN GENERATED: modules (scripts/generate_docs.py) -->
+
 ## Module Structure
 
 ```
 opt/
-├── abstract_optimizer.py    # Base class for all optimizers
-├── swarm_intelligence/      # 57+ swarm-based algorithms
-├── evolutionary/            # 6 evolutionary algorithms
-├── gradient_based/          # 11 gradient-based optimizers
-├── classical/               # 9 classical methods
-├── metaheuristic/           # 12 metaheuristic algorithms
-├── constrained/             # 2 constrained optimization
-├── probabilistic/           # 2 probabilistic methods
+├── abstract/                # Base classes (AbstractOptimizer, history)
+├── swarm_intelligence/      # 56 algorithms
+├── evolutionary/            # 6 algorithms
+├── gradient_based/          # 11 algorithms
+├── classical/               # 10 algorithms
+├── metaheuristic/           # 14 algorithms
+├── physics_inspired/        # 4 algorithms
+├── probabilistic/           # 5 algorithms
+├── social_inspired/         # 4 algorithms
+├── constrained/             # 5 algorithms
+├── multi_objective/         # 3 algorithms
 └── benchmark/               # Benchmark functions
 ```
 
-## Core Modules
-
-### [Abstract Optimizer](./abstract-optimizer)
-
-The base class that all optimizers inherit from. Defines the common interface and shared functionality.
-
-### [Benchmark Functions](./benchmark-functions)
-
-Standard test functions for evaluating optimizer performance, including:
-- Sphere function
-- Rosenbrock function
-- Rastrigin function
-- Ackley function
-- Griewank function
-
 ## Algorithm Modules
 
-### [Swarm Intelligence](./swarm-intelligence)
+- [Swarm Intelligence](./swarm-intelligence): 56 classes. Nature-inspired algorithms based on collective behavior.
+- [Evolutionary](./evolutionary): 6 classes. Algorithms inspired by biological evolution.
+- [Gradient-Based](./gradient-based): 11 classes. Optimization using gradient information.
+- [Classical](./classical): 10 classes. Traditional mathematical optimization methods.
+- [Metaheuristic](./metaheuristic): 14 classes. High-level problem-independent algorithms.
+- [Physics-Inspired](./physics-inspired): 4 classes. Algorithms based on physical phenomena.
+- [Probabilistic](./probabilistic): 5 classes. Stochastic and Bayesian optimization methods.
+- [Social-Inspired](./social-inspired): 4 classes. Algorithms inspired by social behaviors.
+- [Constrained](./constrained): 5 classes. Optimization with constraints.
+- [Multi-Objective](./multi-objective): 3 classes. Pareto-optimal solutions for multiple objectives.
 
-Nature-inspired population-based algorithms:
-- Particle Swarm Optimization
-- Ant Colony Optimization
-- Firefly Algorithm
-- Grey Wolf Optimizer
-- Whale Optimization Algorithm
-- And 50+ more...
+<!-- END GENERATED: modules -->
 
-### [Evolutionary](./evolutionary)
+## Core Modules
 
-Evolution-based optimization methods:
-- Genetic Algorithm
-- Differential Evolution
-- CMA-ES
-- Cultural Algorithm
-- Estimation of Distribution Algorithm
-
-### [Gradient-Based](./gradient-based)
-
-Gradient descent variants and adaptive methods:
-- SGD with Momentum
-- Adam
-- AdamW
-- RMSprop
-- Adagrad
-- Adadelta
-- AMSGrad
-- Nadam
-
-### [Classical](./classical)
-
-Traditional mathematical optimization:
-- BFGS
-- L-BFGS
-- Nelder-Mead
-- Powell's Method
-- Simulated Annealing
-- Conjugate Gradient
-
-### [Metaheuristic](./metaheuristic)
-
-High-level optimization frameworks:
-- Harmony Search
-- Cross Entropy Method
-- Sine Cosine Algorithm
-- Variable Neighbourhood Search
-
-### [Constrained](./constrained)
-
-Methods for constrained optimization:
-- Augmented Lagrangian Method
-- Successive Linear Programming
-
-### [Probabilistic](./probabilistic)
-
-Probability-based optimization:
-- Parzen Tree Estimator (TPE)
-- Linear Discriminant Analysis
+- [Abstract Optimizer](./abstract-optimizer): the base class and history tracking shared by every optimizer.
+- [Benchmark Functions](./benchmark-functions): standard test functions such as Sphere, Rosenbrock, Rastrigin and Ackley.
 
 ## Type Hints
 

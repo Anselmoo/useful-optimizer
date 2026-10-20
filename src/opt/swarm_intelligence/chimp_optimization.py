@@ -156,8 +156,8 @@ class ChimpOptimizationAlgorithm(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Chimp Optimization Algorithm (2020). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Khishe, M., & Mosavi, M. R. (2020). Chimp optimization algorithm. Expert
+            Systems with Applications, 149, 113338.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

@@ -296,18 +296,15 @@ class ArtificialFishSwarm(AbstractOptimizer):
 
                 self.fishes[i] = self.behavior(i)
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
+
         return best_solution, best_fitness
 
     def behavior(self, i: int) -> np.ndarray:
         """Perform the behavior of the fish at index i.
-
-        # Track final state
-        if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
-            self._finalize_history()
 
         Args:
             i (int): The index of the fish.

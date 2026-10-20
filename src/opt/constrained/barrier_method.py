@@ -409,6 +409,11 @@ class BarrierMethodOptimizer(AbstractOptimizer):
             if mu < 1e-10:
                 break
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
+
         return best_solution, best_fitness
 
 

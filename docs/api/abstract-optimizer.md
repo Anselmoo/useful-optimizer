@@ -5,7 +5,7 @@ The `AbstractOptimizer` class is the base class that all optimization algorithms
 ## Class Definition
 
 ```python
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 ```
 
 ## Constructor
@@ -20,8 +20,10 @@ class AbstractOptimizer(ABC):
         dim: int,
         max_iter: int = 1000,
         seed: int | None = None,
-        population_size: int = 30,
-        track_history: bool = False
+        population_size: int = 100,
+        track_history: bool = False,
+        target_precision: float = 1e-8,
+        f_opt: float | None = None,
     ) -> None:
 ```
 
@@ -35,8 +37,10 @@ class AbstractOptimizer(ABC):
 | `dim` | `int` | Required | Dimensionality of the problem |
 | `max_iter` | `int` | `1000` | Maximum number of iterations |
 | `seed` | `int \| None` | `None` | Random seed for reproducibility |
-| `population_size` | `int` | `30` | Number of individuals in population |
+| `population_size` | `int` | `100` | Number of individuals in population |
 | `track_history` | `bool` | `False` | Whether to track optimization history |
+| `target_precision` | `float` | `1e-8` | Precision for the COCO/BBOB convergence check |
+| `f_opt` | `float \| None` | `None` | Known optimum, used by the convergence check |
 
 ## Attributes
 
@@ -83,6 +87,10 @@ history = {
 }
 ```
 
+History is normally switched on with `track_history=True`. Most optimizers do not
+expose that argument in their own constructor, so call `optimizer.enable_history_tracking()`
+before `search()` to turn it on afterwards. `self.history` is filled when `search()` finishes.
+
 ### Example: Accessing History
 
 ```python
@@ -116,14 +124,14 @@ plt.show()
 To create a custom optimizer, inherit from `AbstractOptimizer` and implement the `search()` method:
 
 ```python
-from opt.abstract_optimizer import AbstractOptimizer
+from opt.abstract import AbstractOptimizer
 import numpy as np
 
 class RandomSearch(AbstractOptimizer):
     """Simple random search optimizer."""
 
     def search(self) -> tuple[np.ndarray, float]:
-        best_solution = None
+        best_solution = np.zeros(self.dim)
         best_fitness = float('inf')
 
         rng = np.random.default_rng(self.seed)
@@ -142,11 +150,11 @@ class RandomSearch(AbstractOptimizer):
                 best_solution = candidate
                 best_fitness = fitness
 
-            # Track history if enabled
-            if self.track_history:
-                self.history["best_fitness"].append(best_fitness)
-                self.history["best_solution"].append(best_solution.copy())
+            # Record the iteration (a no-op unless history tracking is on)
+            self._record_history(best_fitness, best_solution)
 
+        # Convert the recorded history into self.history
+        self._finalize_history()
         return best_solution, best_fitness
 ```
 

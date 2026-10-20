@@ -22,8 +22,7 @@ visualization = [
     "matplotlib>=3.7.0",
 ]
 benchmark = [
-    "matplotlib>=3.7.0",
-    "seaborn>=0.12.0",
+    "pydantic>=2.12.5",
 ]
 
 [build-system]
@@ -154,6 +153,7 @@ dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 "scripts/docstring_models.py" = ["D200", "D415", "FBT003", "D101", "TC002"]  # Generated code - ignore docstring style
 "scripts/unified_validator.py" = ["FBT001", "FBT002", "TRY300"]  # CLI script
 "scripts/test/*" = ["S101"]  # Test files - allow assert
+"benchmarks/test/*" = ["S101", "PLR2004", "D101", "D102", "D103", "ARG005", "PT012", "SIM105", "S110", "BLE001"]  # Test files
 
 
 
@@ -239,10 +239,44 @@ release_branch = "release/v{version}"
 path = "pyproject.toml"
 kind = "pep621"
 
+# Every other place that repeats the version; `rrt bump` updates them together
+# and `rrt release check` fails when they disagree.
+[[tool.rrt.version_targets]]
+path = "src/opt/__init__.py"
+kind = "pattern"
+pattern = '^__version__ = "([^"]+)"$'
+
+[[tool.rrt.version_targets]]
+path = "src/opt/benchmark/__init__.py"
+kind = "pattern"
+pattern = '^__version__ = "([^"]+)"$'
+
+[[tool.rrt.version_targets]]
+path = "docs/.vitepress/config.ts"
+kind = "pattern"
+pattern = "text: 'v([0-9]+\\.[0-9]+\\.[0-9]+[^']*)',"
+
+[[tool.rrt.version_targets]]
+path = "README.md"
+kind = "pattern"
+pattern = '^The current version of Useful Optimizer is ([0-9]+\.[0-9]+\.[0-9]+[^.\s]*)\.$'
+
 [[tool.rrt.artifact_targets]]
 path = "docs/algorithms/*/*.md"
 description = "Generated optimizer algorithm pages"
 
 [[tool.rrt.artifact_targets]]
-path = "docs/public/benchmarks/benchmark-results.json"
-description = "Aggregated benchmark results feeding the docs charts"
+path = "docs/algorithms/index.md"
+description = "Algorithm overview with generated catalog"
+
+[[tool.rrt.artifact_targets]]
+path = "docs/api/*.md"
+description = "API reference pages (module pages generated per category)"
+
+[[tool.rrt.artifact_targets]]
+path = "docs/public/optimizers/optimizers.json"
+description = "Generated optimizer metadata index"
+
+[[tool.rrt.artifact_targets]]
+path = "docs/.vitepress/algorithmsSidebar.ts"
+description = "Generated algorithms sidebar"

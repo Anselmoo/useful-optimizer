@@ -156,8 +156,9 @@ class SlimeMouldAlgorithm(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Slime Mould Algorithm (2020). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Li, S., Chen, H., Wang, M., Heidari, A. A., & Mirjalili, S. (2020). Slime
+            mould algorithm: A new method for stochastic optimization. Future
+            Generation Computer Systems, 111, 300-323.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

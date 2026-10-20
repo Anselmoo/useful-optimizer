@@ -37,6 +37,11 @@ jobs:
       - name: Run doctests
         run: uv run pytest --doctest-modules --doctest-glob="*.md" -v
 
+      - name: Run tooling and docs consistency tests
+        # Benchmark protocol, metrics and schema; source files == docs pages == JSON == sidebar, and every import shown in
+        # the docs resolves. addopts is cleared: the project default runs doctests.
+        run: uv run pytest scripts/test benchmarks/test -o addopts="" -v --tb=short
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -56,10 +61,10 @@ jobs:
         run: uv sync
 
       - name: Run ruff check
-        run: uv run ruff check src/opt/
+        run: uv run ruff check src/opt/ benchmarks/
 
       - name: Run ruff format check
-        run: uv run ruff format --check src/opt/
+        run: uv run ruff format --check src/opt/ benchmarks/
 
   type-check:
     name: Type Check

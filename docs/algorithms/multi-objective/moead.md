@@ -1,4 +1,4 @@
-# MOEA/D
+# Multi-Objective Evolutionary Algorithm based on Decomposition
 
 <span class="badge badge-multi">Multi-Objective</span>
 
@@ -218,14 +218,8 @@ Related Multi-Objective Algorithms:
 
 ## Benchmark Performance
 
-Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
-
-<ClientOnly>
-  <FitnessLandscape3D functionName="rastrigin" />
-</ClientOnly>
-
-::: tip Run-based charts
-Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
+::: info Not covered by the benchmark suite
+The benchmark suite compares single-objective optimizers on one scalar fitness. Multi-objective optimizers return a Pareto front and are not part of it.
 :::
 
 ## Related Pages

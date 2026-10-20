@@ -1,42 +1,35 @@
-# Physics-Inspired Algorithms
+# ⚛️ Physics-Inspired Algorithms
 
-Optimization algorithms based on physical phenomena and laws of physics.
+Algorithms based on physical phenomena.
 
-## Overview
+This category contains **4 algorithms**.
 
-Physics-inspired algorithms mimic natural physical processes such as electromagnetic fields, gravitational forces, thermal dynamics, and atomic interactions to search for optimal solutions.
+| Algorithm | Acronym | Year | Description |
+|-----------|---------|------|-------------|
+| [Atom Search Optimization](./atom-search) | ASO | 2019 | Atom Search Optimization (ASO) algorithm. |
+| [Equilibrium Optimizer](./equilibrium-optimizer) | EO | 2020 | Equilibrium Optimizer (EO) optimization algorithm. |
+| [Gravitational Search Algorithm](./gravitational-search) | GSA | 2009 | Gravitational Search Algorithm (GSA) optimization algorithm. |
+| [RIME: A Physics-based Optimization](./rime-optimizer) | RIME | 2023 | RIME Optimization Algorithm (RIME) optimization algorithm. |
 
-## Available Algorithms
+## Usage
 
-- [Atom Search Optimization](./atom) - Based on atomic molecular dynamics
-- [Equilibrium Optimizer](./equilibrium) - Inspired by thermodynamic equilibrium
-- [Gravitational Search Algorithm](./gravitational) - Uses law of gravity and mass interactions
-- [Charged System Search](./charged-system) - Based on Coulomb and Gauss laws
-
-## Characteristics
-
-- Model physical laws mathematically
-- Use force, energy, or equilibrium concepts
-- Often involve particle interactions
-- Balance exploration and exploitation through physical analogies
-
-## Usage Example
+Every optimizer shares the same interface:
 
 ```python
-from opt.physics_inspired import AtomSearch
+from opt.physics_inspired.atom_search import AtomSearchOptimizer
 from opt.benchmark.functions import sphere
 
-optimizer = AtomSearch(
+optimizer = AtomSearchOptimizer(
     func=sphere,
-    lower_bound=-5,
-    upper_bound=5,
+    lower_bound=-5.12,
+    upper_bound=5.12,
     dim=10,
-    max_iter=100
+    max_iter=500,
 )
 best_solution, best_fitness = optimizer.search()
 ```
 
 ## See Also
 
-- [API Reference](/api/) - Complete API documentation
-- [Swarm Intelligence](../swarm-intelligence/) - Nature-inspired algorithms
+- [All Algorithms](/algorithms/)
+- [Benchmark Functions](/api/benchmark-functions)

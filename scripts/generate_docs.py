@@ -30,7 +30,6 @@ import textwrap
 
 from dataclasses import dataclass
 from dataclasses import field
-from functools import cache
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -113,90 +112,6 @@ CATEGORY_INFO = {
     },
 }
 
-# Special name mappings for acronyms and known algorithms
-NAME_MAPPINGS = {
-    # Acronym fixes - exact class name to slug
-    "BFGS": "bfgs",
-    "LBFGS": "lbfgs",
-    "Bfgs": "bfgs",
-    "Lbfgs": "lbfgs",
-    "L-BFGS": "lbfgs",
-    "CMAESAlgorithm": "cma-es",
-    "CmaEsAlgorithm": "cma-es",
-    "CmaEs": "cma-es",
-    "Cmaes": "cma-es",
-    "SGD": "sgd",
-    "Sgd": "sgd",
-    "SGDMomentum": "sgd-momentum",
-    "SgdMomentum": "sgd-momentum",
-    "StochasticGradientDescent": "sgd",
-    "RMSprop": "rmsprop",
-    "RMSProp": "rmsprop",
-    "Rmsprop": "rmsprop",
-    "ADAGrad": "adagrad",
-    "AdaGrad": "adagrad",
-    "Adagrad": "adagrad",
-    "AdaDelta": "adadelta",
-    "Adadelta": "adadelta",
-    "AdaMax": "adamax",
-    "Adamax": "adamax",
-    "AdamW": "adamw",
-    "Adamw": "adamw",
-    "AMSGrad": "amsgrad",
-    "Amsgrad": "amsgrad",
-    "NAdam": "nadam",
-    "Nadam": "nadam",
-    "ADAMOptimization": "adam",
-    "AdaptiveMomentEstimation": "adam",
-    "Adam": "adam",
-    "NesterovAcceleratedGradient": "nesterov",
-    "NSGAII": "nsga-ii",
-    "NsgaII": "nsga-ii",
-    "NsgaIi": "nsga-ii",
-    "SPEA2": "spea2",
-    "Spea2": "spea2",
-    "MOEAD": "moead",
-    "Moead": "moead",
-}
-
-# Human-readable name mappings
-DISPLAY_NAMES = {
-    "bfgs": "BFGS",
-    "lbfgs": "L-BFGS",
-    "cma-es": "CMA-ES",
-    "sgd": "Stochastic Gradient Descent",
-    "sgd-momentum": "SGD with Momentum",
-    "rmsprop": "RMSprop",
-    "adagrad": "Adagrad",
-    "adadelta": "Adadelta",
-    "adamax": "Adamax",
-    "adamw": "AdamW",
-    "adam": "Adam",
-    "amsgrad": "AMSGrad",
-    "nadam": "NAdam",
-    "nesterov": "Nesterov Accelerated Gradient",
-    "nsga-ii": "NSGA-II",
-    "spea2": "SPEA2",
-    "moead": "MOEA/D",
-    "particle-swarm": "Particle Swarm Optimization",
-    "ant-colony": "Ant Colony Optimization",
-    "grey-wolf": "Grey Wolf Optimizer",
-    "whale": "Whale Optimization Algorithm",
-    "firefly": "Firefly Algorithm",
-    "bat": "Bat Algorithm",
-    "cuckoo-search": "Cuckoo Search",
-    "harmony-search": "Harmony Search",
-    "simulated-annealing": "Simulated Annealing",
-    "genetic": "Genetic Algorithm",
-    "differential-evolution": "Differential Evolution",
-    "nelder-mead": "Nelder-Mead",
-    "hill-climbing": "Hill Climbing",
-    "trust-region": "Trust Region",
-    "conjugate-gradient": "Conjugate Gradient",
-    "tabu-search": "Tabu Search",
-    "powell": "Powell's Method",
-}
-
 
 @dataclass
 class ParameterInfo:
@@ -213,6 +128,20 @@ class ParameterInfo:
         return self.default is None
 
 
+PLACEHOLDER_REFERENCE = "Available in scientific literature"
+
+
+@dataclass
+class ReferenceInfo:
+    """One entry of a docstring ``References`` section."""
+
+    citation: str
+    doi: str = ""
+    # True for the "Available in scientific literature" stand-in that some
+    # docstrings carry instead of a real citation.
+    placeholder: bool = False
+
+
 @dataclass
 class DocstringInfo:
     """Parsed information from a docstring."""
@@ -221,6 +150,7 @@ class DocstringInfo:
     long_description: str = ""
     reference: str = ""
     reference_doi: str = ""
+    references: list[ReferenceInfo] = field(default_factory=list)
     example_code: str = ""
     attributes: list[tuple[str, str]] = field(default_factory=list)
     parameters: list[ParameterInfo] = field(default_factory=list)
@@ -242,6 +172,18 @@ class OptimizerDoc:
     file_slug: str
     docstring_info: DocstringInfo
     init_params: list[ParameterInfo] = field(default_factory=list)
+    # Rows of the "Algorithm Metadata" table (Algorithm Name, Acronym, Year, ...).
+    metadata: dict[str, str] = field(default_factory=dict)
+
+    @property
+    def acronym(self) -> str:
+        """Acronym from the metadata table, empty if absent."""
+        return self.metadata.get("Acronym", "")
+
+    @property
+    def year(self) -> str:
+        """Year introduced from the metadata table, empty if absent."""
+        return self.metadata.get("Year Introduced", "")
 
 
 # Section headers with dedicated parsing (drive the Parameters table, JSON
@@ -317,6 +259,63 @@ def _normalize_section_body(body_lines: list[str]) -> str:
     return text.strip("\n")
 
 
+_REF_ENTRY_RE = re.compile(r"^\s*\[(\d+)\]\s*(.*)$")
+_DOI_URL_RE = re.compile(
+    r"https?://(?:dx\.)?doi\.org/(10\.\d{4,9}/[^\s)]+)", re.IGNORECASE
+)
+_DOI_LABEL_RE = re.compile(r"DOI:\s*(10\.\d{4,9}/[^\s)]+)", re.IGNORECASE)
+_PLACEHOLDER_ENTRY_RE = re.compile(
+    r'\[1\] (.+?) \((\d{4})\)\. "Original publication\."\s*\n\s*'
+    r"_Journal/Conference_, Available in scientific literature\."
+)
+
+
+def parse_references(body: str) -> list[ReferenceInfo]:
+    """Parse the entries (``[1] ...``) of a ``References`` section body.
+
+    Parsing stops at the first bold sub-heading (``**COCO Data Archive**`` and
+    similar), which introduces resources rather than citations.
+
+    Args:
+        body: The normalised body of the ``References`` section.
+
+    Returns:
+        One entry per numbered reference, in order, with DOI and placeholder flag.
+    """
+    chunks: list[list[str]] = []
+    current: list[str] | None = None
+    for line in body.splitlines():
+        if line.strip().startswith("**"):
+            break
+        entry = _REF_ENTRY_RE.match(line)
+        if entry:
+            current = [entry.group(2)]
+            chunks.append(current)
+        elif not line.strip():
+            current = None
+        elif current is not None:
+            current.append(line.strip())
+
+    references: list[ReferenceInfo] = []
+    for chunk in chunks:
+        text = re.sub(r"\s+", " ", " ".join(chunk)).strip()
+        doi_match = _DOI_URL_RE.search(text) or _DOI_LABEL_RE.search(text)
+        doi = doi_match.group(1).rstrip(".,;") if doi_match else ""
+        references.append(
+            ReferenceInfo(
+                citation=text, doi=doi, placeholder=PLACEHOLDER_REFERENCE in text
+            )
+        )
+    return references
+
+
+def render_references_body(body: str) -> str:
+    """Make placeholder citations explicit instead of pretending they are real."""
+    return _PLACEHOLDER_ENTRY_RE.sub(
+        r"[1] \1 (\2): *original publication not yet cited here.*", body
+    )
+
+
 def parse_google_docstring(docstring: str | None) -> DocstringInfo:
     """Parse a Google-style docstring into structured information."""
     if not docstring:
@@ -384,6 +383,8 @@ def parse_google_docstring(docstring: str | None) -> DocstringInfo:
             order.append(key)
     title_by_key = {title.lower(): title for title, _ in raw_sections}
     info.raw_sections = [(title_by_key[key], merged[key]) for key in order]
+    if "references" in merged:
+        info.references = parse_references(merged["references"])
 
     # Process description
     desc_lines = section_content["description"]
@@ -401,6 +402,13 @@ def parse_google_docstring(docstring: str | None) -> DocstringInfo:
         doi_match = re.search(r"DOI:\s*(10\.\d+/[^\s]+)", ref_text)
         if doi_match:
             info.reference_doi = doi_match.group(1)
+    elif info.references:
+        # No singular "Reference:" section: entry [1] of "References:" is the
+        # algorithm's own publication (later entries are COCO and background).
+        first = info.references[0]
+        if not first.placeholder:
+            info.reference = first.citation
+            info.reference_doi = first.doi
 
     # Process example. For doctest-style examples keep only the executable
     # code (the >>> / ... lines), dropping expected-output lines and trailing
@@ -521,85 +529,44 @@ def extract_init_signature(class_node: ast.ClassDef) -> list[ParameterInfo]:
     return params
 
 
-def class_name_to_slug(class_name: str) -> str:
-    """Convert a class name to a URL-friendly slug."""
-    # Check for known mappings first
-    if class_name in NAME_MAPPINGS:
-        return NAME_MAPPINGS[class_name]
+def file_stem_to_slug(stem: str) -> str:
+    """Return the page slug for a source file: the file stem with ``_`` as ``-``.
 
-    # Handle common patterns
-    slug = class_name
-
-    # Replace known acronyms before splitting
-    acronym_replacements = [
-        ("BFGS", "-bfgs-"),
-        ("LBFGS", "-lbfgs-"),
-        ("SGD", "-sgd-"),
-        ("RMSprop", "-rmsprop-"),
-        ("RMSProp", "-rmsprop-"),
-        ("CMA", "-cma-"),
-        ("NSGA", "-nsga-"),
-        ("SPEA", "-spea-"),
-        ("MOEAD", "-moead-"),
-    ]
-    for acronym, replacement in acronym_replacements:
-        if acronym in slug:
-            slug = slug.replace(acronym, replacement)
-
-    # Split CamelCase to kebab-case
-    slug = re.sub(r"(?<!^)(?=[A-Z])", "-", slug).lower()
-
-    # Clean up
-    slug = re.sub(r"-+", "-", slug)
-    slug = slug.strip("-")
-
-    # Remove common suffixes for cleaner URLs
-    suffixes_to_remove = [
-        "-optimizer",
-        "-algorithm",
-        "-optimization",
-        "-method",
-        "-search",
-    ]
-    for suffix in suffixes_to_remove:
-        if slug.endswith(suffix) and len(slug) > len(suffix) + 2:
-            slug = slug[: -len(suffix)]
-
-    return slug
+    The slug is the one naming rule that links source file, docs URL and sidebar,
+    so ``whale_optimization_algorithm.py`` is documented at
+    ``/algorithms/swarm-intelligence/whale-optimization-algorithm``.
+    """
+    return stem.replace("_", "-")
 
 
-def slug_to_display_name(slug: str, class_name: str) -> str:
-    """Convert a slug to a human-readable display name."""
-    if slug in DISPLAY_NAMES:
-        return DISPLAY_NAMES[slug]
+_METADATA_ROW_RE = re.compile(r"^\|\s*([^|]+?)\s*\|\s*(.*?)\s*\|\s*$", re.MULTILINE)
 
-    # Generate from class name
-    name = re.sub(r"(?<!^)(?=[A-Z])", " ", class_name)
 
-    # Fix common acronym patterns
-    fixes = [
-        ("Cma Es", "CMA-ES"),
-        ("Bfgs", "BFGS"),
-        ("Lbfgs", "L-BFGS"),
-        ("Sgd", "SGD"),
-        ("Rms Prop", "RMSprop"),
-        ("R M Sprop", "RMSprop"),
-        ("Nsga I I", "NSGA-II"),
-        ("Nsga Ii", "NSGA-II"),
-        ("Spea 2", "SPEA2"),
-        ("Moead", "MOEA/D"),
-        ("A D A Grad", "Adagrad"),
-        ("Ada Grad", "Adagrad"),
-        ("Ada Max", "Adamax"),
-        ("Ada Delta", "Adadelta"),
-        ("A M S Grad", "AMSGrad"),
-        ("Adam W", "AdamW"),
-        ("N Adam", "NAdam"),
-    ]
-    for pattern, replacement in fixes:
-        name = name.replace(pattern, replacement)
+def parse_algorithm_metadata(raw_sections: list[tuple[str, str]]) -> dict[str, str]:
+    """Parse the ``Algorithm Metadata`` table into a dict.
 
-    return name
+    Args:
+        raw_sections: ``(title, body)`` pairs captured from the class docstring.
+
+    Returns:
+        Mapping of property name to value, e.g. ``{"Acronym": "WOA", ...}``;
+        empty when the section is missing.
+    """
+    for title, body in raw_sections:
+        if title.lower() != "algorithm metadata":
+            continue
+        rows: dict[str, str] = {}
+        for key, value in _METADATA_ROW_RE.findall(body):
+            if key == "Property" or set(key) <= set("-: "):
+                continue
+            rows[key] = value
+        return rows
+    return {}
+
+
+def _class_name_to_title(class_name: str) -> str:
+    """Fallback title from a CamelCase class name when metadata has none."""
+    return re.sub(r"(?<=[a-z0-9])(?=[A-Z])|(?<=[A-Z])(?=[A-Z][a-z])", " ", class_name)
 
 
 def parse_optimizer_file(file_path: Path) -> OptimizerDoc | None:
@@ -643,6 +610,7 @@ def parse_optimizer_file(file_path: Path) -> OptimizerDoc | None:
         long_description=class_info.long_description or module_info.long_description,
         reference=class_info.reference or module_info.reference,
         reference_doi=class_info.reference_doi or module_info.reference_doi,
+        references=class_info.references or module_info.references,
         example_code=class_info.example_code or module_info.example_code,
         attributes=class_info.attributes or module_info.attributes,
         parameters=class_info.parameters or module_info.parameters,
@@ -657,8 +625,11 @@ def parse_optimizer_file(file_path: Path) -> OptimizerDoc | None:
             category = parts[i + 1]
             break
 
-    file_slug = class_name_to_slug(optimizer_class.name)
-    display_name = slug_to_display_name(file_slug, optimizer_class.name)
+    metadata = parse_algorithm_metadata(merged_info.raw_sections)
+    file_slug = file_stem_to_slug(file_path.stem)
+    display_name = metadata.get("Algorithm Name") or _class_name_to_title(
+        optimizer_class.name
+    )
 
     return OptimizerDoc(
         name=display_name,
@@ -668,6 +639,7 @@ def parse_optimizer_file(file_path: Path) -> OptimizerDoc | None:
         file_slug=file_slug,
         docstring_info=merged_info,
         init_params=init_params,
+        metadata=metadata,
     )
 
 
@@ -675,128 +647,37 @@ def parse_optimizer_file(file_path: Path) -> OptimizerDoc | None:
 # Benchmark chart integration
 # ---------------------------------------------------------------------------
 
-# Analytic surface shown on every algorithm page via FitnessLandscape3D
-# (real benchmark-function values, no run data required).
-_LANDSCAPE_FUNCTION = "rastrigin"
-
-# Preferred function/dimension for the run-based BenchmarkCharts embed, with
-# graceful fallback to whatever the optimizer actually has data for.
-_CHART_PREFERRED_FUNCS = ("rastrigin", "ackley", "rosenbrock", "sphere")
-_CHART_PREFERRED_DIM = "5"
-# Comparison baselines drawn alongside the page's own algorithm when they share
-# the same function/dimension. Capped for chart legibility. Ordered to favour
-# optimizers that record convergence history, so the convergence/ECDF charts
-# are populated with multiple curves rather than a single line.
-_COMPARE_PRIORITY = (
-    "GreyWolfOptimizer",
-    "ParticleSwarm",
-    "AntColony",
-    "FireflyAlgorithm",
-    "DifferentialEvolution",
-    "GeneticAlgorithm",
-    "AdamW",
-)
-_COMPARE_LIMIT = 3
-
-
-@cache
-def _load_benchmark_index() -> dict:
-    """Load published benchmark data and index optimizer coverage.
-
-    Prefers the real ``benchmark-results.json``; falls back to the committed
-    demo data; returns empty indexes when neither is present. Result is cached.
-    """
-    repo_root = Path(__file__).resolve().parent.parent
-    bench_dir = repo_root / "docs" / "public" / "benchmarks"
-    data: dict = {}
-    for candidate in ("benchmark-results.json", "demo-benchmark-data.json"):
-        path = bench_dir / candidate
-        if path.exists():
-            try:
-                data = json.loads(path.read_text(encoding="utf-8"))
-            except (OSError, json.JSONDecodeError):
-                data = {}
-            break
-
-    locations: dict[str, list[tuple[str, str]]] = {}
-    by_func_dim: dict[tuple[str, str], set[str]] = {}
-    for func, dims in data.get("benchmarks", {}).items():
-        for dim, opts in dims.items():
-            for algo in opts:
-                locations.setdefault(algo, []).append((func, dim))
-                by_func_dim.setdefault((func, dim), set()).add(algo)
-
-    return {"locations": locations, "by_func_dim": by_func_dim}
-
-
-def _pick_chart_target(algorithm: str) -> tuple[str, str] | None:
-    """Choose a representative (function, dimension) the algorithm has data for."""
-    locations = _load_benchmark_index()["locations"].get(algorithm)
-    if not locations:
-        return None
-    location_set = set(locations)
-    for func in _CHART_PREFERRED_FUNCS:
-        if (func, _CHART_PREFERRED_DIM) in location_set:
-            return func, _CHART_PREFERRED_DIM
-    for func in _CHART_PREFERRED_FUNCS:
-        for loc_func, loc_dim in locations:
-            if loc_func == func:
-                return loc_func, loc_dim
-    return locations[0]
-
-
-def _pick_compare(algorithm: str, func: str, dim: str) -> list[str]:
-    """Pick up to ``_COMPARE_LIMIT`` baseline optimizers sharing this func/dim."""
-    others = _load_benchmark_index()["by_func_dim"].get((func, dim), set()) - {
-        algorithm
-    }
-    ordered = [a for a in _COMPARE_PRIORITY if a in others]
-    ordered += [a for a in sorted(others) if a not in ordered]
-    return ordered[:_COMPARE_LIMIT]
-
 
 def _benchmark_section_lines(doc: OptimizerDoc) -> list[str]:
-    """Build the '## Benchmark Performance' Markdown block for an optimizer."""
-    lines = ["## Benchmark Performance", ""]
-    lines.append(
-        "Interactive fitness landscape of a representative multimodal benchmark "
-        "function (drag to rotate, scroll to zoom):"
-    )
-    lines.append("")
-    lines.append("<ClientOnly>")
-    lines.append(f'  <FitnessLandscape3D functionName="{_LANDSCAPE_FUNCTION}" />')
-    lines.append("</ClientOnly>")
-    lines.append("")
+    """Build the '## Benchmark Performance' Markdown block for an optimizer.
 
-    target = _pick_chart_target(doc.class_name)
-    if target is not None:
-        func, dim = target
-        compare = _pick_compare(doc.class_name, func, dim)
-        suffix = " (compared against representative baselines):" if compare else ":"
+    Every page embeds the same component, which reads the published benchmark
+    data in the browser. The page therefore does not depend on the data files,
+    and refreshing the benchmark data does not change any generated page.
+    """
+    lines = ["## Benchmark Performance", ""]
+    if doc.category == "multi_objective":
+        lines.append("::: info Not covered by the benchmark suite")
         lines.append(
-            f"Convergence, final-fitness distribution and performance profile on "
-            f"`{func}` ({dim}D), averaged over independent runs{suffix}"
-        )
-        lines.append("")
-        lines.append("<ClientOnly>")
-        lines.append("  <BenchmarkCharts")
-        lines.append(f'    algorithm="{doc.class_name}"')
-        lines.append(f'    functionName="{func}"')
-        lines.append(f'    :dimension="{dim}"')
-        if compare:
-            compare_list = ", ".join(f"'{c}'" for c in compare)
-            lines.append(f'    :compareWith="[{compare_list}]"')
-        lines.append("  />")
-        lines.append("</ClientOnly>")
-        lines.append("")
-    else:
-        lines.append("::: tip Run-based charts")
-        lines.append(
-            "Convergence, distribution and ECDF charts appear here once this "
-            "optimizer is included in the benchmark suite."
+            "The benchmark suite compares single-objective optimizers on one "
+            "scalar fitness. Multi-objective optimizers return a Pareto front "
+            "and are not part of it."
         )
         lines.append(":::")
         lines.append("")
+        return lines
+
+    lines.append(
+        "Results of the benchmark suite for this optimizer, on the same "
+        "evaluation budget as every other optimizer and compared with a random "
+        "search baseline. See the [methodology](/benchmarks/methodology) for the "
+        "protocol and statistics."
+    )
+    lines.append("")
+    lines.append("<ClientOnly>")
+    lines.append(f'  <BenchmarkCharts algorithm="{doc.class_name}" />')
+    lines.append("</ClientOnly>")
+    lines.append("")
     return lines
 
 
@@ -915,7 +796,12 @@ def generate_markdown(doc: OptimizerDoc) -> str:
     # Mathematical Formulation, Hyperparameters, COCO/BBOB Benchmark Settings,
     # Notes, References, See Also, …). Content is already Markdown/LaTeX and
     # renders natively in VitePress.
-    for section_title, section_body in doc.docstring_info.raw_sections:
+    for section_title, raw_body in doc.docstring_info.raw_sections:
+        section_body = (
+            render_references_body(raw_body)
+            if section_title.lower() == "references"
+            else raw_body
+        )
         lines.append(f"## {section_title}")
         lines.append("")
         lines.append(section_body)
@@ -990,16 +876,306 @@ def get_output_path(doc: OptimizerDoc, output_dir: Path) -> Path:
     return output_dir / "algorithms" / cat_slug / f"{doc.file_slug}.md"
 
 
+CATEGORY_ORDER = [
+    "swarm_intelligence",
+    "evolutionary",
+    "gradient_based",
+    "classical",
+    "metaheuristic",
+    "physics_inspired",
+    "probabilistic",
+    "social_inspired",
+    "constrained",
+    "multi_objective",
+]
+
+COMMON_PARAMS = frozenset(
+    {
+        "func",
+        "lower_bound",
+        "upper_bound",
+        "dim",
+        "max_iter",
+        "seed",
+        "population_size",
+        "track_history",
+        "target_precision",
+        "f_opt",
+    }
+)
+
+
+def _markers(name: str) -> tuple[str, str]:
+    return (
+        f"<!-- BEGIN GENERATED: {name} (scripts/generate_docs.py) -->",
+        f"<!-- END GENERATED: {name} -->",
+    )
+
+
+def _group_by_category(docs: list[OptimizerDoc]) -> dict[str, list[OptimizerDoc]]:
+    """Group docs by category in display order, each group sorted by name."""
+    grouped: dict[str, list[OptimizerDoc]] = {}
+    for category in CATEGORY_ORDER:
+        members = sorted(
+            (d for d in docs if d.category == category), key=lambda d: d.name.lower()
+        )
+        if members:
+            grouped[category] = members
+    return grouped
+
+
+def _cat_slug(category: str) -> str:
+    return CATEGORY_INFO.get(category, {}).get("slug", category.replace("_", "-"))
+
+
+def _first_sentence(text: str, limit: int = 140) -> str:
+    """First sentence of ``text``, table-safe and at most ``limit`` characters."""
+    flat = re.sub(r"\s+", " ", text).strip()
+    match = re.match(r"(.+?[.!?])(?:\s|$)", flat)
+    sentence = match.group(1) if match else flat
+    if len(sentence) > limit:
+        sentence = sentence[: limit - 1].rstrip() + "…"
+    return sentence.replace("|", "\\|")
+
+
+def generate_category_index(category: str, docs: list[OptimizerDoc]) -> str:
+    """Generate the index page of one category from the parsed optimizers."""
+    info = CATEGORY_INFO.get(category, {})
+    name = info.get("name", category.replace("_", " ").title())
+    icon = info.get("icon", "")
+    first = docs[0]
+
+    lines = [
+        f"# {icon} {name} Algorithms".replace("#  ", "# "),
+        "",
+        f"{info.get('description', '')}.",
+        "",
+        f"This category contains **{len(docs)} algorithm{'s' if len(docs) != 1 else ''}**.",
+        "",
+        "| Algorithm | Acronym | Year | Description |",
+        "|-----------|---------|------|-------------|",
+    ]
+    for doc in docs:
+        description = _first_sentence(doc.docstring_info.short_description)
+        lines.append(
+            f"| [{doc.name}](./{doc.file_slug}) | {doc.acronym or '-'} "
+            f"| {doc.year or '-'} | {description} |"
+        )
+    lines += [
+        "",
+        "## Usage",
+        "",
+        "Every optimizer shares the same interface:",
+        "",
+        "```python",
+        f"from opt.{category}.{Path(first.module_path).stem} import {first.class_name}",
+        "from opt.benchmark.functions import sphere",
+        "",
+        f"optimizer = {first.class_name}(",
+        "    func=sphere,",
+        "    lower_bound=-5.12,",
+        "    upper_bound=5.12,",
+        "    dim=10,",
+        "    max_iter=500,",
+        ")",
+        "best_solution, best_fitness = optimizer.search()",
+        "```",
+        "",
+        "## See Also",
+        "",
+        "- [All Algorithms](/algorithms/)",
+        "- [Benchmark Functions](/api/benchmark-functions)",
+        "",
+    ]
+    return "\n".join(lines)
+
+
+def generate_overview_catalog(docs: list[OptimizerDoc]) -> str:
+    """Generate the catalog block of ``algorithms/index.md``."""
+    grouped = _group_by_category(docs)
+    lines = [
+        f"Useful Optimizer provides **{len(docs)} optimization algorithms** in "
+        f"{len(grouped)} categories. Each one shares the same interface and is "
+        "documented with its mathematical formulation, parameters, references and "
+        "benchmark results.",
+        "",
+        "## Algorithm Categories",
+        "",
+        "| Category | Algorithms | Description |",
+        "|----------|-----------|-------------|",
+    ]
+    for category, members in grouped.items():
+        info = CATEGORY_INFO.get(category, {})
+        lines.append(
+            f"| [{info.get('icon', '')} {info.get('name', category)}]"
+            f"(./{_cat_slug(category)}/) | {len(members)} | {info.get('description', '')} |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def replace_generated_block(path: Path, name: str, content: str) -> bool:
+    """Rewrite the generated block ``name`` of a hand-written page in place.
+
+    The text around the markers is preserved. If the markers are missing the
+    page is left untouched and a warning is printed.
+
+    Returns:
+        True when the markers were found.
+    """
+    begin, end = _markers(name)
+    text = path.read_text(encoding="utf-8")
+    if begin not in text or end not in text:
+        print(f"Warning: '{name}' markers missing in {path}; page not updated")
+        return False
+    head, rest = text.split(begin, 1)
+    tail = rest.split(end, 1)[1]
+    new_text = f"{head}{begin}\n\n{content}\n{end}{tail}"
+    if new_text != text:
+        path.write_text(new_text, encoding="utf-8")
+    print(f"Updated {name}: {path}")
+    return True
+
+
+def generate_api_page(category: str, docs: list[OptimizerDoc]) -> str:
+    """Generate the API reference page of one category from the parsed optimizers."""
+    info = CATEGORY_INFO.get(category, {})
+    name = info.get("name", category.replace("_", " ").title())
+    slug = _cat_slug(category)
+
+    lines = [
+        f"# {name} API",
+        "",
+        f"API reference for the {len(docs)} classes of `opt.{category}`. "
+        "This page is generated from the source; see the "
+        f"[algorithm pages](/algorithms/{slug}/) for formulations and references.",
+        "",
+        "## Imports",
+        "",
+        "```python",
+        f"from opt.{category} import (",
+        *[f"    {d.class_name}," for d in docs],
+        ")",
+        "```",
+        "",
+        "## Common interface",
+        "",
+        "Every class takes the objective `func`, the search-space `lower_bound`, "
+        "`upper_bound` and `dim`, usually `max_iter` and `seed`, and implements "
+        "`search() -> tuple[np.ndarray, float]`. See "
+        "[AbstractOptimizer](./abstract-optimizer).",
+        "",
+        "## Classes",
+        "",
+        "| Class | Algorithm | Additional parameters |",
+        "|-------|-----------|-----------------------|",
+    ]
+    for doc in docs:
+        extra = [p for p in doc.init_params if p.name not in COMMON_PARAMS]
+        shown = ", ".join(
+            f"`{p.name}`" if p.is_required else f"`{p.name}={p.default}`"
+            for p in extra[:8]
+        )
+        if len(extra) > 8:
+            shown += f", … (+{len(extra) - 8})"
+        lines.append(
+            f"| [`{doc.class_name}`](/algorithms/{slug}/{doc.file_slug}) "
+            f"| {doc.name} | {shown or '-'} |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def generate_api_overview(docs: list[OptimizerDoc]) -> str:
+    """Generate the module structure and module list of ``api/index.md``."""
+    grouped = _group_by_category(docs)
+    lines = ["## Module Structure", "", "```", "opt/"]
+    lines.append(
+        "├── abstract/                # Base classes (AbstractOptimizer, history)"
+    )
+    for category, members in grouped.items():
+        lines.append(f"├── {category + '/':<24} # {len(members)} algorithms")
+    lines += ["└── benchmark/               # Benchmark functions", "```", ""]
+    lines += ["## Algorithm Modules", ""]
+    for category, members in grouped.items():
+        info = CATEGORY_INFO.get(category, {})
+        lines.append(
+            f"- [{info.get('name', category)}](./{_cat_slug(category)}): "
+            f"{len(members)} classes. {info.get('description', '')}."
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+def prune_stale_pages(output_dir: Path, expected: set[Path]) -> list[Path]:
+    """Delete algorithm pages that no optimizer generates any more.
+
+    Index pages are generated separately and never pruned here.
+    """
+    removed: list[Path] = []
+    for category in CATEGORY_INFO:
+        cat_dir = output_dir / "algorithms" / _cat_slug(category)
+        if not cat_dir.exists():
+            continue
+        for md_file in sorted(cat_dir.glob("*.md")):
+            if md_file.name != "index.md" and md_file not in expected:
+                md_file.unlink()
+                removed.append(md_file)
+    return removed
+
+
+DOCS_URL = "https://anselmoo.github.io/useful-optimizer"
+REPO_BLOB_URL = "https://github.com/Anselmoo/useful-optimizer/blob/main"
+
+
+def generate_readme_structure(docs: list[OptimizerDoc]) -> str:
+    """Generate the package layout tree of the README."""
+    grouped = _group_by_category(docs)
+    lines = [
+        "```",
+        "src/opt/",
+        "├── abstract/            # Base classes and history tracking",
+    ]
+    for category, members in grouped.items():
+        lines.append(f"├── {category + '/':<20} # {len(members)} algorithms")
+    lines += ["└── benchmark/           # Benchmark functions", "```", ""]
+    return "\n".join(lines)
+
+
+def generate_readme_optimizers(docs: list[OptimizerDoc]) -> str:
+    """Generate the per-category optimizer lists of the README."""
+    grouped = _group_by_category(docs)
+    lines = [
+        f"Useful Optimizer includes {len(docs)} optimization algorithms in "
+        f"{len(grouped)} categories, each implemented as a separate module. Every "
+        "optimizer links to its documentation page, which carries the formulation, "
+        "parameters, references and benchmark charts, and to its source code.",
+        "",
+    ]
+    for category, members in grouped.items():
+        info = CATEGORY_INFO.get(category, {})
+        lines += [
+            "<details>",
+            f"<summary><strong>{info.get('icon', '')} {info.get('name', category)} "
+            f"({len(members)})</strong></summary>",
+            "",
+            f"{info.get('description', '')}.",
+            "",
+        ]
+        for doc in members:
+            page = f"{DOCS_URL}/algorithms/{_cat_slug(category)}/{doc.file_slug}"
+            source = f"{REPO_BLOB_URL}/{doc.module_path}"
+            description = _first_sentence(doc.docstring_info.short_description, 160)
+            lines.append(
+                f"- **[{doc.name}]({page})** ([source]({source})) - {description}"
+            )
+        lines += ["", "</details>", ""]
+    return "\n".join(lines)
+
+
 def generate_sidebar_config(docs: list[OptimizerDoc], output_path: Path) -> None:
     """Generate VitePress sidebar configuration TypeScript file."""
-    by_category: dict[str, list[OptimizerDoc]] = {}
-    for doc in docs:
-        if doc.category not in by_category:
-            by_category[doc.category] = []
-        by_category[doc.category].append(doc)
-
-    for category, docs_list in by_category.items():
-        docs_list.sort(key=lambda d: d.name)
+    by_category = _group_by_category(docs)
 
     sidebar_items = []
     sidebar_items.append(
@@ -1009,23 +1185,7 @@ def generate_sidebar_config(docs: list[OptimizerDoc], output_path: Path) -> None
         }
     )
 
-    category_order = [
-        "swarm_intelligence",
-        "evolutionary",
-        "gradient_based",
-        "classical",
-        "metaheuristic",
-        "physics_inspired",
-        "probabilistic",
-        "social_inspired",
-        "constrained",
-        "multi_objective",
-    ]
-
-    for category in category_order:
-        if category not in by_category:
-            continue
-
+    for category in by_category:
         cat_info = CATEGORY_INFO.get(category, {})
         cat_name = cat_info.get("name", category.replace("_", " ").title())
         cat_slug = cat_info.get("slug", category.replace("_", "-"))
@@ -1036,19 +1196,31 @@ def generate_sidebar_config(docs: list[OptimizerDoc], output_path: Path) -> None
             items.append(
                 {"text": doc.name, "link": f"/algorithms/{cat_slug}/{doc.file_slug}"}
             )
+        # The category page itself comes first so it stays reachable.
+        items.insert(0, {"text": "Overview", "link": f"/algorithms/{cat_slug}/"})
 
         sidebar_items.append(
             {
-                "text": f"{icon} {cat_name} ({len(items)})",
+                "text": f"{icon} {cat_name} ({len(by_category[category])})",
                 "collapsed": category != "swarm_intelligence",
                 "items": items,
             }
         )
 
+    api_links = [
+        {
+            "text": CATEGORY_INFO.get(category, {}).get("name", category),
+            "link": f"/api/{_cat_slug(category)}",
+        }
+        for category in by_category
+    ]
+
     ts_content = f"""// Auto-generated sidebar configuration
 // Run: uv run python scripts/generate_docs.py --all --sidebar
 
 export const algorithmsSidebar = {json.dumps(sidebar_items, indent=2)}
+
+export const apiModuleLinks = {json.dumps(api_links, indent=2)}
 """
 
     output_path.write_text(ts_content, encoding="utf-8")
@@ -1071,10 +1243,17 @@ def generate_json_metadata(docs: list[OptimizerDoc], output_path: Path) -> None:
                 "name", doc.category.replace("_", " ").title()
             ),
             "slug": doc.file_slug,
+            "module": Path(doc.module_path).stem,
+            "acronym": doc.acronym,
+            "year": doc.year,
             "link": f"/algorithms/{cat_slug}/{doc.file_slug}",
             "description": doc.docstring_info.short_description,
             "reference": doc.docstring_info.reference,
             "reference_doi": doc.docstring_info.reference_doi,
+            "references": [
+                {"citation": r.citation, "doi": r.doi, "placeholder": r.placeholder}
+                for r in doc.docstring_info.references
+            ],
             "parameters": [
                 {
                     "name": p.name,
@@ -1111,55 +1290,6 @@ def generate_json_metadata(docs: list[OptimizerDoc], output_path: Path) -> None:
     # would otherwise ping-pong with the regenerate-optimizer-docs hook).
     output_path.write_text(json.dumps(output_data, indent=2) + "\n", encoding="utf-8")
     print(f"Generated JSON metadata: {output_path}")
-
-
-def generate_griffe_json(
-    category: str, output_dir: Path, *, verbose: bool = False
-) -> bool:
-    """Generate Griffe JSON API documentation for a specific category.
-
-    Args:
-        category: Category name (e.g., 'swarm_intelligence')
-        output_dir: Output directory for JSON files
-        verbose: Print detailed progress information
-
-    Returns:
-        True if successful, False otherwise
-    """
-    output_path = output_dir / "api" / f"{category}.json"
-    output_path.parent.mkdir(parents=True, exist_ok=True)
-
-    try:
-        cmd = [
-            "uv",
-            "run",
-            "griffe",
-            "dump",
-            f"opt.{category}",
-            "-d",
-            "google",
-            "-r",  # Resolve aliases
-            "-o",
-            str(output_path),
-        ]
-
-        result = subprocess.run(cmd, capture_output=True, text=True, check=True)  # noqa: S603
-
-        if verbose:
-            print(f"    Griffe: {output_path}")
-            if result.stderr:
-                print(f"    Info: {result.stderr.strip()}")
-
-    except subprocess.CalledProcessError as e:
-        print(f"Error generating Griffe JSON for {category}: {e}")
-        if e.stderr:
-            print(f"  {e.stderr}")
-        return False
-    except FileNotFoundError:
-        print("Error: griffe command not found. Please install griffe.")
-        return False
-    else:
-        return True
 
 
 def generate_full_api_json(output_dir: Path, *, verbose: bool = False) -> bool:
@@ -1253,7 +1383,7 @@ def main(args: Sequence[str] | None = None) -> None:
     parser.add_argument(
         "--griffe",
         action="store_true",
-        help="Generate Griffe JSON API documentation per category",
+        help="Deprecated alias of --full-api (one Griffe dump holds every category)",
     )
     parser.add_argument(
         "--full-api",
@@ -1346,6 +1476,45 @@ def main(args: Sequence[str] | None = None) -> None:
 
         generated += 1
 
+    full_run = bool(parsed.all and not parsed.file and not parsed.category)
+    if full_run and not parsed.dry_run:
+        expected = {get_output_path(d, parsed.output_dir) for d in all_docs}
+        for removed in prune_stale_pages(parsed.output_dir, expected):
+            print(f"  Pruned stale page: {removed}")
+
+        for category, members in _group_by_category(all_docs).items():
+            index_path = (
+                parsed.output_dir / "algorithms" / _cat_slug(category) / "index.md"
+            )
+            index_path.parent.mkdir(parents=True, exist_ok=True)
+            index_path.write_text(
+                generate_category_index(category, members), encoding="utf-8"
+            )
+        overview_path = parsed.output_dir / "algorithms" / "index.md"
+        if overview_path.exists():
+            replace_generated_block(
+                overview_path, "catalog", generate_overview_catalog(all_docs)
+            )
+
+        readme_path = parsed.output_dir.parent / "README.md"
+        if readme_path.exists():
+            replace_generated_block(
+                readme_path, "readme-structure", generate_readme_structure(all_docs)
+            )
+            replace_generated_block(
+                readme_path, "readme-optimizers", generate_readme_optimizers(all_docs)
+            )
+
+        for category, members in _group_by_category(all_docs).items():
+            api_path = parsed.output_dir / "api" / f"{_cat_slug(category)}.md"
+            api_path.parent.mkdir(parents=True, exist_ok=True)
+            api_path.write_text(generate_api_page(category, members), encoding="utf-8")
+        api_index = parsed.output_dir / "api" / "index.md"
+        if api_index.exists():
+            replace_generated_block(
+                api_index, "modules", generate_api_overview(all_docs)
+            )
+
     if parsed.sidebar and not parsed.dry_run:
         sidebar_path = parsed.output_dir / ".vitepress" / "algorithmsSidebar.ts"
         generate_sidebar_config(all_docs, sidebar_path)
@@ -1354,16 +1523,7 @@ def main(args: Sequence[str] | None = None) -> None:
         json_path = parsed.output_dir / "public" / "optimizers" / "optimizers.json"
         generate_json_metadata(all_docs, json_path)
 
-    if parsed.griffe and not parsed.dry_run:
-        print("\nGenerating Griffe JSON API documentation per category...")
-        for category in CATEGORY_INFO:
-            category_dir = opt_dir / category
-            if category_dir.exists():
-                generate_griffe_json(
-                    category, parsed.output_dir, verbose=parsed.verbose
-                )
-
-    if parsed.full_api and not parsed.dry_run:
+    if (parsed.griffe or parsed.full_api) and not parsed.dry_run:
         print("\nGenerating full API JSON...")
         generate_full_api_json(parsed.output_dir, verbose=parsed.verbose)
 

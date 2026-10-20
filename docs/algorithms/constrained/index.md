@@ -1,43 +1,36 @@
-# Constrained Optimization Algorithms
+# 🔒 Constrained Algorithms
 
-Algorithms designed to handle optimization problems with constraints.
+Optimization with constraints.
 
-## Overview
+This category contains **5 algorithms**.
 
-Constrained optimization algorithms can handle problems with equality and inequality constraints, bounds, and other restrictions on the solution space.
+| Algorithm | Acronym | Year | Description |
+|-----------|---------|------|-------------|
+| [Augmented Lagrangian Method](./augmented-lagrangian-method) | ALM | 1969 | Augmented Lagrangian Method (ALM) optimization algorithm. |
+| [Barrier Method (Interior Point)](./barrier-method) | IPM | 1968 | Barrier Method (Interior Point Method) optimization algorithm. |
+| [Penalty Method (Quadratic Penalty)](./penalty-method) | PM | 1943 | Penalty Method for constrained optimization. |
+| [Sequential Quadratic Programming](./sequential-quadratic-programming) | SQP | 1963 | Sequential Quadratic Programming (SQP) optimization algorithm. |
+| [Successive Linear Programming](./successive-linear-programming) | SLP | 1961 | Successive Linear Programming (SLP) optimization algorithm. |
 
-## Available Algorithms
+## Usage
 
-- [Penalty Method](./penalty) - Converts constrained to unconstrained problem
-- [Barrier Method](./barrier) - Interior point approach
-- [Augmented Lagrangian](./augmented-lagrangian) - Lagrange multiplier method
-- [Sequential Quadratic Programming](./sqp) - Iterative quadratic approximation
-- [Trust Region Constrained](./trust-region-constrained) - Constrained trust region
-
-## Usage Example
+Every optimizer shares the same interface:
 
 ```python
-from opt.constrained import PenaltyMethod
+from opt.constrained.augmented_lagrangian_method import AugmentedLagrangian
 from opt.benchmark.functions import sphere
 
-def constraint_eq(x):
-    return x[0] + x[1] - 1.0  # x[0] + x[1] = 1
-
-def constraint_ineq(x):
-    return x[0] - 0.5  # x[0] >= 0.5
-
-optimizer = PenaltyMethod(
+optimizer = AugmentedLagrangian(
     func=sphere,
-    lower_bound=-5,
-    upper_bound=5,
-    dim=2,
-    max_iter=100,
-    constraints_eq=[constraint_eq],
-    constraints_ineq=[constraint_ineq]
+    lower_bound=-5.12,
+    upper_bound=5.12,
+    dim=10,
+    max_iter=500,
 )
 best_solution, best_fitness = optimizer.search()
 ```
 
 ## See Also
 
-- [API Reference](/api/constrained) - Complete API documentation
+- [All Algorithms](/algorithms/)
+- [Benchmark Functions](/api/benchmark-functions)

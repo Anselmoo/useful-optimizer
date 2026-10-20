@@ -170,8 +170,10 @@ class DandelionOptimizer(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Dandelion Optimizer (2022). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Zhao, S., Zhang, T., Ma, S., & Chen, M. (2022). Dandelion Optimizer: A nature-
+            inspired metaheuristic algorithm for engineering applications. Engineering
+            Applications of Artificial Intelligence, 114, 105075.
+        https://doi.org/10.1016/j.engappai.2022.105075
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -345,18 +347,15 @@ class DandelionOptimizer(AbstractOptimizer):
                         best_solution = new_position.copy()
                         best_fitness = new_fitness
 
+        # Track final state
+        if self.track_history:
+            self._record_history(best_fitness=best_fitness, best_solution=best_solution)
+            self._finalize_history()
+
         return best_solution, best_fitness
 
     def _levy_flight(self) -> np.ndarray:
         """Generate Levy flight step.
-
-        # Track final state
-        if self.track_history:
-            self._record_history(
-                best_fitness=best_fitness,
-                best_solution=best_solution,
-            )
-            self._finalize_history()
 
         Returns:
         Levy flight step vector.

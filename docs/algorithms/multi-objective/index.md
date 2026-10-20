@@ -1,54 +1,34 @@
-# Multi-Objective Optimization Algorithms
+# 📈 Multi-Objective Algorithms
 
-Algorithms designed to optimize multiple conflicting objectives simultaneously.
+Pareto-optimal solutions for multiple objectives.
 
-## Overview
+This category contains **3 algorithms**.
 
-Multi-objective optimization algorithms find a set of Pareto-optimal solutions rather than a single optimum. These solutions represent trade-offs between competing objectives.
+| Algorithm | Acronym | Year | Description |
+|-----------|---------|------|-------------|
+| [Multi-Objective Evolutionary Algorithm based on Decomposition](./moead) | MOEA-D | 2007 | Multi-Objective Evolutionary Algorithm based on Decomposition (MOEA/D). |
+| [Non-dominated Sorting Genetic Algorithm II](./nsga-ii) | NSGA-II | 2002 | Non-dominated Sorting Genetic Algorithm II (NSGA-II) multi-objective optimizer. |
+| [Strength Pareto Evolutionary Algorithm 2](./spea2) | SPEA2 | 2001 | Strength Pareto Evolutionary Algorithm 2 (SPEA2) multi-objective optimizer. |
 
-## Available Algorithms
+## Usage
 
-- [NSGA-II](./nsga-ii) - Non-dominated Sorting Genetic Algorithm II
-- [SPEA2](./spea2) - Strength Pareto Evolutionary Algorithm 2
-- [MOEA/D](./moead) - Multi-Objective Evolutionary Algorithm based on Decomposition
-
-## Key Concepts
-
-**Pareto Optimality**: A solution is Pareto-optimal if no other solution is better in all objectives.
-
-**Pareto Front**: The set of all Pareto-optimal solutions in objective space.
-
-**Dominance**: Solution A dominates solution B if A is at least as good as B in all objectives and strictly better in at least one.
-
-## Usage Example
+Every optimizer shares the same interface:
 
 ```python
-from opt.multi_objective import NSGAII
+from opt.multi_objective.moead import MOEAD
+from opt.benchmark.functions import sphere
 
-def objective1(x):
-    return sum(x**2)  # Minimize
-
-def objective2(x):
-    return sum((x-1)**2)  # Minimize
-
-optimizer = NSGAII(
-    objectives=[objective1, objective2],
-    lower_bound=-5,
-    upper_bound=5,
+optimizer = MOEAD(
+    func=sphere,
+    lower_bound=-5.12,
+    upper_bound=5.12,
     dim=10,
-    max_iter=100,
-    population_size=100
+    max_iter=500,
 )
-pareto_front, pareto_solutions = optimizer.search()
+best_solution, best_fitness = optimizer.search()
 ```
-
-## Output
-
-Multi-objective algorithms return:
-- **Pareto Front**: Array of objective values for non-dominated solutions
-- **Pareto Solutions**: Array of decision variables for non-dominated solutions
 
 ## See Also
 
-- [API Reference](/api/) - Complete API documentation
-- [Evolutionary Algorithms](../evolutionary/) - Single-objective evolutionary methods
+- [All Algorithms](/algorithms/)
+- [Benchmark Functions](/api/benchmark-functions)

@@ -50,15 +50,17 @@ repos:
         entry: python scripts/generate_docs.py --all --json --sidebar
         language: system
         pass_filenames: false
-        files: ^(src/opt/.*\.py|scripts/generate_docs\.py|docs/public/benchmarks/benchmark-results\.json)$
+        files: ^(src/opt/.*\.py|scripts/generate_docs\.py)$
 
   # repo-release-tools: fail when a generated artifact drifts from its
   # committed fingerprint (.rrt/artifacts.lock.toml). Refresh the lock after
   # regenerating with:  just docs   (or  rrt artifacts --snapshot ).
   - repo: https://github.com/Anselmoo/repo-release-tools
-    rev: v1.9.1
+    rev: v1.18.0
     hooks:
       - id: rrt-artifacts-check
         stages: [pre-push]
+      - id: rrt-release-check
+        stages: [manual]
       - id: rrt-artifacts-snapshot
         stages: [manual]

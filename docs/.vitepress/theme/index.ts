@@ -29,6 +29,15 @@ export default {
       app.component('FitnessLandscape3D', defineAsyncComponent(() =>
         import('./components/FitnessLandscape3D.vue')
       ))
+      app.component('LineChart', defineAsyncComponent(() =>
+        import('./components/LineChart.vue')
+      ))
+      app.component('StatsTable', defineAsyncComponent(() =>
+        import('./components/StatsTable.vue')
+      ))
+      app.component('RankTable', defineAsyncComponent(() =>
+        import('./components/RankTable.vue')
+      ))
       app.component('BenchmarkCharts', defineAsyncComponent(() =>
         import('./components/BenchmarkCharts.vue')
       ))

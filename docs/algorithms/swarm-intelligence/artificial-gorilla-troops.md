@@ -47,7 +47,7 @@ print(f"Best fitness: {best_fitness:.6e}")
 | Property          | Value                                    |
 |-------------------|------------------------------------------|
 | Algorithm Name    | Artificial Gorilla Troops Optimizer             |
-| Acronym           | GTO                           |
+| Acronym           | AGTO                           |
 | Year Introduced   | 2021                            |
 | Authors           | Various (see References)                |
 | Algorithm Class   | Swarm Intelligence |
@@ -146,8 +146,10 @@ ValueError: If search space is invalid or function evaluation fails.
 
 ## References
 
-[1] Artificial Gorilla Troops Optimizer (2021). "Original publication."
-_Journal/Conference_, Available in scientific literature.
+[1] Abdollahzadeh, B., Soleimanian Gharehchopogh, F., & Mirjalili, S. (2021).
+Artificial gorilla troops optimizer: A new nature-inspired metaheuristic
+algorithm for global optimization problems. International Journal of
+Intelligent Systems, 36(10), 5887-5958.
 
 [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
 "COCO: A platform for comparing continuous optimizers in a black-box setting."
@@ -179,15 +181,11 @@ Related BBOB Algorithm Classes:
 
 ## Benchmark Performance
 
-Interactive fitness landscape of a representative multimodal benchmark function (drag to rotate, scroll to zoom):
+Results of the benchmark suite for this optimizer, on the same evaluation budget as every other optimizer and compared with a random search baseline. See the [methodology](/benchmarks/methodology) for the protocol and statistics.
 
 <ClientOnly>
-  <FitnessLandscape3D functionName="rastrigin" />
+  <BenchmarkCharts algorithm="ArtificialGorillaTroopsOptimizer" />
 </ClientOnly>
-
-::: tip Run-based charts
-Convergence, distribution and ECDF charts appear here once this optimizer is included in the benchmark suite.
-:::
 
 ## Related Pages
 

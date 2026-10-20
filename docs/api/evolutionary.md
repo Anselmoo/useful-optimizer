@@ -1,82 +1,31 @@
-# Evolutionary Algorithms API
+# Evolutionary API
 
-API reference for evolutionary algorithms in `opt.evolutionary`.
+API reference for the 6 classes of `opt.evolutionary`. This page is generated from the source; see the [algorithm pages](/algorithms/evolutionary/) for formulations and references.
 
-## Module Overview
+## Imports
 
 ```python
 from opt.evolutionary import (
-    GeneticAlgorithm,
-    DifferentialEvolution,
-    CMAES,
+    CMAESAlgorithm,
     CulturalAlgorithm,
-    ImperialistCompetitive,
+    DifferentialEvolution,
+    EstimationOfDistributionAlgorithm,
+    GeneticAlgorithm,
+    ImperialistCompetitiveAlgorithm,
 )
 ```
 
-## Common Interface
+## Common interface
 
-All evolutionary algorithms inherit from `AbstractOptimizer`:
+Every class takes the objective `func`, the search-space `lower_bound`, `upper_bound` and `dim`, usually `max_iter` and `seed`, and implements `search() -> tuple[np.ndarray, float]`. See [AbstractOptimizer](./abstract-optimizer).
 
-```python
-class EvolutionaryAlgorithm(AbstractOptimizer):
-    def __init__(
-        self,
-        func: Callable,
-        lower_bound: float,
-        upper_bound: float,
-        dim: int,
-        max_iter: int,
-        population_size: int = 50,
-        **kwargs
-    ):
-        pass
+## Classes
 
-    def search(self) -> tuple[np.ndarray, float]:
-        pass
-```
-
-## Available Algorithms
-
-- `GeneticAlgorithm` - Classic GA with crossover and mutation
-- `DifferentialEvolution` - Vector-based evolution strategy
-- `CMAES` - Covariance Matrix Adaptation ES
-- `CulturalAlgorithm` - Dual inheritance system
-- `ImperialistCompetitive` - Socio-political optimization
-
-## Example Usage
-
-```python
-from opt.evolutionary import GeneticAlgorithm, DifferentialEvolution
-from opt.benchmark.functions import rastrigin
-
-# Genetic Algorithm
-ga = GeneticAlgorithm(
-    func=rastrigin,
-    lower_bound=-5.12,
-    upper_bound=5.12,
-    dim=10,
-    max_iter=100,
-    population_size=50,
-    crossover_rate=0.8,
-    mutation_rate=0.1
-)
-solution, fitness = ga.search()
-
-# Differential Evolution
-de = DifferentialEvolution(
-    func=rastrigin,
-    lower_bound=-5.12,
-    upper_bound=5.12,
-    dim=10,
-    max_iter=100,
-    population_size=50,
-    F=0.8,  # Differential weight
-    CR=0.9  # Crossover probability
-)
-solution, fitness = de.search()
-```
-
-## See Also
-
-- [Evolutionary Algorithms](/algorithms/evolutionary/) - Algorithm details
+| Class | Algorithm | Additional parameters |
+|-------|-----------|-----------------------|
+| [`CMAESAlgorithm`](/algorithms/evolutionary/cma-es) | Covariance Matrix Adaptation Evolution Strategy | `sigma_init=0.5`, `epsilon=1e-09` |
+| [`CulturalAlgorithm`](/algorithms/evolutionary/cultural-algorithm) | Cultural Algorithm | `belief_space_size=20`, `scaling_factor=0.5`, `mutation_probability=0.5`, `elitism=0.1` |
+| [`DifferentialEvolution`](/algorithms/evolutionary/differential-evolution) | Differential Evolution | `F=0.5`, `CR=0.7` |
+| [`EstimationOfDistributionAlgorithm`](/algorithms/evolutionary/estimation-of-distribution-algorithm) | Estimation of Distribution Algorithm | - |
+| [`GeneticAlgorithm`](/algorithms/evolutionary/genetic-algorithm) | Genetic Algorithm | `tournament_size=3`, `crossover_rate=0.7` |
+| [`ImperialistCompetitiveAlgorithm`](/algorithms/evolutionary/imperialist-competitive-algorithm) | Imperialist Competitive Algorithm | `num_empires=15`, `revolution_rate=0.3` |

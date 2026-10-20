@@ -1,88 +1,863 @@
 {
-  "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Benchmark Data Schema",
-  "description": "IOHprofiler-compatible benchmark results for optimizer evaluation",
-  "type": "object",
-  "required": ["metadata", "benchmarks"],
-  "properties": {
-    "metadata": {
-      "type": "object",
-      "required": ["max_iterations", "n_runs", "dimensions", "timestamp"],
+  "$defs": {
+    "BaselineTest": {
+      "additionalProperties": false,
+      "description": "One-sided Mann-Whitney U test \"better than the baseline\" and its effect size.",
       "properties": {
-        "max_iterations": { "type": "integer", "minimum": 1 },
-        "n_runs": { "type": "integer", "minimum": 1 },
-        "dimensions": {
-          "type": "array",
-          "items": { "type": "integer", "minimum": 2 }
+        "p": {
+          "description": "Raw one-sided p-value",
+          "title": "P",
+          "type": "number"
         },
-        "timestamp": { "type": "string", "format": "date-time" },
-        "python_version": { "type": "string" },
-        "numpy_version": { "type": "string" }
-      }
-    },
-    "benchmarks": {
-      "type": "object",
-      "additionalProperties": {
-        "type": "object",
-        "description": "Function name (e.g., 'shifted_ackley') → dimension → optimizer → results",
-        "additionalProperties": {
-          "type": "object",
-          "description": "Dimension (e.g., '2', '10', '30')",
-          "additionalProperties": {
-            "type": "object",
-            "description": "Optimizer name",
-            "required": ["runs", "statistics", "success_rate"],
-            "properties": {
-              "runs": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "required": ["best_fitness", "n_evaluations"],
-                  "properties": {
-                    "best_fitness": { "type": "number" },
-                    "best_solution": {
-                      "type": "array",
-                      "items": { "type": "number" }
-                    },
-                    "n_evaluations": { "type": "integer" },
-                    "history": {
-                      "type": "object",
-                      "properties": {
-                        "best_fitness": {
-                          "type": "array",
-                          "items": { "type": "number" }
-                        },
-                        "mean_fitness": {
-                          "type": "array",
-                          "items": { "type": "number" }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              "statistics": {
-                "type": "object",
-                "required": ["mean_fitness", "std_fitness", "min_fitness", "max_fitness", "median_fitness"],
-                "properties": {
-                  "mean_fitness": { "type": "number" },
-                  "std_fitness": { "type": "number" },
-                  "min_fitness": { "type": "number" },
-                  "max_fitness": { "type": "number" },
-                  "median_fitness": { "type": "number" },
-                  "q1_fitness": { "type": "number" },
-                  "q3_fitness": { "type": "number" }
-                }
-              },
-              "success_rate": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 1
-              }
-            }
-          }
+        "p_holm": {
+          "description": "Holm-adjusted within the function and dimension",
+          "title": "P Holm",
+          "type": "number"
+        },
+        "u": {
+          "title": "U",
+          "type": "number"
+        },
+        "delta": {
+          "description": "Cliff's delta, +1 = every run beat every baseline run",
+          "title": "Delta",
+          "type": "number"
         }
-      }
+      },
+      "required": [
+        "p",
+        "p_holm",
+        "u",
+        "delta"
+      ],
+      "title": "BaselineTest",
+      "type": "object"
+    },
+    "Cell": {
+      "additionalProperties": false,
+      "description": "One function and dimension: ``cells/<function>-<dim>.json``.",
+      "properties": {
+        "function": {
+          "title": "Function",
+          "type": "string"
+        },
+        "dim": {
+          "title": "Dim",
+          "type": "integer"
+        },
+        "budget": {
+          "title": "Budget",
+          "type": "integer"
+        },
+        "checkpoints": {
+          "description": "Evaluation counts of the curve points",
+          "items": {
+            "type": "integer"
+          },
+          "title": "Checkpoints",
+          "type": "array"
+        },
+        "targets": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Targets",
+          "type": "array"
+        },
+        "ecdf_budgets": {
+          "description": "Evaluations per dimension of the ECDF points",
+          "items": {
+            "type": "number"
+          },
+          "title": "Ecdf Budgets",
+          "type": "array"
+        },
+        "optimizers": {
+          "additionalProperties": {
+            "$ref": "#/$defs/OptimizerCell"
+          },
+          "title": "Optimizers",
+          "type": "object"
+        }
+      },
+      "required": [
+        "function",
+        "dim",
+        "budget",
+        "checkpoints",
+        "targets",
+        "ecdf_budgets",
+        "optimizers"
+      ],
+      "title": "Cell",
+      "type": "object"
+    },
+    "CellRef": {
+      "additionalProperties": false,
+      "description": "Pointer to a cell file.",
+      "properties": {
+        "function": {
+          "title": "Function",
+          "type": "string"
+        },
+        "dim": {
+          "title": "Dim",
+          "type": "integer"
+        },
+        "file": {
+          "title": "File",
+          "type": "string"
+        },
+        "optimizers": {
+          "title": "Optimizers",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "function",
+        "dim",
+        "file",
+        "optimizers"
+      ],
+      "title": "CellRef",
+      "type": "object"
+    },
+    "Curve": {
+      "additionalProperties": false,
+      "description": "Median and quartiles over runs at every checkpoint.",
+      "properties": {
+        "q1": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Q1",
+          "type": "array"
+        },
+        "median": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Median",
+          "type": "array"
+        },
+        "q3": {
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Q3",
+          "type": "array"
+        }
+      },
+      "required": [
+        "q1",
+        "median",
+        "q3"
+      ],
+      "title": "Curve",
+      "type": "object"
+    },
+    "Friedman": {
+      "additionalProperties": false,
+      "description": "Friedman test over the blocks.",
+      "properties": {
+        "chi2": {
+          "title": "Chi2",
+          "type": "number"
+        },
+        "p": {
+          "title": "P",
+          "type": "number"
+        },
+        "blocks": {
+          "title": "Blocks",
+          "type": "integer"
+        },
+        "optimizers": {
+          "title": "Optimizers",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "chi2",
+        "p",
+        "blocks",
+        "optimizers"
+      ],
+      "title": "Friedman",
+      "type": "object"
+    },
+    "FunctionInfo": {
+      "additionalProperties": false,
+      "description": "A benchmark function with its search domain and known optimum.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "lower": {
+          "title": "Lower",
+          "type": "number"
+        },
+        "upper": {
+          "title": "Upper",
+          "type": "number"
+        },
+        "f_opt": {
+          "title": "F Opt",
+          "type": "number"
+        },
+        "shifts": {
+          "additionalProperties": {
+            "items": {
+              "type": "number"
+            },
+            "type": "array"
+          },
+          "description": "Translation s per dimension (key: dimension): the optimizers minimise f(x - s), so the optimum is not at the centre of the domain",
+          "title": "Shifts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "lower",
+        "upper",
+        "f_opt",
+        "shifts"
+      ],
+      "title": "FunctionInfo",
+      "type": "object"
+    },
+    "Index": {
+      "additionalProperties": false,
+      "description": "Entry point of the benchmark data: ``index.json``.",
+      "properties": {
+        "schema_version": {
+          "const": 2,
+          "default": 2,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "generated": {
+          "title": "Generated",
+          "type": "string"
+        },
+        "git_sha": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Git Sha"
+        },
+        "versions": {
+          "$ref": "#/$defs/Versions"
+        },
+        "protocol": {
+          "$ref": "#/$defs/Protocol"
+        },
+        "optimizers": {
+          "items": {
+            "$ref": "#/$defs/OptimizerInfo"
+          },
+          "title": "Optimizers",
+          "type": "array"
+        },
+        "cells": {
+          "items": {
+            "$ref": "#/$defs/CellRef"
+          },
+          "title": "Cells",
+          "type": "array"
+        }
+      },
+      "required": [
+        "generated",
+        "git_sha",
+        "versions",
+        "protocol",
+        "optimizers",
+        "cells"
+      ],
+      "title": "Index",
+      "type": "object"
+    },
+    "OptimizerCell": {
+      "additionalProperties": false,
+      "description": "All metrics of one optimizer on one function and dimension.",
+      "properties": {
+        "runs": {
+          "description": "Runs with a result",
+          "title": "Runs",
+          "type": "integer"
+        },
+        "runs_planned": {
+          "title": "Runs Planned",
+          "type": "integer"
+        },
+        "failed": {
+          "title": "Failed",
+          "type": "integer"
+        },
+        "truncated": {
+          "description": "Runs cut off by the wall-clock cap",
+          "title": "Truncated",
+          "type": "integer"
+        },
+        "exhausted": {
+          "description": "Runs that used the whole evaluation budget",
+          "title": "Exhausted",
+          "type": "integer"
+        },
+        "max_iter": {
+          "title": "Max Iter",
+          "type": "integer"
+        },
+        "finals": {
+          "description": "Final precision of every usable run",
+          "items": {
+            "type": "number"
+          },
+          "title": "Finals",
+          "type": "array"
+        },
+        "stats": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Stats"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "success": {
+          "description": "Success rate per target",
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Success",
+          "type": "array"
+        },
+        "ert": {
+          "description": "COCO expected running time per target",
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Ert",
+          "type": "array"
+        },
+        "sp1": {
+          "description": "COCO SP1 per target",
+          "items": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "title": "Sp1",
+          "type": "array"
+        },
+        "ecdf": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Fraction of (run, target) pairs reached",
+          "title": "Ecdf"
+        },
+        "convergence": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Curve"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Precision at the checkpoints"
+        },
+        "dispersion": {
+          "anyOf": [
+            {
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Median normalised spread of recently evaluated points at the checkpoints",
+          "title": "Dispersion"
+        },
+        "time": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/TimeStats"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "test": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/BaselineTest"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "None for the baseline itself"
+        }
+      },
+      "required": [
+        "runs",
+        "runs_planned",
+        "failed",
+        "truncated",
+        "exhausted",
+        "max_iter",
+        "finals",
+        "stats",
+        "success",
+        "ert",
+        "sp1",
+        "ecdf",
+        "convergence",
+        "dispersion",
+        "time",
+        "test"
+      ],
+      "title": "OptimizerCell",
+      "type": "object"
+    },
+    "OptimizerInfo": {
+      "additionalProperties": false,
+      "description": "One benchmarked optimizer.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "baseline": {
+          "default": false,
+          "title": "Baseline",
+          "type": "boolean"
+        },
+        "page": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Docs page path, if the optimizer has one",
+          "title": "Page"
+        }
+      },
+      "required": [
+        "name",
+        "category"
+      ],
+      "title": "OptimizerInfo",
+      "type": "object"
+    },
+    "Protocol": {
+      "additionalProperties": false,
+      "description": "How the data was produced; everything a reader needs to interpret it.",
+      "properties": {
+        "budget_per_dim": {
+          "description": "Evaluations per dimension for every run",
+          "minimum": 1,
+          "title": "Budget Per Dim",
+          "type": "integer"
+        },
+        "targets": {
+          "description": "Target precisions f - f_opt, descending",
+          "items": {
+            "type": "number"
+          },
+          "title": "Targets",
+          "type": "array"
+        },
+        "n_runs": {
+          "minimum": 1,
+          "title": "N Runs",
+          "type": "integer"
+        },
+        "dimensions": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "functions": {
+          "items": {
+            "$ref": "#/$defs/FunctionInfo"
+          },
+          "title": "Functions",
+          "type": "array"
+        },
+        "baseline": {
+          "description": "Optimizer every other one is tested against",
+          "title": "Baseline",
+          "type": "string"
+        },
+        "ecdf_points": {
+          "title": "Ecdf Points",
+          "type": "integer"
+        },
+        "precision_floor": {
+          "description": "Errors below this tie in tests and ranks",
+          "title": "Precision Floor",
+          "type": "number"
+        },
+        "time_cap_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Time Cap Seconds"
+        },
+        "cell_time_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cell Time Seconds"
+        },
+        "test": {
+          "description": "Statistical procedure, in words",
+          "title": "Test",
+          "type": "string"
+        },
+        "excluded": {
+          "description": "Library optimizers not part of the suite",
+          "items": {
+            "type": "string"
+          },
+          "title": "Excluded",
+          "type": "array"
+        }
+      },
+      "required": [
+        "budget_per_dim",
+        "targets",
+        "n_runs",
+        "dimensions",
+        "functions",
+        "baseline",
+        "ecdf_points",
+        "precision_floor",
+        "time_cap_seconds",
+        "cell_time_seconds",
+        "test",
+        "excluded"
+      ],
+      "title": "Protocol",
+      "type": "object"
+    },
+    "RankEntry": {
+      "additionalProperties": false,
+      "description": "Rank of one optimizer.",
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "mean_rank": {
+          "title": "Mean Rank",
+          "type": "number"
+        },
+        "ranks": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "description": "Rank per block, key '<function>-<dim>'",
+          "title": "Ranks",
+          "type": "object"
+        }
+      },
+      "required": [
+        "name",
+        "category",
+        "mean_rank",
+        "ranks"
+      ],
+      "title": "RankEntry",
+      "type": "object"
+    },
+    "Ranks": {
+      "additionalProperties": false,
+      "description": "Average ranks: ``ranks.json``.",
+      "properties": {
+        "schema_version": {
+          "const": 2,
+          "default": 2,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "blocks": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blocks",
+          "type": "array"
+        },
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/RankEntry"
+          },
+          "title": "Entries",
+          "type": "array"
+        },
+        "friedman": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Friedman"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "blocks",
+        "entries",
+        "friedman"
+      ],
+      "title": "Ranks",
+      "type": "object"
+    },
+    "Stats": {
+      "additionalProperties": false,
+      "description": "Distribution of the final precision over runs.",
+      "properties": {
+        "mean": {
+          "title": "Mean",
+          "type": "number"
+        },
+        "std": {
+          "title": "Std",
+          "type": "number"
+        },
+        "median": {
+          "title": "Median",
+          "type": "number"
+        },
+        "q1": {
+          "title": "Q1",
+          "type": "number"
+        },
+        "q3": {
+          "title": "Q3",
+          "type": "number"
+        },
+        "min": {
+          "title": "Min",
+          "type": "number"
+        },
+        "max": {
+          "title": "Max",
+          "type": "number"
+        }
+      },
+      "required": [
+        "mean",
+        "std",
+        "median",
+        "q1",
+        "q3",
+        "min",
+        "max"
+      ],
+      "title": "Stats",
+      "type": "object"
+    },
+    "TimeStats": {
+      "additionalProperties": false,
+      "description": "Wall-clock cost.",
+      "properties": {
+        "median_run_seconds": {
+          "title": "Median Run Seconds",
+          "type": "number"
+        },
+        "median_us_per_evaluation": {
+          "title": "Median Us Per Evaluation",
+          "type": "number"
+        }
+      },
+      "required": [
+        "median_run_seconds",
+        "median_us_per_evaluation"
+      ],
+      "title": "TimeStats",
+      "type": "object"
+    },
+    "Trajectory": {
+      "additionalProperties": false,
+      "description": "Best-so-far path of the first run of every optimizer on a 2D function.",
+      "properties": {
+        "function": {
+          "title": "Function",
+          "type": "string"
+        },
+        "seed": {
+          "title": "Seed",
+          "type": "integer"
+        },
+        "optimizers": {
+          "additionalProperties": {
+            "items": {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            "type": "array"
+          },
+          "description": "Per optimizer rows [evaluations, x, y, f]",
+          "title": "Optimizers",
+          "type": "object"
+        }
+      },
+      "required": [
+        "function",
+        "seed",
+        "optimizers"
+      ],
+      "title": "Trajectory",
+      "type": "object"
+    },
+    "Versions": {
+      "additionalProperties": false,
+      "description": "Software versions the data was produced with.",
+      "properties": {
+        "python": {
+          "title": "Python",
+          "type": "string"
+        },
+        "numpy": {
+          "title": "Numpy",
+          "type": "string"
+        },
+        "scipy": {
+          "title": "Scipy",
+          "type": "string"
+        }
+      },
+      "required": [
+        "python",
+        "numpy",
+        "scipy"
+      ],
+      "title": "Versions",
+      "type": "object"
     }
-  }
+  },
+  "additionalProperties": false,
+  "description": "Published benchmark data, schema version 2. Generated from benchmarks/models.py by benchmarks/export_schema.py; do not edit.",
+  "properties": {
+    "index": {
+      "$ref": "#/$defs/Index"
+    },
+    "cell": {
+      "$ref": "#/$defs/Cell"
+    },
+    "ranks": {
+      "$ref": "#/$defs/Ranks"
+    },
+    "trajectory": {
+      "$ref": "#/$defs/Trajectory"
+    }
+  },
+  "required": [
+    "index",
+    "cell",
+    "ranks",
+    "trajectory"
+  ],
+  "title": "BenchmarkBundle",
+  "type": "object"
 }

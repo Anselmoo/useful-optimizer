@@ -32,6 +32,72 @@ _DOCSTRING_PARSER_SPEC.loader.exec_module(_docstring_parser_module)
 DocstringParser = _docstring_parser_module.DocstringParser
 
 
+ROOT = Path(__file__).resolve().parents[1]
+OPTIMIZER_DIR = ROOT / "src" / "opt"
+OPTIMIZER_CATEGORIES = [
+    "classical",
+    "constrained",
+    "evolutionary",
+    "gradient_based",
+    "metaheuristic",
+    "multi_objective",
+    "physics_inspired",
+    "probabilistic",
+    "social_inspired",
+    "swarm_intelligence",
+]
+PLACEHOLDER_REFERENCE = "Available in scientific literature"
+# Optimizers that still carry the placeholder citation. The list may only shrink:
+# a new placeholder fails validation, and so does a fixed file left on the list.
+PLACEHOLDER_BASELINE = Path(__file__).with_name("placeholder_references.txt")
+
+
+def load_placeholder_baseline() -> set[str]:
+    """Return the optimizer file stems allowed to keep a placeholder reference."""
+    if not PLACEHOLDER_BASELINE.exists():
+        return set()
+    return {
+        line.strip()
+        for line in PLACEHOLDER_BASELINE.read_text(encoding="utf-8").splitlines()
+        if line.strip() and not line.startswith("#")
+    }
+
+
+def check_placeholder_reference(file_path: Path, baseline: set[str]) -> list[str]:
+    """Ratchet on placeholder citations; see PLACEHOLDER_BASELINE."""
+    has_placeholder = PLACEHOLDER_REFERENCE in file_path.read_text(encoding="utf-8")
+    listed = file_path.stem in baseline
+    if has_placeholder and not listed:
+        return [
+            f"{file_path}: References has no real citation for the original "
+            f"publication ('{PLACEHOLDER_REFERENCE}'); add it"
+        ]
+    if listed and not has_placeholder:
+        return [
+            f"{file_path}: reference is fixed; remove '{file_path.stem}' from "
+            f"{PLACEHOLDER_BASELINE.name}"
+        ]
+    return []
+
+
+def check_unique_acronyms(files: list[Path]) -> list[str]:
+    """Every optimizer needs its own acronym: it names it in tables and search."""
+    parser = DocstringParser()
+    seen: dict[str, list[Path]] = {}
+    for file_path in files:
+        try:
+            acronym = parser.parse_file(file_path).algorithm_metadata.acronym
+        except Exception:
+            continue
+        seen.setdefault(acronym, []).append(file_path)
+    return [
+        f"acronym '{acronym}' is used by {', '.join(p.stem for p in paths)}; "
+        "acronyms must be unique"
+        for acronym, paths in seen.items()
+        if len(paths) > 1
+    ]
+
+
 def validate_file(file_path: Path, verbose: bool = False) -> tuple[bool, list[str]]:
     """Validate a single Python file's docstring.
 
@@ -55,6 +121,11 @@ def validate_file(file_path: Path, verbose: bool = False) -> tuple[bool, list[st
             print(f"  Args: {len(schema.args.parameters)} parameters")
             print(f"  Attributes: {len(schema.attributes.attributes)} attributes")
 
+        errors.extend(
+            check_placeholder_reference(file_path, load_placeholder_baseline())
+        )
+        if errors:
+            return False, errors
         return True, []
 
     except ValidationError as e:
@@ -87,34 +158,21 @@ def main() -> int:
         "-v", "--verbose", action="store_true", help="Print detailed validation info"
     )
     parser.add_argument(
-        "--all", action="store_true", help="Validate all optimizer files in opt/"
+        "--all",
+        action="store_true",
+        help="Validate every optimizer in src/opt/ and run the cross-file checks",
     )
 
     args = parser.parse_args()
 
     # Determine files to validate
     if args.all:
-        # Find all optimizer files
-        optimizer_dirs = [
-            "classical",
-            "constrained",
-            "evolutionary",
-            "gradient_based",
-            "metaheuristic",
-            "multi_objective",
-            "physics_inspired",
-            "probabilistic",
-            "social_inspired",
-            "swarm_intelligence",
+        files = [
+            f
+            for category in OPTIMIZER_CATEGORIES
+            for f in sorted((OPTIMIZER_DIR / category).glob("*.py"))
+            if f.name != "__init__.py"
         ]
-        files = []
-        opt_dir = Path("opt")
-        for category in optimizer_dirs:
-            category_path = opt_dir / category
-            if category_path.exists():
-                files.extend(category_path.glob("*.py"))
-        # Filter out __init__.py
-        files = [f for f in files if f.name != "__init__.py"]
     elif not args.files:
         print("Error: No files specified. Use --all or provide file paths.")
         return 1
@@ -147,6 +205,12 @@ def main() -> int:
             all_errors.extend(errors)
             if not args.verbose:
                 print(f"✗ {file_path}")
+
+    # Cross-file checks only make sense on the complete set
+    if args.all:
+        cross_errors = check_unique_acronyms(files)
+        failure_count += len(cross_errors)
+        all_errors.extend(cross_errors)
 
     # Print summary
     print(f"\n{'=' * 70}")

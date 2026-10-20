@@ -169,8 +169,10 @@ class AfricanVulturesOptimizer(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] African Vultures Optimization Algorithm (2021). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Abdollahzadeh, B., Soleimanian Gharehchopogh, F., & Mirjalili, S. (2021).
+            African vultures optimization algorithm: A new nature-inspired
+            metaheuristic algorithm for global optimization problems. Computers &
+            Industrial Engineering, 158, 107408.
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."

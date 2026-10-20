@@ -169,8 +169,10 @@ class ZebraOptimizer(AbstractOptimizer):
         - BBOB: Returns final best solution after max_iter or convergence
 
     References:
-        [1] Zebra Optimization Algorithm (2022). "Original publication."
-        _Journal/Conference_, Available in scientific literature.
+        [1] Trojovská, E., Dehghani, M., & Trojovský, P. (2022). Zebra Optimization
+            Algorithm: A New Bio-Inspired Optimization Algorithm for Solving
+            Optimization Problems. IEEE Access, 10, 49445-49473.
+        https://doi.org/10.1109/ACCESS.2022.3172789
 
         [2] Hansen, N., Auger, A., Ros, R., Mersmann, O., Tušar, T., Brockhoff, D. (2021).
             "COCO: A platform for comparing continuous optimizers in a black-box setting."
