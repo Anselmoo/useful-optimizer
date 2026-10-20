@@ -51,7 +51,7 @@ jobs:
     outputs:
       matrix: ${{ steps.shards.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -76,7 +76,7 @@ jobs:
       matrix:
         include: ${{ fromJSON(needs.plan.outputs.matrix) }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -99,7 +99,7 @@ jobs:
 
       - name: Upload raw cells
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: raw-${{ matrix.category }}-${{ matrix.function }}
           path: benchmarks/output/
@@ -117,7 +117,7 @@ jobs:
       contents: write # only used when publishing
       actions: write # starts the docs deployment after publishing
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Install uv
         uses: astral-sh/setup-uv@v7
@@ -126,7 +126,7 @@ jobs:
         run: uv sync --extra benchmark
 
       - name: Download raw cells
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           pattern: raw-*
           merge-multiple: true
@@ -158,7 +158,7 @@ jobs:
           PY
 
       - name: Upload benchmark data
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: benchmark-data-${{ github.sha }}
           path: benchmarks/output/processed/
