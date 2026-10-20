@@ -347,7 +347,7 @@ class PenaltyMethodOptimizer(AbstractOptimizer):
                 )
             # Minimize penalized objective
             result = minimize(
-                lambda x: self._penalized_objective(x, penalty),
+                lambda x, penalty=penalty: self._penalized_objective(x, penalty),
                 current,
                 method="L-BFGS-B",
                 bounds=bounds,

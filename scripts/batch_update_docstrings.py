@@ -172,9 +172,9 @@ def extract_optimizer_info(filepath: Path) -> OptimizerInfo | None:
         parameters: list[str] = []
         for item in node.body:
             if isinstance(item, ast.FunctionDef) and item.name == "__init__":
-                for arg in item.args.args:
-                    if arg.arg != "self":
-                        parameters.append(arg.arg)
+                parameters.extend(
+                    arg.arg for arg in item.args.args if arg.arg != "self"
+                )
                 break
 
         # Detect category from filepath
@@ -212,7 +212,7 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
         return_type = "tuple[np.ndarray, float]"
         return_desc = "Best solution found and its fitness value"
 
-    template = f'''r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
+    return f'''r"""FIXME: [Algorithm Full Name] ([ACRONYM]) optimization algorithm.
 
     Algorithm Metadata:
         | Property          | Value                                    |
@@ -416,8 +416,6 @@ def generate_bbob_docstring_template(info: OptimizerInfo) -> str:
             - FIXME: [vX.X.X]: [Changes relevant to BBOB compliance]
 """'''
 
-    return template
-
 
 def find_optimizer_files(base_path: Path, category: str | None = None) -> list[Path]:
     """Find all optimizer Python files, excluding abstract base classes.
@@ -476,7 +474,7 @@ def write_template_to_file(filepath: Path, info: OptimizerInfo, template: str) -
                 # Find where to insert/replace the docstring
                 lines = original_content.splitlines(keepends=True)
 
-                if existing_docstring_node := ast.get_docstring(node, clean=False):
+                if ast.get_docstring(node, clean=False):
                     if not node.body or not isinstance(node.body[0], ast.Expr):
                         # Shouldn't happen if get_docstring returned something
                         return False
@@ -511,7 +509,7 @@ def write_template_to_file(filepath: Path, info: OptimizerInfo, template: str) -
         # No matching class found - this is in else block of the for loop
         return False  # noqa: TRY300
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - report the file and carry on with the next
         print(f"❌ Error writing to {filepath}: {e}", file=sys.stderr)
         return False
 
@@ -618,7 +616,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 processed.append(info)
             else:
                 failed.append(filepath)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             # Exception handling in loop is necessary for graceful error handling
             print(f"❌ Error processing {filepath}: {e}", file=sys.stderr)
             failed.append(filepath)

@@ -120,7 +120,7 @@ The authoritative list is `package.json`; the packages that shape the site are:
 
 ### Dependency Notes
 
-- **Charts**: ECharts is used directly through the `useEChart` composable; `vue-echarts` is not imported. Upgrading to ECharts v6 needs `vue-echarts` v8 only if that wrapper is adopted.
+- **Charts**: ECharts is used directly through the `useEChart` composable (`vue-echarts` is not a dependency).
 - **3D**: `echarts-gl` is not used (unmaintained); the landscape is rendered with TresJS / Three.js.
 - **Math**: rendered with MathJax through `markdown-it-mathjax3` (see `validate:migration`).
 

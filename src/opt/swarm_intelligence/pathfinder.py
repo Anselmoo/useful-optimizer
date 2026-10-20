@@ -298,7 +298,6 @@ class PathfinderAlgorithm(AbstractOptimizer):
 
                 # Distance vectors
                 d1 = np.abs(pathfinder - population[i])
-                d2 = np.abs(population[best_idx] - population[i])
 
                 # Position update
                 r = np.random.rand(self.dim)

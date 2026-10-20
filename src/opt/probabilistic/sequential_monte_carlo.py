@@ -313,8 +313,7 @@ class SequentialMonteCarloOptimizer(AbstractOptimizer):
         cumsum = np.cumsum(weights)
         u0 = np.random.random() / n_samples
         u = u0 + np.arange(n_samples) / n_samples
-        indices = np.searchsorted(cumsum, u)
-        return indices
+        return np.searchsorted(cumsum, u)
 
     def search(self) -> tuple[np.ndarray, float]:
         """Execute the Sequential Monte Carlo optimization.

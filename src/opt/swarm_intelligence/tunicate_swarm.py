@@ -280,16 +280,16 @@ class TunicateSwarmAlgorithm(AbstractOptimizer):
 
             for i in range(self.population_size):
                 # Random parameters
-                r1 = np.random.rand()
+                np.random.rand()  # drawn only to keep the random stream unchanged
                 r2 = np.random.rand()
-                r3 = np.random.rand()
+                np.random.rand()  # drawn only to keep the random stream unchanged
 
                 # Calculate A (avoiding conflict)
                 a = (c1 / _P_MAX) + (_P_MIN / _P_MAX)
 
                 # Calculate c2 and c3 (moving toward and staying close to food)
                 c2 = np.random.rand()
-                c3 = np.random.rand()
+                np.random.rand()  # drawn only to keep the random stream unchanged
 
                 if r2 >= 0.5:
                     new_position = food_source + a * np.abs(

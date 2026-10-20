@@ -72,6 +72,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Lint: the ignore list in `pyproject.toml` is down from 26 to 11 rules, each with its reason (#82).
+  The violations of the other rules were fixed without changing results (a seeded run of all 16
+  affected optimizers gives identical output before and after): closures that did not bind their
+  loop variable (`BarrierMethodOptimizer`, `PenaltyMethodOptimizer`, `BayesianOptimizer`), unused
+  variables and imports inside functions. Variables named after the symbols of a paper are exempted
+  per file instead of globally.
 - The Quickstart and guides imported names that do not exist (`CMAES`, `AugmentedLagrangianMethod`,
   `opt.abstract_optimizer`) and the constrained example passed a `constraints=` argument the class
   does not take; they now run. The README listed 54 of 117 optimizers with links to the
@@ -105,6 +111,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- The unused `vue-echarts` dependency of the docs site (charts use ECharts directly through `useEChart`).
 - `benchmarks/generate_plots.py` and the `benchmark-visualizations` workflow (the charts are drawn
   by the docs site), the hand-written result tables, the demo and test-chart pages and the `seaborn`
   dependency of the `benchmark` extra.

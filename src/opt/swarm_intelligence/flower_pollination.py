@@ -320,7 +320,7 @@ class FlowerPollinationAlgorithm(AbstractOptimizer):
                     k = np.random.randint(self.population_size)
                     while j == i:
                         j = np.random.randint(self.population_size)
-                    while k == i or k == j:
+                    while k in (i, j):
                         k = np.random.randint(self.population_size)
 
                     new_position = population[i] + epsilon * (

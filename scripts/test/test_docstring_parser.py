@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import tempfile
+
 from pathlib import Path
 
 import pytest
@@ -134,8 +136,6 @@ class TestDocstringParser:
         parser = DocstringParser()
 
         # Create a temporary file with no docstring
-        import tempfile
-
         with tempfile.NamedTemporaryFile(mode="w", suffix=".py", delete=False) as f:
             f.write("class TestClass:\n    pass\n")
             temp_path = Path(f.name)

@@ -87,7 +87,7 @@ def check_unique_acronyms(files: list[Path]) -> list[str]:
     for file_path in files:
         try:
             acronym = parser.parse_file(file_path).algorithm_metadata.acronym
-        except Exception:
+        except Exception:  # noqa: BLE001, S112 - unparsable files are reported by the per-file check
             continue
         seen.setdefault(acronym, []).append(file_path)
     return [
@@ -142,7 +142,7 @@ def validate_file(file_path: Path, verbose: bool = False) -> tuple[bool, list[st
         errors.append(f"{file_path}: {e}")
         return False, errors
 
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001
         # Unexpected error
         errors.append(f"{file_path}: Unexpected error: {e}")
         return False, errors

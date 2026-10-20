@@ -313,7 +313,7 @@ def main() -> None:
         print(f"  Algorithm: {schema.algorithm_metadata.algorithm_name}")
         print(f"  Acronym: {schema.algorithm_metadata.acronym}")
         print(f"  Args count: {len(schema.args.parameters)}")
-    except Exception as e:
+    except Exception as e:  # noqa: BLE001 - CLI entry point: report any failure and exit 1
         print(f"✗ Error parsing {file_path}: {e}")
         sys.exit(1)
 

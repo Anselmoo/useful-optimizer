@@ -299,7 +299,7 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
                 A = 2 * a * r1 - a
                 C = 2 * r2
 
-                l = (a - 1) * np.random.default_rng(
+                spiral = (a - 1) * np.random.default_rng(
                     self.seed + 3
                 ).random() + 1  # parameters in equation (2.3)
 
@@ -323,7 +323,9 @@ class WhaleOptimizationAlgorithm(AbstractOptimizer):
                     else:
                         distance2Leader = abs(best_whale[j] - whales[i][j])
                         whales[i][j] = (
-                            distance2Leader * np.exp(b * l) * np.cos(l * 2 * np.pi)
+                            distance2Leader
+                            * np.exp(b * spiral)
+                            * np.cos(spiral * 2 * np.pi)
                             + best_whale[j]
                         )
 

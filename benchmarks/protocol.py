@@ -416,7 +416,7 @@ def run_once(
     except BudgetExhausted as stop:
         if stop.reason == "time":
             status = "truncated_time"
-    except Exception as exc:
+    except Exception as exc:  # noqa: BLE001 - any optimizer bug is recorded, not fatal
         status = "failed"
         error = f"{type(exc).__name__}: {exc}"
 
@@ -493,7 +493,7 @@ def probe_max_iter(
         more = _evaluations_after(
             cls, config, dim, 6, seed=seed, cap=cap, population_size=population_size
         )
-    except Exception:
+    except Exception:  # noqa: BLE001 - an optimizer that cannot be probed gets the default
         return 1000
     per_iter = (more - few) / 3
     if per_iter <= 0:

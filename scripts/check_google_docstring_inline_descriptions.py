@@ -154,6 +154,7 @@ def _check_file(path: Path) -> list[str]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Check the files given on the command line and return the exit status."""
     parser = argparse.ArgumentParser()
     parser.add_argument("files", nargs="*", help="Files to check")
     args = parser.parse_args(argv)

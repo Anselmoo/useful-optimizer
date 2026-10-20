@@ -285,14 +285,15 @@ class OrcaPredatorAlgorithm(AbstractOptimizer):
                 else:
                     # Wave-wash feeding (spiral attack)
                     b = 1.0  # Spiral constant
-                    l = np.random.uniform(-1, 1)
+                    spiral = np.random.uniform(-1, 1)
 
                     # Distance to prey
                     distance = np.abs(best_solution - positions[i])
 
                     # Spiral position update
                     new_position = (
-                        distance * np.exp(b * l) * np.cos(2 * np.pi * l) + best_solution
+                        distance * np.exp(b * spiral) * np.cos(2 * np.pi * spiral)
+                        + best_solution
                     )
 
                 # Boundary handling
