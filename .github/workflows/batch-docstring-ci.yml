@@ -53,9 +53,10 @@ jobs:
           output=$(uv run python scripts/batch_update_docstrings.py --dry-run 2>&1)
           echo "$output"
 
-          # Check for successful processing message
-          if echo "$output" | grep -q "✅ Successfully processed 117 optimizer files"; then
-            echo "✅ Successfully parses all 117+ optimizer files"
+          # Every file scanned must be processed; the number of optimizers is not hard-coded
+          if echo "$output" | grep -Eq "✅ Successfully processed [0-9]+ optimizer files" \
+            && echo "$output" | grep -q "Failed: 0"; then
+            echo "✅ Successfully parses all optimizer files"
           else
             echo "❌ Failed to parse all optimizer files"
             exit 1
@@ -125,7 +126,7 @@ jobs:
           output=$(uv run python scripts/batch_update_docstrings.py --dry-run 2>&1)
 
           # Check for expected summary output
-          if echo "$output" | grep -q "✅ Successfully processed 117 optimizer files"; then
+          if echo "$output" | grep -Eq "✅ Successfully processed [0-9]+ optimizer files"; then
             echo "✅ Test run outputs expected summary"
             echo "$output" | grep -A 5 "Successfully processed"
           else
