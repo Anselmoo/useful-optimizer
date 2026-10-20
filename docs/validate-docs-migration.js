@@ -86,16 +86,14 @@ try {
     error('markdown-it-katex still present - should be removed');
   }
 
-  // Verify ECharts versions
+  // Verify ECharts (used directly through the useEChart composable; vue-echarts is not used)
   const echartsVersion = packageJson.devDependencies['echarts'];
-  const vueEchartsVersion = packageJson.devDependencies['vue-echarts'];
 
-  if (echartsVersion && vueEchartsVersion) {
+  if (echartsVersion) {
     success(`echarts: ${echartsVersion}`);
-    success(`vue-echarts: ${vueEchartsVersion}`);
     checks.echartsVersion = true;
   } else {
-    error('ECharts packages missing');
+    error('echarts package missing');
   }
 
 } catch (err) {

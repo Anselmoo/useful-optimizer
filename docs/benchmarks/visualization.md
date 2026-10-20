@@ -10,7 +10,7 @@ When building the benchmark visualization system for `useful-optimizer`, we eval
 |---------|---------|----------|--------|
 | **SSR Support** | ✅ Native server-side rendering | ⚠️ Requires workarounds | ECharts |
 | **Large Datasets** | ✅ WebGL acceleration, 30K+ points | ⚠️ Degrades >5K points | ECharts |
-| **Vue Integration** | ✅ `vue-echarts` exists; we use a small own composable (`useEChart`) | ❌ Manual wrapper needed | ECharts |
+| **Vue Integration** | ✅ Small own composable (`useEChart`); the `vue-echarts` wrapper is not used | ❌ Manual wrapper needed | ECharts |
 | **3D Support** | ⚠️ `echarts-gl` (unmaintained; we use TresJS instead) | ❌ No native 3D | ECharts |
 | **Scientific Charts** | ✅ Heatmaps, parallel coords, radar | ⚠️ Limited | ECharts |
 | **Bundle Size** | ⚠️ ~900KB full, ~300KB tree-shaken | ✅ ~200KB | Chart.js |

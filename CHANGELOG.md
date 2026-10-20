@@ -105,6 +105,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Removed
 
+- The unused `vue-echarts` dependency of the docs site (charts use ECharts directly through `useEChart`).
 - `benchmarks/generate_plots.py` and the `benchmark-visualizations` workflow (the charts are drawn
   by the docs site), the hand-written result tables, the demo and test-chart pages and the `seaborn`
   dependency of the `benchmark` extra.
