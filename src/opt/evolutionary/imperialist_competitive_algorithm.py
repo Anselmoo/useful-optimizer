@@ -353,7 +353,7 @@ class ImperialistCompetitiveAlgorithm(AbstractOptimizer):
                     )
 
             # Imperialistic competition
-            total_power = sum([1 / empire["total_cost"] for empire in empires])
+            total_power = sum(1 / empire["total_cost"] for empire in empires)
             for i in range(len(empires)):
                 self.seed += 1
                 for j in range(i + 1, len(empires)):

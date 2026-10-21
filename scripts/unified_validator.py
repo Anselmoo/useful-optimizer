@@ -69,13 +69,17 @@ def check_placeholder_reference(file_path: Path, baseline: set[str]) -> list[str
     listed = file_path.stem in baseline
     if has_placeholder and not listed:
         return [
-            f"{file_path}: References has no real citation for the original "
-            f"publication ('{PLACEHOLDER_REFERENCE}'); add it"
+            (
+                f"{file_path}: References has no real citation for the original "
+                f"publication ('{PLACEHOLDER_REFERENCE}'); add it"
+            )
         ]
     if listed and not has_placeholder:
         return [
-            f"{file_path}: reference is fixed; remove '{file_path.stem}' from "
-            f"{PLACEHOLDER_BASELINE.name}"
+            (
+                f"{file_path}: reference is fixed; remove '{file_path.stem}' from "
+                f"{PLACEHOLDER_BASELINE.name}"
+            )
         ]
     return []
 

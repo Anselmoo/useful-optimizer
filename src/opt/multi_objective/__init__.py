@@ -22,6 +22,7 @@ References:
 
 from __future__ import annotations
 
+from opt.abstract import AbstractMultiObjectiveOptimizer
 from opt.multi_objective.moead import MOEAD
 from opt.multi_objective.nsga_ii import NSGAII
 from opt.multi_objective.spea2 import SPEA2

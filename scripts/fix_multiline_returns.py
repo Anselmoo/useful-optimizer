@@ -33,7 +33,7 @@ def fix_multiline_descriptions(file_path: Path) -> bool:
         stripped = line.strip().lower()
 
         # Check if this is a section header
-        if stripped in ("returns:", "raises:", "yields:"):
+        if stripped in {"returns:", "raises:", "yields:"}:
             in_section = True
             modified_lines.append(line)
             i += 1
@@ -41,8 +41,8 @@ def fix_multiline_descriptions(file_path: Path) -> bool:
 
         # Exit section on blank line, closing quotes, or new section header
         if in_section and (
-            stripped == ""
-            or stripped in ('"""', "'''")
+            not stripped
+            or stripped in {'"""', "'''"}
             or re.match(r"^[A-Z][A-Za-z0-9_\- ]*:\s*$", stripped)
         ):
             in_section = False
@@ -64,7 +64,7 @@ def fix_multiline_descriptions(file_path: Path) -> bool:
                     next_stripped
                     and not next_stripped.startswith("-")
                     and next_stripped.lower()
-                    not in (
+                    not in {
                         "returns:",
                         "raises:",
                         "yields:",
@@ -72,7 +72,7 @@ def fix_multiline_descriptions(file_path: Path) -> bool:
                         "examples:",
                         '"""',
                         "'''",
-                    )
+                    }
                     and not re.match(r"^[A-Z][A-Za-z0-9_\- ]*:\s*$", next_stripped)
                 ):
                     # Merge: keep the type line's indentation and colon, add description

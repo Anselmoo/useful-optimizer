@@ -405,10 +405,8 @@ class BayesianOptimizer(AbstractOptimizer):
             for _ in range(10):
                 x0 = rng.uniform(self.lower_bound, self.upper_bound, self.dim)
                 result = minimize(
-                    lambda x,
-                    X_samples=X_samples,
-                    y_samples=y_samples: self._expected_improvement(
-                        x, X_samples, y_samples
+                    lambda x, X_samples=X_samples, y_samples=y_samples: (
+                        self._expected_improvement(x, X_samples, y_samples)
                     ),
                     x0,
                     bounds=bounds,

@@ -29,7 +29,7 @@ def fix_doctest_bool_in_file(file_path: Path) -> bool:
     Returns:
         True if file was modified, False otherwise
     """
-    content = file_path.read_text()
+    content = file_path.read_text(encoding="utf-8")
 
     # Pattern 1: isinstance(fitness, float) and fitness >= 0
     # Find the doctest line and wrap it in bool()
@@ -53,7 +53,7 @@ def fix_doctest_bool_in_file(file_path: Path) -> bool:
             print(f"  Fixed line {i + 1}: {file_path.name}")
 
     if modified:
-        file_path.write_text("\n".join(lines))
+        file_path.write_text("\n".join(lines), encoding="utf-8")
         return True
 
     return False

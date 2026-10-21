@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import operator
 
 from typing import TYPE_CHECKING
 
@@ -92,7 +93,7 @@ def test_ci_matrix_is_category_times_function() -> None:
     cells = plan_cells("comprehensive")
     matrix = list_shards(cells)
     assert len(matrix) == len({c.category for c in cells}) * len(FUNCTIONS)
-    assert matrix == sorted(matrix, key=lambda m: (m["category"], m["function"]))
+    assert matrix == sorted(matrix, key=operator.itemgetter("category", "function"))
     covered = {(m["category"], m["function"]) for m in matrix}
     assert all((c.category, c.function) in covered for c in cells)
 

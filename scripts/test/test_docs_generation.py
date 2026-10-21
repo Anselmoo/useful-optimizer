@@ -21,7 +21,7 @@ def test_json_metadata() -> bool:  # noqa: PLR0911
         return False
 
     try:
-        data = json.loads(json_path.read_text())
+        data = json.loads(json_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError as e:
         print(f"❌ FAIL: Invalid JSON in {json_path}: {e}")
         return False
@@ -113,7 +113,7 @@ def test_sidebar_config() -> bool:
         print(f"❌ FAIL: {sidebar_path} not found")
         return False
 
-    content = sidebar_path.read_text()
+    content = sidebar_path.read_text(encoding="utf-8")
 
     # Check that it exports algorithmsSidebar
     if "export const algorithmsSidebar" not in content:

@@ -276,8 +276,8 @@ class AbstractMultiObjectiveOptimizer(ABC):
         Array of crowding distances for each solution in the front.
         """
         n = len(front)
-        _min_front_size = 2  # Minimum size for meaningful crowding distance
-        if n <= _min_front_size:
+        min_front_size = 2  # Minimum size for meaningful crowding distance
+        if n <= min_front_size:
             return np.full(n, np.inf)
 
         distances = np.zeros(n)
