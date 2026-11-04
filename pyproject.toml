@@ -1,6 +1,6 @@
 [project]
 name = "useful-optimizer"
-version = "0.1.2"
+version = "0.2.0"
 description = "A dedicated set of optimization algorithms for numeric problems."
 authors = [{ name = "Anselm Hahn", email = "Anselm.Hahn@gmail.com" }]
 license = { text = "MIT" }
