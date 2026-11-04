@@ -6,7 +6,7 @@ Useful Optimizer is a dedicated set of optimization algorithms for numeric probl
 
 ## Version
 
-The current version of Useful Optimizer is 0.1.2.
+The current version of Useful Optimizer is 0.2.0.
 
 ## Features
 

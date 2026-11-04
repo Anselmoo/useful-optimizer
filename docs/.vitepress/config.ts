@@ -31,7 +31,7 @@ export default defineConfig({
       { text: 'API Reference', link: '/api/' },
       { text: 'Benchmarks', link: '/benchmarks/' },
       {
-        text: 'v0.1.2',
+        text: 'v0.2.0',
         items: [
           { text: 'Changelog', link: '/changelog' },
           { text: 'Contributing', link: '/contributing' }
